@@ -41,10 +41,10 @@ Currently BarnebyLives! Is being run on a juiced up computer either in Rogers Pa
 
 ## Chicago Botanic Garden Fieldworkers Usage
 
-There are multiple ways to submit jobs to BarnebyLives! One method is to submit your herbarium data collection sheet via email to me. The preferred method is to enter your data onto [Google Sheets](https://docs.google.com/spreadsheets/d/1iOQBNeGqRJ3yhA-Sujas3xZ2Aw5rFkktUKv3N_e4o8M/edit#gid=0). This sheets project contains 3 tabs 
-- 1) definitions of all fields which can be filled   
-- 2) examples of real (my) collections for 2023 to base your work off  
-- 3) user submittal sheet. 
+There are multiple ways to submit jobs to BarnebyLives! One method is to submit your herbarium data collection sheet via email to me. The preferred method is to enter your data onto [Google Sheets](https://docs.google.com/spreadsheets/d/1iOQBNeGqRJ3yhA-Sujas3xZ2Aw5rFkktUKv3N_e4o8M/edit#gid=0). You will need to be added as a user for this. Contact my @chicagobotanic.org for this. This project contains 3 tabs 
+- definitions of all fields which can be filled  (data definitions)  
+- examples of real (my) collections for 2023 to base your work off (Data Entry - Examples)  
+- user submittal sheet  (Data Entry)  
 
 
 
