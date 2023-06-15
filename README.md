@@ -38,6 +38,16 @@ If the datasheet which is submitted to BarnebyLives! contains text in a cell, th
 
 Currently BarnebyLives! Is being run on a juiced up computer either in Rogers Park Chicago or Reno. The amount of data which it queries is very large. Please let me know if you have a query and I will run it for you. If you only collect from a smaller portion of the West, e.g. a certain state, or FS/BLM Unit/Field Office, you should be able to set up a local instance. Although, the documentation for such an endeavor is nascent the endeavor is simple, see "crop2boundary" for the workflow. 
 
-*BarnebyLives! Was named after Rupert Charles Barneby, botanist extraordinaire, artist, socialite, and kind hearted human being. He is the hero the West needs not racist, misogynists, such as Hayduke. Hence, BarnebyLives!*
+
+## Chicago Botanic Garden Fieldworkers Usage
+
+There are multiple ways to submit jobs to BarnebyLives! One method is to submit your herbarium data collection sheet via email to me. The preferred method is to enter your data onto [Google Sheets](https://docs.google.com/spreadsheets/d/1iOQBNeGqRJ3yhA-Sujas3xZ2Aw5rFkktUKv3N_e4o8M/edit#gid=0). This sheets project contains 3 tabs 
+- 1) definitions of all fields which can be filled   
+- 2) examples of real (my) collections for 2023 to base your work off  
+- 3) user submittal sheet. 
+
+
+
+*BarnebyLives! Was named after Rupert Charles Barneby, botanist extraordinaire, artist, socialite, and kind hearted human being. He is the hero the West needs not Hayduke. Hence, BarnebyLives!*
 
 ![Portrait of Rupert Barneby by Dwight Ripley 1955](images/Portrait_of_Rupert_Barneby.png)
