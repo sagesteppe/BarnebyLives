@@ -42,9 +42,18 @@ Currently BarnebyLives! Is being run on a juiced up computer either in Rogers Pa
 ## Chicago Botanic Garden Fieldworkers Usage
 
 There are multiple ways to submit jobs to BarnebyLives! One method is to submit your herbarium data collection sheet via email to me. The preferred method is to enter your data onto [Google Sheets](https://docs.google.com/spreadsheets/d/1iOQBNeGqRJ3yhA-Sujas3xZ2Aw5rFkktUKv3N_e4o8M/edit#gid=0). You will need to be added as a user for this. Contact my @chicagobotanic.org for this. This project contains 3 tabs 
-- definitions of all fields which can be filled  (data definitions)  
+- definitions of all fields which can be filled  (Data Definitions)  
 - examples of real (my) collections for 2023 to base your work off (Data Entry - Examples)  
 - user submittal sheet  (Data Entry)  
+- an example of the text output which will be generated (Processed - Examples)
+- the text output which is generated for queries (Processed)
+
+
+There are two colors on this sheet. White (or Black in dark mode) are cells which cannot be derived via the program. Blue cells are optional, or otherwise not required. 
+
+### Usage Process
+
+Allow up to 1 month of processing time for a request. You should be working on labels throughout the season. Your submittal will be ran within a couple weeks.  The results will be populated in the sheet 'Processed', you will need to manually review/edit them, once you are satisfied and made the required alterations we will submit them for label generation.
 
 
 
