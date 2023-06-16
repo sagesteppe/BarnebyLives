@@ -88,7 +88,7 @@ write.csv(genLKPtab, '../taxonomic_data/genus_lookup_table.csv', row.names = F)
 
 Many of these data sets are very large we are going to crop them to the area of analysis, and save the subsets. This package depends on **terra** and makes use of Virtual Raster Tiles to query parameters. 
 
-```{r library}
+```{r library, message = F}
 library(sf)
 library(terra)
 ```
@@ -212,6 +212,8 @@ places <- lapply(files, read.csv, sep = "|") %>%
   st_transform(4326)
 
 places <- places[st_intersects(places, st_union(tile_cells)) %>% lengths > 0, ]
+places <- places %>% 
+  mutate(ID = 1:nrow(.))
 
 st_write(places, dsn = file.path('../geodata/places', 'places.shp'), quiet = T)
 

@@ -10,3 +10,92 @@ vignette: >
 ```{r setup}
 library(BarnebyLives)
 ```
+
+
+## Ensure Coordinates and Dates and formatted appropriately
+
+Date parsing, e.g. convert date into congruent museum formats (month in roman numerals)
+```{r Date parsing}
+
+date_parser()
+```
+
+Conversion of Degrees Minutes Seconds (DMS) to Decimal Degrees (DD)
+```{r Conversion of Degrees Minutes Seconds (DMS) to Decimal Degrees (DD)}
+
+dms2dd()
+```
+
+
+Make dataset explicitly spatial
+```{r}
+coords2sf()
+```
+
+
+
+## Retrieve Political Information
+
+Retrieve State, County, Ownership, TRS, and allotment information
+```{r Retrieve Political}
+
+political_grabber()
+
+```
+
+
+
+
+## Geographic
+
+Retrieve Mountain Range (if relevant)
+```{r Retrieve Mountain Range}
+
+```
+
+Retrieve Nearest GNIS place name, and azimuth from it
+```{r Retrieve Place and location from it }
+
+```
+
+## Site characteristics
+
+Elevation (both meters and feet), Slope, Aspect, Surficial geology, and geomorphons
+
+```{r}
+
+physical_grabber()
+
+```
+
+
+## Taxonomic
+
+
+Quick spell check for Family, Genus, and specific epithet
+```{r}
+spell_check()
+```
+
+Consults taxonomic authors abbreviations to ensure correct spelling
+```{r}
+
+```
+
+Searches for synonym to species
+```{r}
+powo_seacher()
+```
+
+
+## Directions
+
+directions to a parking spot can be acquired from Google Maps; however this implies the location can be driven to in the first place. This will require interactive alterations from the user.
+
+## Export collections as 'shapefile' or KML for use in GIS or GoogleEarth
+
+```{r}
+
+```
+
+

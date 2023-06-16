@@ -1,0 +1,29 @@
+---
+title: "Untitled"
+author: "steppe"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+
+```{r}
+project = 'Seeds of Success'
+```
+
+project
+
+**_binomial_**  authority  infrarank **_epithet_** authority 
+~Det.~det_name, det_date_text (Jul 16, 2023), ~Fide.~ fide  family # smallest font
+country, state, county, trs
+44.12345 -118.12345 (WGS 84, ~+/-~ 4m)
+
+area_broad, area_fine, dist_from (mi.) azimuth_from place_from, ownership allotment # small font
+~Elev.~ elevation_ft ~ft~ (elevation_m ~m~), geomorphon, geology, ~Asp.~ aspect ~Slo.~ slope # small font
+
+habitat; associated_species; notes
+
+lead_collector, collector_no, associated_collections 
+coll_date_text (July 14, 2021)
+
+
+
