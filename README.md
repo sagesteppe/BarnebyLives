@@ -59,4 +59,4 @@ Allow up to 1 month of processing time for a request. You should be working on l
 
 *BarnebyLives! Was named after Rupert Charles Barneby, botanist extraordinaire, artist, socialite, and kind hearted human being. He is the hero the West needs not Hayduke. Hence, BarnebyLives!*
 
-![Portrait of Rupert Barneby by Dwight Ripley 1955](images/Portrait_of_Rupert_Barneby.png)
+![Portrait of Rupert Barneby by Dwight Ripley 1955](man/figures/Portrait_of_Rupert_Barneby.png)
