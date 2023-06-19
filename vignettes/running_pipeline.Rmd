@@ -12,29 +12,83 @@ library(BarnebyLives)
 ```
 
 
+
+## load data into R
+
+### load data from a local (on computer) source
+
+### load data through google sheets
+
+An alternative format for loading data is through Google Sheets. 
+This can facilitate data-sharing and standardization by many collectors in different locations. 
+This is the source of data which was used during beta-testing for development. 
+
+We will use googlesheets4, which is a part of the tidyverse, but I do not think installs by default with the remainder of the 'verse. 
+We will feed in the last part of the URL as the link to the path. 
+If this is your first time using googlesheets4, it will walk you through a few steps to log into your google account so you can access data securely. 
+
+
+```{r load through google sheets}
+
+library(googlesheets4)
+
+# read in data from the sheet to process
+input <- read_sheet('1iOQBNeGqRJ3yhA-Sujas3xZ2Aw5rFkktUKv3N_e4o8M', 
+                    sheet = 'Data Entry - Examples') %>% 
+  mutate(UNIQUEID = paste0(Primary_Collector, Collection_number))
+
+```
+
+
+### only process data which have not yet run through the pipeline. 
+
+```{r}
+
+# determine whether these data have already been processed by the script, using
+# a unique combination of collection name and collection code. 
+processed <- read_sheet('1iOQBNeGqRJ3yhA-Sujas3xZ2Aw5rFkktUKv3N_e4o8M',
+                        sheet = 'Processed - Examples') %>% 
+  select(Collection_number, Primary_Collector) %>% 
+  mutate(UNIQUEID = paste0(Primary_Collector, Collection_number))
+
+df <- filter(input, ! UNIQUEID %in% processed$UNIQUEID ) %>% 
+  select(-UNIQUEID)
+
+rm(processed, input)
+```
+
+
 ## Ensure Coordinates and Dates and formatted appropriately
 
-Date parsing, e.g. convert date into congruent museum formats (month in roman numerals)
+Date parsing, e.g. convert date into congruent museum formats (month in roman numerals, or spelled out).
+This step assumes that you are recording your dates in the American format of (month/day/year), rather than the internationally more common format (day/month/year).
+
 ```{r Date parsing}
 
 date_parser()
 ```
 
-Conversion of Degrees Minutes Seconds (DMS) to Decimal Degrees (DD)
+Conversion of Degrees Minutes Seconds (DMS) to Decimal Degrees (DD). 
+The DMS format is still used in a few applications, such as the Seeds of Success program, we will convert this to the more generally utilized DD format. 
+
 ```{r Conversion of Degrees Minutes Seconds (DMS) to Decimal Degrees (DD)}
 
 dms2dd()
 ```
 
+For internal usage and data acquisition we will make dataset explicitly spatial, rather than just holding coordinates in a column. 
+This is also required to write out data in a format readable by Google Earth or another Geographic Information System. 
 
-Make dataset explicitly spatial
 ```{r}
 coords2sf()
 ```
 
 
+## Retrieve Political/Administrative Information
 
-## Retrieve Political Information
+BarnebyLives! will retrieve various components of both political and administrative information. All of these data which include: The *state*, and *county* of collection, and the *township, range, section (TRS)* from the Public Land Survey System (PLSS). 
+It will also determine whether a Federal or State Agency manages or owns the land which were collected from, and if so return the name of it. 
+If either the United States Forest Service or Bureau of Land Management does manage the land, it will return information on grazing allotments.
 
 Retrieve State, County, Ownership, TRS, and allotment information
 ```{r Retrieve Political}
@@ -44,9 +98,9 @@ political_grabber()
 ```
 
 
-
-
 ## Geographic
+
+
 
 Retrieve Mountain Range (if relevant)
 ```{r Retrieve Mountain Range}
@@ -71,30 +125,50 @@ physical_grabber()
 
 ## Taxonomic
 
+BarnebyLives performs multiple operations related to taxonomy and nomenclature. The function **spell_check()**, will attempt to determine whether the supplied binomial scientific name, and family are spelled correctly and offer suggestions if they are not. 
+This function requires that the first few letters of the generic name and epithet are spelled correctly. It will run a spell check against nearly all published plant name spellings, and search for the most similar spelling within these lists if material is not found. 
+It will operate on both pieces of the binomial separately, and can work to identify the species within the context of genus. 
 
-Quick spell check for Family, Genus, and specific epithet
-```{r}
+```{r check spelling of binomial and family}
 spell_check()
 ```
 
-Consults taxonomic authors abbreviations to ensure correct spelling
-```{r}
+A similar check is to determine that the author whom is cited for describing the species, or transferring it to another genus, is spelled using the standard author abbreviations.
+This check operates under a similar manner to **spell_check()**.
+The list which is consults *is* comprehensive, within a few years, of all taxonomists whom have published plant species. 
+
+```{r check spelling of author}
 
 ```
 
+After BarnebyLives! has verified the spelling of the species it will submit it to Plants of the World Online to determine whether a more current and accepted name has been applied. 
+BL! will not automatically over-write your submitted species, and it is important that you interpret the results of query.
+Especially as it is possible that **spell_check** has mis-matched your material to another name. 
+
 Searches for synonym to species
-```{r}
+```{r Search for synonyms to species}
 powo_seacher()
+```
+
+The final process in the taxonomic step is to ensure that the spellings of any species noted in the *vegetation*, or *associates* fields are accurate. These *will not* then be submitted to Kew, as the fields could quickly overwhelm the API. 
+
+```{r check spellings of vegetation and associated species}
+
 ```
 
 
 ## Directions
 
-directions to a parking spot can be acquired from Google Maps; however this implies the location can be driven to in the first place. This will require interactive alterations from the user.
+directions to a parking spot can be acquired from Google Maps; however this implies the location can be driven to in the first place. 
+This will require interactive alterations from the user.
 
 ## Export collections as 'shapefile' or KML for use in GIS or GoogleEarth
 
-```{r}
+```{r write out data to googlesheets4}
+
+# we will add these data onto our final sheet.  THIS IS THE LAST STEP OF THIS TUTORIAL
+sheet_append('1iOQBNeGqRJ3yhA-Sujas3xZ2Aw5rFkktUKv3N_e4o8M', 
+             sheet = 'Processed - Examples', data = df) 
 
 ```
 
