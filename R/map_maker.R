@@ -7,7 +7,7 @@
 #' @param path a directory to store the map images in before merging
 #' @param collection_col column specify the collection number or other UNIQUE id for the collection
 #'
-#' @example see the package vignette
+#' @examples see the package vignette
 #' @export
 map_maker <- function(x, states, path, collection_col){
 

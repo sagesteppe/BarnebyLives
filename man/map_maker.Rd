@@ -17,3 +17,6 @@ map_maker(x, states, path, collection_col)
 use sf to create a 20th centtury style 'dot map' which features the state
 boundary and county lines.
 }
+\examples{
+see the package vignette
+}

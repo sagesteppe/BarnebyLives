@@ -6,7 +6,7 @@
 #' @param coll_date date of collection, expected to be of the format 'MM/DD/YYYY', minor checks for compliance to the format will be carried out before returning an error.
 #' @param det_date date of determination, same format and processes as above.
 #' @returns original data frame plus: x_dmy, x_day, x_month, x_year, x_text, det_date_text, columns for both parameters which are supplied as inputs
-#' @example
+#' @examples
 #' first50dates <- data.frame(
 #'    collection_date = paste0(
 #'    sample(3:9, size = 50, replace = T), '-',

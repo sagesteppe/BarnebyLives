@@ -21,3 +21,12 @@ dataframe(/tibble) with coordinates unambiguously labeled as being in both degre
 \description{
 this function parses coordinates from DMS to decimal degrees
 }
+\examples{
+ coords <- data.frame(
+  longitude_dd = runif(15, min = -120, max = -100),
+  latitude_dd = runif(15, min = 35, max = 48)
+)
+coords_formatted <- dms2dd( coords )
+head(coords_formatted)
+colnames(coords_formatted)
+}

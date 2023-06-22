@@ -12,3 +12,8 @@ spell_check(x)
 \description{
 this function attempts to verify the spelling of a user submitted taxonomic name. If necessary it will proceed step-wise by name pieces attempting to place them.
 }
+\examples{
+names_vec <- c('Astagalus purshii', 'Linnaeus borealius', 'Heliumorus multifora')
+spelling <- spell_check(names_vec)
+spelling
+}

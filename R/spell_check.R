@@ -2,7 +2,7 @@
 #'
 #' @description this function attempts to verify the spelling of a user submitted taxonomic name. If necessary it will proceed step-wise by name pieces attempting to place them.
 #' @param x a vector of species names
-#' @example
+#' @examples
 #' names_vec <- c('Astagalus purshii', 'Linnaeus borealius', 'Heliumorus multifora')
 #' spelling <- spell_check(names_vec)
 #' spelling

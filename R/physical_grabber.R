@@ -3,7 +3,7 @@
 #' @description this function grabs information on the elevation, azimuth, geomorphon, and geology of the site
 #' @param x an sf data frame of collection points
 #' @param y a column which unambiguously identifies each collection
-#' @example see the package vignette
+#' @examples see the package vignette
 #' @export
 physical_grabber <- function(x) {
 

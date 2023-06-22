@@ -7,7 +7,7 @@
 #' @param dirout the output directory, including path, for the subset dataset to go
 #' @param grid spatvector defining the tiles, should contain a column containing grid cell names
 #' @param fnames name of column containing filenames in the grid
-#' @example
+#' @examples see package vignette
 #' @export
 mason <- function(dirin, dirout, grid, fnames, ...){
 

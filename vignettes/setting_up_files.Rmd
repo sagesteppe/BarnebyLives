@@ -35,8 +35,8 @@ library(WorldFlora)
 
 Once you have loaded the package you can access the taxonomy files like this.
 
-```{r, eval = F}
-WFO.download
+```{r}
+WFO.download()
 ```
 
 Once you have downloaded the taxonomy you can access it via

@@ -4,7 +4,7 @@
 #' museum compliant text format
 #'
 #' @param x a data frame with dates
-#' @example first50dates <- paste0(sample(3:9, size = 50, replace = T), '-',
+#' @examples first50dates <- paste0(sample(3:9, size = 50, replace = T), '-',
 #'    sample(1:29, size = 50, replace  = T), '-',
 #'    rep(2023, times = 50 ))
 #' head(first50dates)

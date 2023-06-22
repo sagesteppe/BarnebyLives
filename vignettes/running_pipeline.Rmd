@@ -28,10 +28,10 @@ We will feed in the last part of the URL as the link to the path.
 If this is your first time using googlesheets4, it will walk you through a few steps to log into your google account so you can access data securely. 
 
 
-```{r load through google sheets}
+```{r load through google sheets, eval = F}
 
 library(googlesheets4)
-
+gs4_auth(email = gargle::gargle_oauth_email("reedbenkendorf27@gmail.com"))
 # read in data from the sheet to process
 input <- read_sheet('1iOQBNeGqRJ3yhA-Sujas3xZ2Aw5rFkktUKv3N_e4o8M', 
                     sheet = 'Data Entry - Examples') %>% 
@@ -42,7 +42,7 @@ input <- read_sheet('1iOQBNeGqRJ3yhA-Sujas3xZ2Aw5rFkktUKv3N_e4o8M',
 
 ### only process data which have not yet run through the pipeline. 
 
-```{r}
+```{r, eval = F}
 
 # determine whether these data have already been processed by the script, using
 # a unique combination of collection name and collection code. 

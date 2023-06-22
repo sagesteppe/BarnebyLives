@@ -20,3 +20,12 @@ original data frame plus: x_dmy, x_day, x_month, x_year, x_text, det_date_text, 
 \description{
 this function will return up to two additional columns with x. 'coll_date_text' a text format for the date of collection and 'det_date_text" a shorter text format date for identification
 }
+\examples{
+first50dates <- data.frame(
+   collection_date = paste0(
+   sample(3:9, size = 50, replace = T), '-',
+   sample(1:29, size = 50, replace  = T), '-',
+   rep(2023, times = 50 )))
+dates <- date_parser(first50dates, coll_date = 'collection_date')
+head(dates)
+}

@@ -14,3 +14,6 @@ political_grabber(x, y)
 \description{
 this function grabs information on the state, county, and township of collections
 }
+\examples{
+see the package vignette
+}

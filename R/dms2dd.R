@@ -5,7 +5,7 @@
 #' @param long a name of the colymn holding the longitude values
 #' @param dms are coordinates in degrees minutes seconds? TRUE for yes, FALSE for decimal degrees
 #' @returns dataframe(/tibble) with coordinates unambiguously labeled as being in both degress, minutes, seconds (_dms) and decimal degrees (_dd).
-#' @example
+#' @examples
 #'  coords <- data.frame(
 #'   longitude_dd = runif(15, min = -120, max = -100),
 #'   latitude_dd = runif(15, min = 35, max = 48)
