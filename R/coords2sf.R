@@ -19,10 +19,12 @@ coords2sf <- function(x, datum){
 
   if(missing(datum)){ # identify datum information
     if(length(colnames(x)[grep('datum', colnames(x), ignore.case = T)]) == 1){
-      datum = colnames(x)[grep('datum', colnames(x), ignore.case = T)] } else {
+      datum_name = colnames(x)[grep('datum', colnames(x), ignore.case = T)] } else {
         x$datum = 'WGS84'
       }
   }
+
+  if(missing(datum_name)){datum_name = 'datum'}
 
   dat_check <- function(x){if(grepl('nad.*27', ignore.case = T, x = x)) {
     x = "NAD27"} else if(grepl('nad.*83', ignore.case = T, x = x)) {
@@ -31,26 +33,41 @@ coords2sf <- function(x, datum){
       } else {x = 'WGS84'}
   }
 
-  return(x)
   # now ensure the datum is appropriate for each point
-  x$datum <- sapply(x$datum, dat_check)
+  x[datum_name] <- sapply( as.character(x[datum_name]), dat_check)
 
   crs_lkp = data.frame(
     datum = c('NAD27', 'NAD83', 'WGS84'),
     crs = c(4267, 4269, 4326))
+  colnames(crs_lkp)[1] <- datum_name
 
-  x <- dplyr::left_join(x, crs_lkp, by = 'datum')
+
+  x <- dplyr::left_join(x, crs_lkp, by = datum_name)
 
   # separate all points by there datum
-  dat_list <- split(x, f = x$datum)
-  dat_list <- purrr::map(dat_list, . |>
-                           sf::st_as_sf(., coords = c(x = 'longitude_dd', y = 'latitude_dd'),
-                                        crs = .$crs[1], remove = F) |>
-                           sf::st_transform(4326)) |>
-    dplyr::bind_rows() %>%
-    dplyr::select(-crs) %>%
-    dplyr::mutate(datum = 'WGS84', .before = geometry)
+  dat_list <- split(x, f = x[datum_name])
 
+  if(length(dat_list) == 1) {
+
+    dat_list <- dplyr::bind_rows(dat_list)
+    crss <- dat_list$crs[1]
+    dat_list <- dat_list |>
+      sf::st_as_sf(coords = c(x = 'longitude_dd', y = 'latitude_dd'),
+                   crs = crss, remove = F) |>
+      sf::st_transform(4326) |>
+      dplyr::select(-crs) |>
+      dplyr::mutate(datum = 'WGS84', .before = geometry)
+
+  } else {
+
+    dat_list <- purrr::map(dat_list, . |>
+                             sf::st_as_sf(., coords = c(x = 'longitude_dd', y = 'latitude_dd'),
+                                          crs = .$crs[1], remove = F) |>
+                             sf::st_transform(4326)) |>
+      dplyr::bind_rows() %>%
+      dplyr::select(-crs) %>%
+      dplyr::mutate(datum = 'WGS84', .before = geometry)
+  }
   return(dat_list)
 }
 

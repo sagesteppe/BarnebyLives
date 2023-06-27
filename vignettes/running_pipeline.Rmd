@@ -9,7 +9,7 @@ vignette: >
 
 ```{r setup}
 library(tidyverse)
-library(BarnebyLives)
+# library(BarnebyLives)
 ```
 
 
@@ -78,18 +78,7 @@ For internal usage and data acquisition we will make data set explicitly spatial
 This is also required to write out data in a format readable by Google Earth or another Geographic Information System. 
 
 ```{r}
-coords2sf(data)
-
-
-
-mixed_datum <- data.frame(
-#  DAtum = (rep(c('wGs84'), each = 15)),
-  longitude_dd = runif(15, min = -120, max = -100),
-  latitude_dd = runif(15, min = 35, max = 48)
-  )
-
-
-coords2sf(mixed_datum)
+out <- coords2sf(data)
 ```
 
 
