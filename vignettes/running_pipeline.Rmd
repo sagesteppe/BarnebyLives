@@ -163,30 +163,17 @@ library(googleway)
 load('../data/places.rda')
 
 SoS_gkey = Sys.getenv("Sos_gkey")
-df <- google_directions(origin = "Burns, Oregon",
-                        destination = "42.825, -118.913",
+df <- google_directions(origin = "Reno, Nevada",
+                        destination = "39.2558, -117.6827",
                         key = SoS_gkey,
                         mode = "driving",
                         simplify = TRUE)
 
+# the locations at which a turn occurs
+#turns <- googlePolylines::decode( df$routes$overview_polyline$points ) %>% 
+#  bind_rows() %>% 
+#  sf::st_as_sf(coords = c('lon', 'lat'), crs = 4326)
 
-
-instruct <- df[['routes']][['legs']][[1]][['steps']][[1]]$html_instructions
-
-dist <- df[['routes']][['legs']][[1]][['steps']][[1]]$distance
-dist <- data.frame(
-  distance = dist$value, 
-  t_dist = sum(dist['value'] ), 
-  c_dist = cumsum(dist['value']) / sum(dist['value']) * 100
-)
-
-instruct[ which(dist$value > 1) ]
-
-cleanFun <- function(htmlString) {
-  return(gsub("<.*?>", "", htmlString))
-}
-
-cleanFun(instruct) # need to pad destination. 
 
 ```
 
