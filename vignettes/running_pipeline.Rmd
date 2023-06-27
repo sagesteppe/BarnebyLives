@@ -169,11 +169,25 @@ df <- google_directions(origin = "Burns, Oregon",
                         mode = "driving",
                         simplify = TRUE)
 
+
+
 instruct <- df[['routes']][['legs']][[1]][['steps']][[1]]$html_instructions
 
+dist <- df[['routes']][['legs']][[1]][['steps']][[1]]$distance
+dist <- data.frame(
+  distance = dist$value, 
+  t_dist = sum(dist['value'] ), 
+  c_dist = cumsum(dist['value']) / sum(dist['value']) * 100
+)
 
-total_d <-  sum ( df[['routes']][['legs']][[1]][['steps']][[1]]$distance['value'] ) # in meters
-total_d 
+instruct[ which(dist$value > 1) ]
+
+cleanFun <- function(htmlString) {
+  return(gsub("<.*?>", "", htmlString))
+}
+
+cleanFun(instruct) # need to pad destination. 
+
 ```
 
 
