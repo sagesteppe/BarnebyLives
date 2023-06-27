@@ -23,8 +23,7 @@ coords2sf <- function(x, datum){
         x$datum = 'WGS84'
       }
   }
-
-  if(missing(datum_name)){datum_name = 'datum'}
+  if(!exists('datum_name')){datum_name = 'datum'}
 
   dat_check <- function(x){if(grepl('nad.*27', ignore.case = T, x = x)) {
     x = "NAD27"} else if(grepl('nad.*83', ignore.case = T, x = x)) {

@@ -84,6 +84,7 @@ For internal usage and data acquisition we will make data set explicitly spatial
 This is also required to write out data in a format readable by Google Earth or another Geographic Information System. 
 
 ```{r}
+
 data <- coords2sf(data)
 
 head(data) # now we can see that it is an sf object
@@ -152,7 +153,6 @@ The final process in the taxonomic step is to ensure that the spellings of any s
 
 ```
 
-
 ## Directions
 
 directions to a parking spot can be acquired from Google Maps; however this implies the location can be driven to in the first place. 
@@ -163,17 +163,49 @@ library(googleway)
 load('../data/places.rda')
 
 SoS_gkey = Sys.getenv("Sos_gkey")
-df <- google_directions(origin = "Reno, Nevada",
+df <- googleway::google_directions(origin = "Reno, Nevada",
                         destination = "39.2558, -117.6827",
                         key = SoS_gkey,
                         mode = "driving",
                         simplify = TRUE)
+# ^ example again.
+
+# identify unique sites
+sites <- split(data1, f = list(data1$latitude_dd, data1$longitude_dd), drop=TRUE)
+sites <- lapply(sites,  '[' , 1,)
+
+# extract the coordinates to serve as the DESTINATION 
+coords <- lapply(sites, '[', c( 'latitude_dd', 'longitude_dd')) 
+coords <- lapply(coords, st_drop_geometry) 
+coords <- do.call(rbind, coords) 
+coords <- paste(coords$latitude_dd, coords$longitude_dd,  sep = ", ") 
+
+# identify the ORIGIN
+sites <- dplr::bind_rows(sites)
+origin <- places[ sf::st_nearest_feature(sites, places), c('NAME')] |>
+  sf::st_drop_geometry()
+
+# run query
+directions <- googleway::google_directions(origin = origin,
+                        destination = coords, key = SoS_gkey,
+                        mode = "driving", simplify = TRUE)
+
+#' identify a populated place near a collection and get directions from there
+#' 
+#' This function identifies the closest populated place, and makes a google API call
+#' via the 'googleway' package to get directions from it to the collection site.
+#' @param x an sf/tibble/dataframe of locations 
+#' @examples
+#' @export
+googs <- function(x){
+  
+  
+}
 
 # the locations at which a turn occurs
 #turns <- googlePolylines::decode( df$routes$overview_polyline$points ) %>% 
 #  bind_rows() %>% 
 #  sf::st_as_sf(coords = c('lon', 'lat'), crs = 4326)
-
 
 ```
 
