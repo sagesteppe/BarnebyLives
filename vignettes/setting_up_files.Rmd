@@ -182,6 +182,35 @@ st_write(counties, dsn = file.path('../geodata/political', 'political.shp'))
 rm(counties)
 ```
 
+We will set up our places data set which we will use go gather driving directions from google maps. 
+```{r, eval = F}
+
+bb <- pgirmess::bbox2sf(w = bb_vals[1], e = bb_vals[2],
+                        s = bb_vals[3], n = bb_vals[4]) %>% 
+  st_as_sf()
+
+st <- tigris::states() %>% 
+  st_transform(4326)
+st <- st[st_intersects(st, bb) %>% lengths > 0, c('STATEFP', 'NAME', 'STUSPS') ]
+places <- lapply(st$STUSPS, tigris::places)
+
+places <- places %>% 
+  bind_rows() %>% 
+  filter(str_detect(NAMELSAD, 'city')) %>% 
+  dplyr::select(STATEFP, NAME) %>% 
+  sf::st_centroid() %>% 
+  st_transform(4326)
+
+places <- state_places[st_intersects(places, bb) %>% lengths > 0, ]
+places <- st_set_precision(places, precision=10^3)
+st_write(places, 'places.shp') # this will drop location coords to 3 decimal places. 
+places <- st_read('places.shp')
+usethis::use_data(places)
+
+rm(places)
+```
+
+
 We can access a Mountains dataset from EarthEnv which we can use for portions of our place names here https://www.earthenv.org/mountains.
 
 ```{r crop mountain names database to extent, eval = F}
