@@ -8,9 +8,9 @@ vignette: >
 ---
 
 ```{r setup}
+library(tidyverse)
 library(BarnebyLives)
 ```
-
 
 
 ## load data into R
@@ -28,10 +28,10 @@ We will feed in the last part of the URL as the link to the path.
 If this is your first time using googlesheets4, it will walk you through a few steps to log into your google account so you can access data securely. 
 
 
-```{r load through google sheets, eval = F}
+```{r load through google sheets, eF}
 
 library(googlesheets4)
-gs4_auth(email = gargle::gargle_oauth_email("reedbenkendorf27@gmail.com"))
+googledrive::drive_auth("reedbenkendorf27@gmail.com")
 # read in data from the sheet to process
 input <- read_sheet('1iOQBNeGqRJ3yhA-Sujas3xZ2Aw5rFkktUKv3N_e4o8M', 
                     sheet = 'Data Entry - Examples') %>% 
@@ -46,7 +46,7 @@ input <- read_sheet('1iOQBNeGqRJ3yhA-Sujas3xZ2Aw5rFkktUKv3N_e4o8M',
 
 # determine whether these data have already been processed by the script, using
 # a unique combination of collection name and collection code. 
-processed <- read_sheet('1iOQBNeGqRJ3yhA-Sujas3xZ2Aw5rFkktUKv3N_e4o8M',
+read_sheet('1iOQBNeGqRJ3yhA-Sujas3xZ2Aw5rFkktUKv3N_e4o8M',
                         sheet = 'Processed - Examples') %>% 
   select(Collection_number, Primary_Collector) %>% 
   mutate(UNIQUEID = paste0(Primary_Collector, Collection_number))
@@ -64,23 +64,32 @@ Date parsing, e.g. convert date into congruent museum formats (month in roman nu
 This step assumes that you are recording your dates in the American format of (month/day/year), rather than the internationally more common format (day/month/year).
 
 ```{r Date parsing}
-
-date_parser()
+data <- date_parser(input, 'Date_digital')
 ```
 
 Conversion of Degrees Minutes Seconds (DMS) to Decimal Degrees (DD). 
 The DMS format is still used in a few applications, such as the Seeds of Success program, we will convert this to the more generally utilized DD format. 
 
 ```{r Conversion of Degrees Minutes Seconds (DMS) to Decimal Degrees (DD)}
-
-dms2dd()
+data <- dms2dd(data, dms = F)
 ```
 
-For internal usage and data acquisition we will make dataset explicitly spatial, rather than just holding coordinates in a column. 
+For internal usage and data acquisition we will make data set explicitly spatial, rather than just holding coordinates in a column. 
 This is also required to write out data in a format readable by Google Earth or another Geographic Information System. 
 
 ```{r}
-coords2sf()
+coords2sf(data)
+
+
+
+mixed_datum <- data.frame(
+#  DAtum = (rep(c('wGs84'), each = 15)),
+  longitude_dd = runif(15, min = -120, max = -100),
+  latitude_dd = runif(15, min = 35, max = 48)
+  )
+
+
+coords2sf(mixed_datum)
 ```
 
 

@@ -1,20 +1,19 @@
 ---
-title: "setting_up_files"
+title: "setting up files"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{setting_up_files}
+  %\VignetteIndexEntry{setting up files}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r setup}
+```{r setup, eval = F}
 library(BarnebyLives)
 ```
 
 We are hoping to have a cloud instance of BarnebyLives(!) running soon. This is able to serve persons which have queries for collection in the Continental United States portions of Western North America (~CONUS). Essentially, you should be able to submit a query, and we will process it and send it back. 
 
 For collectors operating in smaller geographic areas or herbaria with PC's, you are able to readily create your own local instance of BarnebyLives(!) quite easily. 
-
 
 
 ## Taxonomic portion
@@ -35,26 +34,26 @@ library(WorldFlora)
 
 Once you have loaded the package you can access the taxonomy files like this.
 
-```{r}
+```{r, eval = F}
 WFO.download()
 ```
 
 Once you have downloaded the taxonomy you can access it via
 
-```{r}
+```{r, eval = F}
 WFO.remember()
 ```
 
 an alternative way to read it is to find the location of the data on your computer and load from there. Both us and the package use data.tables::fread function. 
 
-```{r}
+```{r, eval = F}
 cla <- data.table::fread('../taxonomic_data_raw/WFO_Backbone/classification.txt', na.strings = "")
 # install.packages('data.table') # this is in depends, but maybe you don't our package yet...
 ```
 
 We will also use some functions from the tidyverse.
 
-```{r}
+```{r, message = F, warning = F}
 library(tidyverse)
 ```
 
@@ -125,7 +124,7 @@ tile_cells <- st_make_grid(
   mutate(x = st_coordinates(st_centroid(.))[,1],
          y = st_coordinates(st_centroid(.))[,2], 
          .before = geometry, 
-         across(c('x', 'y'), round, 1),
+         across(c('x', 'y'), \(x) round(x, 1)),
          cellname = paste0('n', abs(y), 'w', abs(x))
          )
 

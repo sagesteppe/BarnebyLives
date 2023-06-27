@@ -18,9 +18,9 @@ dms2dd <- function(x, lat, long, dms){
 
   # identify columns if they were not supplied
   if(missing(lat)){
-    lat = colnames(x)[grep('lat', colnames(x))] }
+    lat = colnames(x)[grep('lat', colnames(x), ignore.case = T)] }
   if(missing(long)){
-    long = colnames(x)[grep('long', colnames(x))] }
+    long = colnames(x)[grep('long', colnames(x), ignore.case = T)] }
 
   # test for DMS format if not supplied
   suppressWarnings(  if(missing(dms)){
@@ -29,8 +29,8 @@ dms2dd <- function(x, lat, long, dms){
 
   # convert dms to dd, or rename input columns to dd
   if(dms == T){
-    x$latitude_dd = parzer::parse_lat(lat)
-    x$longitude_dd = parzer::pase_lon(long)
+    x$latitude_dd = parzer::parse_lat(x$lat)
+    x$longitude_dd = parzer::pase_lon(x$long)
   } else{
     colnames(x)[which(names(x) == lat)] <- 'latitude_dd'
     colnames(x)[which(names(x) == long)] <- 'longitude_dd'
