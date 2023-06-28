@@ -4,10 +4,11 @@
 #' Use Google Maps to write directions to a site, so that the people re-locating
 #' the site don't need to use Google Maps to write directions to a site. These
 #' are crude and will require some refinement for some relevant applications.
+#' This function operates entirely within 'directions_grabber'
 #' @param x the output of directions_grabber
 #' @example
 #' SoS_gkey = Sys.getenv("Sos_gkey")
-#' df <- google_directions(origin = "Reno, Nevada",
+#' df <- get_gooogle_directions(origin = "Reno, Nevada",
 #"                        destination = "39.2558, -117.6827",
 #'                        key = SoS_gkey,
 #'                        mode = "driving",
@@ -39,8 +40,10 @@ specificDirections <- function(x){
 
   dirStartEnd <- function(x){
     y <- gsub('^Continue onto ', 'Take ', x)
-    y <- gsub('^Take the ramp onto ', 'Take ', x)
-    y <- gsub("^Head Con't to follow", 'Follow', x)
+    y <- gsub('^Take the ramp onto ', 'Take ', y)
+    y <- gsub("^Head Con't to follow", 'Follow', y)
+    y <- gsub(" 0 mi", "", y)
+    y <- gsub('Pass by .*[)]', '', y)
     y <- trimws(y)
     return(y)
   }

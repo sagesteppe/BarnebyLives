@@ -1,10 +1,13 @@
 #' return a quick route summary from googleway::google_directions
 #'
-#' This function creates a quick abstract of a google maps route, which contains the travel time, starting location and the route overview.
+#' This function creates a quick abstract of a google maps route, which contains the travel time, starting location and the route overview. This function operates entirely within 'directions_grabber'.
 #' @param x results from a googleway::google_directions API query
 #' @example
-#' df <- google_directions(origin = "Burns, Oregon",
-#'  destination = "42.825, -118.913",  key = SoS_gkey,  mode = "driving",
+#' SoS_gkey = Sys.getenv("Sos_gkey")
+#' df <- get_gooogle_directions(origin = "Reno, Nevada",
+#"                        destination = "39.2558, -117.6827",
+#'                        key = SoS_gkey,
+#'                        mode = "driving",
 #'                        simplify = TRUE)
 #' directions_overview(df)
 #' @export
@@ -33,6 +36,8 @@ directions_overview <- function(x){
   } else { # less than one hour.
     overview <- paste0(minutes, 'mins ', from, ' via ', summary, '.')
   }
+
+  overview <- gsub('USA ', "", overview)
 
   return(overview)
 
