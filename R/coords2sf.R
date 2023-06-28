@@ -15,7 +15,7 @@
 #' @param export
 coords2sf <- function(x, datum){
 
-  suppressPackageStartupMessages(ibrary(magrittr))
+  suppressPackageStartupMessages(library(magrittr))
 
   if(missing(datum)){ # identify datum information
     if(length(colnames(x)[grep('datum', colnames(x), ignore.case = T)]) == 1){
@@ -69,4 +69,5 @@ coords2sf <- function(x, datum){
   }
   return(dat_list)
 }
+
 
