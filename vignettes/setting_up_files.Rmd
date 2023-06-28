@@ -199,11 +199,16 @@ places <- places %>%
   filter(str_detect(NAMELSAD, 'city')) %>% 
   dplyr::select(STATEFP, NAME) %>% 
   sf::st_centroid() %>% 
-  st_transform(4326)
+  st_transform(4326) 
 
-places <- state_places[st_intersects(places, bb) %>% lengths > 0, ]
+places <- places %>% 
+  rename(CITY = NAME) %>% 
+  left_join(., st %>% 
+              st_drop_geometry(), by = 'STATEFP')
+
+places <- places[st_intersects(places, bb) %>% lengths > 0, ]
 places <- st_set_precision(places, precision=10^3)
-st_write(places, 'places.shp') # this will drop location coords to 3 decimal places. 
+st_write(places, 'places.shp') # this will drop location coordinates to 3 decimal places. 
 places <- st_read('places.shp')
 usethis::use_data(places)
 
@@ -284,7 +289,6 @@ st_write(geological, dsn = file.path('../geodata/geology', 'geology.shp'), quiet
 tile_cells <- st_transform(tile_cells, crs = 4326)
 rm(geological)
 ```
-
 
 Grazing allotments for the bureau of land management can be downloaded from https://gbp-blm-egis.hub.arcgis.com/datasets/blm-natl-grazing-allotment-polygons 
 
