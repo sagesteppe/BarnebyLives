@@ -164,10 +164,15 @@ SoS_gkey = Sys.getenv("Sos_gkey")
 
 test_gq <- get_gooogle_directions(data, api_key = SoS_gkey)
 
+lapply(test_gq, directions_overview)
+lapply(test_gq, specificDirections)
+
+
 # the locations at which a turn occurs
 #turns <- googlePolylines::decode( df$routes$overview_polyline$points ) %>% 
 #  bind_rows() %>% 
 #  sf::st_as_sf(coords = c('lon', 'lat'), crs = 4326)
+
 
 ```
 
