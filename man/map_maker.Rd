@@ -9,6 +9,8 @@ map_maker(x, states, path, collection_col)
 \arguments{
 \item{x}{an sf dataframe of coordinates to make maps for, requires collection number and spatial attributes}
 
+\item{states}{an sf object of the united states ala tigris::states()}
+
 \item{path}{a directory to store the map images in before merging}
 
 \item{collection_col}{column specify the collection number or other UNIQUE id for the collection}

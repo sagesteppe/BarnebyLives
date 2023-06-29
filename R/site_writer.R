@@ -45,7 +45,7 @@ site_writer <- function(x){
   )  %>%
     dplyr::mutate(Site = if_else(
       Distance < 100, paste0('At ', fetr_nm, '.'),
-      paste0(Distance, 'm', ' at ', Azimuth, '° from ', fetr_nm, '.')),
+      paste0(Distance, 'm', ' at ', format_degree(Azimuth), ' from ', fetr_nm, '.')),
       Site = stringr::str_replace(Site, '\\..$', '.')) %>%
     dplyr::select(-any_of(c('Distance', 'Azimuth', 'Place', 'ID', 'fetr_nm')))
 

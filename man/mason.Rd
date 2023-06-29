@@ -14,6 +14,8 @@ mason(dirin, dirout, grid, fnames, ...)
 \item{grid}{spatvector defining the tiles, should contain a column containing grid cell names}
 
 \item{fnames}{name of column containing filenames in the grid}
+
+\item{...}{other arguments passed to file.path}
 }
 \description{
 #' @description for projects with large spatial domains or using relatively high resolution data, this will help

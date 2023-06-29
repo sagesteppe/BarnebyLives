@@ -15,6 +15,9 @@ to mention valid infraspecies.}
 a wrapper for kewr::search_powo
 }
 \examples{
- pow_results <- lapply(c('Linnaea borealis', 'Astragalus purshii', 'Pinus ponderosa'), powo_searcher) |>   dplyr::bind_rows()
+pow_results <- lapply(
+      c('Linnaea borealis', 'Astragalus purshii', 'Pinus ponderosa'),
+      powo_searcher) |>
+   dplyr::bind_rows()
 head(pow_results)
 }

@@ -9,6 +9,8 @@ vignette: >
 
 ```{r setup, eval = F}
 library(BarnebyLives)
+library(tidyverse)
+library(WorldFlora)
 ```
 
 We are hoping to have a cloud instance of BarnebyLives(!) running soon. This is able to serve persons which have queries for collection in the Continental United States portions of Western North America (~CONUS). Essentially, you should be able to submit a query, and we will process it and send it back. 

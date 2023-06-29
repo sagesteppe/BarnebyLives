@@ -1,4 +1,3 @@
-
 #' identify a populated place near a collection and get directions from there
 #'
 #' This function identifies the closest populated place, and makes a google API call

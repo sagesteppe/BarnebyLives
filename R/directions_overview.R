@@ -2,7 +2,7 @@
 #'
 #' This function creates a quick abstract of a google maps route, which contains the travel time, starting location and the route overview. This function operates entirely within 'directions_grabber'.
 #' @param x results from a googleway::google_directions API query
-#' @example
+#' @examples
 #' SoS_gkey = Sys.getenv("Sos_gkey")
 #' df <- get_gooogle_directions(origin = "Reno, Nevada",
 #"                        destination = "39.2558, -117.6827",

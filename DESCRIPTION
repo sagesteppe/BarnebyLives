@@ -3,27 +3,15 @@ Type: Package
 Title: Tools for collecting digital data on herbarium specimens
 Version: 0.1.0
 Authors@R: c(person("Reed Clark", "Benkendorf", email = "reedbenkendorf27@gmail.com", role = c("cre","aut")))
-Description: BarnebyLives! is an R program which serves to help botanical collectors in Western North America. BarnebyLives! runs multiple types of queries to acquire political and administrative, geographic, and taxononomic data for recently collected herbarium specimens. It also has limited abilities to search for taxonomic synonyms, check spelling of family, genus, and species names, as well as author abbreviations
+Description: BarnebyLives! is an R program which serves to help botanical collectors in Western North America. BarnebyLives! runs multiple types of queries to acquire political and administrative, geographic, and taxononomic data for recently collected herbarium specimens. It also has limited abilities to search for taxonomic synonyms, check spelling of family, genus, and species names, as well as author abbreviations.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.2.3
 Depends:
-    knitr,
-    rmarkdown,
     utils,
-    dplyr,
-    ggplot2,
-    purrr,
-    parzer,
-    scales,
-    sf,
-    terra,
-    crayon,
-    stringr,
-    data.table,
     R (>= 2.10)
+Imports: purrr, parzer, scales, ggplot2, googleway, lubridate, nngeo, kewr, rlang, rvest, tidyselect, stringr, terra, sf, dplyr
+Suggests: WorldFlora, crayon, data.table, testthat (>= 3.0.0), tidyverse, knitr
 VignetteBuilder: knitr
-Suggests: 
-    testthat (>= 3.0.0)
 Config/testthat/edition: 3

@@ -6,7 +6,7 @@
 #' are crude and will require some refinement for some relevant applications.
 #' This function operates entirely within 'directions_grabber'
 #' @param x the output of directions_grabber
-#' @example
+#' @examples
 #' SoS_gkey = Sys.getenv("Sos_gkey")
 #' df <- get_gooogle_directions(origin = "Reno, Nevada",
 #"                        destination = "39.2558, -117.6827",

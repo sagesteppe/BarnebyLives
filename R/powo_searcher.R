@@ -4,7 +4,11 @@
 #' @param x a vector of species names to submit, these should have clean spelling
 #' notes: results are observed to fail for valid infraspecies on Kew's end, and they seem not
 #' to mention valid infraspecies.
-#' @examples  pow_results <- lapply(c('Linnaea borealis', 'Astragalus purshii', 'Pinus ponderosa'), powo_searcher) |>   dplyr::bind_rows()
+#' @examples
+#' pow_results <- lapply(
+#'       c('Linnaea borealis', 'Astragalus purshii', 'Pinus ponderosa'),
+#'       powo_searcher) |>
+#'    dplyr::bind_rows()
 #' head(pow_results)
 #' @export
 powo_searcher <- function(x) {

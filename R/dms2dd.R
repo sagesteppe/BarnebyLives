@@ -30,7 +30,7 @@ dms2dd <- function(x, lat, long, dms){
   # convert dms to dd, or rename input columns to dd
   if(dms == T){
     x$latitude_dd = parzer::parse_lat(x$lat)
-    x$longitude_dd = parzer::pase_lon(x$long)
+    x$longitude_dd = parzer::parse_lon(x$long)
   } else{
     colnames(x)[which(names(x) == lat)] <- 'latitude_dd'
     colnames(x)[which(names(x) == long)] <- 'longitude_dd'
@@ -43,13 +43,13 @@ dms2dd <- function(x, lat, long, dms){
 
   x$latitude_dms = paste0(
     'N ', parzer::pz_degree(x$latitude_dd),
-    '°', round(parzer::pz_minute(x$latitude_dd), 2),
+    format_degree(round(parzer::pz_minute(x$latitude_dd), 2)),
     "'", round(parzer::pz_second(x$latitude_dd), 2)
   )
 
   x$longitude_dms = paste0(
     'W ', parzer::pz_degree(x$longitude_dd),
-    '°', round(parzer::pz_minute(x$longitude_dd), 2),
+    format_degree(round(parzer::pz_minute(x$longitude_dd), 2)),
     "'", round(parzer::pz_second(x$longitude_dd), 2)
   )
 

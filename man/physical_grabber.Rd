@@ -8,8 +8,6 @@ physical_grabber(x)
 }
 \arguments{
 \item{x}{an sf data frame of collection points}
-
-\item{y}{a column which unambiguously identifies each collection}
 }
 \description{
 this function grabs information on the elevation, azimuth, geomorphon, and geology of the site

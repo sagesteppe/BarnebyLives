@@ -2,7 +2,6 @@
 #'
 #' @description this function grabs information on the elevation, azimuth, geomorphon, and geology of the site
 #' @param x an sf data frame of collection points
-#' @param y a column which unambiguously identifies each collection
 #' @examples see the package vignette
 #' @export
 physical_grabber <- function(x) {
@@ -66,8 +65,8 @@ physical_grabber <- function(x) {
     dplyr::relocate(tidyselect::all_of(cols), .before = geometry) |>
     dplyr::mutate(
       physical_environ =
-        paste0('At ', elevation_ft, ' ft, on a ', geomorphon, ', ', slope,
-               '° slo. and ', aspect, '° asp.; geology: ', geology, '.'
+        paste0('At ', elevation_ft, ' ft, on a ', geomorphon, ', ', format_degree(slope),
+               ' slo. and ', format_degree(aspect), ' asp.; geology: ', geology, '.'
                                 ), .before = geometry)
 
   return(object)

@@ -10,21 +10,22 @@ coords2sf(x, datum)
 \item{x}{a dataframe which has undergone dms2dd function}
 
 \item{datum}{a column, holding the datum values for each observation, works for WGS84, NAD83, NAD27}
-
-\item{returns}{an sf/tibble/dataframe of points in the same WGS84 coordinate reference system}
-
-\item{example}{mixed_datum <- data.frame(
- datum = (rep(c('nad27', 'NAD83', 'wGs84'), each = 5)), 
- longitude_dd = runif(15, min = -120, max = -100), 
+}
+\value{
+an sf/tibble/dataframe of points in the same WGS84 coordinate reference system
+}
+\description{
+This function creates an sf/tibble/dataframe for supporting the spatial operations
+which BarnebyLives implements
+}
+\examples{
+mixed_datum <- data.frame(
+ datum = (rep(c('nad27', 'NAD83', 'wGs84'), each = 5)),
+ longitude_dd = runif(15, min = -120, max = -100),
  latitude_dd = runif(15, min = 35, max = 48)
  )
 
 wgs84_dat <- coords2sf( mixed_datum )
 str(wgs84_dat)
-st_crs(wgs84_dat)}
-
-\item{export}{}
-}
-\description{
-create an sf object row by row to reflect different datum
+st_crs(wgs84_dat)
 }
