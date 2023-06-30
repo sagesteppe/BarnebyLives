@@ -38,6 +38,14 @@ If the datasheet which is submitted to BarnebyLives! contains text in a cell, th
 
 Currently BarnebyLives! Is being run on a juiced up computer either in Rogers Park Chicago or Reno. The amount of data which it queries is very large. Please let me know if you have a query and I will run it for you. If you only collect from a smaller portion of the West, e.g. a certain state, or FS/BLM Unit/Field Office, you should be able to set up a local instance. Although, the documentation for such an endeavor is nascent the endeavor is simple, see "crop2boundary" for the workflow. 
 
+## Installation
+
+BarnebyLives! is in beta testing, and can currently only be installed as 0.1.0 from github. 
+```r
+devtools::install_github('sagesteppe/BarnebyLives')
+```
+We hope to collaborate with others to treat CONUS and to create multiformat data e.g. Darwincore, CPNWH, etc., and push this product onto CRAN as well as publish a short piece in APPS! It is on the backburner, but still simmering! Stay tuned in but dropped out!
+
 
 ## Chicago Botanic Garden Fieldworkers Usage
 
