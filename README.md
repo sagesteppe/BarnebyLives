@@ -42,7 +42,7 @@ Currently BarnebyLives! Is being run on a juiced up computer either in Rogers Pa
 
 BarnebyLives! is in beta testing, and can currently only be installed as 0.1.0 from github. 
 ```r
-devtools::install.github('sagesteppe/BarnebyLives')
+devtools::install_github('sagesteppe/BarnebyLives')
 ```
 We hope to collaborate with others to treat CONUS and to create multiformat data e.g. Darwincore, CPNWH, etc., and push this product onto CRAN as well as publish a short piece in APPS! It is on the backburner, but still simmering! Stay tuned in but dropped out!
 
