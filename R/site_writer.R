@@ -19,7 +19,8 @@ site_writer <- function(x){
   nf <- sf::st_nearest_feature(sites, places_data)
 
   sites <- x %>%
-   dplyr::mutate(st_drop_geometry(places_data[nf, 'ID']), .before = geometry)
+   dplyr::mutate(sf::st_drop_geometry(places_data[nf, 'ID']),
+                 .before = geometry)
 
   locality <- sf::st_drop_geometry(sites)
   locality <- locality[1, 'ID']
