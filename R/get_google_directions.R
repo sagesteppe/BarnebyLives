@@ -5,26 +5,18 @@
 #' This function operates entirely within 'directions_grabber'
 #' @param x an sf/tibble/dataframe of locations
 #' @param api_key a google developer api key for use with googleway
-#' @examples
-#' SoS_gkey = Sys.getenv("Sos_gkey") # import the key saved in the system environment
-#' df <- get_gooogle_directions(origin = "Reno, Nevada",
-#"                        destination = "39.2558, -117.6827",
-#'                        key = SoS_gkey,
-#'                        mode = "driving",
-#'                        simplify = TRUE)
-#' specificDirections(df)
+#' @examples # see 'directions_grabber'
 #' @export
-get_gooogle_directions <- function(x, api_key){
-
+get_google_directions <- function(x, api_key){
 
   # extract the coordinates to serve as the DESTINATION
   coords <- lapply(x, '[', c( 'latitude_dd', 'longitude_dd'))
-  coords <- lapply(coords, st_drop_geometry)
+  coords <- lapply(coords, sf::st_drop_geometry)
   coords <- do.call(rbind, coords)
   coords <- paste(coords$latitude_dd, coords$longitude_dd,  sep = ", ")
 
   # identify the ORIGIN
-  load('../data/places.rda')
+  data('places', envir=environment())
 
   x <- dplyr::bind_rows(x)
   origin <- places[ sf::st_nearest_feature(x, places), c('CITY', 'NAME')] |>
@@ -39,9 +31,10 @@ get_gooogle_directions <- function(x, api_key){
                           mode = "driving", simplify = TRUE)
 
   # rename output to reflect either ORIGIN-SITE_NAME, ORIGIN_DEST_COORDS
-  names(directions) <- paste0(x$Site_name, '-', origin )
+ # names(directions) <-
+    u <- paste0(x$Site_name, '-', origin)
 
-  return(directions)
+  return(u)
 
 }
 

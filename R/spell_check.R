@@ -7,7 +7,7 @@
 #' spelling <- spell_check(names_vec)
 #' spelling
 #' @export
-spell_check <- function(x) {
+spell_check <- function(x){
 
   sppLKPtab <- read.csv('../taxonomic_data/species_lookup_table.csv')
   epiLKPtab <- read.csv('../taxonomic_data/epithet_lookup_table.csv')
@@ -47,9 +47,9 @@ spell_check <- function(x) {
       genus2char <- stringr::str_extract(genus, '[A-Z][a-z]{1}')
       species3char <- stringr::str_extract(species, '[a-z]{3}')
       gen_strings <-
-        dplyr::filter(genLKPtab, Grp == genus2char) |> dplyr::pull(strings)
+        dplyr::filter(genLKPtab, .data$Grp == genus2char) |> dplyr::pull(strings)
       spe_strings <-
-        dplyr::filter(sppLKPtab, Grp == species3char) |> dplyr::pull(strings)
+        dplyr::filter(sppLKPtab, .data$Grp == species3char) |> dplyr::pull(strings)
 
       # check to see if both genus and species are clean
       if (any(grep(x = gen_strings, pattern = paste0('^', genus, '$')))) {

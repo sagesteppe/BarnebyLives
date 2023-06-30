@@ -2,9 +2,9 @@
 #'
 #' This function creates an sf/tibble/dataframe for supporting the spatial operations
 #' which BarnebyLives implements
-#' @param x a dataframe which has undergone dms2dd function
+#' @param x a data frame which has undergone dms2dd function
 #' @param datum a column, holding the datum values for each observation, works for WGS84, NAD83, NAD27
-#' @returns an sf/tibble/dataframe of points in the same WGS84 coordinate reference system
+#' @returns an sf/tibble/data frame of points in the same WGS84 coordinate reference system
 #' @examples mixed_datum <- data.frame(
 #'  datum = (rep(c('nad27', 'NAD83', 'wGs84'), each = 5)),
 #'  longitude_dd = runif(15, min = -120, max = -100),
@@ -13,11 +13,9 @@
 #'
 #' wgs84_dat <- coords2sf( mixed_datum )
 #' str(wgs84_dat)
-#' st_crs(wgs84_dat)
+#' sf::st_crs(wgs84_dat)
 #' @export
 coords2sf <- function(x, datum){
-
-  requireNamespace(magrittr)
 
   if(missing(datum)){ # identify datum information
     if(length(colnames(x)[grep('datum', colnames(x), ignore.case = T)]) == 1){

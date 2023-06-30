@@ -24,5 +24,5 @@ mason(dirin, dirout, grid, fnames, ...)
 you make virtual tiles which do not need to be held in memory for the project.
 }
 \examples{
-see package vignette
+# see package vignette
 }

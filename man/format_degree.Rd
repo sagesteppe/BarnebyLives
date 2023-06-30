@@ -9,7 +9,7 @@ format_degree(x, symbol = "°")
 \arguments{
 \item{x}{a value to add the symbol onto.}
 
-\item{symbol, }{fixed here as the degree symbol}
+\item{symbol}{fixed here as the degree symbol}
 }
 \description{
 This function is required to pass R CMD CHECKS via generating an appropriately

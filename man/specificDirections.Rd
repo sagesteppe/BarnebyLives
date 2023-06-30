@@ -16,10 +16,5 @@ are crude and will require some refinement for some relevant applications.
 This function operates entirely within 'directions_grabber'
 }
 \examples{
-SoS_gkey = Sys.getenv("Sos_gkey")
-df <- get_gooogle_directions(origin = "Reno, Nevada",
-                       key = SoS_gkey,
-                       mode = "driving",
-                       simplify = TRUE)
-specificDirections(df)
+# see 'directions_grabber'#
 }

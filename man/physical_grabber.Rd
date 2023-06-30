@@ -13,5 +13,5 @@ physical_grabber(x)
 this function grabs information on the elevation, azimuth, geomorphon, and geology of the site
 }
 \examples{
-see the package vignette
+#see the package vignette
 }

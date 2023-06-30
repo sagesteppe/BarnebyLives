@@ -12,6 +12,6 @@ Depends:
     utils,
     R (>= 2.10)
 Imports: purrr, parzer, scales, ggplot2, googleway, lubridate, nngeo, kewr, rlang, rvest, tidyselect, stringr, terra, sf, dplyr
-Suggests: WorldFlora, crayon, data.table, testthat (>= 3.0.0), tidyverse, knitr
+Suggests: WorldFlora, crayon, data.table, testthat (>= 3.0.0), tidyverse, knitr, tigris, taxize, googlesheets4
 VignetteBuilder: knitr
 Config/testthat/edition: 3

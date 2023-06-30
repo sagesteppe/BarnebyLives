@@ -11,10 +11,10 @@ Each is a tibble with two variables and three observations
 places
 }
 \description{
-This is a reproduced and slighly curated list of populated places.
+This is a reproduced and slightly curated list of populated places.
 }
 \details{
-this sf/tibble/data.frame data set is derived from the U.S. Census Bureaus tigriss::places() dataset. It has only the centroid of each place rounded to 
+this sf/tibble/data.frame data set is derived from the U.S. Census Bureaus tigris::places() data set. It has only the centroid of each place rounded to
 three decimal places to reduce size.
 }
 \examples{

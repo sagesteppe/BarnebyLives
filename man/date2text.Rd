@@ -14,8 +14,8 @@ take the mdy date format, popular in North America, and place it into a
 museum compliant text format
 }
 \examples{
-first50dates <- paste0(sample(3:9, size = 50, replace = T), '-',
-   sample(1:29, size = 50, replace  = T), '-',
+first50dates <- paste0(sample(3:9, size = 50, replace = TRUE), '-',
+   sample(1:29, size = 50, replace = TRUE), '-',
    rep(2023, times = 50 ))
 head(first50dates)
 first50dates <- date2text(first50dates)

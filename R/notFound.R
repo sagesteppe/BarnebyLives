@@ -5,6 +5,7 @@
 #' @returns messages to consoles indicating search terms, and there status if failed to be found. This desirable because 'powo_searcher' squashes these errors.
 #' @examples  names_vec <- taxize::names_list(rank = 'species', size = 10)
 #' # 10 random species from taxize, usually 1 or 2 species are not found in Plants of the world online
+#' library(dplyr)
 #' pow_results <- lapply(names_vec, powo_searcher) |>
 #'   dplyr::bind_rows()
 #' pow_results[,1:5]

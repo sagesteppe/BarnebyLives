@@ -8,7 +8,7 @@
 #' @param grid spatvector defining the tiles, should contain a column containing grid cell names
 #' @param fnames name of column containing filenames in the grid
 #' @param ... other arguments passed to file.path
-#' @examples see package vignette
+#' @examples # see package vignette
 #' @export
 mason <- function(dirin, dirout, grid, fnames, ...){
 

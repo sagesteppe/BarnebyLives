@@ -15,13 +15,5 @@ directions_grabber(x, api_key)
 This function helps users write directions to a site which is somewhat near roads.
 }
 \examples{
-site_data <- tibble(
- Site_name = rep(LETTERS[1:3], each = 3),
- longitude_dd = rep(c(-120.1, -115.2, -117.3), each = 3),
- latitude_dd = rep(c(35.0, 36.1, 37.2), each = 3)
-) \%>\%
- sf::st_as_sf(coords = c('longitude_dd', 'latitude_dd'), crs = 4326, remove = F)
-
-directions2site <- directions_grabber(site_data, api_key = SoS_gkey)
-head(directions2site)
+# see package vignette
 }

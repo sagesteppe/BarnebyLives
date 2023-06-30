@@ -5,6 +5,7 @@
 #' notes: results are observed to fail for valid infraspecies on Kew's end, and they seem not
 #' to mention valid infraspecies.
 #' @examples
+#' library(dplyr)
 #' pow_results <- lapply(
 #'       c('Linnaea borealis', 'Astragalus purshii', 'Pinus ponderosa'),
 #'       powo_searcher) |>

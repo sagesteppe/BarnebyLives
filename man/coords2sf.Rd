@@ -7,12 +7,12 @@
 coords2sf(x, datum)
 }
 \arguments{
-\item{x}{a dataframe which has undergone dms2dd function}
+\item{x}{a data frame which has undergone dms2dd function}
 
 \item{datum}{a column, holding the datum values for each observation, works for WGS84, NAD83, NAD27}
 }
 \value{
-an sf/tibble/dataframe of points in the same WGS84 coordinate reference system
+an sf/tibble/data frame of points in the same WGS84 coordinate reference system
 }
 \description{
 This function creates an sf/tibble/dataframe for supporting the spatial operations
@@ -27,5 +27,5 @@ mixed_datum <- data.frame(
 
 wgs84_dat <- coords2sf( mixed_datum )
 str(wgs84_dat)
-st_crs(wgs84_dat)
+sf::st_crs(wgs84_dat)
 }

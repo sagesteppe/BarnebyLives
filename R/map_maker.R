@@ -7,11 +7,11 @@
 #' @param path a directory to store the map images in before merging
 #' @param collection_col column specify the collection number or other UNIQUE id for the collection
 #' @param states an sf object of the united states ala tigris::states()
-#' @examples see the package vignette
+#' @examples # see the package vignette
 #' @export
 map_maker <- function(x, states, path, collection_col){
 
-  if(st_crs(x) == sf::st_crs(states)) {
+  if(sf::st_crs(x) == sf::st_crs(states)) {
     pts } else {pts <- sf::st_transform(x, sf::st_crs(states))}
 
   ints <- sf::st_intersection(pts, states)

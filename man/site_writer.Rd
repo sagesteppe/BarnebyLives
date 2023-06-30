@@ -13,11 +13,12 @@ site_writer(x)
 Help provide some simple context between the building and the
 }
 \examples{
+library(sf)
 sites <- data.frame(
  longitude_dd = runif(15, min = -120, max = -100),
  latitude_dd = runif(15, min = 35, max = 48)
- ) \%>\%
- st_as_sf(coords = c('longitude_dd', 'latitude_dd'), crs = 4326)
+ ) |>
+ sf::st_as_sf(coords = c('longitude_dd', 'latitude_dd'), crs = 4326)
 
 head(sites)
 distaze_results <- distAZE(sites) # takes some time
