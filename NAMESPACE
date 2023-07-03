@@ -1,3 +1,4 @@
 exportPattern("^[[:alpha:]]+")
 importFrom("stats", "na.omit")
-importFrom("utils", "adist", "read.csv")
+import(crayon)
+importFrom("utils", "adist", "read.csv", "data")

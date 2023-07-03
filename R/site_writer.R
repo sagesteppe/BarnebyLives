@@ -16,23 +16,22 @@
 #' @export
 site_writer <- function(x){
 
-  places_data <- sf::st_read('../geodata/places/places.shp', quiet = T)
-  nf <- sf::st_nearest_feature(sites, places_data)
+  nf <- sf::st_nearest_feature(sites, places)
 
   sites <- x |>
-   dplyr::mutate(sf::st_drop_geometry(places_data[nf, 'ID']),
+   dplyr::mutate(sf::st_drop_geometry(places[nf, 'ID']),
                  .before = geometry)
 
   locality <- sf::st_drop_geometry(sites)
   locality <- locality[1, 'ID']
 
-  focal <- places_data[grep(locality, places_data$ID), ]
+  focal <- places[grep(locality, places$ID), ]
   location_from <- sf::st_centroid(focal)
 
   location_from <- sf::st_transform(location_from, 5070)
   x_planar <- sf::st_transform(x, 5070)
   distances <- sf::st_distance(location_from, x_planar, which = 'Euclidean')
-  place <- data.frame('Place' =  st_drop_geometry(places_data[x$ID, 'fetr_nm']))
+  place <- data.frame('Place' =  st_drop_geometry(places[x$ID, 'fetr_nm']))
 
   azy <- nngeo::st_azimuth(
     location_from,
