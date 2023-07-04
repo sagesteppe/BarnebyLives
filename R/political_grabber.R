@@ -3,16 +3,21 @@
 #' @description this function grabs information on the state, county, and township of collections
 #' @param x an sf data frame of collection points
 #' @param y a column which unambiguously identifies each collection
+#' @param path a path to the directory holding the BarnebyLivesGeodata
 #' @examples # see the package vignette
 #' @export
-political_grabber <- function(x, y) {
+political_grabber <- function(x, y, path) {
 
   y_quo <- rlang::enquo(y)
 
-  political <- sf::st_read('../geodata/political/political.shp', quiet = T)
-  allotment <- sf::st_read('../geodata/allotments/allotments.shp', quiet = T)
-  plss <- sf::st_read('../geodata/plss/plss.shp', quiet = T)
-  ownership <- sf::st_read('../geodata/pad/pad.shp', quiet = T)
+  political <- sf::st_read(
+    file.path(path, 'political/political.shp'), quiet = T)
+  allotment <- sf::st_read(
+    file.path(path, 'allotments/allotments.shp', quiet = T)
+  plss <- sf::st_read(
+    file.path(path, 'plss/plss.shp', quiet = T)
+  ownership <- sf::st_read(
+    file.path(path, 'pad/pad.shp', quiet = T)
 
   # write attributes to data set
 

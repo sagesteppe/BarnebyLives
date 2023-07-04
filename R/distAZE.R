@@ -2,12 +2,14 @@
 #'
 #' Help provide some simple context between the building and the
 #' @param x an sf/tibble/dataframe of locations with associated nearest locality data
-distAZE <- function(x){
+#' @param path path to gnis_places
+distAZE <- function(x, path){
+
 
   locality <- sf::st_drop_geometry(x)
   locality <- locality[1, 'Locality']
 
-  focal <- places[grep(locality, places$NAME), ]
+  focal <- gnis_places[grep(locality, gnis_places$NAME), ]
   if(nrow(focal) > 1){
     union_loc <- sf::st_union(x) |> sf::st_point_on_surface()
     focal <- focal[sf::st_nearest_feature(union_loc, focal),]

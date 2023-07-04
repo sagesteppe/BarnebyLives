@@ -2,9 +2,10 @@
 #'
 #' @description this function grabs information on the elevation, azimuth, geomorphon, and geology of the site
 #' @param x an sf data frame of collection points
+#' @param path a path to the directory holding the BarnebyLivesGeodata
 #' @examples #see the package vignette
 #' @export
-physical_grabber <- function(x) {
+physical_grabber <- function(x, path) {
 
   round_df <- function(df, digits) {
     nums <- vapply(df, is.numeric, FUN.VALUE = logical(1))
@@ -13,22 +14,27 @@ physical_grabber <- function(x) {
   }
 
   x_spat <- terra::vect(x)
-  geology <- terra::vect('../geodata/geology/geology.shp')
+
+  geology <- terra::vect(file.path(path, 'geology/geology.shp'))
   x_geo <- terra::extract(geology, x_spat)
 
-  asp <- '../geodata/aspect/'; slo <-  '../geodata/slope'
-  geo <-  '../geodata/geomorphons'; elev <-  '../geodata/elevation'
+  asp <- 'aspect'; slo <-  'slope'
+  geo <-  'geomorphons'; elev <-  'elevation'
 
-  paths2rast <- file.path(asp, list.files(path = paste0(asp, '/'), recursive = T))
+  paths2rast <- file.path(
+    file.path(path, asp), list.files(path = file.path(path, asp), recursive = T))
   aspect <- terra::vrt(paths2rast)
 
-  paths2rast <- file.path(slo, list.files(path = paste0(slo, '/'), recursive = T))
+  paths2rast <- file.path(
+    file.path(path, slo), list.files(path = file.path(path, slo), recursive = T))
   slope <- terra::vrt(paths2rast)
 
-  paths2rast <- file.path(geo, list.files(path = paste0(geo, '/'), recursive = T))
+  paths2rast <- file.path(
+    file.path(path, geo), list.files(path = file.path(path, slo), recursive = T))
   geomorphon <- terra::vrt(paths2rast)
 
-  paths2rast <- file.path(elev, list.files(path = paste0(elev, '/'), recursive = T))
+  paths2rast <- file.path(
+    file.path(path, elev), list.files(path = file.path(path, slo), recursive = T))
   elevation <- terra::vrt(paths2rast)
 
   asp_val <- terra::extract(aspect, x_spat)

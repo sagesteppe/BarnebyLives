@@ -2,6 +2,7 @@
 #'
 #' Help provide some simple context between the building and the
 #' @param x an sf/tibble/dataframe of locations with associated nearest locality data
+#' @param path path to gnis_places
 #' @examples
 #' library(sf)
 #' sites <- data.frame(
@@ -16,22 +17,23 @@
 #' @export
 site_writer <- function(x){
 
-  nf <- sf::st_nearest_feature(sites, places)
+
+  nf <- sf::st_nearest_feature(sites, gnis_places)
 
   sites <- x |>
-   dplyr::mutate(sf::st_drop_geometry(places[nf, 'ID']),
+   dplyr::mutate(sf::st_drop_geometry(gnis_places[nf, 'ID']),
                  .before = geometry)
 
   locality <- sf::st_drop_geometry(sites)
   locality <- locality[1, 'ID']
 
-  focal <- places[grep(locality, places$ID), ]
+  focal <- gnis_places[grep(locality, gnis_places$ID), ]
   location_from <- sf::st_centroid(focal)
 
   location_from <- sf::st_transform(location_from, 5070)
   x_planar <- sf::st_transform(x, 5070)
   distances <- sf::st_distance(location_from, x_planar, which = 'Euclidean')
-  place <- data.frame('Place' =  st_drop_geometry(places[x$ID, 'fetr_nm']))
+  place <- data.frame('Place' =  st_drop_geometry(gnis_places[x$ID, 'fetr_nm']))
 
   azy <- nngeo::st_azimuth(
     location_from,
