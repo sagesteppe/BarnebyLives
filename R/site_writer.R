@@ -12,12 +12,12 @@
 #'  sf::st_as_sf(coords = c('longitude_dd', 'latitude_dd'), crs = 4326)
 #'
 #' head(sites)
-#' distaze_results <- distAZE(sites) # takes some time
+#' distaze_results <- distAZE(sites, path = '/hdd/Barneby_Lives-dev/geodata/places') # takes some time
 #' head(distaze_results)
 #' @export
-site_writer <- function(x){
+site_writer <- function(x, path){
 
-
+  gnis_places <- sf::st_read(file.path(path, 'places.shp'), quiet = T)
   nf <- sf::st_nearest_feature(sites, gnis_places)
 
   sites <- x |>
