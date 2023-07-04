@@ -81,6 +81,8 @@ $ du -h
 16G	.
 ```
 
+As you can see the data regarding site physical characteristics take up most of space. Some may not desire to include these data.
+
 ## Chicago Botanic Garden Fieldworkers Usage
 
 There are multiple ways to submit jobs to BarnebyLives! One method is to submit your herbarium data collection sheet via email to me. The preferred method is to enter your data onto [Google Sheets](https://docs.google.com/spreadsheets/d/1iOQBNeGqRJ3yhA-Sujas3xZ2Aw5rFkktUKv3N_e4o8M/edit#gid=0). You will need to be added as a user for this. Contact my @chicagobotanic.org for this. This project contains 3 tabs 
