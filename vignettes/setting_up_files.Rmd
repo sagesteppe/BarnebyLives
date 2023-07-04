@@ -64,7 +64,7 @@ The way that BarnebyLives matches spellings of names is very simple. We create t
 
 However, both the genus and specific epithet tables are abbreviated. We find the results from these tables based on only the leading first two or three characters. This gives rises to one of BarnebyLives(!) limitations, the assumption that the first two characters of the genus, and first three letters of the specific epithet are spelled correctly. 
 
-```{r prepare materials for look up tables, eval = F}
+```{r prepare materials for taxonomy look up tables, eval = F}
 
 sppLKPtab <- cla[, c('scientificName', 'specificEpithet', 'infraspecificEpithet', 'verbatimTaxonRank')]
 sppLKPtab <- filter(sppLKPtab, is.na(verbatimTaxonRank) | verbatimTaxonRank != "f.")
@@ -82,6 +82,23 @@ epiLKPtab <- unique(cla, by = 'specificEpithet')[
 write.csv(sppLKPtab, '../taxonomic_data/species_lookup_table.csv', row.names = F)
 write.csv(epiLKPtab, '../taxonomic_data/epithet_lookup_table.csv', row.names = F)
 write.csv(genLKPtab, '../taxonomic_data/genus_lookup_table.csv', row.names = F)
+```
+
+```{r Prepare material for authorship lookup tables, eval = F}
+
+abbrevs <- read.csv('/hdd/Barneby_Lives-dev/taxonomic_data_raw/ipni_author_abbreviations.csv')
+
+trailed <- vector(mode = 'character', length = nrow(abbrevs))
+trailed[grep('\\.$', abbrevs$author_abbrevation)] <- '.'
+ # identify which abbreviations have a trailing period
+
+abbrevs$author_abbrevation <- sub('\\.$', '', abbrevs) # remove the trailing periods
+abbrevs$author_abbrevation <- sub('\\.(?!.*\\.)', ". ", 
+    abbrevs$author_abbrevation, perl = T) # identify the last period in the name, and add a space after it
+
+head(abbrevs$author_abbrevation)
+#abbrevs$author_abbrevation <- paste0(abbrevs$author_abbrevation, trailed, collapse = "")
+
 ```
 
 
@@ -184,7 +201,7 @@ st_write(counties, dsn = file.path('../geodata/political', 'political.shp'))
 rm(counties)
 ```
 
-We will set up our places data set which we will use go gather driving directions from google maps. 
+We will set up our places data set which we will use go gather driving directions from Google maps. 
 ```{r, eval = F}
 
 bb <- pgirmess::bbox2sf(w = bb_vals[1], e = bb_vals[2],

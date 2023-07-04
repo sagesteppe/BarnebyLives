@@ -168,16 +168,29 @@ paste0(apdc_bag_NTRAIL, trailed)
 # identify each individual author '()', '&'
 
 words <- c('(Pursh) J.M. Coult. & Rose')
-pieces <- stringr::str_split(words, pattern = '\\) | & ')
+pieces <- strsplit(words, split = '\\) | & ')
 pieces <- sub('\\(', "", unlist(pieces))
 
 # to each author abbreviation ensure to match from start ('^') to end ($) of string.
-length (grep("^J.M. Coult$", pieces) ) == 0
+pieces
 
+# identify pieces which are not in the look up list.
+L <- length(pieces)
+matched <- vector(mode = 'logical', length = L)
+for(i in 1:L){
+ if(length (grep("^J.M. Coult.$", pieces[i]) ) == 1) {
+   matched[i] <- TRUE
+   } else {
+    matched[i] <- FALSE
+    }
+}
 
-if(length ( grep("^J.M. Coult$", pieces) ) == 0)  {'piece not found'} else {'crack'}
-
-# if the piece cannot be found in the lookout table flag it
+# create column 'Issues'; to flag specific names
+if(any(matched == FALSE)) {
+  Issues <- paste(pieces[which(matched == FALSE)], '-? ', collapse = '')
+  } else {
+    Issues <- 'None'
+}
 
 ```
 
