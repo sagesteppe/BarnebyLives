@@ -83,8 +83,7 @@ $ du -h
 As you can see the data regarding site physical characteristics take up most of space. Because of this you can download data to a directory which you find suitable. For me personally, I slap all of them on an hdd
 
 ```
-$df -h
-df -h
+$ df -h
 Filesystem      Size  Used Avail Use% Mounted on
 tmpfs            13G  2.4M   13G   1% /run
 /dev/nvme0n1p2  468G  278G  167G  63% /
