@@ -5,7 +5,6 @@
 #' @param path path to gnis_places
 distAZE <- function(x, path){
 
-
   locality <- sf::st_drop_geometry(x)
   locality <- locality[1, 'Locality']
 

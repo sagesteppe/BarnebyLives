@@ -48,7 +48,7 @@ author_check <- function(x){
   }
 
   # load abbreviations
-  abbrevs
+  abbrevs <- read.csv('../data/abbrevs.csv')
 
   # identify columns containing authority information
   cols <- colnames(df)[grep('author', colnames(df), ignore.case = T)]

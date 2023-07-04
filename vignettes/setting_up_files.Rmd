@@ -59,7 +59,6 @@ We will also use some functions from the tidyverse.
 library(tidyverse)
 ```
 
-
 The way that BarnebyLives matches spellings of names is very simple. We create three tables, one large table which contains all of the species in the WFO database, one moderately small table which contains all infraspecific taxa (varieties and subspecies), and a small table of all of the genera. 
 
 However, both the genus and specific epithet tables are abbreviated. We find the results from these tables based on only the leading first two or three characters. This gives rises to one of BarnebyLives(!) limitations, the assumption that the first two characters of the genus, and first three letters of the specific epithet are spelled correctly. 
@@ -79,14 +78,15 @@ epiLKPtab <- unique(cla, by = 'specificEpithet')[
   mutate(Grp = str_extract(specificEpithet, '[a-z]{3}')) %>% 
   rename(strings = specificEpithet)
 
-
-saveRDS(sppLKPtab, '/hdd/BarnebyLives/data/sppLKPtab.rda')
-saveRDS(epiLKPtab, '/hdd/BarnebyLives/data/epiLKPtab.rda')
-saveRDS(genLKPtab, '/hdd/BarnebyLives/data/genLKPtab.rda')
+usethis::use_data(sppLKPtab)
+usethis::use_data(epiLKPtab)
+usethis::use_data(genLKPtab)
 
 #write.csv(sppLKPtab, '../taxonomic_data/species_lookup_table.csv', row.names = F)
 #write.csv(epiLKPtab, '../taxonomic_data/epithet_lookup_table.csv', row.names = F)
 #write.csv(genLKPtab, '../taxonomic_data/genus_lookup_table.csv', row.names = F)
+
+rm(sppLKPtab, epiLKPtab, genLKPtab, cla)
 ```
 
 ```{r Prepare material for authorship lookup tables, eval = F}
@@ -103,9 +103,10 @@ abbrevs_notrail <- sub('\\.(?!.*\\.)', ". ",
 
 abbrevs <- paste0(abbrevs_notrail, trailed)
 
-saveRDS(abbrevs, '/hdd/BarnebyLives/data/authors.rda')
+usethis::use_data(abbrevs)
+#write.csv(abbrevs, row.names = F, '/hdd/BarnebyLives/data/abbrevs.csv')
 
-rm(trailed, abbrevs_notrail, abbrevs_spaced)
+rm(trailed, abbrevs_notrail, abbrevs_spaced, abbrevs)
 ```
 
 
@@ -234,11 +235,15 @@ places <- places %>%
 
 places <- places[st_intersects(places, bb) %>% lengths > 0, ]
 places <- st_set_precision(places, precision=10^3)
-st_write(places, 'places.shp') # this will drop location coordinates to 3 decimal places. 
+st_write(places, 'places.shp', append = F) # this will drop location coordinates to 3 decimal places. 
 places <- st_read('places.shp')
-usethis::use_data(places)
 
-rm(places)
+google_towns <- select(places, -STUSPS, -STATEFP, STATE = NAME) %>% 
+  rowid_to_column("ID")
+
+usethis::use_data(google_towns)
+
+rm(places, google_towns)
 ```
 
 

@@ -89,9 +89,7 @@ For internal usage and data acquisition we will make data set explicitly spatial
 This is also required to write out data in a format readable by Google Earth or another Geographic Information System. 
 
 ```{r}
-
 data <- coords2sf(data)
-
 head(data) # now we can see that it is an sf object
 ```
 
@@ -119,9 +117,7 @@ data <- site_writer(data, path = '/hdd/Barneby_Lives-dev/geodata')
 Elevation (both meters and feet), Slope, Aspect, Surficial geology, and geomorphons
 
 ```{r, eval = F}
-
-physical_grabber(path = '/hdd/Barneby_Lives-dev/geodata')
-
+data <- physical_grabber(data, path = '/hdd/Barneby_Lives-dev/geodata')
 ```
 
 
@@ -132,7 +128,7 @@ This function requires that the first few letters of the generic name and epithe
 It will operate on both pieces of the binomial separately, and can work to identify the species within the context of genus. 
 
 ```{r check spelling of binomial and family, eval = F}
-spell_check()
+data <- spell_check(data)
 ```
 
 A similar check is to determine that the author whom is cited for describing the species, or transferring it to another genus, is spelled using the standard author abbreviations.
@@ -140,9 +136,7 @@ This check operates under a similar manner to **spell_check()**.
 The list which is consults *is* comprehensive, within a few years, of all taxonomists whom have published plant species. 
 
 ```{r check spelling of author, eval = F}
-
-author_check(df)
-
+data <- author_check(data)
 ```
 
 After BarnebyLives! has verified the spelling of the species it will submit it to Plants of the World Online to determine whether a more current and accepted name has been applied. 
@@ -151,7 +145,7 @@ Especially as it is possible that **spell_check** has mis-matched your material 
 
 Searches for synonym to species
 ```{r Search for synonyms to species, eval = F}
-powo_seacher()
+data <- powo_seacher(data)
 ```
 
 The final process in the taxonomic step is to ensure that the spellings of any species noted in the *vegetation*, or *associates* fields are accurate. These *will not* then be submitted to Kew, as the fields could quickly overwhelm the API. 
