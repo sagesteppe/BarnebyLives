@@ -62,8 +62,8 @@ geodata
 ├── plss
 ├── political
 └── slope
-
-Several of these subdirectories are quite large.
+```
+Several of these subdirectories are quite large. In total my local instance takes up around 16gb of data.
 
 ```
 $ du -h
