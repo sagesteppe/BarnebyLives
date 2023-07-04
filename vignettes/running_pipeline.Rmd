@@ -47,7 +47,7 @@ input <- read_sheet('1iOQBNeGqRJ3yhA-Sujas3xZ2Aw5rFkktUKv3N_e4o8M',
 
 BarnebyLives takes a little bit of time to run, but it also requires the usage of Google Developer credits for 
 
-```{r, eval = F}
+```{r determine which data has been processed, eval = F}
 
 # determine whether these data have already been processed by the script, using
 # a unique combination of collection name and collection code. 
@@ -104,14 +104,14 @@ If either the United States Forest Service or Bureau of Land Management does man
 
 Retrieve State, County, Ownership, TRS, and allotment information
 ```{r Retrieve Political, eval = F}
-political_grabber(data)
+political_grabber(data, path = '/hdd/Barneby_Lives-dev/geodata')
 ```
 
 ## Geographic
 
 Retrieve Nearest GNIS place name, and azimuth from it
 ```{r Retrieve Place and location from it, eval = F}
-data <- site_writer(data)
+data <- site_writer(data, path = '/hdd/Barneby_Lives-dev/geodata')
 ```
 
 ## Site characteristics
@@ -120,7 +120,7 @@ Elevation (both meters and feet), Slope, Aspect, Surficial geology, and geomorph
 
 ```{r, eval = F}
 
-physical_grabber()
+physical_grabber(path = '/hdd/Barneby_Lives-dev/geodata')
 
 ```
 
@@ -141,6 +141,23 @@ The list which is consults *is* comprehensive, within a few years, of all taxono
 
 ```{r check spelling of author, eval = F}
 
+# we want to introduce a single space after the final given name letter of
+# an author abbreviation and the surname. In order to do these, we must 
+# be sure that the surname is not abbreviated. The true regex which is required
+# to do this is somewhat difficult, and we will hack it with a 'trailed' variable
+
+apdc_bag <- c('A.DeCandolle', 'A.P.DeCandolle',  
+              'A.P.Y.DeCandolle', 'A.P.DeCandolle.')
+
+trailed <- vector(mode = 'character', length = length(apdc_bag))
+trailed[grep('\\.$', apdc_bag)] <- '.'
+ # identify which abbreviations have a trailing period
+
+apdc_bag_NTRAIL <- sub('\\.$', '', apdc_bag) # remove the trailing periods
+apdc_bag_NTRAIL <- sub('\\.(?!.*\\.)', ". ", 
+    apdc_bag_NTRAIL, perl = T) # identify the last period in the name, and add a space after it
+
+paste0(apdc_bag_NTRAIL, trailed)
 ```
 
 After BarnebyLives! has verified the spelling of the species it will submit it to Plants of the World Online to determine whether a more current and accepted name has been applied. 
@@ -157,6 +174,7 @@ The final process in the taxonomic step is to ensure that the spellings of any s
 ```{r check spellings of vegetation and associated species, eval = F}
 
 ```
+
 
 ## Directions
 
