@@ -158,6 +158,27 @@ apdc_bag_NTRAIL <- sub('\\.(?!.*\\.)', ". ",
     apdc_bag_NTRAIL, perl = T) # identify the last period in the name, and add a space after it
 
 paste0(apdc_bag_NTRAIL, trailed)
+
+
+
+
+
+# when processing we need to perform a few steps
+
+# identify each individual author '()', '&'
+
+words <- c('(Pursh) J.M. Coult. & Rose')
+pieces <- stringr::str_split(words, pattern = '\\) | & ')
+pieces <- sub('\\(', "", unlist(pieces))
+
+# to each author abbreviation ensure to match from start ('^') to end ($) of string.
+length (grep("^J.M. Coult$", pieces) ) == 0
+
+
+if(length ( grep("^J.M. Coult$", pieces) ) == 0)  {'piece not found'} else {'crack'}
+
+# if the piece cannot be found in the lookout table flag it
+
 ```
 
 After BarnebyLives! has verified the spelling of the species it will submit it to Plants of the World Online to determine whether a more current and accepted name has been applied. 
