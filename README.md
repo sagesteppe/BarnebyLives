@@ -48,6 +48,7 @@ We hope to collaborate with others to treat CONUS and to create multiformat data
 
 ## Geodata directory structure
 
+```
 geodata
 ├── allotments
 ├── aspect
@@ -60,7 +61,7 @@ geodata
 ├── plss
 ├── political
 └── slope
-
+```
 
 ## Chicago Botanic Garden Fieldworkers Usage
 
