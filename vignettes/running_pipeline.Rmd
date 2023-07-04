@@ -141,53 +141,16 @@ The list which is consults *is* comprehensive, within a few years, of all taxono
 
 ```{r check spelling of author, eval = F}
 
-# we want to introduce a single space after the final given name letter of
-# an author abbreviation and the surname. In order to do these, we must 
-# be sure that the surname is not abbreviated. The true regex which is required
-# to do this is somewhat difficult, and we will hack it with a 'trailed' variable
+ df <- data.frame(Genus = c('Lomatium', 'Linnaea', 'Angelica', 'Mentzelia', 'Castilleja'),
+           Epithet = c('dissectum', 'borealis', 'capitellata', 'albicaulis', 'pilosa'),
+           Binomial_authority = c('(Pursh) J.M. Coult & Rose', 'L.',
+                                  '(A. Gray) Spalik, Reduron & S.R.Downie',
+                                  '(Douglas ex Hook.) Douglas ex Torr. & A. Gray', NA),
+           Infrarank = c(NA, 'var.', NA, NA, 'var.'),
+           Infraspecies	=c(NA, 'americana', NA, NA, 'pilosa'),
+           Infraspecific_authority = c(NA, '(J. Forbes) Rehder', NA, NA, '(S. Watson) Rydb.'))
 
-apdc_bag <- c('A.DeCandolle', 'A.P.DeCandolle',  
-              'A.P.Y.DeCandolle', 'A.P.DeCandolle.')
-
-trailed <- vector(mode = 'character', length = length(apdc_bag))
-trailed[grep('\\.$', apdc_bag)] <- '.'
- # identify which abbreviations have a trailing period
-
-apdc_bag_NTRAIL <- sub('\\.$', '', apdc_bag) # remove the trailing periods
-apdc_bag_NTRAIL <- sub('\\.(?!.*\\.)', ". ", 
-    apdc_bag_NTRAIL, perl = T) # identify the last period in the name, and add a space after it
-
-paste0(apdc_bag_NTRAIL, trailed)
-
-
-# when processing we need to perform a few steps
-
-# identify each individual author '()', '&'
-
-words <- c('(Pursh) J.M. Coult. & Rose')
-pieces <- strsplit(words, split = '\\) | & ')
-pieces <- sub('\\(', "", unlist(pieces))
-
-# to each author abbreviation ensure to match from start ('^') to end ($) of string.
-pieces
-
-# identify pieces which are not in the look up list.
-L <- length(pieces)
-matched <- vector(mode = 'logical', length = L)
-for(i in 1:L){
- if(length (grep("^J.M. Coult.$", pieces[i]) ) == 1) {
-   matched[i] <- TRUE
-   } else {
-    matched[i] <- FALSE
-    }
-}
-
-# create column 'Issues'; to flag specific names
-if(any(matched == FALSE)) {
-  Issues <- paste(pieces[which(matched == FALSE)], '-? ', collapse = '')
-  } else {
-    Issues <- 'None'
-}
+author_check(df)
 
 ```
 
