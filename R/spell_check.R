@@ -9,9 +9,9 @@
 #' @export
 spell_check <- function(x){
 
-  sppLKPtab <- read.csv('../taxonomic_data/species_lookup_table.csv')
-  epiLKPtab <- read.csv('../taxonomic_data/epithet_lookup_table.csv')
-  genLKPtab <- read.csv('../taxonomic_data/genus_lookup_table.csv')
+  sppLKPtab
+  epiLKPtab
+  genLKPtab
 
   pieces <- unlist(stringr::str_split(x, pattern = " "))
   genus <- pieces[1] ; species <- pieces[2]

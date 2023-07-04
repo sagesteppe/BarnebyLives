@@ -141,15 +141,6 @@ The list which is consults *is* comprehensive, within a few years, of all taxono
 
 ```{r check spelling of author, eval = F}
 
- df <- data.frame(Genus = c('Lomatium', 'Linnaea', 'Angelica', 'Mentzelia', 'Castilleja'),
-           Epithet = c('dissectum', 'borealis', 'capitellata', 'albicaulis', 'pilosa'),
-           Binomial_authority = c('(Pursh) J.M. Coult & Rose', 'L.',
-                                  '(A. Gray) Spalik, Reduron & S.R.Downie',
-                                  '(Douglas ex Hook.) Douglas ex Torr. & A. Gray', NA),
-           Infrarank = c(NA, 'var.', NA, NA, 'var.'),
-           Infraspecies	=c(NA, 'americana', NA, NA, 'pilosa'),
-           Infraspecific_authority = c(NA, '(J. Forbes) Rehder', NA, NA, '(S. Watson) Rydb.'))
-
 author_check(df)
 
 ```

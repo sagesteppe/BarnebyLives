@@ -7,16 +7,18 @@
 #' of the IPNI database
 #' @param x an sf/dataframe/tibble of species identities including an Authoiry column
 #' @examples
-#' df <- data.frame(Genus = c('Lomatium', 'Linnaea', 'Angelica', 'Mentzelia', 'Castilleja'),
-#'           Epithet = c('dissectum', 'borealis', 'capitellata', 'albicaulis', 'pilosa'),
-#'           Binomial_authority = c('(Pursh) J.M. Coult. & Rose', 'L.',
-#'                                  '(A. Gray) Spalik, Reduron & S.R.Downie',
-#'                                  '(Douglas ex Hook.) Douglas ex Torr. & A. Gray', NA),
-#'           Infrarank = c(NA, 'var.', NA, NA, 'var.'),
-#'           Infraspecies	=c(NA, 'americana', NA, NA, 'pilosa'),
-#'           Infraspecific_authority = c(NA, '(J. Forbes) Rehder', NA, NA, '(S. Watson) Rydb.'))
+#' df <- data.frame(
+#'   Genus = c('Lomatium', 'Linnaea', 'Angelica', 'Mentzelia', 'Castilleja'),
+#'   Epithet = c('dissectum', 'borealis', 'capitellata', 'albicaulis', 'pilosa'),
+#'   Binomial_authority = c('(Pursh) J.M. Coult & Rose', 'L.',
+#'                          '(A. Gray) Spalik, Reduron & S.R.Downie',
+#'                          '(Douglas ex Hook.) Douglas ex Torr. & A. Gray', NA),
+#'   Infrarank = c(NA, 'var.', NA, NA, 'var.'),
+#'   Infraspecies	=c(NA, 'americana', NA, NA, 'pilosa'),
+#'   Infraspecific_authority = c(NA, '(J. Forbes) Rehder', NA, NA, '(S. Watson) Rydb.')
+#'   )
 #' head(df)
-#' author_check(df) # we know that the proper abbreviation is 'J.M. Coult.' for 'Coulter'
+#' author_check(df) # we know that the proper abbreviation is 'J.M. Coult.' short for 'Coulter'
 #' # and 'S.R. Downie' is human readable format
 #' @export
 #'
