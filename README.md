@@ -49,6 +49,7 @@ We hope to collaborate with others to treat CONUS and to create multiformat data
 ## Geodata directory structure
 
 ```
+$ tree -d
 geodata
 ├── allotments
 ├── aspect
@@ -61,6 +62,24 @@ geodata
 ├── plss
 ├── political
 └── slope
+
+Several of these subdirectories are quite large.
+
+```
+$ du -h
+708M	./geology
+73M	./political
+3.8M	./mountains
+136M	./allotments
+435M	./pad
+4.6G	./slope
+81M	./places
+816M	./plss
+4.2G	./elevation
+4.1G	./aspect
+455M	./geomorphons
+16G	.
+```
 ```
 
 ## Chicago Botanic Garden Fieldworkers Usage
