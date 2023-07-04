@@ -160,9 +160,6 @@ apdc_bag_NTRAIL <- sub('\\.(?!.*\\.)', ". ",
 paste0(apdc_bag_NTRAIL, trailed)
 
 
-
-
-
 # when processing we need to perform a few steps
 
 # identify each individual author '()', '&'

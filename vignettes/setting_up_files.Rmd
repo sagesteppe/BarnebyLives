@@ -92,13 +92,15 @@ trailed <- vector(mode = 'character', length = nrow(abbrevs))
 trailed[grep('\\.$', abbrevs$author_abbrevation)] <- '.'
  # identify which abbreviations have a trailing period
 
-abbrevs$author_abbrevation <- sub('\\.$', '', abbrevs) # remove the trailing periods
-abbrevs$author_abbrevation <- sub('\\.(?!.*\\.)', ". ", 
-    abbrevs$author_abbrevation, perl = T) # identify the last period in the name, and add a space after it
+abbrevs_spaced <- sub('\\.$', '', abbrevs$author_abbrevation) # remove the trailing periods
+abbrevs_notrail <- sub('\\.(?!.*\\.)', ". ", 
+    abbrevs_spaced, perl = T) # identify the last period in the name, and add a space after it
 
-head(abbrevs$author_abbrevation)
-#abbrevs$author_abbrevation <- paste0(abbrevs$author_abbrevation, trailed, collapse = "")
+abbrevs <- paste0(abbrevs_notrail, trailed)
 
+saveRDS(abbrevs, '/hdd/BarnebyLives/data/authors.rda')
+
+rm(trailed, abbrevs_notrail, abbrevs_spaced)
 ```
 
 
