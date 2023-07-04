@@ -80,7 +80,6 @@ $ du -h
 455M	./geomorphons
 16G	.
 ```
-```
 
 ## Chicago Botanic Garden Fieldworkers Usage
 
