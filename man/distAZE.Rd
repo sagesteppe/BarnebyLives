@@ -4,10 +4,12 @@
 \alias{distAZE}
 \title{gather distance and azimuth from collection to GNIS named place}
 \usage{
-distAZE(x)
+distAZE(x, path)
 }
 \arguments{
 \item{x}{an sf/tibble/dataframe of locations with associated nearest locality data}
+
+\item{path}{path to gnis_places}
 }
 \description{
 Help provide some simple context between the building and the

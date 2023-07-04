@@ -2,16 +2,19 @@
 #'
 #' @description this function attempts to verify the spelling of a user submitted taxonomic name. If necessary it will proceed step-wise by name pieces attempting to place them.
 #' @param x a vector of species names
+#' @param path a path to a folder containing the taxonomic data.
 #' @examples
+#' \dontrun{
 #' names_vec <- c('Astagalus purshii', 'Linnaeus borealius', 'Heliumorus multifora')
-#' spelling <- spell_check(names_vec)
+#' spelling <- spell_check(names_vec, path = '../taxonomic_data')
 #' spelling
+#' }
 #' @export
-spell_check <- function(x){
+spell_check <- function(x, path){
 
-  sppLKPtab
-  epiLKPtab
-  genLKPtab
+  sppLKPtab <- read.csv(file.path(path, 'species_lookup_table.csv'))
+  epiLKPtab <- read.csv(file.path(path, 'epithet_lookup_table.csv'))
+  genLKPtab <- read.csv(file.path(path, 'genus_lookup_table.csv'))
 
   pieces <- unlist(stringr::str_split(x, pattern = " "))
   genus <- pieces[1] ; species <- pieces[2]

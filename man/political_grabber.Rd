@@ -4,12 +4,14 @@
 \alias{political_grabber}
 \title{gather political site information}
 \usage{
-political_grabber(x, y)
+political_grabber(x, y, path)
 }
 \arguments{
 \item{x}{an sf data frame of collection points}
 
 \item{y}{a column which unambiguously identifies each collection}
+
+\item{path}{a path to the directory holding the BarnebyLivesGeodata}
 }
 \description{
 this function grabs information on the state, county, and township of collections

@@ -4,15 +4,18 @@
 \alias{site_writer}
 \title{gather distance and azimuth from shop to center of town}
 \usage{
-site_writer(x)
+site_writer(x, path)
 }
 \arguments{
 \item{x}{an sf/tibble/dataframe of locations with associated nearest locality data}
+
+\item{path}{path to gnis_places}
 }
 \description{
 Help provide some simple context between the building and the
 }
 \examples{
+\dontrun{
 library(sf)
 sites <- data.frame(
  longitude_dd = runif(15, min = -120, max = -100),
@@ -21,6 +24,7 @@ sites <- data.frame(
  sf::st_as_sf(coords = c('longitude_dd', 'latitude_dd'), crs = 4326)
 
 head(sites)
-distaze_results <- distAZE(sites) # takes some time
+distaze_results <- distAZE(sites, path = '/hdd/Barneby_Lives-dev/geodata/places') # takes some time
 head(distaze_results)
+}
 }

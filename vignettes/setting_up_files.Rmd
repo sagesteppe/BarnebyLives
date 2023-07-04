@@ -78,13 +78,9 @@ epiLKPtab <- unique(cla, by = 'specificEpithet')[
   mutate(Grp = str_extract(specificEpithet, '[a-z]{3}')) %>% 
   rename(strings = specificEpithet)
 
-usethis::use_data(sppLKPtab)
-usethis::use_data(epiLKPtab)
-usethis::use_data(genLKPtab)
-
-#write.csv(sppLKPtab, '../taxonomic_data/species_lookup_table.csv', row.names = F)
-#write.csv(epiLKPtab, '../taxonomic_data/epithet_lookup_table.csv', row.names = F)
-#write.csv(genLKPtab, '../taxonomic_data/genus_lookup_table.csv', row.names = F)
+write.csv(sppLKPtab, '/hdd/Barneby_Lives-dev/taxonomic_data/species_lookup_table.csv', row.names = F)
+write.csv(epiLKPtab, '/hdd/Barneby_Lives-dev/taxonomic_data/epithet_lookup_table.csv', row.names = F)
+write.csv(genLKPtab, '/hdd/Barneby_Lives-devs/taxonomic_data/genus_lookup_table.csv', row.names = F)
 
 rm(sppLKPtab, epiLKPtab, genLKPtab, cla)
 ```
@@ -103,8 +99,8 @@ abbrevs_notrail <- sub('\\.(?!.*\\.)', ". ",
 
 abbrevs <- paste0(abbrevs_notrail, trailed)
 
-usethis::use_data(abbrevs)
-#write.csv(abbrevs, row.names = F, '/hdd/BarnebyLives/data/abbrevs.csv')
+#usethis::use_data(abbrevs)
+write.csv(abbrevs, row.names = F, '/hdd/Barneby_Lives-dev/taxonomic_data/abbrevs.csv')
 
 rm(trailed, abbrevs_notrail, abbrevs_spaced, abbrevs)
 ```

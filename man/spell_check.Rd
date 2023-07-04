@@ -4,16 +4,20 @@
 \alias{spell_check}
 \title{check that genera and specific epithets are spelled (almost) correctly}
 \usage{
-spell_check(x)
+spell_check(x, path)
 }
 \arguments{
 \item{x}{a vector of species names}
+
+\item{path}{a path to a folder containing the taxonomic data.}
 }
 \description{
 this function attempts to verify the spelling of a user submitted taxonomic name. If necessary it will proceed step-wise by name pieces attempting to place them.
 }
 \examples{
+\dontrun{
 names_vec <- c('Astagalus purshii', 'Linnaeus borealius', 'Heliumorus multifora')
-spelling <- spell_check(names_vec)
+spelling <- spell_check(names_vec, path = '../taxonomic_data')
 spelling
+}
 }

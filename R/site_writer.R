@@ -4,6 +4,7 @@
 #' @param x an sf/tibble/dataframe of locations with associated nearest locality data
 #' @param path path to gnis_places
 #' @examples
+#' \dontrun{
 #' library(sf)
 #' sites <- data.frame(
 #'  longitude_dd = runif(15, min = -120, max = -100),
@@ -14,6 +15,7 @@
 #' head(sites)
 #' distaze_results <- distAZE(sites, path = '/hdd/Barneby_Lives-dev/geodata/places') # takes some time
 #' head(distaze_results)
+#' }
 #' @export
 site_writer <- function(x, path){
 

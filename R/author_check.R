@@ -5,8 +5,10 @@
 #' one in the IPNI index. This function will not seek a correct spelling, but rather
 #' only flag spellings which are not present in the abbreviations section
 #' of the IPNI database
-#' @param x an sf/dataframe/tibble of species identities including an Authoiry column
+#' @param x an sf/dataframe/tibble of species identities including an Authority column
+#' @param path a path to the directory containing the abbrevation data
 #' @examples
+#' \dontrun{
 #' df <- data.frame(
 #'   Genus = c('Lomatium', 'Linnaea', 'Angelica', 'Mentzelia', 'Castilleja'),
 #'   Epithet = c('dissectum', 'borealis', 'capitellata', 'albicaulis', 'pilosa'),
@@ -18,11 +20,12 @@
 #'   Infraspecific_authority = c(NA, '(J. Forbes) Rehder', NA, NA, '(S. Watson) Rydb.')
 #'   )
 #' head(df)
-#' author_check(df) # we know that the proper abbreviation is 'J.M. Coult.' short for 'Coulter'
-#' # and 'S.R. Downie' is human readable format
+#' author_check(df, path = '/hdd/Barneby_Lives-dev/taxonomic_data')
+#' # we know that the proper abbreviation is 'J.M. Coult.' short for 'Coulter'
+#' # and 'S.R. Downie' is more human readable than 'S.R.Downie' (no space)
+#' }
 #' @export
-#'
-author_check <- function(x){
+author_check <- function(x, path){
 
   auth_check <- function(x){
     # identify pieces which are not in the look up list.
@@ -48,10 +51,10 @@ author_check <- function(x){
   }
 
   # load abbreviations
-  abbrevs <- read.csv('../data/abbrevs.csv')
+  abbrevs <- read.csv(file.path(path, 'abbrevs.csv'))
 
   # identify columns containing authority information
-  cols <- colnames(df)[grep('author', colnames(df), ignore.case = T)]
+  cols <- colnames(x)[grep('author', colnames(x), ignore.case = T)]
 
   # there should always be at least two columns.
 

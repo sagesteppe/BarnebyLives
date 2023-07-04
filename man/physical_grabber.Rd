@@ -4,10 +4,12 @@
 \alias{physical_grabber}
 \title{gather physical characteristics of the site}
 \usage{
-physical_grabber(x)
+physical_grabber(x, path)
 }
 \arguments{
 \item{x}{an sf data frame of collection points}
+
+\item{path}{a path to the directory holding the BarnebyLivesGeodata}
 }
 \description{
 this function grabs information on the elevation, azimuth, geomorphon, and geology of the site
