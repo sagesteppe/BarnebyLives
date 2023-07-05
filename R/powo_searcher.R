@@ -14,40 +14,38 @@
 #' @export
 powo_searcher <- function(x){
 
-  q <- paste(x[,'Genus'], x[,'Epithet'], x[,'Infraspecies'])
-  return(q)
-#  query_results <- kewr::search_powo(q)
+  query_results <- kewr::search_powo(x)
 
-#  if (is.null(query_results[["results"]])) {
-#    second_try <- try_again(query_results)
+  if (is.null(query_results[["results"]])) {
+    second_try <- try_again(query_results)
 
-#    if (is.null(second_try[["results"]])) {
-##      taxonomic_info <- data.frame(
-#        family = as.character(),
-#        name_authority = as.character(),
-#        full_name = as.character(),
-#        genus = as.character(),
-#        epithet = as.character(),
-#        infrarank = as.character(),
-#        infraspecies = as.character(),
-#        authority = as.character()
-#      )
-#      taxonomic_info[1,] <- 'NOT FOUND'
+    if (is.null(second_try[["results"]])) {
+        taxonomic_info <- data.frame(
+        family = as.character(),
+        name_authority = as.character(),
+        full_name = as.character(),
+        genus = as.character(),
+        epithet = as.character(),
+        infrarank = as.character(),
+        infraspecies = as.character(),
+        authority = as.character()
+      )
+      taxonomic_info[1,] <- 'NOT FOUND'
 
-#    } else {
-#      results_to_process <- second_try
-#    }
+    } else {
+      results_to_process <- second_try
+    }
 
-#  } else {
-#    results_to_process <- query_results
-#  }
+  } else {
+    results_to_process <- query_results
+  }
 
   # this is the end of the process, return empty results without error, or real results
-#  if (exists('taxonomic_info')) {
-#    return(cbind(query = q, taxonomic_info))
-#  } else {
-#    taxonomic_info <- result_grabber(results_to_process)
-#    return(cbind(query = q, taxonomic_info))
-#  }
+  if (exists('taxonomic_info')) {
+    return(cbind(query = q, taxonomic_info))
+  } else {
+    taxonomic_info <- result_grabber(results_to_process)
+    return(cbind(query = q, taxonomic_info))
+  }
 }
 

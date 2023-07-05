@@ -9,6 +9,8 @@ political_grabber(x, y, path)
 \arguments{
 \item{x}{an sf data frame of collection points}
 
+\item{y}{a variable which unique identifies each observation}
+
 \item{path}{a path to the directory holding the BarnebyLivesGeodata}
 }
 \description{

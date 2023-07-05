@@ -7,7 +7,7 @@
 directions_grabber(x, api_key)
 }
 \arguments{
-\item{x}{an sf/tibble/dataframe of locations}
+\item{x}{an sf/tibble/data frame of locations}
 
 \item{api_key}{a google developer api key for use with googleway}
 }

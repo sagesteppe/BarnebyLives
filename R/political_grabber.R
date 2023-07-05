@@ -2,6 +2,7 @@
 #'
 #' @description this function grabs information on the state, county, and township of collections
 #' @param x an sf data frame of collection points
+#' @param y a variable which unique identifies each observation
 #' @param path a path to the directory holding the BarnebyLivesGeodata
 #' @examples # see the package vignette
 #' @export

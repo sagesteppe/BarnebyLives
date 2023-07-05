@@ -39,7 +39,7 @@ dms2dd <- function(x, lat, long, dms){
   x$latitude_dd <- abs(x$latitude_dd)
   x$longitude_dd <- abs(x$longitude_dd) * -1
 
-  # now overwrite the original DMS values in our exact formaty
+  # now overwrite the original DMS values in our exact format
 
   x$latitude_dms = paste0(
     'N ', parzer::pz_degree(x$latitude_dd),

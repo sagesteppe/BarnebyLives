@@ -232,7 +232,8 @@ places <- places %>%
 places <- places %>% 
   rename(CITY = NAME) %>% 
   left_join(., st %>% 
-              st_drop_geometry(), by = 'STATEFP')
+              st_drop_geometry(), by = 'STATEFP') %>% 
+  st_transform(4326)
 
 places <- places[st_intersects(places, bb) %>% lengths > 0, ]
 places <- st_set_precision(places, precision=10^3)
