@@ -56,26 +56,38 @@ author_check <- function(x, path){
   # identify columns containing authority information
   cols <- colnames(x)[grep('author', colnames(x), ignore.case = T)]
 
+  if( any( grepl('geometry', colnames(x)))) {
+    no_spat <- sf::st_drop_geometry(x)} else {
+      no_spat <- x
+    }
+
   # there should always be at least two columns.
 
-  auth <- x[,cols[1]] # binomial should be first.
+  auth <- dplyr::pull(no_spat, cols[1])
   auth <- sub('\\(', "", auth)
   pieces <- strsplit(auth, split = '\\) | & |, | ex ')
   binom_results <- lapply(pieces, auth_check)
 
-  auth <- x[,cols[2]] # infra species tends to be arranged down stream
+  auth <- dplyr::pull(no_spat, cols[2])
+  # infra species tends to be arranged down stream
   auth <- sub('\\(', "", auth)
   pieces <- strsplit(auth, split = '\\) | & |, | ex ')
   infra_results <- lapply(pieces, auth_check)
 
   Issues <- data.frame(
-    'Binomial_authority_issues' = do.call(rbind, binom_results),
-    'Infra_auth_issues'= do.call(rbind, infra_results)
+    Binomial_authority_issues = do.call(rbind, binom_results),
+    Infra_auth_issues = do.call(rbind, infra_results)
   )
 
-  Issues <- dplyr::bind_cols(x, Issues) |>
-    dplyr::relocate(any_of(c('Binomial_authority_issues', 'Infra_auth_issues')),
+  Issues <- dplyr::bind_cols(x, Issues)
+
+  if( any( grepl('geometry', colnames(x)))) {
+    Issues <- dplyr::relocate(Issues,
+      any_of(
+        c('Binomial_authority_issues', 'Infra_auth_issues')),
                     .before = geometry)
+    }
 
   return(Issues)
 }
+
