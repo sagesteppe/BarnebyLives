@@ -72,6 +72,11 @@ genLKPtab <- unique(cla, by = 'genus')[taxonomicStatus == 'Accepted','genus'] %>
   arrange(genus) %>% 
   mutate(Grp = str_extract(genus, '[A-Z][a-z]{1}'))%>% 
   rename(strings = genus)
+sppLKPtab <- unique(cla, by = 'specificEpithet')[
+  taxonomicStatus == 'Accepted','specificEpithet'] %>% 
+  arrange(specificEpithet) %>% 
+  mutate(Grp = str_extract(specificEpithet, '[a-z]{3}')) %>% 
+  rename(strings = specificEpithet)
 epiLKPtab <- unique(cla, by = 'specificEpithet')[
   taxonomicStatus == 'Accepted','specificEpithet'] %>% 
   arrange(specificEpithet) %>% 

@@ -58,21 +58,24 @@ author_check <- function(x, path){
 
   # there should always be at least two columns.
 
-  auth <- df[,cols[1]] # binomial should be first.
+  auth <- x[,cols[1]] # binomial should be first.
   auth <- sub('\\(', "", auth)
   pieces <- strsplit(auth, split = '\\) | & |, | ex ')
   binom_results <- lapply(pieces, auth_check)
 
-  auth <- df[,cols[2]] # infra species tends to be arranged down stream
+  auth <- x[,cols[2]] # infra species tends to be arranged down stream
   auth <- sub('\\(', "", auth)
   pieces <- strsplit(auth, split = '\\) | & |, | ex ')
   infra_results <- lapply(pieces, auth_check)
 
   Issues <- data.frame(
-    x,
     'Binomial_authority_issues' = do.call(rbind, binom_results),
     'Infra_auth_issues'= do.call(rbind, infra_results)
   )
+
+  Issues <- dplyr::bind_cols(x, Issues) |>
+    dplyr::relocate(any_of(c('Binomial_authority_issues', 'Infra_auth_issues')),
+                    .before = geometry)
 
   return(Issues)
 }
