@@ -1,7 +1,8 @@
 #' check that genera and specific epithets are spelled (almost) correctly
 #'
 #' @description this function attempts to verify the spelling of a user submitted taxonomic name. If necessary it will proceed step-wise by name pieces attempting to place them.
-#' @param x a vector of species names
+#' @param x data frame/ tibble /sf object containing names to spell check
+#' @param y a column in it containing a full scientific name
 #' @param path a path to a folder containing the taxonomic data.
 #' @examples
 #' \dontrun{
@@ -11,11 +12,13 @@
 #' }
 #' @export
 spell_check <- function(x, path){
+  #y <- dplyr::enquo(y)
 
   sppLKPtab <- read.csv(file.path(path, 'species_lookup_table.csv'))
   epiLKPtab <- read.csv(file.path(path, 'epithet_lookup_table.csv'))
   genLKPtab <- read.csv(file.path(path, 'genus_lookup_table.csv'))
 
+ # query <- dplyr::pull(x, !!y)
   pieces <- unlist(stringr::str_split(x, pattern = " "))
   genus <- pieces[1] ; species <- pieces[2]
   binom <- paste(genus, species)
@@ -90,7 +93,8 @@ spell_check <- function(x, path){
           possible_binomial <-
             epiLKPtab[which.min(adist(search_nom, epiLKPtab$scientificName)), 'scientificName'] |>
               as.character()
-          return(data.frame(Query = x, Binomial = possible_binomial, Match = 'fuzzy'))
+          return(x)
+       #   return(data.frame(Query = x, Binomial = possible_binomial, Match = 'fuzzy'))
         }
       }
     }
