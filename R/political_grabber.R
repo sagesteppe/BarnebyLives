@@ -2,7 +2,6 @@
 #'
 #' @description this function grabs information on the state, county, and township of collections
 #' @param x an sf data frame of collection points
-#' @param y a column which unambiguously identifies each collection
 #' @param path a path to the directory holding the BarnebyLivesGeodata
 #' @examples # see the package vignette
 #' @export
@@ -23,16 +22,16 @@ political_grabber <- function(x, y, path){
 
   x_plss <- sf::st_transform(x, sf::st_crs(plss))
   x_plss <- sf::st_join(x_plss, plss) |>
-    sf::st_drop_geometry() %>%
-    dplyr::select(y, trs)
+    sf::st_drop_geometry() |>
+    dplyr::select(any_of(c(y, 'trs')))
 
   x_vars <- dplyr::left_join(x, x_plss, by = y) |>
     dplyr::mutate(Country = 'U.S.A.') |>
-    dplyr::relocate(any_of(c('Country', 'State', 'County', 'Mang_Name', 'Unit_Nm', 'trs')),
+    dplyr::relocate(any_of(c('Country', 'State', 'County', 'Mang_Name', 'Unit_Nm', 'trs', 'Allotment')),
              .before = geometry) |>
     dplyr::distinct(.keep_all = T) |>
     # with large enough sample size some points fall on an exact border
-    dplyr::group_by( .data[[y]] ) |>
+    dplyr::group_by( .data[[y]]) |>
     dplyr::slice_head(n = 1) |>
     dplyr::ungroup()
 

@@ -19,8 +19,8 @@
 #' @export
 site_writer <- function(x, path){
 
-  gnis_places <- sf::st_read(file.path(path, 'places.shp'), quiet = T)
-  nf <- sf::st_nearest_feature(sites, gnis_places)
+  gnis_places <- sf::st_read( file.path(path, 'places/places.shp'), quiet = T)
+  nf <- sf::st_nearest_feature(x, gnis_places)
 
   sites <- x |>
    dplyr::mutate(sf::st_drop_geometry(gnis_places[nf, 'ID']),
@@ -35,27 +35,29 @@ site_writer <- function(x, path){
   location_from <- sf::st_transform(location_from, 5070)
   x_planar <- sf::st_transform(x, 5070)
   distances <- sf::st_distance(location_from, x_planar, which = 'Euclidean')
-  place <- data.frame('Place' =  st_drop_geometry(gnis_places[x$ID, 'fetr_nm']))
+  place <- data.frame('Place' =
+                        sf::st_drop_geometry(gnis_places[nf, 'fetr_nm']))
 
   azy <- nngeo::st_azimuth(
     location_from,
     x_planar
   )
 
-  distances <- data.frame(
-    sf::st_drop_geometry(x),
+  distances_df <- data.frame(
     Distance = round(as.numeric(distances / 1609.34), -1),
     Azimuth = round(as.numeric(azy), 0),
     Place = place
   )  |>
     dplyr::mutate(Site = if_else(
-      Distance < 100, paste0('At ', fetr_nm, '.'),
-      paste0(Distance, 'm', ' at ', format_degree(Azimuth), ' from ', fetr_nm, '.')),
+      Distance < 100, paste0(fetr_nm, '.'),
+     paste0(Distance, 'm', ' at ', format_degree(Azimuth), ' from ', fetr_nm, '.')),
       Site = stringr::str_replace(Site, '\\..$', '.')) |>
     dplyr::select(-any_of(c('Distance', 'Azimuth', 'Place', 'ID', 'fetr_nm')))
 
-  out <- dplyr::bind_cols(x, distances) |>
-    dplyr::relocate(Site, .before = geometry) |>
+  distances_df <-  dplyr::bind_cols(x, distances_df) |>
+    dplyr::relocate(any_of(c('Site', 'Allotment')), .before = geometry) |>
     dplyr::select(-any_of(c('ID')))
 
+  return(distances_df)
 }
+

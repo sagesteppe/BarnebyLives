@@ -5,7 +5,7 @@
 #' @param path a path to the directory holding the BarnebyLivesGeodata
 #' @examples #see the package vignette
 #' @export
-physical_grabber <- function(x, path) {
+physical_grabber <- function(x, path){
 
   round_df <- function(df, digits) {
     nums <- vapply(df, is.numeric, FUN.VALUE = logical(1))
@@ -30,11 +30,11 @@ physical_grabber <- function(x, path) {
   slope <- terra::vrt(paths2rast)
 
   paths2rast <- file.path(
-    file.path(path, geo), list.files(path = file.path(path, slo), recursive = T))
+    file.path(path, geo), list.files(path = file.path(path, geo), recursive = T))
   geomorphon <- terra::vrt(paths2rast)
 
   paths2rast <- file.path(
-    file.path(path, elev), list.files(path = file.path(path, slo), recursive = T))
+    file.path(path, elev), list.files(path = file.path(path, elev), recursive = T))
   elevation <- terra::vrt(paths2rast)
 
   asp_val <- terra::extract(aspect, x_spat)
@@ -72,7 +72,7 @@ physical_grabber <- function(x, path) {
     dplyr::mutate(
       physical_environ =
         paste0('At ', elevation_ft, ' ft, on a ', geomorphon, ', ', format_degree(slope),
-               ' slo. and ', format_degree(aspect), ' asp.; geology: ', geology, '.'
+               ' slo. ', format_degree(aspect), ' asp.; geology: ', geology, '.'
                                 ), .before = geometry)
 
   return(object)
