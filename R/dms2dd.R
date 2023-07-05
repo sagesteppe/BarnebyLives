@@ -42,15 +42,15 @@ dms2dd <- function(x, lat, long, dms){
   # now overwrite the original DMS values in our exact format
 
   x$latitude_dms = paste0(
-    'N ', parzer::pz_degree(x$latitude_dd),
-    format_degree(round(parzer::pz_minute(x$latitude_dd), 2)),
-    "'", round(parzer::pz_second(x$latitude_dd), 2)
+    'N ', format_degree(parzer::pz_degree(x$latitude_dd)),
+    round(parzer::pz_minute(x$latitude_dd), 2),
+    "'", round(parzer::pz_second(x$latitude_dd), 0)
   )
 
   x$longitude_dms = paste0(
-    'W ', parzer::pz_degree(x$longitude_dd),
-    format_degree(round(parzer::pz_minute(x$longitude_dd), 2)),
-    "'", round(parzer::pz_second(x$longitude_dd), 2)
+    'W ', format_degree(parzer::pz_degree(x$longitude_dd)),
+    round(parzer::pz_minute(x$longitude_dd), 2),
+    "'", round(parzer::pz_second(x$longitude_dd), 0)
   )
 
   x$longitude_dms <- gsub('-', "", x$longitude_dms)
