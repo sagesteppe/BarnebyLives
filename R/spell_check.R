@@ -11,14 +11,12 @@
 #' spelling
 #' }
 #' @export
-spell_check <- function(x, path){
-  #y <- dplyr::enquo(y)
+spell_check <- function(x, path) {
 
   sppLKPtab <- read.csv(file.path(path, 'species_lookup_table.csv'))
   epiLKPtab <- read.csv(file.path(path, 'epithet_lookup_table.csv'))
   genLKPtab <- read.csv(file.path(path, 'genus_lookup_table.csv'))
 
- # query <- dplyr::pull(x, !!y)
   pieces <- unlist(stringr::str_split(x, pattern = " "))
   genus <- pieces[1] ; species <- pieces[2]
   binom <- paste(genus, species)
@@ -41,7 +39,7 @@ spell_check <- function(x, path){
       return(data.frame(Query = x, Result = infraspecies_name, Match = 'fuzzy'))
     }
 
-  # species can become difficult due to their short  names, e.g. 'Poa annua'
+    # species can become difficult due to their short  names, e.g. 'Poa annua'
   } else {
 
     if (any(grep( x = sppLKPtab$scientificName, pattern = binom, fixed = T))) {
@@ -53,9 +51,9 @@ spell_check <- function(x, path){
       genus2char <- stringr::str_extract(genus, '[A-Z][a-z]{1}')
       species3char <- stringr::str_extract(species, '[a-z]{3}')
       gen_strings <-
-        dplyr::filter(genLKPtab, .data$Grp == genus2char) |> dplyr::pull(strings)
+        dplyr::filter(genLKPtab, Grp == genus2char) |> dplyr::pull(strings)
       spe_strings <-
-        dplyr::filter(sppLKPtab, .data$Grp == species3char) |> dplyr::pull(strings)
+        dplyr::filter(sppLKPtab, Grp == species3char) |> dplyr::pull(strings)
 
       # check to see if both genus and species are clean
       if (any(grep(x = gen_strings, pattern = paste0('^', genus, '$')))) {
@@ -93,8 +91,7 @@ spell_check <- function(x, path){
           possible_binomial <-
             epiLKPtab[which.min(adist(search_nom, epiLKPtab$scientificName)), 'scientificName'] |>
               as.character()
-          return(x)
-       #   return(data.frame(Query = x, Binomial = possible_binomial, Match = 'fuzzy'))
+          return(data.frame(Query = x, Result = possible_binomial, Match = 'fuzzy'))
         }
       }
     }
