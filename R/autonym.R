@@ -8,7 +8,7 @@
 #' @export
 autonym <- function(genus, epithet, infrarank, infraspecies){
 
-  authority_hunt <- search_powo(paste(genus, epithet))
+  authority_hunt <- kewr::search_powo(paste(genus, epithet))
 
   results <- authority_hunt[['results']]
   clean <- which(unlist(lapply(results, `[`, 'accepted')) == T)

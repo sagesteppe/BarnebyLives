@@ -7,12 +7,13 @@
 #' @examples
 #' library(dplyr)
 #' pow_results <- lapply(
-#'       c('Linnaea borealis', 'Astragalus purshii', 'Pinus ponderosa'),
+#'       c('Linnaea borealis var. borealis', 'Astragalus purshii', 'Pinus ponderosa'),
 #'       powo_searcher) |>
 #'    dplyr::bind_rows()
 #' head(pow_results)
 #' @export
 powo_searcher <- function(x){
+
 
   query_results <- kewr::search_powo(x)
 
@@ -42,10 +43,17 @@ powo_searcher <- function(x){
 
   # this is the end of the process, return empty results without error, or real results
   if (exists('taxonomic_info')) {
-    return(cbind(query = q, taxonomic_info))
+    out_ob <- data.frame(cbind(query = x, taxonomic_info))
   } else {
     taxonomic_info <- result_grabber(results_to_process)
-    return(cbind(query = q, taxonomic_info))
+    out_ob <- data.frame(cbind(query = x, taxonomic_info))
   }
+
+  new_names <-  paste0('POW', '_',
+    stringr::str_to_sentence( colnames(out_ob) ))
+  colnames(out_ob) <- new_names
+
+  return(out_ob)
 }
+
 

@@ -34,11 +34,10 @@ result_grabber <- function(x) {
     infrarank <- NA
   }
 
-  if (is.null(authority)){
-
+ if (is.null(authority)){
     res <- autonym(genus, epithet, infrarank, infraspecies)
-    name_authority <- res[[1]]
-    authority <- res[[2]]
+    name_authority <- as.character(res[[1]])
+    authority <- as.character(res[[2]])
 
   } else{name_authority = paste(full_name, authority)}
 
@@ -50,8 +49,9 @@ result_grabber <- function(x) {
     epithet,
     infrarank,
     infraspecies,
-    authority
+   authority
   )
 
   return(taxonomic_info)
 }
+

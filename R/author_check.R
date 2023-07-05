@@ -81,12 +81,11 @@ author_check <- function(x, path){
 
   Issues <- dplyr::bind_cols(x, Issues)
 
-  if( any( grepl('geometry', colnames(x)))) {
-    Issues <- dplyr::relocate(Issues,
-      any_of(
-        c('Binomial_authority_issues', 'Infra_auth_issues')),
-                    .before = geometry)
-    }
+    Issues <- Issues |>
+      dplyr::relocate(any_of( c('Binomial_authority_issues')),
+                      .after = cols[1]) |>
+      dplyr::relocate(any_of( c('Infra_auth_issues')),
+                      .after = cols[2])
 
   return(Issues)
 }
