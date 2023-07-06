@@ -31,7 +31,7 @@ author_check <- function(x, path){
     # identify pieces which are not in the look up list.
     L <- length(x)
     matched <- vector(mode = 'logical', length = L)
-    if(all(is.na(x))){Issues = 'None'} else {
+    if(all(is.na(x))){Issues = NA} else {
       for(i in 1:L){
         if(any(abbrevs == x[i])) {
           matched[i] <- TRUE
@@ -44,7 +44,7 @@ author_check <- function(x, path){
       if(any(matched == FALSE)) {
         Issues <- paste(x[which(matched == FALSE)], '-? ', collapse = '')
       } else {
-        Issues <- 'None'
+        Issues <- NA
       }
     }
     return(Issues)
@@ -54,7 +54,8 @@ author_check <- function(x, path){
   abbrevs <- read.csv(file.path(path, 'abbrevs.csv'))
 
   # identify columns containing authority information
-  cols <- colnames(x)[grep('author', colnames(x), ignore.case = T)]
+  binom_auth <- colnames(x)[grep('binom.*author', colnames(x), ignore.case = T)]
+  infra_auth <- colnames(x)[grep('infraspecific.*author', colnames(x), ignore.case = T)]
 
   if( any( grepl('geometry', colnames(x)))) {
     no_spat <- sf::st_drop_geometry(x)} else {
@@ -63,12 +64,12 @@ author_check <- function(x, path){
 
   # there should always be at least two columns.
 
-  auth <- dplyr::pull(no_spat, cols[1])
+  auth <- dplyr::pull(no_spat, binom_auth)
   auth <- sub('\\(', "", auth)
   pieces <- strsplit(auth, split = '\\) | & |, | ex ')
   binom_results <- lapply(pieces, auth_check)
 
-  auth <- dplyr::pull(no_spat, cols[2])
+  auth <- dplyr::pull(no_spat, !!infra_auth)
   # infra species tends to be arranged down stream
   auth <- sub('\\(', "", auth)
   pieces <- strsplit(auth, split = '\\) | & |, | ex ')
@@ -83,9 +84,9 @@ author_check <- function(x, path){
 
     Issues <- Issues |>
       dplyr::relocate(any_of( c('Binomial_authority_issues')),
-                      .after = cols[1]) |>
+                      .after = binom_auth) |>
       dplyr::relocate(any_of( c('Infra_auth_issues')),
-                      .after = cols[2])
+                      .after = infra_auth)
 
   return(Issues)
 }

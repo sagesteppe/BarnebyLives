@@ -1,83 +1,86 @@
 #' Easily compare POW column to input columns
 #'
-#' pronounced 'pounce'. 
+#' pronounced 'pounce'.
 #' After querying the POW database via 'powo_searcher' this function will mark
 #' POW cells which are identical to the input (verified cleaned) as NA
 #' ideally making it easier for person to process there results and prepare
-#' there data for sharing via labels and digitally. 
+#' there data for sharing via labels and digitally.
 #' @param x an sf/data frame/tibble which has both the input and POW ran data on it
-#' @examples 
+#' @examples
 #' df <- data.frame(
 #'  POW_Genus = c('Castilleja', 'Linnaea', 'Dimeresia'),
-#'  POW_Epithet = c('pilosa', 'borealis', 'howellii'), 
+#'  POW_Epithet = c('pilosa', 'borealis', 'howellii'),
 #'  POW_Infrarank = c('var.', 'var.', NA),
-#'  POW_Infraspecies =  c('pilosa', 'americana', NA), 
+#'  POW_Infraspecies =  c('pilosa', 'americana', NA),
 #'  POW_Authority =  c('(S. Watson) Rydb.', '(J. Forbes) Rehder', 'A. Gray')
 #' )
 #' powNAce(df)
 #' @export
-#' 
+#'
 powNAce <- function(x){
-  
-   # four conditions are compared to determine which taxonomic level the authority 
+
+   # four conditions are compared to determine which taxonomic level the authority
    # applies to
    infra_base <- function(x){
-    
-    x$POW_Infraspecies_authority <- NA
+
+    x$POW_Infraspecific_authority <- NA
     x$POW_Binomial_authority <- NA
-    
-    if(is.na(x$POW_Infrarank)){
-      x$POW_Binomial_authority = x$POW_Authority
-    } else if ( x$POW_Infraspecies == x$POW_Epithet){
-      x$POW_Binomial_authority = x$POW_Authority} else {
-        x$POW_Infraspecies_authority = x$POW_Authority
+
+    y <- x
+
+    if(is.na(y$POW_Infrarank)){
+      y$POW_Binomial_authority <- y$POW_Authority
+    } else if ( y$POW_Infraspecies == y$POW_Epithet){
+      y$POW_Binomial_authority <- y$POW_Authority} else {
+        y$POW_Infraspecific_authority <- y$POW_Authority
       }
-    return(x)
+
+  #  x$POW_Infraspecific_authority <- as.character(x$POW_Infraspecific_authority)
+  #  x$POW_Binomial_authority <- as.character(x$POW_Binomial_authority)
+
+    return(y)
   }
-  
+
    # we need NA's to be explicitly treated
    compareNA <- function(v1, v2){
     same <- (v1 == v2)  |  (is.na(v1) & is.na(v2))
     same[is.na(same)] <- FALSE
     return(same)
    } # @ BEN STACK O 16822426
-   
-   mycs <- c('Genus', 'POW_Genus', 'Epithet', 'POW_Epithet', 'Binomial_Authority',
-             'POW_Binomial_authority', 'Infrarank', 'POW_Infrarank', 
-             'Infraspecies', 'POW_Infraspecies', 'POW_Family')
+
+   mycs <- c('Genus', 'POW_Genus', 'Epithet', 'POW_Epithet', 'Binomial_authority',
+             'POW_Binomial_authority', 'Infrarank', 'POW_Infrarank',
+             'Infraspecies', 'POW_Infraspecies', 'Infraspecific_authority',
+             'POW_Infraspecific_authority', 'Family', 'POW_Family')
 
    # identify whether the author is for the species or infra species
-   rownames(x) <- 1:nrow(x)
-   splits <- split(x, f = rownames(x))
-   x <- lapply(X = splits, FUN = infra_base) 
-   x <- do.call(rbind, x)
-   
-   x[compareNA(x$POW_Name_authority, x$Name_authority ), 'POW_Name_authority'] <- NA
-   x[compareNA(x$POW_Full_name, x$Full_name ), 'POW_Full_name'] <- NA
-   x[compareNA(x$POW_Genus, x$Genus ), 'POW_Genus'] <- NA
-   x[compareNA(x$POW_Epithet, x$Epithet ), 'POW_Epithet'] <- NA
-   x[compareNA(x$POW_Infrarank, x$Infrarank ), 'POW_Infrarank'] <- NA
-   x[compareNA(x$POW_Infraspecies, x$Infraspecies ), 'POW_Infraspecies'] <- NA
-   x[compareNA(x$POW_Family, x$Family ), 'POW_Family'] <- NA
-   x[compareNA(x$POW_Binomial_authority, x$Binomial_authority ), 'POW_Binomial_authority'] <- NA
-   x[compareNA(x$POW_Infraspecies_authority, x$Infraspecies_authority ), 'POW_Infraspecies_authority'] <- NA
-   
-   pos <- which( colnames(x) == 'POW_Epithet' ) - 1 
-   x <- dplyr::relocate(x, any_of(mycs), 
-                   .after = pos) |>
-     dplyr::select(-any_of(c('POW_Name_authority', 'POW_Full_name', 'POW_Authority')))
-  
+
+   x_pow <- sf::st_drop_geometry(x) |>
+     dplyr::select(any_of(c(mycs, 'POW_Authority', 'UNIQUEID'))) |>
+     data.frame()
+
+   splits <- split(x_pow, f = rownames(x_pow))
+   x_pow <- lapply(X = splits, FUN = infra_base)
+   x_pow <- do.call(rbind, x_pow)
+
+   x_pow[compareNA(x_pow$POW_Name_authority, x_pow$Name_authority ), 'POW_Name_authority'] <- NA
+   x_pow[compareNA(x_pow$POW_Full_name, x_pow$Full_name ), 'POW_Full_name'] <- NA
+   x_pow[compareNA(x_pow$POW_Genus, x_pow$Genus ), 'POW_Genus'] <- NA
+   x_pow[compareNA(x_pow$POW_Epithet, x_pow$Epithet ), 'POW_Epithet'] <- NA
+   x_pow[compareNA(x_pow$POW_Infrarank, x_pow$Infrarank ), 'POW_Infrarank'] <- NA
+   x_pow[compareNA(x_pow$POW_Infraspecies, x_pow$Infraspecies ), 'POW_Infraspecies'] <- NA
+   x_pow[compareNA(x_pow$POW_Family, x_pow$Family ), 'POW_Family'] <- NA
+   x_pow[compareNA(x_pow$POW_Binomial_authority, x_pow$Binomial_authority ), 'POW_Binomial_authority'] <- NA
+   x_pow[compareNA(x_pow$POW_Infraspecific_authority, x_pow$Infraspecific_authority ), 'POW_Infraspecific_authority'] <- NA
+
+   x <- dplyr::select(x, -any_of(c(mycs, 'POW_Authority', 'POW_Name_authority', 'POW_Full_name')))
+   x <- dplyr::left_join(x, x_pow, by = 'UNIQUEID')
+
+   x <- dplyr::relocate(x, any_of(c(mycs, 'POW_Query')),
+                   .after = 4) %>%
+     dplyr::select(-any_of(c('POW_Authority', 'POW_Name_authority', 'POW_Full_name')))
+
    return(x)
-  
+
 }
 
-
-df <- data.frame(
-  POW_Genus = c('Castilleja', 'Linnaea', 'Dimeresia'),
-  POW_Epithet = c('pilosa', 'borealis', 'howellii'), 
-  POW_Infrarank = c('var.', 'var.', NA),
-  POW_Infraspecies =  c('pilosa', 'americana', NA), 
-  POW_Authority =  c('(S. Watson) Rydb.', '(J. Forbes) Rehder', 'A. Gray')
-)
-
- powNAce(df)
