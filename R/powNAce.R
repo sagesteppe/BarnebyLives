@@ -16,7 +16,6 @@
 #' )
 #' powNAce(df)
 #' @export
-#'
 powNAce <- function(x){
 
    # four conditions are compared to determine which taxonomic level the authority
@@ -48,6 +47,20 @@ powNAce <- function(x){
     return(same)
    } # @ BEN STACK O 16822426
 
+   author_spacer <- function(x){
+     trailed <- vector(mode = 'character', length = length(x))
+     trailed[grep('\\.$', x)] <- '.'
+
+     abbrevs_spaced <- sub('\\.$', '', x) # remove the trailing periods
+     abbrevs_notrail <- sub('\\.(?!.*\\.)', ". ", abbrevs_spaced, perl = T)
+     # identify the last period in the name, and add a space after it
+
+     abbrevs <- paste0(abbrevs_notrail, trailed)
+     abbrevs <- gsub("  ", " ", abbrevs)
+     abbrevs <- gsub(" \\)", ")", abbrevs)
+     return(abbrevs)
+   }
+
    mycs <- c('Genus', 'POW_Genus', 'Epithet', 'POW_Epithet', 'Binomial_authority',
              'POW_Binomial_authority', 'Infrarank', 'POW_Infrarank',
              'Infraspecies', 'POW_Infraspecies', 'Infraspecific_authority',
@@ -62,6 +75,10 @@ powNAce <- function(x){
    splits <- split(x_pow, f = rownames(x_pow))
    x_pow <- lapply(X = splits, FUN = infra_base)
    x_pow <- do.call(rbind, x_pow)
+
+   #ensure we have implemented a human readable spacing to our authors
+   x_pow$POW_Binomial_authority <- author_spacer(x_pow$POW_Binomial_authority)
+   x_pow$POW_Infraspecific_authority <- author_spacer(x_pow$POW_Infraspecific_authority)
 
    x_pow[compareNA(x_pow$POW_Name_authority, x_pow$Name_authority ), 'POW_Name_authority'] <- NA
    x_pow[compareNA(x_pow$POW_Full_name, x_pow$Full_name ), 'POW_Full_name'] <- NA
