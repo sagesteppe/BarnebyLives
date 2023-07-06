@@ -27,19 +27,19 @@ spell_check <- function(x, path) {
                        stringr::str_replace(pieces[3], 'ssp\\.|ssp', 'subsp.'), pieces[4])
 
     if (any(grep( x = infras$scientificName, pattern = full_name, fixed = T))) {
-      return(data.frame(Query = x, Result = full_name, Match = 'exact', cond = 'A'))
+      return(data.frame(Query = x, Result = full_name, Match = 'exact'))
     } else {
       infraspecies_name <-
         infras[which.min(adist(full_name, infras$scientificName)), 'scientificName'] |>
         as.character()
-      return(data.frame(Query = x, Result = infraspecies_name, Match = 'fuzzy', cond = 'b'))
+      return(data.frame(Query = x, Result = infraspecies_name, Match = 'fuzzy'))
     }
 
     # species can become difficult due to their short  names, e.g. 'Poa annua'
   } else {
 
     if (any(grep( x = sppLKPtab$scientificName, pattern = binom, fixed = T))) {
-      return(data.frame(Query = x, Result = x, Match = 'exact', cond = 'C'))
+      return(data.frame(Query = x, Result = x, Match = 'exact'))
     } else{
       # try and determine which piece is incorrect.
 
@@ -81,13 +81,13 @@ spell_check <- function(x, path) {
 
         if (any(grep(x = sppLKPtab$scientificName, pattern = search_nom, fixed = T))) {
 
-          return(data.frame(Query = x, Result = search_nom, Match = 'fuzzy', cond = 'D'))
+          return(data.frame(Query = x, Result = search_nom, Match = 'fuzzy'))
 
         } else{
           possible_binomial <-
             sppLKPtab[which.min(adist(search_nom, sppLKPtab$scientificName)), 'scientificName'] |>
               as.character()
-          return(data.frame(Query = x, Result = possible_binomial, Match = 'fuzzy', cond = 'E'))
+          return(data.frame(Query = x, Result = possible_binomial, Match = 'fuzzy'))
         }
       }
     }
