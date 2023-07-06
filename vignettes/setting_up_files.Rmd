@@ -65,26 +65,18 @@ However, both the genus and specific epithet tables are abbreviated. We find the
 
 ```{r prepare materials for taxonomy look up tables, eval = F}
 
+cla <- data.table::fread('../taxonomic_data_raw/WFO_Backbone/classification.txt', na.strings = "")
+
 sppLKPtab <- cla[, c('scientificName', 'specificEpithet', 'infraspecificEpithet', 'verbatimTaxonRank')]
-sppLKPtab <- filter(sppLKPtab, is.na(verbatimTaxonRank) | verbatimTaxonRank != "f.")
+sppLKPtab <- filter(sppLKPtab, is.na(verbatimTaxonRank) | verbatimTaxonRank != "f.") %>% 
+  mutate(Grp = str_extract(specificEpithet, '[a-z]{3}')) 
 
 genLKPtab <- unique(cla, by = 'genus')[taxonomicStatus == 'Accepted','genus'] %>% 
   arrange(genus) %>% 
   mutate(Grp = str_extract(genus, '[A-Z][a-z]{1}'))%>% 
   rename(strings = genus)
-sppLKPtab <- unique(cla, by = 'specificEpithet')[
-  taxonomicStatus == 'Accepted','specificEpithet'] %>% 
-  arrange(specificEpithet) %>% 
-  mutate(Grp = str_extract(specificEpithet, '[a-z]{3}')) %>% 
-  rename(strings = specificEpithet)
-epiLKPtab <- unique(cla, by = 'specificEpithet')[
-  taxonomicStatus == 'Accepted','specificEpithet'] %>% 
-  arrange(specificEpithet) %>% 
-  mutate(Grp = str_extract(specificEpithet, '[a-z]{3}')) %>% 
-  rename(strings = specificEpithet)
 
 write.csv(sppLKPtab, '/hdd/Barneby_Lives-dev/taxonomic_data/species_lookup_table.csv', row.names = F)
-write.csv(epiLKPtab, '/hdd/Barneby_Lives-dev/taxonomic_data/epithet_lookup_table.csv', row.names = F)
 write.csv(genLKPtab, '/hdd/Barneby_Lives-devs/taxonomic_data/genus_lookup_table.csv', row.names = F)
 
 rm(sppLKPtab, epiLKPtab, genLKPtab, cla)

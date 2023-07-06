@@ -14,7 +14,6 @@
 spell_check <- function(x, path) {
 
   sppLKPtab <- read.csv(file.path(path, 'species_lookup_table.csv'))
-  epiLKPtab <- read.csv(file.path(path, 'epithet_lookup_table.csv'))
   genLKPtab <- read.csv(file.path(path, 'genus_lookup_table.csv'))
 
   pieces <- unlist(stringr::str_split(x, pattern = " "))
@@ -23,27 +22,24 @@ spell_check <- function(x, path) {
 
   # infra species should be found without much hassle due to their length
   if(length(pieces) == 4){
-    infras <- na.omit(epiLKPtab)
+    infras <- na.omit(sppLKPtab)
     full_name <- paste(genus, species,
                        stringr::str_replace(pieces[3], 'ssp\\.|ssp', 'subsp.'), pieces[4])
 
     if (any(grep( x = infras$scientificName, pattern = full_name, fixed = T))) {
-      return(data.frame(Query = x, Result = full_name, Match = 'exact'))
+      return(data.frame(Query = x, Result = full_name, Match = 'exact', cond = 'A'))
     } else {
-
-      infras <- na.omit(epiLKPtab)
-      full_name <- paste(genus, species,
-                         stringr::str_replace(pieces[3], 'ssp\\.|ssp', 'subsp.'), pieces[4])
       infraspecies_name <-
-        infras[which.min(adist(full_name, infras$scientificName)), 'scientificName'] |> as.character()
-      return(data.frame(Query = x, Result = infraspecies_name, Match = 'fuzzy'))
+        infras[which.min(adist(full_name, infras$scientificName)), 'scientificName'] |>
+        as.character()
+      return(data.frame(Query = x, Result = infraspecies_name, Match = 'fuzzy', cond = 'b'))
     }
 
     # species can become difficult due to their short  names, e.g. 'Poa annua'
   } else {
 
     if (any(grep( x = sppLKPtab$scientificName, pattern = binom, fixed = T))) {
-      return(data.frame(Query = x, Result = x, Match = 'exact'))
+      return(data.frame(Query = x, Result = x, Match = 'exact', cond = 'C'))
     } else{
       # try and determine which piece is incorrect.
 
@@ -53,7 +49,7 @@ spell_check <- function(x, path) {
       gen_strings <-
         dplyr::filter(genLKPtab, Grp == genus2char) |> dplyr::pull(strings)
       spe_strings <-
-        dplyr::filter(sppLKPtab, Grp == species3char) |> dplyr::pull(strings)
+        dplyr::filter(sppLKPtab, Grp == species3char) |> dplyr::pull(scientificName)
 
       # check to see if both genus and species are clean
       if (any(grep(x = gen_strings, pattern = paste0('^', genus, '$')))) {
@@ -83,15 +79,15 @@ spell_check <- function(x, path) {
                    grep(combos, pattern = 'species'))]
         search_nom <- paste(unlist(mget(search_q)), collapse = " ")
 
-        if (any(grep(x = epiLKPtab$scientificName, pattern = search_nom, fixed = T))) {
+        if (any(grep(x = sppLKPtab$scientificName, pattern = search_nom, fixed = T))) {
 
-          return(data.frame(Query = x, Result = search_nom, Match = 'fuzzy'))
+          return(data.frame(Query = x, Result = search_nom, Match = 'fuzzy', cond = 'D'))
 
         } else{
           possible_binomial <-
-            epiLKPtab[which.min(adist(search_nom, epiLKPtab$scientificName)), 'scientificName'] |>
+            sppLKPtab[which.min(adist(search_nom, sppLKPtab$scientificName)), 'scientificName'] |>
               as.character()
-          return(data.frame(Query = x, Result = possible_binomial, Match = 'fuzzy'))
+          return(data.frame(Query = x, Result = possible_binomial, Match = 'fuzzy', cond = 'E'))
         }
       }
     }
