@@ -1,8 +1,8 @@
-#' Have google maps help you write directions to a site
+#' Have Google maps help you write directions to a site
 #'
 #' This function helps users write directions to a site which is somewhat near roads.
 #' @param x an sf/tibble/data frame of locations
-#' @param api_key a google developer api key for use with googleway
+#' @param api_key a Google developer api key for use with googleway
 #' @examples # see package vignette
 #' @export
 directions_grabber <- function(x, api_key){

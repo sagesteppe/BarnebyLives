@@ -2,14 +2,14 @@
 % Please edit documentation in R/directions_grabber.R
 \name{directions_grabber}
 \alias{directions_grabber}
-\title{Have google maps help you write directions to a site}
+\title{Have Google maps help you write directions to a site}
 \usage{
 directions_grabber(x, api_key)
 }
 \arguments{
 \item{x}{an sf/tibble/data frame of locations}
 
-\item{api_key}{a google developer api key for use with googleway}
+\item{api_key}{a Google developer api key for use with googleway}
 }
 \description{
 This function helps users write directions to a site which is somewhat near roads.

@@ -16,7 +16,6 @@ get_google_directions <- function(x, api_key){
   coords <- paste(coords$latitude_dd, coords$longitude_dd,  sep = ", ")
 
   # identify the ORIGIN
-
   x <- dplyr::bind_rows(x)
   origin <- google_towns[ sf::st_nearest_feature(x, google_towns), c('CITY', 'STATE')] |>
     sf::st_drop_geometry()
@@ -29,8 +28,7 @@ get_google_directions <- function(x, api_key){
 
   # rename output to reflect either ORIGIN-SITE_NAME, ORIGIN_DEST_COORDS
  # names(directions) <-
-    u <- paste0(x$Site_name, '-', origin)
-
-  return(u)
+#    u <- paste0(x$Site_name, '-', origin)
+  return(directions)
 }
 

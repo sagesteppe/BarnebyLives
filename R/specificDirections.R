@@ -43,10 +43,10 @@ specificDirections <- function(x){
 
   dist <- x[['routes']][['legs']][[1]][['steps']][[1]]$distance
   dist <- data.frame(
-    distance = dist$value,
+    distance = dist['value'],
     t_dist = sum(dist['value'] ),
     c_dist = cumsum(dist['value']) / sum(dist['value']) * 100,
-    dist_mi = round(dist$value * 0.000621371, 1)
+    dist_mi = round(dist['value'] * 0.000621371, 1)
   )
 
   if(nrow(dist) > 5 ){

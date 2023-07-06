@@ -10,18 +10,17 @@
 #'   longitude_dd = runif(15, min = -120, max = -100),
 #'   latitude_dd = runif(15, min = 35, max = 48)
 #' )
-#'
 #' coords_formatted <- dms2dd( coords )
 #' head(coords_formatted)
 #' colnames(coords_formatted)
-#' @param export
+#' @export
 dms2dd <- function(x, lat, long, dms){
 
   # identify columns if they were not supplied
   if(missing(lat)){
-    lat = colnames(x)[grep('lat', colnames(x))] }
+    lat = colnames(x)[grep('lat', colnames(x), ignore.case = T)] }
   if(missing(long)){
-    long = colnames(x)[grep('long', colnames(x))] }
+    long = colnames(x)[grep('long', colnames(x), ignore.case = T)] }
 
   # test for DMS format if not supplied
   suppressWarnings(  if(missing(dms)){
@@ -30,8 +29,8 @@ dms2dd <- function(x, lat, long, dms){
 
   # convert dms to dd, or rename input columns to dd
   if(dms == T){
-    x$latitude_dd = parzer::parse_lat(lat)
-    x$longitude_dd = parzer::pase_lon(long)
+    x$latitude_dd = parzer::parse_lat(x$lat)
+    x$longitude_dd = parzer::parse_lon(x$long)
   } else{
     colnames(x)[which(names(x) == lat)] <- 'latitude_dd'
     colnames(x)[which(names(x) == long)] <- 'longitude_dd'
@@ -40,17 +39,17 @@ dms2dd <- function(x, lat, long, dms){
   x$latitude_dd <- abs(x$latitude_dd)
   x$longitude_dd <- abs(x$longitude_dd) * -1
 
-  # now overwrite the original DMS values in our exact formaty
+  # now overwrite the original DMS values in our exact format
 
   x$latitude_dms = paste0(
-    'N ', parzer::pz_degree(x$latitude_dd),
-    '°', round(parzer::pz_minute(x$latitude_dd), 2),
+    'N ', format_degree(parzer::pz_degree(x$latitude_dd)),
+    round(parzer::pz_minute(x$latitude_dd), 2),
     "'", round(parzer::pz_second(x$latitude_dd), 0)
   )
 
   x$longitude_dms = paste0(
-    'W ', parzer::pz_degree(x$longitude_dd),
-    '°', round(parzer::pz_minute(x$longitude_dd), 2),
+    'W ', format_degree(parzer::pz_degree(x$longitude_dd)),
+    round(parzer::pz_minute(x$longitude_dd), 2),
     "'", round(parzer::pz_second(x$longitude_dd), 0)
   )
 
