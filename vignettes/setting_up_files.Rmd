@@ -455,12 +455,20 @@ sf::st_read('../geodata/places/places.shp', quiet = T) %>%
 
 # add files for templates
 
-```{r}
+```{r, eval = F}
 herbaria_info <- read.csv('/media/sagesteppe/ExternalHD/Barneby_Lives-dev/herbarium_data/index_herbariorum_info.csv')
 usethis::use_data(herbaria_info)
 ```
 
-```{r}
+```{r, eval = F}
 shipping_examples <- read.csv('/media/sagesteppe/ExternalHD/Barneby_Lives-dev/herbarium_data/shipping_examples.csv')
 usethis::use_data(shipping_examples)
 ```
+
+
+```{r, eval = F}
+project_examples <- 
+  read.csv('/media/sagesteppe/ExternalHD/Barneby_Lives-dev/herbarium_data/project.csv')
+usethis::use_data(project_examples)
+```
+
