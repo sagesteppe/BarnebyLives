@@ -1,0 +1,33 @@
+---
+title: "Transmittal Notice"
+output: pdf_document
+date: "`r Sys.Date()`"
+---
+![](SoS-logo.jpeg)
+
+```{r load data, echo = F, message = F, warning = F}
+herbaria <- read.csv()
+project <- read.csv()
+specimens <- read.csv()
+```
+
+
+Dear `r herbarium$name`
+
+We at `r project$organization` are transferring these materials to `r herbarium$name` to serve as vouchers for the `r project$name` project. 
+
+This package contains the following specimens and labels for them in a manilla envelope.
+
+```{r Specimen table, echo = F, message = F, warning = F}
+knitr::kable()
+```
+
+
+Thank you, we appreciate your assistance in this matter. 
+
+Sincerely,
+
+`r project$contact_person`, `r project$contact_phone`
+`r project$contact_email`
+
+![](CBG-logo.png)
