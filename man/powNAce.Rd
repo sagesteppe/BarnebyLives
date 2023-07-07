@@ -17,6 +17,7 @@ ideally making it easier for person to process there results and prepare
 there data for sharing via labels and digitally.
 }
 \examples{
+\dontrun{
 df <- data.frame(
  POW_Genus = c('Castilleja', 'Linnaea', 'Dimeresia'),
  POW_Epithet = c('pilosa', 'borealis', 'howellii'),
@@ -25,4 +26,5 @@ df <- data.frame(
  POW_Authority =  c('(S. Watson) Rydb.', '(J. Forbes) Rehder', 'A. Gray')
 )
 powNAce(df)
+}
 }

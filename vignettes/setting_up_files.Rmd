@@ -451,3 +451,12 @@ sf::st_read('../geodata/places/places.shp', quiet = T) %>%
   st_write(., '../geodata/places/places.shp', quiet = T, append = F)
 
 ```
+
+
+# add files for templates
+
+```{r}
+herbaria_info <- read.csv('/media/sagesteppe/ExternalHD/Barneby_Lives-dev/herbarium_data/index_herbariorum_info.csv')
+usethis::use_data(herbaria_info)
+```
+

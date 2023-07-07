@@ -2,7 +2,6 @@
 #'
 #' @description this function attempts to verify the spelling of a user submitted taxonomic name. If necessary it will proceed step-wise by name pieces attempting to place them.
 #' @param x data frame/ tibble /sf object containing names to spell check
-#' @param y a column in it containing a full scientific name
 #' @param path a path to a folder containing the taxonomic data.
 #' @examples
 #' \dontrun{

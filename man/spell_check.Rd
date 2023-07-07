@@ -10,8 +10,6 @@ spell_check(x, path)
 \item{x}{data frame/ tibble /sf object containing names to spell check}
 
 \item{path}{a path to a folder containing the taxonomic data.}
-
-\item{y}{a column in it containing a full scientific name}
 }
 \description{
 this function attempts to verify the spelling of a user submitted taxonomic name. If necessary it will proceed step-wise by name pieces attempting to place them.
