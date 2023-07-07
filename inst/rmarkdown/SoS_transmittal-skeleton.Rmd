@@ -1,33 +1,78 @@
 ---
 title: "Transmittal Notice"
 output: pdf_document
-date: "`r Sys.Date()`"
+date: "`r format(as.Date(Sys.Date()), '%B, %d, %Y')`"
+header-includes: 
+  - \usepackage{graphicx}
 ---
-![](SoS-logo.jpeg)
 
-```{r load data, echo = F, message = F, warning = F}
-herbaria <- read.csv()
-project <- read.csv()
-specimens <- read.csv()
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = F)
+knitr::opts_chunk$set(dpi = 300) 
+knitr::opts_chunk$set(message = F)
+knitr::opts_chunk$set(warning = F)
 ```
 
-
-Dear `r herbarium$name`
-
-We at `r project$organization` are transferring these materials to `r herbarium$name` to serve as vouchers for the `r project$name` project. 
-
-This package contains the following specimens and labels for them in a manilla envelope.
-
-```{r Specimen table, echo = F, message = F, warning = F}
-knitr::kable()
+```{r import images}
+sos_logo <- "SoS-logo.jpeg"
+cbg_logo <- "CBG-logo.png"
 ```
 
+\begin{figure}
+  \raggedright
+  \begin{minipage}{1.5cm}
+  \includegraphics[width = 1.5cm]{sos_logo}
+  \end{minipage}
+\end{figure}
 
-Thank you, we appreciate your assistance in this matter. 
+```{r user defined settings}
+herbarium_code <- 'US'
+project_code <- 'SOS'
+p2d_proj <- ''
+p2d_spec <- ''
+```
+
+```{r load data}
+herbarium <- IH_info |> 
+  dplyr::filter(Abbrevation == herbarium_code)
+
+project <- read.csv(p2d_proj) |> 
+  filter(Project == project_code)
+
+specimens <- read.csv(p2d_spec) |>
+  dplyr::mutate(Coll = paste(Primary_Collector, Collection_number)) |>
+  dplyr::select(Taxon = Coll, Collection = Full_name) 
+```
+
+Dear `r herbarium$Contact`
+
+We at `r project$Organization` are transferring these materials to `r herbarium$Name` to serve as vouchers for the `r project$Name` project. 
+
+This package contains the specimens noted on the next page, and labels for them in a manila envelope.
+
+Thank you, we appreciate your assistance in this matter. Please do not hesitate to reach out to me with any questions. 
 
 Sincerely,
 
-`r project$contact_person`, `r project$contact_phone`
-`r project$contact_email`
+`r project$Person`, 
+`r project$Phone`
+`r project$Email`
 
-![](CBG-logo.png)
+\begin{figure}
+  \raggedleft
+  \begin{minipage}{2.5cm}
+  \includegraphics[width = 2.5cm]{cbg_logo}
+  \end{minipage}
+\end{figure}
+
+\newpage
+
+```{r Specimen table}
+knitr::kable(specimens) |>
+  kable_styling(latex_options = c("hold_position", "repeat_header"))
+```
+
+```{r clean environment}
+rm(herbarium_code, project_code, herbarium, project, specimens)
+```
+
