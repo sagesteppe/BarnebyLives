@@ -26,14 +26,14 @@ cbg_logo <- "CBG-logo.png"
 \end{figure}
 
 ```{r user defined settings}
-herbarium_code <- 'US'
-project_code <- 'SOS'
+herbarium_code <- ''
+project_code <- ''
 p2d_proj <- ''
 p2d_spec <- ''
 ```
 
 ```{r load data}
-herbarium <- IH_info |> 
+herbarium <- herbaria_info |> 
   dplyr::filter(Abbrevation == herbarium_code)
 
 project <- read.csv(p2d_proj) |> 
