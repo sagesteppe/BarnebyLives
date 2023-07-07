@@ -1,27 +1,26 @@
 ---
 title: "Transmittal Notice"
 output: pdf_document
-date: "`r format(as.Date(Sys.Date()), '%B, %d, %Y')`"
+date: "`r format(as.Date(Sys.Date()), '%B %d, %Y')`"
 header-includes: 
   - \usepackage{wrapfig}
   - \usepackage{graphicx}
-  - \usepackage{setspace}
 ---
 
-\fontsize{14pt}{10pt}\selectfont
+\fontsize{14pt}{16pt}\selectfont
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = F)
+knitr::opts_chunk$set(echo = FALSE)
 knitr::opts_chunk$set(dpi = 300) 
-knitr::opts_chunk$set(message = F)
-knitr::opts_chunk$set(warning = F)
+knitr::opts_chunk$set(message = FALSE)
+knitr::opts_chunk$set(warning = FALSE)
 ```
 
 ```{r}
 library(BarnebyLives)
 ```
 
-\vspace{2cm} 
+\vspace{1cm} 
 
 ```{r user defined settings}
 herbarium_code <- ''
@@ -35,7 +34,7 @@ herbarium <- herbaria_info |>
 project <- project_examples |> 
   dplyr::filter(Project == project_code)
 
-specimens <- shipping_examples |>
+specimens <- collection_examples |>
   dplyr::mutate(Coll = paste(Primary_Collector, Collection_number)) |>
   dplyr::select(Collection = Coll, Taxon = Full_name) 
 ```
@@ -44,11 +43,15 @@ Dear `r herbarium$Contact`,
 
 \vspace{1cm} 
 
-We at `r project$Organization` are transferring these materials to `r herbarium$Abbreviation` to serve as vouchers for the `r project$Name` native seed conservation and developement project. 
+We at `r project$Organization` are transferring these materials to `r herbarium$Abbreviation` to serve as vouchers for the `r project$Name` native seed conservation and development project. 
 
 \vspace{1cm} 
 
-This package contains the specimens noted on the following page, and labels for them in a manila envelope. Every specimen in here is intended to represent a single set. These materials were collected under the auspices of the US Department of Interiors Bureau of Land Management, unless noted otherwise.
+This package contains the specimens noted on the following page, and labels for them in a manila envelope. The material in here is intended to represent a single set from collections made in quadruplicate. These materials were collected under the auspices of the US Department of Interiors Bureau of Land Management, unless noted otherwise.
+
+\vspace{1cm} 
+
+If you are interested, we are able to share digital copies of relevant collection data to ease digitization endeavors.
 
 \vspace{1cm} 
 
@@ -64,6 +67,7 @@ Thank you, we appreciate both your and your staffs assistance in this matter. Pl
 Sincerely,
 
 \vspace{0.5cm} 
+\fontsize{14pt}{14pt}\selectfont
 
 `r project$Person`   
 
@@ -75,8 +79,9 @@ Sincerely,
 
 \renewcommand{\arraystretch}{2}
 ```{r Specimen table}
-knitr::kable(specimens, longtable = T, booktabs = F) |>
-  kableExtra::kable_styling(latex_options = c("hold_position", "repeat_header")) 
+knitr::kable(specimens, longtable = TRUE, booktabs = FALSE) |>
+  kableExtra::kable_styling(latex_options = c("hold_position", "repeat_header")) |>
+  kableExtra::row_spec(0, bold = TRUE)
 ```
 
 ```{r clean environment}

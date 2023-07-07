@@ -1,0 +1,33 @@
+---
+output: pdf_document
+header-includes: 
+  - \usepackage{graphicx}
+  - \usepackage[a4paper, total={4in, 4in}]{geometry}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(dpi = 300) 
+knitr::opts_chunk$set(message = FALSE)
+knitr::opts_chunk$set(warning = FALSE)
+```
+
+```{r load library}
+library(BarnebyLives)
+```
+
+```{r load data}
+collection_examples
+```
+
+`r data$Family`
+*`r paste(data$Genus, data$Epithet)`* `r data$Binomial_authority` `r data$Infrarank` *`r data$Infraspecies`* `r data$Infraspecific_author` 
+
+`r data$latitude_dd` `r data$longitude_dd` `r data$Gen` `r data$Site` 
+
+`r data$Physical_environ`. `r data$Habitat` `r data$Vegetation`. Ass.: `r data$Associates`
+
+`r data$Primary_collection` `r data$Collection_number`,  `r data$Associated_collectors`  
+`r data$Date_digital_text` 
+
+Fide: `r data$Fide`, by `r data$Determined_by`, on `r data$Determined_date`
