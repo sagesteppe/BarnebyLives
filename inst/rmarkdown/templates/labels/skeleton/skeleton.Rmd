@@ -1,10 +1,9 @@
 ---
 output: pdf_document
-geometry: paperheight=4in,paperwidth=4in
-header_includes:
+geometry: paperheight=4in,paperwidth=4in,margin=0.1in
+header-includes:
   - \pagenumbering{gobble}
 ---
-
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 knitr::opts_chunk$set(dpi = 300) 
@@ -17,17 +16,30 @@ library(BarnebyLives)
 ```
 
 ```{r load data}
-collection_examples
+data <- collection_examples
+writer <- function(x){if (is.na(x)){""} else {x}}
+writer_ital <- function(x){if (is.na(x)){""} else {paste0('*', x, '*')}}
 ```
 
-`r data$Family`
-*`r paste(data$Genus, data$Epithet)`* `r data$Binomial_authority` `r data$Infrarank` *`r data$Infraspecies`* `r data$Infraspecific_author` 
+\fontsize{14pt}{14pt}
+\begin{center}
+\textbf{Seeds of Success}
+\end{center}
+\fontsize{12pt}{12pt}
+`r data$Family`  
+*`r paste(data$Genus, data$Epithet)`* `r data$Binomial_authority` `r writer(data$Infrarank)` `r writer_ital(data$Infraspecies)` `r data$Infraspecific_author` 
 
-`r data$latitude_dd` `r data$longitude_dd` `r data$Gen` `r data$Site` 
+\vspace*{\fill}
+\fontsize{10pt}{10pt}
+`r data$latitude_dd` `r data$longitude_dd`. `r data$Gen`. `r writer(data$Site)` 
 
-`r data$Physical_environ`. `r data$Habitat` `r data$Vegetation`. Ass.: `r data$Associates`
+`r data$physical_environ` `r data$Habitat`.  
+Veg.: `r species_font(data$Vegetation)`. Ass.: `r species_font(data$Associates)`
 
-`r data$Primary_collection` `r data$Collection_number`,  `r data$Associated_collectors`  
+\vspace*{\fill}
+\fontsize{12pt}{12pt}
+
+`r data$Primary_Collector` `r data$Collection_number`,  `r writer(data$Associated_Collectors)`  
 `r data$Date_digital_text` 
 
-Fide: `r data$Fide`, by `r data$Determined_by`, on `r data$Determined_date`
+`r writer_fide(data$Fide)`

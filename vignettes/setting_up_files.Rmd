@@ -463,7 +463,7 @@ usethis::use_data(herbaria_info)
 ```{r, eval = F}
 collection_examples <- read.csv('/media/sagesteppe/ExternalHD/Barneby_Lives-dev/herbarium_data/shipping_examples.csv')
 collection_examples[collection_examples==""] <- NA
-usethis::use_data(collection_examples)
+usethis::use_data(collection_examples, overwrite = TRUE)
 ```
 
 
