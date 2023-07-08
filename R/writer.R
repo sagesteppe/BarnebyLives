@@ -8,6 +8,7 @@
 #' writer(collection_examples[9, 'Infraspecies'], italics = TRUE )
 #' @export
 writer <- function(x, italics){
+  x[x==""] <- NA
   if(missing(italics)){italics <- FALSE}
   if (is.na(x)){""} else if(italics == FALSE){x} else (paste0('*', x, '*'))
   }

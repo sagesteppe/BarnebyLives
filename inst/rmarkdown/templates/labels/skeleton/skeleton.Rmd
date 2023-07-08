@@ -17,7 +17,6 @@ library(BarnebyLives)
 ```
 
 ```{r load data}
-label_info <- read.csv("shipping_examples.csv", stringsAsFactors = FALSE)
 data <- label_info[i,]
 ```
 
