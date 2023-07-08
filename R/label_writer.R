@@ -15,16 +15,14 @@ label_writer <- function(x, outdir) {
   if (!dir.exists(outdir)){ dir.create(outdir) }
 
 	label_info <- read.csv(file = x) |>
-	  dplyr::mutate(UNIQUEID = paste0(x$Primary_Collector, data$Collection_number))
+	  dplyr::mutate(UNIQUEID = paste0(.$Primary_Collector, .$Collection_number))
 
 	for (i in 1:nrow(label_info)){
   	rmarkdown::render(
-  	  input = "BarnebyLives/inst/rmarkdown/templates/skeleton.Rmd",
+  	  input = "Labels-skeleton.Rmd",
     	output_format = "pdf_document",
     	output_file = paste0(i$UNIQUEID, ".pdf"),
     	output_dir = outdir)
 	}
 }
-
-
 

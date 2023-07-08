@@ -16,9 +16,7 @@ library(BarnebyLives)
 ```
 
 ```{r load data}
-data <- collection_examples
-writer <- function(x){if (is.na(x)){""} else {x}}
-writer_ital <- function(x){if (is.na(x)){""} else {paste0('*', x, '*')}}
+data <- collection_examples[i]
 ```
 
 \fontsize{14pt}{14pt}
@@ -27,7 +25,7 @@ writer_ital <- function(x){if (is.na(x)){""} else {paste0('*', x, '*')}}
 \end{center}
 \fontsize{12pt}{12pt}
 `r data$Family`  
-*`r paste(data$Genus, data$Epithet)`* `r data$Binomial_authority` `r writer(data$Infrarank)` `r writer_ital(data$Infraspecies)` `r data$Infraspecific_author` 
+`r writer(paste(data$Genus, data$Epithet), italics = TRUE)` `r data$Binomial_authority` `r writer(data$Infrarank)` `r writer(data$Infraspecies, italics = TRUE)` `r data$Infraspecific_author` 
 
 \vspace*{\fill}
 \fontsize{10pt}{10pt}
@@ -42,4 +40,4 @@ Veg.: `r species_font(data$Vegetation)`. Ass.: `r species_font(data$Associates)`
 `r data$Primary_Collector` `r data$Collection_number`,  `r writer(data$Associated_Collectors)`  
 `r data$Date_digital_text` 
 
-`r writer_fide(data$Fide)`
+`r writer_fide(data)`
