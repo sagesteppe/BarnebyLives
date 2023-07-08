@@ -15,7 +15,7 @@ label_writer <- function(x, outdir) {
   if (!dir.exists(outdir)){ dir.create(outdir) }
 
 	label_info <- read.csv(file = x) |>
-	  dplyr::mutate(UNIQUEID = paste0(.$Primary_Collector, .$Collection_number))
+	  dplyr::mutate(UNIQUEID = paste0(Primary_Collector, Collection_number))
 
 	for (i in 1:nrow(label_info)){
   	rmarkdown::render(
@@ -25,4 +25,5 @@ label_writer <- function(x, outdir) {
     	output_dir = outdir)
 	}
 }
+
 
