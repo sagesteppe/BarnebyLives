@@ -7,20 +7,60 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+The purpose of this script is to assist Botanical Collectors in accessioning their collections. 
+
+It is our lived experience that many herbaria now request digital copies of collection information in there own format. This script aims to alleviate the investment in time this requires, and in doing so allow the collector more time to do less onerous tasks; such as collection and study. 
+
+While in theory all of the tasks in this script could be automated, doing so would be an unconscionable action against local taxonomic authorities. While several database options for updating collections (and spell checking names) which are current and well curated (e.g. Kew Plants of the World) exist, we feel many proposals and combinations require interpretation by those in the regions attempting to understand the material at hand. 
+
+This script will perform the following tasks:
+
+**Geographic:**
+
+**1)** Convert coordinates to a Decimal Degrees format, if needed (e.g. from DMS 72*17.55 -> 72.29861). 
+**2)** Retrieve appropriate political place names. (i.e. State, County).
+**3)** Retrieve accurate elevation values of coordinates.
+**4)** Retrieve Public Land Ownership (e.g. United States Forest Service, Bureau of Land Management).
+**5)** Project coordinates from one system to another, if needed (e.g. from an UTM zone to WGS84).
+**6)** Retrieve Cadastral data from the PLSS for Township, Range, Section (TRS)
+
+**Temporal:**
+
+**1)** Provide a 'written' date in the style of choosing. (e.g. May 12th 2021 OR 12th May 2021), for the purpose of labelling.
+
+**Taxonomic:**
+
+**1)** Provide a 'spell check' for family. 
+**2)** Provide a 'spell check' for genus. 
+**3)** Provide a 'spell check' for epithet.
+**4)** Provide a 'spell check' for authorities. 
+**5)** In addition you may check for synonymy at each of these taxonomic levels, and accept or reject suggestions. 
+
+**Directions:**
+
+I preface this with the anecdote that a good deal of collectors and curators consider these data non-essential now. Regardless, if you are so inclined to gain access to a free google maps account these services are provided. 
+
+**1)** Write directions, from a town of notable size or repute, to the closet parking spot to the collection locality.
+
+Note that these directions may not reflect the actual route traveled. *Caveat emptor.*
+
+
+We would like to acknowledge the following developers of the libraries, and databases, which this script utilizes. As is everything under the sun, nothing here is new and none of this is novel, it is merely the regurgitated contents from the fingertips and intellect of others. 
+
+Of final note, this script is named for the late and great Rupert Charles Barneby, and by no small means is a dig at certain attributes of the fictional 'Hayduke'. 
+
+Files required to use this script:
+
+- PAD-US database for retrieving land ownership information if needed (*note does not include identities of Private owners*). 
+- World Flora Online static copy of the database.
+
+In order to not bog people's computers down with opening and storing many large files we make use of downloading items into R repeatedly.
+
 ```{r setup}
+# devtools::install_github('sagesteppe/BarnebyLives')
 library(tidyverse)
 library(BarnebyLives)
-# devtools::install_github('sagesteppe/BarnebyLives')
 ```
-
-
-## load data into R
-
-### load data from a local (on computer) source
-
-Most users may 
-
-### load data through google sheets
 
 An alternative format for loading data is through Google Sheets. 
 This can facilitate data-sharing and standardization by many collectors in different locations. 
@@ -139,56 +179,7 @@ This check operates under a similar manner to **spell_check()**.
 The list which is consults *is* comprehensive, within a few years, of all taxonomists whom have published plant species. 
 
 ```{r check spelling of author, eval = F}
-
-# we want to introduce a single space after the final given name letter of
-# an author abbreviation and the surname. In order to do these, we must 
-# be sure that the surname is not abbreviated. The true regex which is required
-# to do this is somewhat difficult, and we will hack it with a 'trailed' variable
-
-apdc_bag <- c('A.DeCandolle', 'A.P.DeCandolle',  
-              'A.P.Y.DeCandolle', 'A.P.DeCandolle.')
-
-trailed <- vector(mode = 'character', length = length(apdc_bag))
-trailed[grep('\\.$', apdc_bag)] <- '.'
- # identify which abbreviations have a trailing period
-
-apdc_bag_NTRAIL <- sub('\\.$', '', apdc_bag) # remove the trailing periods
-apdc_bag_NTRAIL <- sub('\\.(?!.*\\.)', ". ", 
-    apdc_bag_NTRAIL, perl = T) # identify the last period in the name, and add a space after it
-
-paste0(apdc_bag_NTRAIL, trailed)
-
-
-
-# when processing we need to perform a few steps
-
-# identify each individual author '()', '&'
-
-words <- c('(Pursh) J.M. Coult. & Rose')
-pieces <- strsplit(words, split = '\\) | & ')
-pieces <- sub('\\(', "", unlist(pieces))
-
-# to each author abbreviation ensure to match from start ('^') to end ($) of string.
-pieces
-
-# identify pieces which are not in the look up list.
-L <- length(pieces)
-matched <- vector(mode = 'logical', length = L)
-for(i in 1:L){
- if(length (grep("^J.M. Coult.$", pieces[i]) ) == 1) {
-   matched[i] <- TRUE
-   } else {
-    matched[i] <- FALSE
-    }
-}
-
-# create column 'Issues'; to flag specific names
-if(any(matched == FALSE)) {
-  Issues <- paste(pieces[which(matched == FALSE)], '-? ', collapse = '')
-  } else {
-    Issues <- 'None'
-}
-
+data <- author_check(data, path = p)
 ```
 
 After BarnebyLives! has verified the spelling of the species it will submit it to Plants of the World Online to determine whether a more current and accepted name has been applied. 
@@ -201,9 +192,12 @@ Searches for synonym to species
 names <- sf::st_drop_geometry(data) %>% 
   pull(Full_name)
 
-dat_out <- lapply(names,
-      powo_searcher)
-pow_res <- bind_rows(dat_out)
+pow_res <- lapply(names,
+      powo_searcher) %>% 
+  bind_rows()
+data <- bind_cols(data, pow_res)
+
+rm(names, pow_res)
 ```
 
 The final process in the taxonomic step is to ensure that the spellings of any species noted in the *vegetation*, or *associates* fields are accurate. These *will not* then be submitted to Kew, as the fields could quickly overwhelm the API. 
@@ -227,16 +221,25 @@ directions <- directions_grabber(data, api_key = SoS_gkey)
 
 ## Export collections
 
-We will write these data to google sheets for our examples. 
+We will write these data to Google sheets for our examples. 
 
 ```{r write out data to googlesheets4}
 
-df <- sf::st_drop_geometry(directions)
-# we will add these data onto our final sheet.  THIS IS THE LAST STEP OF THIS TUTORIAL
+# first ensure the columns are in the same order as google sheets
+
+processed <- read_sheet('1iOQBNeGqRJ3yhA-Sujas3xZ2Aw5rFkktUKv3N_e4o8M',
+                        sheet = 'Processed - Examples') %>% 
+  colnames() 
+
+df <- sf::st_drop_geometry(directions) %>% 
+  select(all_of(processed))
+# we will add these data onto our final sheet.
 sheet_append('1iOQBNeGqRJ3yhA-Sujas3xZ2Aw5rFkktUKv3N_e4o8M', 
              sheet = 'Processed - Examples', data = df) 
 
 ```
+
+
 We can also export collections as either (or both!) a 'shapefile' or KML for use in GIS or GoogleEarth.
 
 ```{r write out collections in a spatial data format}

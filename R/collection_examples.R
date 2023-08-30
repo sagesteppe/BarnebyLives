@@ -1,6 +1,6 @@
 #' collection_examples
 #'
-#' This is a small data frame of species information for use with the shipping/transferral notes
+#' This is a small data frame of species information for use with the shipping/transferal notes
 #' as well as with the label makers.
 #'
 #' this data frame is derived from collections in 2023, which have been cleaned with the
