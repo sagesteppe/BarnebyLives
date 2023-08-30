@@ -10,6 +10,7 @@ vignette: >
 ```{r setup}
 library(tidyverse)
 library(BarnebyLives)
+# devtools::install_github('sagesteppe/BarnebyLives')
 ```
 
 
@@ -196,7 +197,13 @@ Especially as it is possible that **spell_check** has mis-matched your material 
 
 Searches for synonym to species
 ```{r Search for synonyms to species, eval = F}
-dat_out <- powo_seacher(data)
+
+names <- sf::st_drop_geometry(data) %>% 
+  pull(Full_name)
+
+dat_out <- lapply(names,
+      powo_searcher)
+pow_res <- bind_rows(dat_out)
 ```
 
 The final process in the taxonomic step is to ensure that the spellings of any species noted in the *vegetation*, or *associates* fields are accurate. These *will not* then be submitted to Kew, as the fields could quickly overwhelm the API. 
@@ -214,20 +221,23 @@ This will require interactive alterations from the user.
 ```{r site directions, eval = F}
 SoS_gkey = Sys.getenv("Sos_gkey")
 
-directions2site <- directions_grabber(data, api_key = SoS_gkey)
+directions <- directions_grabber(data, api_key = SoS_gkey)
 ```
 
 
-## Export collections as 'shapefile' or KML for use in GIS or GoogleEarth
+## Export collections
+
+We will write these data to google sheets for our examples. 
 
 ```{r write out data to googlesheets4}
-usethis::edit_r_environ()
+
+df <- sf::st_drop_geometry(directions)
 # we will add these data onto our final sheet.  THIS IS THE LAST STEP OF THIS TUTORIAL
 sheet_append('1iOQBNeGqRJ3yhA-Sujas3xZ2Aw5rFkktUKv3N_e4o8M', 
              sheet = 'Processed - Examples', data = df) 
 
 ```
-
+We can also export collections as either (or both!) a 'shapefile' or KML for use in GIS or GoogleEarth.
 
 ```{r write out collections in a spatial data format}
 

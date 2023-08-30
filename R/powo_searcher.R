@@ -14,7 +14,7 @@
 #' @export
 powo_searcher <- function(x){
 
-
+  x <- trimws(gsub("\\s+", " ", x))
   query_results <- kewr::search_powo(x)
 
   if (is.null(query_results[["results"]])) {

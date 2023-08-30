@@ -26,7 +26,6 @@ coords2sf <- function(x, datum){
     x <- x[-remove,]
     cat('Error with row(s): ', remove,
         ' continuing without.')
-    return(x)
   }
   rm(r, lat, long, remove)
 
