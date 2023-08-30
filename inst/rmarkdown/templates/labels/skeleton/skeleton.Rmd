@@ -5,8 +5,8 @@ params:
 geometry: paperheight=4in,paperwidth=4in,margin=0.1in
 header-includes:
   - \pagenumbering{gobble}
+  - \usepackage{setspace}
 ---
-\usepackage{setspace}
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
