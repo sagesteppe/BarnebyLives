@@ -18,6 +18,7 @@ setwd('~/Documents')
 dir.create('HerbariumLabels')
 ```
 
+You can use a purrr function, walk, to write many labels one after another in the following fashion. Be sure to specify reasonable paths to write to. 
 
 ```{r run labels}
 
