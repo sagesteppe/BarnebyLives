@@ -8,22 +8,25 @@ vignette: >
 ---
 
 ```{r  load libraries and import data}
+# devtools::install_github('sagesteppe/BarnebyLives')
 library(BarnebyLives)
 data('collection_examples')
 ```
 
 ```{r move to a working directory and create a place to hold labels}
-
 setwd('~/Documents')
 dir.create('HerbariumLabels')
 ```
 
 
-```{r}
+```{r run labels}
+
+setwd('~/Documents/HerbariumLabels')
 
 p2libs <- .libPaths()[ 
   grepl(paste0(version$major, '.', sub('\\..*', "", version$minor)), 
       .libPaths())]
+
 folds <- c('BarnebyLives/rmarkdown/templates/labels/skeleton/skeleton.Rmd')
 
 purrr::walk(
