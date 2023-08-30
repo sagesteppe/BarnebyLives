@@ -21,7 +21,7 @@ dir.create('HerbariumLabels')
 
 ```{r run labels}
 
-setwd('~/Documents/HerbariumLabels')
+p <- '~/Documents/HerbariumLabels'
 
 p2libs <- .libPaths()[ 
   grepl(paste0(version$major, '.', sub('\\..*', "", version$minor)), 
@@ -33,7 +33,7 @@ purrr::walk(
   .x = collection_examples$Collection_number,
   ~ rmarkdown::render(
     input = file.path( p2libs, folds),
-    output_file = glue::glue("{.x}.pdf"),
+    output_file = file.path(p, glue::glue("{.x}.pdf")),
     params = list(fullname = {.x})
   )
 )
