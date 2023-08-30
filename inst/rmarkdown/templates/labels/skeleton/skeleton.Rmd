@@ -1,6 +1,7 @@
 ---
 output: pdf_document
-params: '`r pararms$Collection_number`'
+params:
+  Collection_number: Collection_number
 geometry: paperheight=4in,paperwidth=4in,margin=0.1in
 header-includes:
   - \pagenumbering{gobble}
