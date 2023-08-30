@@ -56,3 +56,7 @@ data <- collection_examples |>
 `r data$Date_digital_text` 
 `r writer_fide(data)` 
 \endgroup
+
+\begin{center}
+{\small Collected under the auspices of the U.S. Bureau of Land Management}
+\end{center}
