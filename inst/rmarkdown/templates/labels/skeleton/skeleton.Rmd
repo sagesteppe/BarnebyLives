@@ -1,5 +1,6 @@
 ---
 output: pdf_document
+params: `r pararms$Collection_number`
 geometry: paperheight=4in,paperwidth=4in,margin=0.1in
 header-includes:
   - \pagenumbering{gobble}
@@ -17,7 +18,9 @@ library(BarnebyLives)
 ```
 
 ```{r load data}
-data <- collection_examples
+data <- collection_examples |>
+  dplyr::filter(Collection_number == params$Collection_number) %>% 
+  sf::st_drop_geometry()
 ```
 
 \fontsize{14pt}{14pt}\selectfont

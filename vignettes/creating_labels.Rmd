@@ -38,6 +38,5 @@ purrr::walk(
   )
 )
 
-file.path( p2libs, 'BarnebyLives', 'rmarkdown', 'labels' )
 ```
 
