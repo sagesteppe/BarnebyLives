@@ -46,7 +46,7 @@ data <- collection_examples |>
 \endgroup
 \begingroup
 \begin{spacing}{0.1}
-{\tiny `r data$Directions_BL`}
+{\scriptsize `r data$Directions_BL`}
 \end{spacing}
 \endgroup
  
@@ -58,5 +58,5 @@ data <- collection_examples |>
 \endgroup
 
 \begin{center}
-{\small Collected under the auspices of the U.S. Bureau of Land Management}
+{\footnotesize Collected under the auspices of the Bureau of Land Management}
 \end{center}
