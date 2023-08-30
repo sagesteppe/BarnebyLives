@@ -40,8 +40,9 @@ data <- collection_examples |>
 `r data$latitude_dd` `r data$longitude_dd` (`r data$Datum`). `r data$Gen`. `r writer(data$Site)`   
 
 `r data$physical_environ` `r data$Habitat`.   
-
+\begin{spacing}{0.3}
 \small Veg.: `r species_font(data$Vegetation)`. Ass.: `r species_font(data$Associates)`
+\end{spacing}
 `r writer(data$Notes)`  
 \endgroup
 \begingroup
@@ -52,7 +53,7 @@ data <- collection_examples |>
  
 \vspace*{\fill}
 \begingroup
-`r data$Primary_Collector` `r data$Collection_number` `r writer(data$Associated_Collectors)`
+`r data$Primary_Collector` `r data$Collection_number` `r writer(data$Associated_Collectors)`.
 `r data$Date_digital_text` `r writer_fide(data)`
 \endgroup
 
