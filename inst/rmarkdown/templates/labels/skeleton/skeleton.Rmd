@@ -25,11 +25,12 @@ data <- collection_examples |>
   sf::st_drop_geometry()
 ```
 
+\fontsize{14pt}{14pt}\selectfont
 \begin{center}
-\textbf{\LARGE{Seeds of Success}}
+\textbf{Seeds of Success}
 \end{center}
 \begingroup
-\normalsize
+\fontsize{12pt}{12pt}\selectfont
 `r data$Family`  
 `r writer(paste(data$Genus, data$Epithet), italics = TRUE)` `r data$Binomial_authority` `r writer(data$Infrarank)` `r writer(data$Infraspecies, italics = TRUE)` `r writer(data$Infraspecific_authority)`   
 \endgroup
@@ -46,14 +47,13 @@ data <- collection_examples |>
 \endgroup
 \begingroup
 \begin{spacing}{0.1}
-{\smallest `r data$Directions_BL` }
+{\small `r data$Directions_BL`}
 \end{spacing}
 \endgroup
  
 \vspace*{\fill}
 \begingroup
-\fontsize{10pt}{10pt}\selectfont
-`r data$Primary_Collector` `r data$Collection_number`  `r writer(data$Associated_Collectors)`  
-`r data$Date_digital_text`  
+{\normalsize `r data$Primary_Collector` `r data$Collection_number`  `r writer(data$Associated_Collectors)`  
+`r data$Date_digital_text`}  
 `r writer_fide(data)` 
 \endgroup
