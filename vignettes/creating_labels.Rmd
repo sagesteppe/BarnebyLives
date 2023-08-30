@@ -33,7 +33,7 @@ purrr::walk(
   .x = collection_examples$Collection_number,
   ~ rmarkdown::render(
     input = file.path( p2libs, folds),
-    output_file = glue::glue(".pdf"),
+    output_file = glue::glue("{.x}.pdf"),
     params = list(fullname = {.x})
   )
 )
