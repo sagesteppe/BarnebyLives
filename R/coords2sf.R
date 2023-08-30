@@ -17,6 +17,19 @@
 #' @export
 coords2sf <- function(x, datum){
 
+  # first verify that the points have coordinates.
+  r <- sapply( x[c('latitude_dd', 'longitude_dd' )], is.na)
+  lat <- which(r[,1] == TRUE); long <- which(r[,2] == TRUE)
+  remove <- unique(c(lat, long))
+
+  if(length(remove) > 0) {
+    x <- x[-remove,]
+    cat('Error with row(s): ', remove,
+        ' continuing without.')
+    return(x)
+  }
+  rm(r, lat, long, remove)
+
   if(missing(datum)){ # identify datum information
     if(length(colnames(x)[grep('datum', colnames(x), ignore.case = T)]) == 1){
       datum_name = colnames(x)[grep('datum', colnames(x), ignore.case = T)] } else {

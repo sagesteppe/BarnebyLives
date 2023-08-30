@@ -36,7 +36,7 @@ This function makes non-interactive use easy, it is only used here because the v
 library(googlesheets4)
 googledrive::drive_auth("reedbenkendorf27@gmail.com")
 # read in data from the sheet to process
-input <- read_sheet('1iOQBNeGqRJ3yhA-Sujas3xZ2Aw5rFkktUKv3N_e4o8M', 
+df <- read_sheet('1iOQBNeGqRJ3yhA-Sujas3xZ2Aw5rFkktUKv3N_e4o8M', 
                     sheet = 'Data Entry - Examples') %>% 
   mutate(UNIQUEID = paste0(Primary_Collector, Collection_number))
 
@@ -51,15 +51,15 @@ BarnebyLives takes a little bit of time to run, but it also requires the usage o
 
 # determine whether these data have already been processed by the script, using
 # a unique combination of collection name and collection code. 
-read_sheet('1iOQBNeGqRJ3yhA-Sujas3xZ2Aw5rFkktUKv3N_e4o8M',
+processed <- read_sheet('1iOQBNeGqRJ3yhA-Sujas3xZ2Aw5rFkktUKv3N_e4o8M',
                         sheet = 'Processed - Examples') %>% 
   select(Collection_number, Primary_Collector) %>% 
   mutate(UNIQUEID = paste0(Primary_Collector, Collection_number))
 
-df <- filter(input, ! UNIQUEID %in% processed$UNIQUEID ) %>% 
+input <- filter(df, ! UNIQUEID %in% processed$UNIQUEID ) %>% 
   select(-UNIQUEID)
 
-rm(processed, input)
+rm(processed, df)
 ```
 
 
@@ -88,10 +88,8 @@ dplyr::select(data, starts_with(c('latitude', 'longitude'))) %>%
 For internal usage and data acquisition we will make data set explicitly spatial, rather than just holding coordinates in a column. 
 This is also required to write out data in a format readable by Google Earth or another Geographic Information System. 
 
-```{r}
-
+```{r Make dataset explicitly spatial}
 data <- coords2sf(data)
-
 head(data) # now we can see that it is an sf object
 ```
 
@@ -104,14 +102,16 @@ If either the United States Forest Service or Bureau of Land Management does man
 
 Retrieve State, County, Ownership, TRS, and allotment information
 ```{r Retrieve Political, eval = F}
-political_grabber(data, path = '/hdd/Barneby_Lives-dev/geodata')
+p <- '/media/steppe/hdd/Barneby_Lives-dev/geodata'
+
+data <- political_grabber(data, y = 'Collection_number', path = p)
 ```
 
 ## Geographic
 
 Retrieve Nearest GNIS place name, and azimuth from it
 ```{r Retrieve Place and location from it, eval = F}
-data <- site_writer(data, path = '/hdd/Barneby_Lives-dev/geodata')
+data <- site_writer(data, path = p)
 ```
 
 ## Site characteristics
@@ -119,11 +119,8 @@ data <- site_writer(data, path = '/hdd/Barneby_Lives-dev/geodata')
 Elevation (both meters and feet), Slope, Aspect, Surficial geology, and geomorphons
 
 ```{r, eval = F}
-
-physical_grabber(path = '/hdd/Barneby_Lives-dev/geodata')
-
+data <- physical_grabber(data, path = p)
 ```
-
 
 ## Taxonomic
 
@@ -132,7 +129,8 @@ This function requires that the first few letters of the generic name and epithe
 It will operate on both pieces of the binomial separately, and can work to identify the species within the context of genus. 
 
 ```{r check spelling of binomial and family, eval = F}
-spell_check()
+p <- '/media/steppe/hdd/Barneby_Lives-dev/taxonomic_data'
+data <- spell_check(data, path = p)
 ```
 
 A similar check is to determine that the author whom is cited for describing the species, or transferring it to another genus, is spelled using the standard author abbreviations.
@@ -198,7 +196,7 @@ Especially as it is possible that **spell_check** has mis-matched your material 
 
 Searches for synonym to species
 ```{r Search for synonyms to species, eval = F}
-powo_seacher()
+dat_out <- powo_seacher(data)
 ```
 
 The final process in the taxonomic step is to ensure that the spellings of any species noted in the *vegetation*, or *associates* fields are accurate. These *will not* then be submitted to Kew, as the fields could quickly overwhelm the API. 
@@ -223,7 +221,7 @@ directions2site <- directions_grabber(data, api_key = SoS_gkey)
 ## Export collections as 'shapefile' or KML for use in GIS or GoogleEarth
 
 ```{r write out data to googlesheets4}
-
+usethis::edit_r_environ()
 # we will add these data onto our final sheet.  THIS IS THE LAST STEP OF THIS TUTORIAL
 sheet_append('1iOQBNeGqRJ3yhA-Sujas3xZ2Aw5rFkktUKv3N_e4o8M', 
              sheet = 'Processed - Examples', data = df) 

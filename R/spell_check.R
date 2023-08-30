@@ -13,6 +13,19 @@
 #' @export
 spell_check <- function(x, path) {
 
+  # first verify that the points have coordinates.
+  r <- sapply( x[c('Genus', 'Epithet' )], is.na)
+  g <- which(r[,1] == TRUE); s <- which(r[,2] == TRUE)
+  remove <- unique(c(g, s))
+
+  if(length(remove) > 0) {
+    x <- x[-remove,]
+    cat('Error with row(s): ', remove,
+        ' continuing without.')
+    return(x)
+  }
+  rm(r, s, g, remove)
+
   sppLKPtab <- read.csv(file.path(path, 'species_lookup_table.csv'))
   genLKPtab <- read.csv(file.path(path, 'genus_lookup_table.csv'))
 
