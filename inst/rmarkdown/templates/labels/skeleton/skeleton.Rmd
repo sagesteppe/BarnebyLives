@@ -6,6 +6,7 @@ geometry: paperheight=4in,paperwidth=4in,margin=0.1in
 header-includes:
   - \pagenumbering{gobble}
 ---
+\usepackage{setspace}
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
@@ -45,8 +46,9 @@ Veg.: `r species_font(data$Vegetation)`. Ass.: `r species_font(data$Associates)`
 `r writer(data$Notes)`  
 \endgroup
 \begingroup
-\fontfamily{ppl}\fontsize{8pt}{8pt}\selectfont
-`r data$Directions_BL`  
+\begin{spacing}{0.1}
+{\tiny `r data$Directions_BL` }
+\end{spacing}{0.1}
 \endgroup
  
 \vspace*{\fill}
