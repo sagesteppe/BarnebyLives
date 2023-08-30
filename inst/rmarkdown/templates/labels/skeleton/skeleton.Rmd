@@ -37,7 +37,6 @@ data <- collection_examples |>
 \vspace*{\fill}
 
 \begingroup
-\fontsize{10pt}{10pt}\selectfont
 `r data$latitude_dd` `r data$longitude_dd` (`r data$Datum`). `r data$Gen`. `r writer(data$Site)`   
 
 `r data$physical_environ` `r data$Habitat`.   
@@ -47,13 +46,13 @@ data <- collection_examples |>
 \endgroup
 \begingroup
 \begin{spacing}{0.1}
-{\small `r data$Directions_BL`}
+{\tiny `r data$Directions_BL`}
 \end{spacing}
 \endgroup
  
 \vspace*{\fill}
 \begingroup
-{\normalsize `r data$Primary_Collector` `r data$Collection_number`  `r writer(data$Associated_Collectors)`  
-`r data$Date_digital_text`}  
+`r data$Primary_Collector` `r data$Collection_number`  `r writer(data$Associated_Collectors)`  
+`r data$Date_digital_text` 
 `r writer_fide(data)` 
 \endgroup
