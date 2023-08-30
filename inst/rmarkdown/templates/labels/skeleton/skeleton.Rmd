@@ -17,7 +17,7 @@ library(BarnebyLives)
 ```
 
 ```{r load data}
-data <- label_info[i,]
+data <- collection_examples[i,]
 ```
 
 \fontsize{14pt}{14pt}\selectfont

@@ -1,0 +1,40 @@
+---
+title: "Print labels"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Print labels}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r  load libraries and import data}
+library(BarnebyLives)
+data('collection_examples')
+```
+
+```{r move to a working directory and create a place to hold labels}
+
+setwd('~/Documents')
+dir.create('HerbariumLabels')
+```
+
+
+```{r}
+
+p2libs <- .libPaths()[ 
+  grepl(paste0(version$major, '.', sub('\\..*', "", version$minor)), 
+      .libPaths())]
+folds <- c('BarnebyLives/rmarkdown/templates/labels/skeleton/skeleton.Rmd')
+
+purrr::walk(
+  .x = collection_examples$Collection_number,
+  ~ rmarkdown::render(
+    input = file.path( p2libs, folds),
+    output_file = glue::glue(".pdf"),
+    params = list(fullname = {.x})
+  )
+)
+
+file.path( p2libs, 'BarnebyLives', 'rmarkdown', 'labels' )
+```
+
