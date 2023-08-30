@@ -20,7 +20,7 @@ library(BarnebyLives)
 
 ```{r load data}
 data <- collection_examples |>
-  dplyr::filter(Collection_number == params$Collection_number) %>% 
+  dplyr::filter(Collection_number == params$Collection_number) |>  
   sf::st_drop_geometry()
 ```
 

@@ -34,7 +34,7 @@ purrr::walk(
   ~ rmarkdown::render(
     input = file.path( p2libs, folds),
     output_file = file.path(p, glue::glue("{.x}.pdf")),
-    params = list(fullname = {.x})
+    params = list(Collection_number = {.x})
   )
 )
 
