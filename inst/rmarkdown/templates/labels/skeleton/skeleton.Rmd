@@ -52,9 +52,8 @@ data <- collection_examples |>
  
 \vspace*{\fill}
 \begingroup
-`r data$Primary_Collector` `r data$Collection_number`  {\small `r writer(data$Associated_Collectors)`} 
-`r data$Date_digital_text` 
- {\small `r writer_fide(data)`}
+`r data$Primary_Collector` `r data$Collection_number` `r writer(data$Associated_Collectors)`
+`r data$Date_digital_text` `r writer_fide(data)`
 \endgroup
 
 \begin{center}
