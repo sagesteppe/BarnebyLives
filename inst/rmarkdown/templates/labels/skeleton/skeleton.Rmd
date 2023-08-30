@@ -42,13 +42,13 @@ data <- collection_examples |>
 
 `r data$physical_environ` `r data$Habitat`.   
 
-Veg.: `r species_font(data$Vegetation)`. Ass.: `r species_font(data$Associates)`   
+{\small Veg.: `r species_font(data$Vegetation)`. Ass.: `r species_font(data$Associates)`}  
 `r writer(data$Notes)`  
 \endgroup
 \begingroup
 \begin{spacing}{0.1}
-{\tiny `r data$Directions_BL` }
-\end{spacing}{0.1}
+{\small `r data$Directions_BL` }
+\end{spacing}
 \endgroup
  
 \vspace*{\fill}
