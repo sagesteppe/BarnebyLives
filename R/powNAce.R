@@ -7,6 +7,7 @@
 #' there data for sharing via labels and digitally.
 #' @param x an sf/data frame/tibble which has both the input and POW ran data on it
 #' @examples
+#' \dontrun{
 #' df <- data.frame(
 #'  POW_Genus = c('Castilleja', 'Linnaea', 'Dimeresia'),
 #'  POW_Epithet = c('pilosa', 'borealis', 'howellii'),
@@ -15,6 +16,7 @@
 #'  POW_Authority =  c('(S. Watson) Rydb.', '(J. Forbes) Rehder', 'A. Gray')
 #' )
 #' powNAce(df)
+#' }
 #' @export
 powNAce <- function(x){
 
