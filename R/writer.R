@@ -1,8 +1,8 @@
 #' write values and collapse NAs
 #'
-#' This function will determine whether to print or hide a variable onto labels
+#' This function will determine whether to print a variable onto labels or hide it
 #' @param x the input character of length 1
-#' @param italics italicize or not? Boolean, defualts to FALSE
+#' @param italics italicize or not? Boolean, defaults to FALSE
 #' @examples
 #' writer(collection_examples[9,'Binomial_authority'] )
 #' writer(collection_examples[9, 'Infraspecies'], italics = TRUE )
