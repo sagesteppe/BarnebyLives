@@ -14,7 +14,7 @@ writer_fide <- function(x){
   if (is.na(x$Fide)){""} else {
     paste0('Fide: *',
            sub(' Flora ', ' Fl. ', x$Fide),
-           '*, by: ', x$Determined_by, ' on ', x$Determined_date_text), '.'}
+           '*, by: ', x$Determined_by, ' on ', x$Determined_date_text, '.')}
 }
 
 
