@@ -18,4 +18,3 @@ collection_writer <- function(x){
                   x$Associated_Collectors, '; ', x$Date_digital_text)
            }
 }
-
