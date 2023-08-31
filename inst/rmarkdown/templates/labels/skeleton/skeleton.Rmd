@@ -52,8 +52,7 @@ Veg.: `r species_font(data$Vegetation)`. Ass.: `r species_font(data$Associates)`
  
 \vspace*{\fill}
 \begingroup
-`r data$Primary_Collector` `r data$Collection_number` `r writer(data$Associated_Collectors)`.
-`r data$Date_digital_text`. `r writer_fide(data)`
+`r collection_writer(data)` `r writer_fide(data)`
 \endgroup
 
 \begin{center}

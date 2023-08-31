@@ -2,7 +2,7 @@
 #'
 #' This functions determines whether to write information on whom determined the specimen
 #' when, and via which texts. It used as a final step when formatting labels.
-#' @param x
+#' @param x dataframe holding the values
 #' @examples
 #' phacelia <- collection_examples[31,]
 #' writer_fide(phacelia)
@@ -14,7 +14,7 @@ writer_fide <- function(x){
   if (is.na(x$Fide)){""} else {
     paste0('Fide: *',
            sub(' Flora ', ' Fl. ', x$Fide),
-           '*, by: ', x$Determined_by, ' on ', x$Determined_date_text)}
+           '*, by: ', x$Determined_by, ' on ', x$Determined_date_text), '.'}
 }
 
 
