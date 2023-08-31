@@ -227,12 +227,12 @@ We will write these data to Google sheets for our examples.
 
 # first ensure the columns are in the same order as google sheets
 
-processed <- read_sheet('1iOQBNeGqRJ3yhA-Sujas3xZ2Aw5rFkktUKv3N_e4o8M',
-                        sheet = 'Processed - Examples') %>% 
-  colnames() 
+#processed <- read_sheet('1iOQBNeGqRJ3yhA-Sujas3xZ2Aw5rFkktUKv3N_e4o8M',
+#                        sheet = 'Processed - Examples') %>% 
+#  colnames() 
 
-df <- sf::st_drop_geometry(directions) %>% 
-  select(all_of(processed))
+df <- sf::st_drop_geometry(directions) #%>% 
+#  select(all_of(processed))
 # we will add these data onto our final sheet.
 sheet_append('1iOQBNeGqRJ3yhA-Sujas3xZ2Aw5rFkktUKv3N_e4o8M', 
              sheet = 'Processed - Examples', data = df) 
