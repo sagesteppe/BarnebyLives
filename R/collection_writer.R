@@ -10,6 +10,6 @@ collection_write <- function(x){
   if (is.na(x$Associated_Collectors)){
     paste0(data$Primary_Collector, data$Collection_number, ',', data$Date_digital_text, '.')
   } else {
-    paste0(paste0(data$Primary_Collector, data$Collection_number ','
+    paste0(paste0(data$Primary_Collector, data$Collection_number, ',',
                   data$Associated_Collectors, ',', data$Date_digital_text, '.')}
 }
