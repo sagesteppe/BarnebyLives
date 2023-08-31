@@ -80,7 +80,7 @@ $ du -h
 455M	./geomorphons
 16G	.
 ```
-As you can see the data regarding site physical characteristics take up most of space. Because of this you can download data to a directory which you find suitable. For me personally, I slap all of them on an hdd
+As you can see the data regarding site physical characteristics take up most of space. Because of this you can download data to a directory which you find suitable. For me personally, I slap all of them on an hdd.
 
 ```
 $ df -h
@@ -93,6 +93,28 @@ tmpfs           5.0M  4.0K  5.0M   1% /run/lock
 /dev/sda1       3.6T  603G  2.9T  18% /hdd
 tmpfs            13G  124K   13G   1% /run/user/1000
 ```
+
+## Save the Trees
+
+You will need to print you labels for the sheets. We do so as follows. 
+
+a bash loop, such as this, works to combine the labels - 4 per page. 
+```
+files=(raw/*)
+for (( i=0; i<${#files[*]}; i+=4 ));
+do
+  filename="${files[i]##*/}"
+	pdfjam "${files[@]:$i:4}" --nup 2x2 --landscape --outfile "processed/$filename" --noautoscale true  
+done
+```
+
+obviously they can then be combined, like this, to create a single print job. 
+```
+files=(processed/*)
+pdftk ${files[*]} output final/labels.pdf
+```
+
+We also recommend the use of 24 pound paper, it looks better after gluing. 
 
 ## Chicago Botanic Garden Fieldworkers Usage
 
