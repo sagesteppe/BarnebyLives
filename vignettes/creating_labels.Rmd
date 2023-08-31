@@ -22,7 +22,7 @@ You can use a purrr function, walk, to write many labels one after another in th
 
 ```{r run labels}
 
-p <- '~/Documents/HerbariumLabels'
+p <- '~/Documents/HerbariumLabels/raw'
 
 p2libs <- .libPaths()[ 
   grepl(paste0(version$major, '.', sub('\\..*', "", version$minor)), 
