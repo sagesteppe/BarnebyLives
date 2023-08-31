@@ -108,7 +108,7 @@ do
 done
 ```
 
-obviously they can then be combined, like this, to create a single print job. 
+obviously the pages of labels can then be combined, like this, to create a single print job. 
 ```
 files=(processed/*)
 pdftk ${files[*]} output final/labels.pdf
