@@ -8,9 +8,9 @@ collection_writer <- function(x){
   x$Associated_Collectors[x$Associated_Collectors==""] <- NA
 
   if (is.na(x$Associated_Collectors)){
-    paste0(data$Primary_Collector, data$Collection_number, ',', data$Date_digital_text, '.')
+    paste0(x$Primary_Collector, x$Collection_number, ',', x$Date_digital_text, '.')
   } else {
-    paste0(data$Primary_Collector, data$Collection_number, ',',
-                  data$Associated_Collectors, ',', data$Date_digital_text, '.')
+    paste0(x$Primary_Collector, x$Collection_number, ',',
+                  x$Associated_Collectors, ',', x$Date_digital_text, '.')
            }
 }
