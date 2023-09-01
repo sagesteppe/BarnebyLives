@@ -16,7 +16,6 @@ associates_writer <- function(x){
 
   if (is.na(x)){""} else {
     gsub("..", ".", paste0('Ass.: ', species_font(x)), fixed = TRUE)}
-  x <- gsub('.,.$', '.', x)
 
   return(x)
 }
