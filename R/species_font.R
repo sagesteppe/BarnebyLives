@@ -26,6 +26,7 @@ species_font <- function(x){
   }
 
   x <- gsub('  ', ' ', x)
+  x <- paste0(x, '.')
   x <- gsub("..", ".", x, fixed = TRUE)
   return(x)
 }
