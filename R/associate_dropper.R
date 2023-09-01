@@ -17,7 +17,6 @@ associate_dropper <- function(x){
       Associates = trimws(gsub("\\s+", " ", Associates)),
       Associates = gsub(",$", "", Associates),
       Associates = gsub("^, ", "", Associates),
-      Associates = gsub(", ,", ",", Associates),
       Associates = gsub(", ,", ",", Associates)
     )
 
