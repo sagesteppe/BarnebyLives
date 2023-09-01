@@ -5,7 +5,7 @@
 #' @param x a value being feed into the label during the merge
 #' @examples
 #' associates <- c('Eriogonum ovalifolium var. purpureum, Castilleja sp., Crepis spp.')
-#' spp_normal(associates)
+#' species_font(associates)
 #' @export
 species_font <- function(x){
 
@@ -22,6 +22,10 @@ species_font <- function(x){
     x <- gsub(' ssp[.]\\*$', '* ssp.', x)
     x <- gsub(' var[.] ', '* var. *', x)
     x <- gsub(' subsp[.] ', '* spp. *', x)
+
+    x <- gsub('  ', ' ', x)
+    x <- paste0(x, '.')
+    x <- gsub("..", ".", x, fixed = TRUE)
     return(x)
   }
 
