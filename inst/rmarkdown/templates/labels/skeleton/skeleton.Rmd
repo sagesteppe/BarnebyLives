@@ -41,7 +41,7 @@ data <- collection_examples |>
 `r data$latitude_dd` `r data$longitude_dd` (`r data$Datum`). `r data$Gen`. `r writer(data$Site)`   
 
 `r data$physical_environ` `r writer(data$Habitat)`.   
-Veg.: `r species_font(data$Vegetation)`. Ass.: `r associates_writer(data$Associates)`.
+Veg.: `r species_font(data$Vegetation)`. `r associates_writer(data$Associates)`
 `r writer(data$Notes)`  
 \endgroup
 \begingroup
