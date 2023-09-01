@@ -38,6 +38,5 @@ purrr::walk(
     params = list(Collection_number = {.x})
   )
 )
-
 ```
 

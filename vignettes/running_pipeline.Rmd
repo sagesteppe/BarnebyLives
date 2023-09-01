@@ -206,6 +206,12 @@ The final process in the taxonomic step is to ensure that the spellings of any s
 
 ```
 
+Remove the collected species from the list of associated species. Many collectors will include the focal collection in 
+the list of associated species when performing data entry for a site. We can remove it here.
+```{r drop focal species from associated species}
+data <- associate_dropper(data)
+```
+
 
 ## Directions
 
