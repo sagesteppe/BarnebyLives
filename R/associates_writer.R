@@ -12,8 +12,8 @@
 #' @export
 associates_writer <- function(x){
 
-  x$Associates[x$Associates==""] <- NA
+  x[x==""] <- NA
 
-  if (is.na(x$Associates)){""} else {
-    paste0('Ass.: ', species_font(x$Associates), '.')}
+  if (is.na(x)){""} else {
+    paste0('Ass.: ', species_font(x), '.')}
 }
