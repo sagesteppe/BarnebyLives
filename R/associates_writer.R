@@ -15,5 +15,5 @@ associates_writer <- function(x){
   x[x==""] <- NA
 
   if (is.na(x)){""} else {
-    gsub("..", ".", paste0('Ass.: ', species_font(x), '.'), fixed = TRUE)}
+    gsub("..", ".", paste0('Ass.: ', species_font(x)), fixed = TRUE)}
 }
