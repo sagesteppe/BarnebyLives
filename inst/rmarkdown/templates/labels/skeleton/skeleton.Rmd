@@ -31,12 +31,11 @@ data <- collection_examples |>
 \begingroup
 \large
 `r data$Family`  
-`r writer(paste(data$Genus, data$Epithet), italics = TRUE)` `r data$Binomial_authority` `r writer(data$Infrarank)` `r writer(data$Infraspecies, italics = TRUE)` `r writer(data$Infraspecific_authority)`   
+`r writer(paste(data$Genus, data$Epithet), italics = TRUE)` `r data$Binomial_authority` `r writer(data$Infrarank)` `r writer(data$Infraspecies, italics = TRUE)` `r writer(data$Infraspecific_authority)`  
+\normalsize
 \endgroup
-
 \vspace*{\fill}
 \begingroup
-\normalsize
 `r data$latitude_dd` `r data$longitude_dd` (`r data$Datum`). `r data$Gen`. `r writer(data$Site)`   
 
 `r data$physical_environ` `r writer(data$Habitat)`.   
