@@ -122,6 +122,13 @@ files=(processed/*)
 pdftk ${files[*]} output final/labels.pdf
 ```
 
+Creating labels will require several open source pieces of software, both of which are associated with Tex.
+```
+sudo apt-get update
+sudo apt-get install pdfjam -y
+sudo apt-get install pdftek -y
+```
+
 We also recommend the use of 24 pound paper, it looks better after gluing. 
 
 ## Chicago Botanic Garden Fieldworkers Usage
