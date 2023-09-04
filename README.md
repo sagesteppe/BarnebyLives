@@ -58,16 +58,36 @@ We hope to collaborate with others to treat CONUS and to create multiformat data
 
 Meadow fringes adjacent to young lower montane forest , sloped ridgelines
 
-|    Column name       |  Description  |
-| -----------------    | ------------- |
-|  Collection_number   | The collection number for the primary botanist. This number should unambiguously identify the collection, and be inclusive of all replicates (multiple herbaria sheets). We recommend using a number agnostic of projects and seasons. E.g. Reed Clark Benkendorf 2848 denotes the 2848th collection of there life.   |
-|  Primary_Collector   | The botanist who assumes primary responsibility for collecting, processing, and coordinating the accessioning of the collection with herbaria. |
-| Associated_Collectors | Other collectors who were present at the time of collection, and contributed to the process. |
-|        Genus          | The Genus which the species is a component of |
-|       Species         | The Species which the population from which the collection was made is a component of. |
-|      Full_name        | The full scientific name of the taxonomic entity, by neccessity including the Genus and Epithet which form a binomial, and information on infraspecies. |
-|     Name_authority       | The full scientific name of the taxonomic entity, by neccessity including the Genus and Epithet which form a binomial, and information on infraspecies and authors |
-
+|     Column name        |  Description  |
+|   -----------------    | ------------- |
+|    Collection_number   | The collection number for the primary botanist. This number should unambiguously identify the collection, and be inclusive of all replicates (multiple herbaria sheets). We recommend using a number agnostic of projects and seasons. E.g. Reed Clark Benkendorf 2848 denotes the 2848th collection of there life.   |
+|    Primary_Collector    | The botanist who assumes primary responsibility for collecting, processing, and coordinating the accessioning of the collection with herbaria. |
+|   Associated_Collectors | Other collectors who were present at the time of collection, and contributed to the process. |
+|          Genus          | The Genus which the species is a component of |
+|         Species         | The Species which the population from which the collection was made is a component of. |
+|        Full_name        | The full scientific name of the taxonomic entity, by neccessity including the Genus and Epithet which form a binomial, and information on infraspecies. |
+|       Name_authority    | The full scientific name of the taxonomic entity, by neccessity including the Genus and Epithet which form a binomial, and information on infraspecies and authors |
+|     Binomial_authority  | The scientific authors who conceptualized the species, and described it, and if relevant  the authors whom have transferred the species to it's current genus.
+|         Infrarank       | The taxonomic level nested within Species which this population is a component of, generally one of either 'var.'  or 'ssp.' for variety of subspecies respectively. |
+|        Infraspecies     | The taxonomic entity which this population is a component of within the hierarchy of species.  |
+| Infraspecific_Authority | The scientific authors who conceptualized the species, and described it, and relevant authors whom have transferred the species to within a species. |
+|          Family         | A Family which the Genus which this species is apart of is considered to be a component of. |
+|       Project_name      | The endeavor which this collection was made for, or which field work may be associated with. |
+|        Site_name        |  A user defined name for the locality from which collections were made.
+|        Latitude         | The decimal degrees (dd) or degrees minutes seconds (dms) perpendicular to the equator which the collection was made at. |
+|        Longitude        |  The decimal degrees (dd) or degrees minutes seconds (dms) along the equator which the collection was made at. |
+|         Datum           |  A smoothed model of the earths surface and locations on it's surface which represent origin points for referencing positions. Typical geodetic datums include 'WGS 84', 'NAD 83'. |
+|       Date_digital      |  The date which the collection was made in American format, 'mm.dd.yyyy' for example, '01.02.2023' is January 2nd. |
+|        Vegetation       | Plant species which are present with high amounts of biomass, or which are postulated to be keystone species etc. |
+|        Associates       | Other plant species growing in the area which do not compose the dominant amounts of biomass. |
+|         Habtiat         | Notes on the abiotic  (landform, soil texture, etc.) and biotic (landcover type 'forest', 'riparian' etc.) setting which the collection was growing in. |
+|           Fide          | The most authoritative Flora, or monograph, used to identify the collections. |
+|       Determined_by     | A botanist who verified the identity of the collection. |
+|     Determined_date     | The date the botanist determined the specimen. This beginning a chain of annotations for the distant future. |
+|         Aspect          | The measured or in-field estimated cardinal direction which the population faced. |
+|          Slope          | The measured or in-field estimated slope which the population faced. |
+|         Notes           | Any notes, especially relevant are those describing growth form, floral colour, scents, or textures. |
+|    Tissue_collections   |  Number of individual plants from which tissue collections were made. |
 
 ## Geodata directory structure
 
