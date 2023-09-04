@@ -56,7 +56,7 @@ We hope to collaborate with others to treat CONUS and to create multiformat data
 
 ## Input Data Column Names
 
-The columns in the top table are **required** to run the all the functions in BarnebyLives. The columns in the middle table are suggested to increase the quality of the collections.  The columns in the lower table are optional, to be blunt, BarnebyLives will generate all of these values.
+The columns in the top table are **required** to run the all the functions in BarnebyLives. The columns in the middle table are suggested to increase the quality of the collections.  The columns in the lower table are optional, to be blunt, BarnebyLives will generate all of these values. Ficticious examples are provided here, while links to real examples (over 100) are contained in the vignettes.
 
 |     Column name        |  Description  |   Example   |
 |   -----------------    | ------------- |  ---------- |
@@ -74,8 +74,8 @@ The columns in the top table are **required** to run the all the functions in Ba
 
 Suggested columns! 
 
-|     Column name        |  Description  |
-|   -----------------    | ------------- |
+|     Column name        |  Description  |    Example   |
+|   -----------------    | ------------- |  ----------  |
 |          Fide           | The most authoritative Flora, or monograph, used to identify the collections. | Intermountain Flora |
 |       Determined_by     | A botanist who verified the identity of the collection. |  Rupert Barneby   |
 |     Determined_date     | The date the botanist determined the specimen. This beginning a chain of annotations for the distant future. |   06.18.1944 |
