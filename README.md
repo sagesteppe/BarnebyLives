@@ -64,33 +64,33 @@ The columns in the top table are **required** to run the all the functions in Ba
 |    Primary_Collector    | The botanist who assumes primary responsibility for collecting, processing, and coordinating the accessioning of the collection with herbaria. | Rupert Barneby | 
 |   Associated_Collectors | Other collectors who were present at the time of collection, and contributed to the process. | Dwight Ripley | 
 |        Full_name        | The full scientific name of the taxonomic entity, by neccessity including the Genus and Epithet which form a binomial, and information on infraspecies. | Astragalus tephrodes var. eurylobus |
-|        Latitude         | The decimal degrees (dd) or degrees minutes seconds (dms) perpendicular to the equator which the collection was made at. | |
-|        Longitude        |  The decimal degrees (dd) or degrees minutes seconds (dms) along the equator which the collection was made at. |  |
+|        Latitude         | The decimal degrees (dd) or degrees minutes seconds (dms) perpendicular to the equator which the collection was made at. | 37.6415 |
+|        Longitude        |  The decimal degrees (dd) or degrees minutes seconds (dms) along the equator which the collection was made at. | -114.4985 |
 |       Date_digital      |  The date which the collection was made in American format, 'mm.dd.yyyy' for example, '01.02.2023' is January 2nd. | 06.18.1944 |
-|        Vegetation       | Plant species which are present with high amounts of biomass, or which are postulated to be keystone species etc. |   |
-|        Associates       | Other plant species growing in the area which do not compose the dominant amounts of biomass. |    |
+|        Vegetation       | Plant species which are present with high amounts of biomass, or which are postulated to be keystone species etc. |  Artemisia nova, Pleuraphis jamesii |
+|        Associates       | Other plant species growing in the area which do not compose the dominant amounts of biomass. | Brickellia longifolia  |
 |         Habtiat         | Notes on the abiotic  (landform, soil texture, etc.) and biotic (landcover type 'forest', 'riparian' etc.) setting which the collection was growing in. | Ridges of barren alkaline hills  |
-|          Notes          | Any notes, especially relevant are those describing growth form, floral colour, scents, or textures. |   |
+|          Notes          | Any notes, especially relevant are those describing growth form, floral colour, scents, or textures. | petals pink purple  |
 
 Suggested columns! 
 
 |     Column name        |  Description  |
 |   -----------------    | ------------- |
-|          Fide           | The most authoritative Flora, or monograph, used to identify the collections. |
-|       Determined_by     | A botanist who verified the identity of the collection. |
-|     Determined_date     | The date the botanist determined the specimen. This beginning a chain of annotations for the distant future. |
-|    Tissue_collections   |  Number of individual plants from which tissue collections were made. |
-|       Project_name      | The endeavor which this collection was made for, or which field work may be associated with. |
-|        Site_name        |  A user defined name for the locality from which collections were made.
+|          Fide           | The most authoritative Flora, or monograph, used to identify the collections. | Intermountain Flora |
+|       Determined_by     | A botanist who verified the identity of the collection. |  Rupert Barneby   |
+|     Determined_date     | The date the botanist determined the specimen. This beginning a chain of annotations for the distant future. |   06.18.1944 |
+|    Tissue_collections   |  Number of individual plants from which tissue collections were made. |  0  |
+|       Project_name      | The endeavor which this collection was made for, or which field work may be associated with. | Flora Nevadensis |
+|        Site_name        |  A user defined name for the locality from which collections were made.  | Caliente |
 
 Unneccsary columns!
 
 |     Column name        |  Description  |
 |   -----------------    | ------------- |
-|          Genus          | The Genus which the species is a component of |
-|         Species         | The Species which the population from which the collection was made is a component of. |
-|       Name_authority    | The full scientific name of the taxonomic entity, by neccessity including the Genus and Epithet which form a binomial, and information on infraspecies and authors |
-|     Binomial_authority  | The scientific authors who conceptualized the species, and described it, and if relevant  the authors whom have transferred the species to it's current genus.
+|          Genus          | The Genus which the species is a component of |  Astragalus |
+|         Species         | The Species which the population from which the collection was made is a component of. |  tephrodes  |
+|       Name_authority    | The full scientific name of the taxonomic entity, by neccessity including the Genus and Epithet which form a binomial, and information on infraspecies and authors |  A. Gray  |
+|     Binomial_authority  | The scientific authors who conceptualized the species, and described it, and if relevant  the authors whom have transferred the species to it's current genus. | 
 |         Infrarank       | The taxonomic level nested within Species which this population is a component of, generally one of either 'var.'  or 'ssp.' for variety of subspecies respectively. |
 |        Infraspecies     | The taxonomic entity which this population is a component of within the hierarchy of species.  |
 | Infraspecific_Authority | The scientific authors who conceptualized the species, and described it, and relevant authors whom have transferred the species to within a species. |
