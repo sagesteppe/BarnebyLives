@@ -1,6 +1,6 @@
 #' take mdy format date and make it written herbarium label format
 #'
-#' @description take the mdy date format, popular in North America, and place it into a
+#' @description take the 'month day year' date format, popular in North America, and place it into a
 #' museum compliant text format
 #'
 #' @param x a data frame with dates

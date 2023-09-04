@@ -220,7 +220,6 @@ This will require interactive alterations from the user.
 
 ```{r site directions, eval = F}
 SoS_gkey = Sys.getenv("Sos_gkey")
-
 directions <- directions_grabber(data, api_key = SoS_gkey)
 ```
 
@@ -249,6 +248,10 @@ sheet_append('1iOQBNeGqRJ3yhA-Sujas3xZ2Aw5rFkktUKv3N_e4o8M',
 We can also export collections as either (or both!) a 'shapefile' or KML for use in GIS or GoogleEarth.
 
 ```{r write out collections in a spatial data format}
+
+geodata_writer(data, path = 'someplace', 
+               filename = 'Herbarium_Collections_2023',
+               filetype = 'kml')
 
 ```
 
