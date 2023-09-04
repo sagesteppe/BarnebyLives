@@ -7,16 +7,17 @@
 #' @params filetype a file format to save the data to. This is a wrapper for sf::st_write and will support all drivers used there. If not supplied defaults to kml for use with google earth.
 geodata_writer <- function(x, path, filename, filetype){
 
-  if(missing(filetype){filetype <- 'kml'})
-  if(missing(filename){filename <- paste0('Collections-', Sys.Date)})
+  if(missing(filetype)){filetype <- 'kml'}
+  if(missing(filename)){filename <- paste0('Collections-', Sys.Date)}
   if(missing(path)){fname <- paste0(filename, filetype)} else {
         fname <- filepath(path, paste0(filename, filetype))
     }
 
-  x |>
+  x <- x |>
     dplyr::select(Name = Collection_number) |>
     sf::st_write(., dsn = fname, driver = filetype, delete_dsn = TRUE)
 
+  return(x)
   cat('data written to: ', fname)
 
 }
