@@ -126,6 +126,16 @@ dplyr::select(data, starts_with(c('latitude', 'longitude'))) %>%
   utils::head()
 ```
 
+Several spreadsheet softwares auto-increment numeric columns by default. We try to identify that issue here. 
+```{r check for autofill on coords}
+data <- autofill_checker(data)
+
+dplyr::select(data, Long_AutoFill_Flag, Lat_AutoFill_Flag) |> 
+  dplyr::drop_na() |>
+  utils::head()
+```
+
+
 For internal usage and data acquisition we will make data set explicitly spatial, rather than just holding coordinates in a column. 
 This is also required to write out data in a format readable by Google Earth or another Geographic Information System. 
 

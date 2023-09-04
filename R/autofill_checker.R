@@ -10,10 +10,10 @@
 #'   longitude_dd = c( rep(42.3456, times = 5), 43.3456),
 #'   latitude_dd = c( rep((-116.7890, times = 5), -115.7890))
 #' )
-#' autofill_increment_checker(coords) # note that all values in the column will
+#' autofill_checker(coords) # note that all values in the column will
 #' flagged after the occurrence (see 'Lat_AutoFill_Flag')
 #' @export
-autofill_increment_checker <- function(x){
+autofill_checker <- function(x){
 
   flags <- x |>
     dplyr::mutate(
