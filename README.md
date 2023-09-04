@@ -58,9 +58,9 @@ We hope to collaborate with others to treat CONUS and to create multiformat data
 
 Meadow fringes adjacent to young lower montane forest , sloped ridgelines
 
-|    Column name     | Second Header |
+|    Column name      | Second Header |
 | -----------------   | ------------- |
-|  Collection_number  | Content Cell  |
+|  Collection_number  | The collection number for the primary botanist. This number should unambiguously identify the collection, and be inclusive of all replicates (multiple herbaria sheets). We recommend using a number agnostic of projects and seasons. E.g. Reed Clark Benkendorf 2848 denotes the 2848th collection of there life.   |
 
 
 ## Geodata directory structure
