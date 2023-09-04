@@ -58,19 +58,19 @@ We hope to collaborate with others to treat CONUS and to create multiformat data
 
 The columns in the top table are **required** to run the all the functions in BarnebyLives. The columns in the middle table are suggested to increase the quality of the collections.  The columns in the lower table are optional, to be blunt, BarnebyLives will generate all of these values.
 
-|     Column name        |  Description  |
-|   -----------------    | ------------- |
-|    Collection_number   | The collection number for the primary botanist. This number should unambiguously identify the collection, and be inclusive of all replicates (multiple herbaria sheets). We recommend using a number agnostic of projects and seasons. E.g. Reed Clark Benkendorf 2848 denotes the 2848th collection of there life.   |
-|    Primary_Collector    | The botanist who assumes primary responsibility for collecting, processing, and coordinating the accessioning of the collection with herbaria. |
-|   Associated_Collectors | Other collectors who were present at the time of collection, and contributed to the process. |
-|        Full_name        | The full scientific name of the taxonomic entity, by neccessity including the Genus and Epithet which form a binomial, and information on infraspecies. |
-|        Latitude         | The decimal degrees (dd) or degrees minutes seconds (dms) perpendicular to the equator which the collection was made at. |
-|        Longitude        |  The decimal degrees (dd) or degrees minutes seconds (dms) along the equator which the collection was made at. |
-|       Date_digital      |  The date which the collection was made in American format, 'mm.dd.yyyy' for example, '01.02.2023' is January 2nd. |
-|        Vegetation       | Plant species which are present with high amounts of biomass, or which are postulated to be keystone species etc. |
-|        Associates       | Other plant species growing in the area which do not compose the dominant amounts of biomass. |
-|         Habtiat         | Notes on the abiotic  (landform, soil texture, etc.) and biotic (landcover type 'forest', 'riparian' etc.) setting which the collection was growing in. |
-|         Notes           | Any notes, especially relevant are those describing growth form, floral colour, scents, or textures. |
+|     Column name        |  Description  |   Example   |
+|   -----------------    | ------------- |  ---------- |
+|    Collection_number   | The collection number for the primary botanist. This number should unambiguously identify the collection, and be inclusive of all replicates (multiple herbaria sheets). We recommend using a number agnostic of projects and seasons. | 6359 |
+|    Primary_Collector    | The botanist who assumes primary responsibility for collecting, processing, and coordinating the accessioning of the collection with herbaria. | Rupert Barneby | 
+|   Associated_Collectors | Other collectors who were present at the time of collection, and contributed to the process. | Dwight Ripley | 
+|        Full_name        | The full scientific name of the taxonomic entity, by neccessity including the Genus and Epithet which form a binomial, and information on infraspecies. | Astragalus tephrodes var. eurylobus |
+|        Latitude         | The decimal degrees (dd) or degrees minutes seconds (dms) perpendicular to the equator which the collection was made at. | |
+|        Longitude        |  The decimal degrees (dd) or degrees minutes seconds (dms) along the equator which the collection was made at. |  |
+|       Date_digital      |  The date which the collection was made in American format, 'mm.dd.yyyy' for example, '01.02.2023' is January 2nd. | 06.18.1944 |
+|        Vegetation       | Plant species which are present with high amounts of biomass, or which are postulated to be keystone species etc. |   |
+|        Associates       | Other plant species growing in the area which do not compose the dominant amounts of biomass. |    |
+|         Habtiat         | Notes on the abiotic  (landform, soil texture, etc.) and biotic (landcover type 'forest', 'riparian' etc.) setting which the collection was growing in. | Ridges of barren alkaline hills  |
+|          Notes          | Any notes, especially relevant are those describing growth form, floral colour, scents, or textures. |   |
 
 Suggested columns! 
 
