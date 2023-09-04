@@ -58,9 +58,15 @@ We hope to collaborate with others to treat CONUS and to create multiformat data
 
 Meadow fringes adjacent to young lower montane forest , sloped ridgelines
 
-|    Column name      | Second Header |
-| -----------------   | ------------- |
-|  Collection_number  | The collection number for the primary botanist. This number should unambiguously identify the collection, and be inclusive of all replicates (multiple herbaria sheets). We recommend using a number agnostic of projects and seasons. E.g. Reed Clark Benkendorf 2848 denotes the 2848th collection of there life.   |
+|    Column name       |  Description  |
+| -----------------    | ------------- |
+|  Collection_number   | The collection number for the primary botanist. This number should unambiguously identify the collection, and be inclusive of all replicates (multiple herbaria sheets). We recommend using a number agnostic of projects and seasons. E.g. Reed Clark Benkendorf 2848 denotes the 2848th collection of there life.   |
+|  Primary_Collector   | The botanist who assumes primary responsibility for collecting, processing, and coordinating the accessioning of the collection with herbaria. |
+| Associated_Collectors | Other collectors who were present at the time of collection, and contributed to the process. |
+|        Genus          | The Genus which the species is a component of |
+|       Species         | The Species which the population from which the collection was made is a component of. |
+|      Full_name        | The full scientific name of the taxonomic entity, by neccessity including the Genus and Epithet which form a binomial, and information on infraspecies. |
+|     Name_authority       | The full scientific name of the taxonomic entity, by neccessity including the Genus and Epithet which form a binomial, and information on infraspecies and authors |
 
 
 ## Geodata directory structure
