@@ -54,6 +54,15 @@ devtools::install_github('sagesteppe/BarnebyLives')
 ```
 We hope to collaborate with others to treat CONUS and to create multiformat data e.g. Darwincore, CPNWH, etc., and push this product onto CRAN as well as publish a short piece in APPS! It is on the backburner, but still simmering! Stay tuned in but dropped out!
 
+## Input Data Column Names
+
+Meadow fringes adjacent to young lower montane forest , sloped ridgelines
+
+|    Column name     | Second Header |
+| -----------------   | ------------- |
+|  Collection_number  | Content Cell  |
+
+
 ## Geodata directory structure
 
 ```
