@@ -28,8 +28,7 @@ split_binomial <- function(x, binomial_col){
           stop('unable to find name column, please supply argument to `binomial_col`')}
     if(length(indices == 1)){
           binomial_col <- colnames(x)[indices] ;
-          cat('`binomial_col` argument not supplied, using:', colnames(x)[indices])
-      }
+          cat('`binomial_col` argument not supplied, using:', colnames(x)[indices])}
   }
 
   # double spaces will mess with some of our sensitive regrexes below
@@ -81,10 +80,17 @@ split_binomial <- function(x, binomial_col){
     \(x, patt) gsub(patt, "", x, ignore.case = T), patt = Infraspecies, x = infra_info)
 
   # combine results to BL format
-  ou <- cbind(input = x[,binomial_col], binomials, Binomial_authority,
+  output <- cbind(input = x[,binomial_col], binomials, Binomial_authority,
               Infraspecific_rank, Infraspecies, Infraspecific_authority)
 
-  ou[ou == ""] <- NA
-  ou <- data.frame ( apply(ou, MARGIN = 2, FUN = trimws) )
-  return(ou)
+  output[output == ""] <- NA
+  output <- data.frame ( apply(output, MARGIN = 2, FUN = trimws) )
+
+  cols2overwrite <- c('Binomial', 'Genus', 'Epithet', 'Binomial_authority',
+                'Infraspecific_rank', 'Infraspecies', 'Infraspecific_authority')
+  output <- dplyr::select(x, -any_of(cols2overwrite)) |>
+    cbind(x, output)
+
+  return(output)
 }
+
