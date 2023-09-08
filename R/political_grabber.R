@@ -10,6 +10,11 @@ political_grabber <- function(x, y, path){
 
   y_quo <- rlang::enquo(y)
 
+  x <- dplyr::select(x,
+                  -any_of(c(
+                    'Country', 'State', 'County', 'Mang_Name',
+                    'Unit_Nm', 'trs', 'Allotment')))
+
   political <- sf::st_read( file.path(path, 'political/political.shp'), quiet = T)
   allotment <- sf::st_read( file.path(path, 'allotments/allotments.shp'), quiet = T)
   plss <- sf::st_read( file.path(path, 'plss/plss.shp'), quiet = T)
@@ -36,7 +41,7 @@ political_grabber <- function(x, y, path){
     dplyr::slice_head(n = 1) |>
     dplyr::ungroup()
 
-  x_vars <- x_vars %>%
+  x_vars <- x_vars |>
     dplyr::mutate(
       Gen = paste0(
         Country, ', ', State, ', ', County, ' Co., ', Mang_Name, " ", Unit_Nm, " ", trs),

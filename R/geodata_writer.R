@@ -10,7 +10,7 @@ geodata_writer <- function(x, path, filename, filetype){
   if(missing(filetype)){filetype <- 'kml'}
   if(missing(filename)){filename <- paste0('Collections-', Sys.Date)}
   if(missing(path)){fname <- paste0(filename, filetype)} else {
-        fname <- filepath(path, paste0(filename, filetype))
+        fname <- file.path(path, paste0(filename, filetype))
     }
 
   x <- x |>
