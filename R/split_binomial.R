@@ -79,17 +79,19 @@ split_binomial <- function(x, binomial_col){
   Infraspecific_authority <- mapply(
     \(x, patt) gsub(patt, "", x, ignore.case = T), patt = Infraspecies, x = infra_info)
 
+
   # combine results to BL format
-  output <- cbind(input = x[,binomial_col], binomials, Binomial_authority,
+  output <- cbind(binomials, Binomial_authority,
               Infraspecific_rank, Infraspecies, Infraspecific_authority)
 
-  output[output == ""] <- NA
-  output <- data.frame ( apply(output, MARGIN = 2, FUN = trimws) )
+   output[output == ""] <- NA
+   output <- data.frame ( apply(output, MARGIN = 2, FUN = trimws) )
+   output <- tidyr::unite(data = output, col = 'Full_name', Genus:Infraspecific_authority, na.rm=TRUE, sep = " ")
 
   cols2overwrite <- c('Binomial', 'Genus', 'Epithet', 'Binomial_authority',
                 'Infraspecific_rank', 'Infraspecies', 'Infraspecific_authority')
-  output <- dplyr::select(x, -any_of(cols2overwrite)) |>
-    cbind(x, output)
+  in_out <- dplyr::select(x, -any_of(cols2overwrite))
+  output <- dplyr::bind_cols(in_out, output)
 
   return(output)
 }
