@@ -10,12 +10,15 @@ geodata_writer <- function(x, path, filename, filetype){
   if(missing(filetype)){filetype <- 'kml'}
   if(missing(filename)){filename <- paste0('Collections-', Sys.Date)}
   if(missing(path)){fname <- paste0(filename, filetype)} else {
-        fname <- file.path(path, paste0(filename, filetype))
-    }
+        fname <- file.path(path, paste0(filename, '.', filetype))
+  }
+
+  ifelse(!dir.exists(file.path(path)),
+         dir.create(file.path(path)), FALSE)
 
   x <- x |>
     dplyr::select(Name = Collection_number) |>
-    sf::st_write(., dsn = fname, driver = filetype, delete_dsn = TRUE)
+    sf::st_write(dsn = fname, driver = filetype, delete_dsn = TRUE, quiet = T)
 
   return(x)
   cat('data written to: ', fname)
