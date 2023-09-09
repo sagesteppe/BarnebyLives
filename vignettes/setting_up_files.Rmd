@@ -49,7 +49,8 @@ WFO.remember()
 an alternative way to read it is to find the location of the data on your computer and load from there. Both us and the package use data.tables::fread function. 
 
 ```{r, eval = F}
-cla <- data.table::fread('/hdd/Barneby_Lives-dev/taxonomic_data_raw/WFO_Backbone/classification.txt', na.strings = "")
+cla <- data.table::fread(
+  '../../Barneby_Lives-dev/taxonomic_data_raw/WFO_Backbone/classification.txt', na.strings = "")
 # install.packages('data.table') # this is in depends, but maybe you don't our package yet...
 ```
 
@@ -76,10 +77,15 @@ genLKPtab <- unique(cla, by = 'genus')[taxonomicStatus == 'Accepted','genus'] %>
   mutate(Grp = str_extract(genus, '[A-Z][a-z]{1}'))%>% 
   rename(strings = genus)
 
+families <- sort(distinct(cla$family))
+families <- c(families, 'Hydrophyllaceae')
+families <- data.frame(Family = families)
+
+write.csv(families, '/media/steppe/hdd/Barneby_Lives-dev/taxonomic_data/families_lookup_table.csv', row.names = F)
 write.csv(sppLKPtab, '/hdd/Barneby_Lives-dev/taxonomic_data/species_lookup_table.csv', row.names = F)
 write.csv(genLKPtab, '/hdd/Barneby_Lives-devs/taxonomic_data/genus_lookup_table.csv', row.names = F)
 
-rm(sppLKPtab, epiLKPtab, genLKPtab, cla)
+rm(sppLKPtab, epiLKPtab, genLKPtab, cla, families)
 ```
 
 ```{r Prepare material for authorship lookup tables, eval = F}

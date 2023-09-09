@@ -12,6 +12,32 @@
 #' @export
 spell_check <- function(x, path) {
 
+  #family spell check
+  family_spell_check <- function(x, path) {
+
+    closest_name <- function(x){
+      out <- famLKPtab[which.min(adist(x, famLKPtab$Family)), 'Family']
+    }
+
+    famLKPtab <- read.csv(file.path(path, 'families_lookup_table.csv')) |>
+      dplyr::mutate(SPELLING = TRUE)
+    families <- dplyr::left_join(x, famLKPtab, by = 'Family')
+
+    correct_families <- families[!is.na(families$SPELLING),]
+    incorrect_families <- families[is.na(families$SPELLING),]
+
+    if(nrow(incorrect_families) > 0){
+      incorrect_families$Family = sapply(incorrect_families$Family, closest_name)
+      out <- dplyr::bind_rows(incorrect_families, correct_families) |>
+        dplyr::select(-SPELLING) |>
+        dplyr::arrange(Collection_number)
+      return(out)
+    } else(return(x))
+    return(incorrect_families)
+
+  }
+  x <- family_spell_check(x, path)
+
   # first verify that the points have coordinates.
   r <- sapply( x[c('Genus', 'Epithet' )], is.na)
   g <- which(r[,1] == TRUE); s <- which(r[,2] == TRUE)
@@ -55,7 +81,7 @@ spell_check <- function(x, path) {
     } else{
       # try and determine which piece is incorrect.
 
-      # subset datasets to query each name component separately
+      # subset data sets to query each name component separately
       genus2char <- stringr::str_extract(genus, '[A-Z][a-z]{1}')
       species3char <- stringr::str_extract(species, '[a-z]{3}')
       gen_strings <-
