@@ -52,6 +52,15 @@ BarnebyLives! is in beta testing, and can currently only be installed as 0.1.0 f
 ```r
 devtools::install_github('sagesteppe/BarnebyLives')
 ```
+The generation of labels will require a LaTeX distribution such as pdflatex, lualatex, xelatex
+
+Labels will further require two programs, pdfjam and pdftk. These can be installed on Debian flavors of Linux as so:
+```sh
+sudo apt-get update
+sudo apt-get install pdfjam -y
+sudo apt-get install pdftk -y
+```
+
 We hope to collaborate with others to treat CONUS and to create multiformat data e.g. Darwincore, CPNWH, etc., and push this product onto CRAN as well as publish a short piece in APPS! It is on the backburner, but still simmering! Stay tuned in but dropped out!
 
 ## Input Data Column Names
@@ -171,7 +180,7 @@ Creating labels will require several open source pieces of software, both of whi
 ```
 sudo apt-get update
 sudo apt-get install pdfjam -y
-sudo apt-get install pdftek -y
+sudo apt-get install pdftk -y
 ```
 
 We also recommend the use of 24 pound paper, it looks better after gluing. 
