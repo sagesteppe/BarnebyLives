@@ -26,9 +26,10 @@ split_binomial <- function(x, binomial_col){
           indices <- indices[ grep('auth', colnames(x)[indices], invert = TRUE)]}
     if(length(indices) == 0){
           stop('unable to find name column, please supply argument to `binomial_col`')}
-    if(length(indices == 1)){
-          binomial_col <- colnames(x)[indices] ;
-          cat('`binomial_col` argument not supplied, using:', colnames(x)[indices])}
+    if(length(indices) == 1){
+          binomial_col <- colnames(x)[indices]
+          cat('`binomial_col` argument not supplied, using:', colnames(x)[indices])
+          }
   }
 
   # double spaces will mess with some of our sensitive regrexes below
