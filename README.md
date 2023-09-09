@@ -52,7 +52,7 @@ BarnebyLives! is in beta testing, and can currently only be installed as 0.1.0 f
 ```r
 devtools::install_github('sagesteppe/BarnebyLives')
 ```
-The generation of labels will require a LaTeX distribution such as pdflatex, lualatex, xelatex
+The generation of labels will requires that Rmarkdown is succesfully set up to render to PDF via a LaTeX distribution such as pdflatex, lualatex, xelatex.
 
 Labels will further require two programs, pdfjam and pdftk. These can be installed on Debian flavors of Linux as so:
 ```sh
