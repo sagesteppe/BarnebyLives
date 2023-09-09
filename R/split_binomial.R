@@ -84,12 +84,12 @@ split_binomial <- function(x, binomial_col){
   output <- cbind(binomials, Binomial_authority,
               Infraspecific_rank, Infraspecies, Infraspecific_authority)
 
-   output[output == ""] <- NA
-   output <- data.frame ( apply(output, MARGIN = 2, FUN = trimws) )
-   output <- tidyr::unite(data = output, col = 'Full_name', Genus:Infraspecific_authority, na.rm=TRUE, sep = " ")
+  output[output == ""] <- NA
+  output <- data.frame ( apply(output, MARGIN = 2, FUN = trimws) )
+  output <- tidyr::unite(data = output, col = 'Full_name', Genus:Infraspecific_authority, na.rm=TRUE, sep = " ", remove = FALSE)
 
   cols2overwrite <- c('Binomial', 'Genus', 'Epithet', 'Binomial_authority',
-                'Infraspecific_rank', 'Infraspecies', 'Infraspecific_authority')
+                'Infraspecific_rank', 'Infrarank', 'Infraspecies', 'Infraspecific_authority')
   in_out <- dplyr::select(x, -any_of(cols2overwrite))
   output <- dplyr::bind_cols(in_out, output)
 

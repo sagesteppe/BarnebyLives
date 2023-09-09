@@ -33,7 +33,7 @@ spell_check <- function(x, path) {
       dplyr::pull(Family)
 
     if(nrow(incorrect_families) > 0){
-      incorrect_families$Family = sapply(searchF, closest_name)
+      incorrect_families$Family = unlist(sapply(searchF, closest_name))
       out <-
         dplyr::bind_rows(incorrect_families, correct_families) |>
         dplyr::select(-SPELLING) |>
@@ -42,7 +42,6 @@ spell_check <- function(x, path) {
     } else(return(x))
   }
   x <- family_spell_check(x, path)
-  return(x)
 
   # first verify that these columns exist
   r <- sapply( x[c('Genus', 'Epithet' )], is.na)
