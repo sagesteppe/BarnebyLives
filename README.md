@@ -56,7 +56,7 @@ We hope to collaborate with others to treat CONUS and to create multiformat data
 
 ## Input Data Column Names
 
-The columns in the top table are **required** to run the all the functions in BarnebyLives. The columns in the middle table are suggested to increase the quality of the collections.  The columns in the lower table are optional, to be blunt, BarnebyLives will generate all of these values. Ficticious examples are provided here, while links to real examples (over 100) are contained in the vignettes.
+The columns in the top table are **required** to run the all the functions in BarnebyLives. The columns in the middle table are suggested to increase the quality of the collections.  The columns in the lower table are optional, to be blunt, BarnebyLives will generate all of these values. Ficticious examples are provided here, while links to real examples (over 100) are contained [here](https://docs.google.com/spreadsheets/d/1iOQBNeGqRJ3yhA-Sujas3xZ2Aw5rFkktUKv3N_e4o8M/edit#gid=0) and in the vignettes.
 
 |     Column name        |  Description  |   Example   |
 |   -----------------    | ------------- |  ---------- |
