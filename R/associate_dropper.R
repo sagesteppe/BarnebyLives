@@ -16,7 +16,7 @@ associate_dropper <- function(x, Binomial){
   x <- x |>
     dplyr::rowwise() |>
     dplyr::mutate(
-      Associates = gsub(stringr::word(Binomial, 1,2, sep=" "), "", Associates),
+      Associates = gsub(paste0(Binomial), "", Associates),
       Associates = trimws(gsub("\\s+", " ", Associates)),
       Associates = gsub(",$", "", Associates),
       Associates = gsub("^, ", "", Associates),

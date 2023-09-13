@@ -22,19 +22,38 @@ dms2dd <- function(x, lat, long, dms){
   if(missing(long)){
     long = colnames(x)[grep('long', colnames(x), ignore.case = T)] }
 
-  # test for DMS format if not supplied
-  suppressWarnings(  if(missing(dms)){
-    dms = long == parzer::parse_lon(long)
-  })
+  # remove any N | E | S | W, or for that matter other alphabetical characters
+  x[,long] <- gsub('[[:alpha:]]|\\s', "", x[,long])
+  x[,lat] <- gsub('[[:alpha:]]|\\s', "", x[,lat])
 
-  # convert dms to dd, or rename input columns to dd
-  if(dms == T){
-    x$latitude_dd = parzer::parse_lat(x$lat)
-    x$longitude_dd = parzer::parse_lon(x$long)
-  } else{
-    colnames(x)[which(names(x) == lat)] <- 'latitude_dd'
-    colnames(x)[which(names(x) == long)] <- 'longitude_dd'
+   # we will need to perform this operation across every single row,
+   # because some people will put dms and dd in the same column...
+
+   x_spl <- split(x, f = 1:nrow(x))
+
+  dmsbyrow <- function(x, long, lat){
+      # test for DMS format if not supplied
+
+    suppressWarnings(
+      dms <- is.na( as.numeric(x[,long]) == as.numeric(parzer::parse_lon(x[,long])) ))
+    # convert dms to dd, or rename input columns to dd#
+    if(dms == T){
+      x$latitude_dd = parzer::parse_lat(x[,lat])
+      x$longitude_dd = parzer::parse_lon(x[,long])
+      x <- x[, -which(names(x) %in% c(lat, long))]
+    } else{
+      colnames(x)[which(names(x) == lat)] <- 'latitude_dd'
+      colnames(x)[which(names(x) == long)] <- 'longitude_dd'
+    }
+    return(x)
   }
+
+  x <- lapply(x_spl, dmsbyrow, long = long, lat = lat) |>
+    data.table::rbindlist(use.names = TRUE)
+
+  x$latitude_dd <- as.numeric(x$latitude_dd)
+  x$longitude_dd <- as.numeric(x$longitude_dd)
+
   # ensure the DD signs are appropriate for domain
   x$latitude_dd <- abs(x$latitude_dd)
   x$longitude_dd <- abs(x$longitude_dd) * -1
