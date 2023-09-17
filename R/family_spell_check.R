@@ -5,12 +5,14 @@
 #' @param path a path to a folder containing the taxonomic data.
 #' @examples
 #' \dontrun{
-#' names_vec <- c('Astagalus purshii', 'Linnaeus borealius', 'Heliumorus multifora')
-#' spelling <- spell_check(names_vec, path = '../taxonomic_data')
-#' spelling
-#' }
+#' names <- data.frame(
+#'  Collection_number = 1:3,
+#'  Family = c('Asteracea', 'Flabaceae', 'Onnagraceae')
+#' )
+#' spelling <- family_spell_check(names, path = '../taxonomic_data')
+#'}
 #' @export
-family_spell_check <- function(x, path) {
+family_spell_check <- function(x, path){
 
   closest_name <- function(x){
     if(is.na(x)){out <- data.frame(Family = NA)} else {
@@ -36,5 +38,6 @@ family_spell_check <- function(x, path) {
       dplyr::select(-SPELLING) |>
       dplyr::arrange(Collection_number)
     return(out)
-  } else(return(x))
+  } else { return(x)}
 }
+
