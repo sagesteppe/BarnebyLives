@@ -16,7 +16,17 @@ directions_grabber <- function(x, api_key){
 
   # extract an overview of the directions as well as the specifics
   dir_over <- lapply(test_gq, directions_overview) |> unlist()
-  dir_specific <- lapply(test_gq, specificDirections) |> unlist()
+
+  dir_specific <- vector(mode = 'list', length = length(test_gq))
+  for (i in seq(test_gq)){ # some areas google says NO! to, handle them here.
+    if(dir_over[i] == '0mins from  via .'){
+      dir_over[i] <- 'Google will not'
+      dir_specific[i] <-"give results"
+    } else {
+      dir_specific[i] <- specificDirections(test_gq[[i]])
+    }
+  }
+  dir_specific <- unlist(dir_specific)
 
   sites_out <- do.call(rbind, sites)
   sites_out <- sites_out[, c('latitude_dd', 'longitude_dd')]

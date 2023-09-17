@@ -1,4 +1,3 @@
-
 #' Import Google directions to a site
 #'
 #' Use Google Maps to write directions to a site, so that the people re-locating
