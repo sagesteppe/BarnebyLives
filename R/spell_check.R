@@ -2,33 +2,25 @@
 #'
 #' @description this function attempts to verify the spelling of a user submitted taxonomic name. If necessary it will proceed step-wise by name pieces attempting to place them.
 #' @param x data frame/ tibble /sf object containing names to spell check
+#' @param full_name a column containing the full name, genus, species, and infraspecific rank information as relevant.
 #' @param path a path to a folder containing the taxonomic data.
 #' @examples
 #' \dontrun{
-#' names_vec <- c('Astagalus purshii', 'Linnaeus borealius', 'Heliumorus multifora')
-#' spelling <- spell_check(names_vec, path = '../taxonomic_data')
-#' spelling
+#' names <- data.frame(
+#'  Full_name = c('Astagalus purshii', 'Linnaeus borealius ssp. borealis', 'Heliumorus multifora', NA, 'Helianthus annuus'),
+#'  Genus = c('Astagalus', 'Linnaeus', 'Heliumorus', NA, 'Helianthus'),
+#'  Epithet = c('purshii', 'borealius', 'multifora', NA, 'annuus'))
+#' names_l <- split(names, f = 1:nrow(names))
+#' r <- lapply(names_l, spell_check, column = 'Full_name', path = p2tax)
 #' }
 #' @export
-spell_check <- function(x, path) {
-
-  # first verify that these columns exist
-  r <- sapply( x[c('Genus', 'Epithet' )], is.na)
-  g <- which(r[,1] == TRUE); s <- which(r[,2] == TRUE)
-  remove <- unique(c(g, s))
-
-  if(length(remove) > 0) {
-    x <- x[-remove,]
-    cat('Error with row(s): ', remove,
-        ' continuing without.')
-    return(x)
-  }
-  rm(r, s, g, remove)
+spell_check <- function(x, column, path) {
 
   sppLKPtab <- read.csv(file.path(path, 'species_lookup_table.csv'))
   genLKPtab <- read.csv(file.path(path, 'genus_lookup_table.csv'))
+  epiLKPtab <- read.csv(file.path(path, 'epithet_lookup_table.csv'))
 
-  pieces <- unlist(stringr::str_split(x, pattern = " "))
+  pieces <- unlist(stringr::str_split(x[,column], pattern = " "))
   genus <- pieces[1] ; species <- pieces[2]
   binom <- paste(genus, species)
 
@@ -52,7 +44,7 @@ spell_check <- function(x, path) {
 
     if (any(grep( x = sppLKPtab$scientificName, pattern = binom, fixed = T))) {
       return(data.frame(Query = x, Result = x, Match = 'exact'))
-    } else{
+    } else {
       # try and determine which piece is incorrect.
 
       # subset data sets to query each name component separately
@@ -61,7 +53,7 @@ spell_check <- function(x, path) {
       gen_strings <-
         dplyr::filter(genLKPtab, Grp == genus2char) |> dplyr::pull(strings)
       spe_strings <-
-        dplyr::filter(sppLKPtab, Grp == species3char) |> dplyr::pull(scientificName)
+        dplyr::filter(epiLKPtab, Grp == species3char) |> dplyr::pull(strings)
 
       # check to see if both genus and species are clean
       if (any(grep(x = gen_strings, pattern = paste0('^', genus, '$')))) {
@@ -71,7 +63,7 @@ spell_check <- function(x, path) {
           gen_strings[which.min(adist(genus, gen_strings))]
       }
 
-      # is species clean
+      # is species clean ?
       if (any(grep(x = spe_strings, pattern = paste0('^', species, '$')))) {
         clean_species_Tag <- species
       } else {
@@ -84,7 +76,7 @@ spell_check <- function(x, path) {
       {
         return(data.frame(
           Query = x, Result = binom, Match = 'Suspected missing from ref DB'))
-      } else { # if one is not clean search them with the 'cleaned' up versions
+      } else { # if one name is not clean search them with the 'cleaned' up versions
         combos <- ls()[grep(ls(), pattern = 'Tag')]
         search_q <-
           combos[c(grep(combos, pattern = 'genus'),
@@ -95,7 +87,7 @@ spell_check <- function(x, path) {
 
           return(data.frame(Query = x, Result = search_nom, Match = 'fuzzy'))
 
-        } else{
+        } else {
           possible_binomial <-
             sppLKPtab[which.min(adist(search_nom, sppLKPtab$scientificName)), 'scientificName'] |>
               as.character()
@@ -105,3 +97,5 @@ spell_check <- function(x, path) {
     }
   }
 }
+
+
