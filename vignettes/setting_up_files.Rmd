@@ -69,6 +69,13 @@ However, both the genus and specific epithet tables are abbreviated. We find the
 sppLKPtab <- cla[, c('scientificName', 'specificEpithet', 'infraspecificEpithet', 'verbatimTaxonRank')]
 sppLKPtab <- filter(sppLKPtab, is.na(verbatimTaxonRank) | verbatimTaxonRank != "f.") %>% 
   mutate(Grp = str_extract(specificEpithet, '[a-z]{3}')) 
+infra_sppLKPtab <- na.omit(sppLKPtab) %>% 
+  distinct(scientificName, .keep_all = T) %>% 
+  arrange(scientificName)
+
+sppLKPtab <- sppLKPtab[is.na(sppLKPtab$infraspecificEpithet), ] %>% 
+  distinct(scientificName, .keep_all = T) %>% 
+  arrange(scientificName)
 
 genLKPtab <- unique(cla, by = 'genus')[taxonomicStatus == 'Accepted','genus'] %>% 
   arrange(genus) %>% 
@@ -80,8 +87,9 @@ families <- c(families, 'Hydrophyllaceae', 'Namaceae') #add on a few
 families <- data.frame(Family = families)
 
 write.csv(families, '/media/steppe/hdd/Barneby_Lives-dev/taxonomic_data/families_lookup_table.csv', row.names = F)
-write.csv(sppLKPtab, '/hdd/Barneby_Lives-dev/taxonomic_data/species_lookup_table.csv', row.names = F)
-write.csv(genLKPtab, '/hdd/Barneby_Lives-devs/taxonomic_data/genus_lookup_table.csv', row.names = F)
+write.csv(sppLKPtab, '/media/steppe/hdd/Barneby_Lives-dev/taxonomic_data/species_lookup_table.csv', row.names = F)
+write.csv(genLKPtab, '/media/steppe/hdd/Barneby_Lives-dev/taxonomic_data/genus_lookup_table.csv', row.names = F)
+write.csv(infra_sppLKPtab, '/media/steppe/hdd/Barneby_Lives-dev/taxonomic_data/infra_species_lookup_table.csv', row.names = F)
 
 rm(sppLKPtab, epiLKPtab, genLKPtab, cla, families)
 ```

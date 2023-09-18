@@ -17,33 +17,41 @@
 spell_check <- function(x, column, path) {
 
   sppLKPtab <- read.csv(file.path(path, 'species_lookup_table.csv'))
+  infra_sppLKPtab <- read.csv(file.path(path, 'infra_species_lookup_table.csv'))
   genLKPtab <- read.csv(file.path(path, 'genus_lookup_table.csv'))
   epiLKPtab <- read.csv(file.path(path, 'epithet_lookup_table.csv'))
+
+  sc <- function(x, column){
 
   pieces <- unlist(stringr::str_split(x[,column], pattern = " "))
   genus <- pieces[1] ; species <- pieces[2]
   binom <- paste(genus, species)
+  rownames(x) <- FALSE
 
   # infra species should be found without much hassle due to their length
   if(length(pieces) == 4){
-    infras <- na.omit(sppLKPtab)
     full_name <- paste(genus, species,
                        stringr::str_replace(pieces[3], 'ssp\\.|ssp', 'subsp.'), pieces[4])
 
-    if (any(grep( x = infras$scientificName, pattern = full_name, fixed = T))) {
-      return(data.frame(Query = x, Result = full_name, Match = 'exact'))
+    if (any(grep( x = infra_sppLKPtab$scientificName, pattern = full_name, fixed = T))) {
+      infraspecies_name <- infra_sppLKPtab[grep( x = infra_sppLKPtab$scientificName, pattern = full_name, fixed = T),]
+      infraspecies_name <- infraspecies_name[1,]
+      return(data.frame(x, Result = infraspecies_name, Match = 'exact'))
     } else {
       infraspecies_name <-
-        infras[which.min(adist(full_name, infras$scientificName)), 'scientificName'] |>
+        infra_sppLKPtab[which.min(adist(full_name, infra_sppLKPtab$scientificName)), 'scientificName'] |>
         as.character()
-      return(data.frame(Query = x, Result = infraspecies_name, Match = 'fuzzy'))
+      infraspecies_name <- infraspecies_name[1,]
+      return(data.frame(x, Result = infraspecies_name, Match = 'fuzzy'))
     }
 
     # species can become difficult due to their short  names, e.g. 'Poa annua'
   } else {
 
     if (any(grep( x = sppLKPtab$scientificName, pattern = binom, fixed = T))) {
-      return(data.frame(Query = x, Result = x, Match = 'exact'))
+      species_name <- sppLKPtab[grep(x = sppLKPtab$scientificName, pattern = binom, fixed = T),]
+      species_name <- species_name[1,]
+      return(data.frame(x, Result = species_name, Match = 'exact'))
     } else {
       # try and determine which piece is incorrect.
 
@@ -74,8 +82,7 @@ spell_check <- function(x, column, path) {
       # if both the genus and species name are present, we could be missing it from the DB
       if (exists('clean_genus_Tag') & exists ('clean_species_Tag'))
       {
-        return(data.frame(
-          Query = x, Result = binom, Match = 'Suspected missing from ref DB'))
+        return(data.frame( x, binom, Match = 'Suspected missing from ref DB'))
       } else { # if one name is not clean search them with the 'cleaned' up versions
         combos <- ls()[grep(ls(), pattern = 'Tag')]
         search_q <-
@@ -84,18 +91,24 @@ spell_check <- function(x, column, path) {
         search_nom <- paste(unlist(mget(search_q)), collapse = " ")
 
         if (any(grep(x = sppLKPtab$scientificName, pattern = search_nom, fixed = T))) {
-
-          return(data.frame(Query = x, Result = search_nom, Match = 'fuzzy'))
+          species_name <- sppLKPtab[grep(x = sppLKPtab$scientificName, pattern = search_nom, fixed = T),]
+          species_name <- species_name[1,]
+          return(data.frame(x, species_name, Match = 'fuzzy2'))
 
         } else {
           possible_binomial <-
-            sppLKPtab[which.min(adist(search_nom, sppLKPtab$scientificName)), 'scientificName'] |>
+            sppLKPtab[which.min(adist(search_nom, sppLKPtab$scientificName)), 'scientificName',1] |>
               as.character()
-          return(data.frame(Query = x, Result = possible_binomial, Match = 'fuzzy'))
+          return(data.frame(x, possible_binomial, Match = 'fuzzy1'))
         }
       }
     }
   }
+  }
+  data_l <- split(x, f = 1:nrow(x))
+  sc_res <- lapply(data_l, sc, column = column)
+ # sc_res <- data.table::rbindlist(sc_res, fill = TRUE)
+  return(sc_res)
 }
 
 
