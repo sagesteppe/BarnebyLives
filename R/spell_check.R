@@ -47,7 +47,7 @@ spell_check <- function(x, column, path) {
     # species can become difficult due to their short  names, e.g. 'Poa annua'
   } else {
 
-    pos = grep(x = infra_sppLKPtab$scientificName, pattern = full_name, fixed = T))
+    pos = grep(x = infra_sppLKPtab$scientificName, pattern = full_name, fixed = T)
   if (length(pos) == 1) {
     infraspecies_name <- infra_sppLKPtab[pos,]
     infraspecies_name <- infraspecies_name[1,]
