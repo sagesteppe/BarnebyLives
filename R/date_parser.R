@@ -30,53 +30,13 @@ date_parser <- function(x, coll_date, det_date){
                         paste0(det_date, names_v))
   }
 
-  rename_with.sf = function(.data, .fn, .cols, ...) {
-    if (!requireNamespace("rlang", quietly = TRUE))
-      stop("rlang required: install that first") # nocov
-    .fn = rlang::as_function(.fn)
-
-    sf_column = attr(.data, "sf_column")
-    sf_column_loc = match(sf_column, names(.data))
-
-    if (length(sf_column_loc) != 1 || is.na(sf_column_loc))
-      stop("internal error: can't find sf column") # nocov
-
-    agr = sf::st_agr(.data)
-
-    .data = as.data.frame(.data)
-    ret = if (missing(.cols)) {
-      if (!requireNamespace("tidyselect", quietly = TRUE)) {
-        stop("tidyselect required: install that first") # nocov
-      }
-      dplyr::rename_with(
-        .data = .data,
-        .fn = .fn,
-        .cols = tidyselect::everything(),
-        ...
-      )
-    } else {
-      dplyr::rename_with(
-        .data = .data,
-        .fn = .fn,
-        .cols = {{ .cols }},
-        ...
-      )
-    }
-    ret = sf::st_as_sf(ret, sf_column_name = names(ret)[sf_column_loc])
-
-    names(agr) = .fn(names(agr))
-    sf::st_agr(ret) = agr
-    ret
-  }
-
-
   x_dmy <- x |>
     dplyr::mutate(across(.cols = c(!!coll_date_q, !!det_date_q), lubridate::mdy, .names = "{.col}_dmy")) |>
     dplyr::mutate(across(ends_with('_dmy'), ~ lubridate::month(.), .names = "{.col}_mo"),
            across(ends_with('_dmy'), ~ lubridate::day(.), .names = "{.col}_day"),
            across(ends_with('_dmy'), ~ lubridate::year(.), .names = "{.col}_yr")) |>
     dplyr::mutate(across(.cols = c(!!coll_date_q, !!det_date_q), date2text, .names = '{.col}_text')) |>
-    rename_with.sf( ~ stringr::str_remove(., '_dmy'), matches("_dmy_.*$")) |>
+    dplyr::rename_with(~stringr::str_remove(., '_dmy'), matches('_dmy_.*$')) |>
     dplyr::relocate(any_of(column_names), .before = last_col())
 
   return(x_dmy)
