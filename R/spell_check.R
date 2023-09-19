@@ -1,7 +1,7 @@
 #' check that genera and specific epithets are spelled (almost) correctly
 #'
 #' @description this function attempts to verify the spelling of a user submitted taxonomic name. If necessary it will proceed step-wise by name pieces attempting to place them.
-#' @param x data frame/ tibble /sf object containing names to spell check
+#' @param data data frame/ tibble /sf object containing names to spell check
 #' @param full_name a column containing the full name, genus, species, and infraspecific rank information as relevant.
 #' @param path a path to a folder containing the taxonomic data.
 #' @examples
@@ -14,7 +14,7 @@
 #' r <- lapply(names_l, spell_check, column = 'Full_name', path = p2tax)
 #' }
 #' @export
-spell_check <- function(x, column, path) {
+spell_check <- function(data, column, path) {
 
   sppLKPtab <- read.csv(file.path(path, 'species_lookup_table.csv'))
   infra_sppLKPtab <- read.csv(file.path(path, 'infra_species_lookup_table.csv'))
@@ -49,7 +49,7 @@ spell_check <- function(x, column, path) {
     } else {
 
       pos <- grep( x = sppLKPtab$scientificName, pattern = binom, fixed = T)
-      if (length(pos) == 4) {
+      if (length(pos) == 1) {
         species_name <- sppLKPtab[pos,]
         species_name <- species_name[1,]
         return(data.frame(x, SpellCk = species_name, Match = 'exact'))
@@ -106,10 +106,22 @@ spell_check <- function(x, column, path) {
       }
     }
   }
+
+  if(any(class(data) == 'sf')){ # drop geometry column to pull vectors out
+    geometry_col <- dplyr::select(data, geometry)
+    x <- sf::st_drop_geometry(data) |>
+      data.frame()
+  } else {x <- data}
+
   data_l <- split(x, f = 1:nrow(x))
   sc_res <- lapply(data_l, sc, column = column)
   sc_res <- data.table::rbindlist(sc_res, fill = TRUE) |>
     dplyr::select(-any_of('SpellCk.Grp')) |>
     dplyr::rename(SpellCk_Infraspecific_rank = SpellCk.verbatimTaxonRank)
+
+  if(any(class(data) == 'sf')){
+    sc_res <- dplyr::bind_cols(sc_res, geometry_col)
+  }
+
   return(sc_res)
 }
