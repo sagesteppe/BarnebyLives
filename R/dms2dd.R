@@ -55,8 +55,8 @@ dms2dd <- function(x, lat, long, dms){
   x$longitude_dd <- as.numeric(x$longitude_dd)
 
   # ensure the DD signs are appropriate for domain
-  x$latitude_dd <- abs(x$latitude_dd)
-  x$longitude_dd <- abs(x$longitude_dd) * -1
+  x$latitude_dd <- round(abs(x$latitude_dd), 4)
+  x$longitude_dd <- round(abs(x$longitude_dd) * -1, 4)
 
   # now overwrite the original DMS values in our exact format
 

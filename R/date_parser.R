@@ -32,12 +32,29 @@ date_parser <- function(x, coll_date, det_date){
 
   x_dmy <- x |>
     dplyr::mutate(across(.cols = c(!!coll_date_q, !!det_date_q), lubridate::mdy, .names = "{.col}_dmy")) |>
-    dplyr::mutate(across(ends_with('_dmy'), ~ lubridate::month(.), .names = "{.col}_mo"),
-           across(ends_with('_dmy'), ~ lubridate::day(.), .names = "{.col}_day"),
-           across(ends_with('_dmy'), ~ lubridate::year(.), .names = "{.col}_yr")) |>
-    dplyr::mutate(across(.cols = c(!!coll_date_q, !!det_date_q), date2text, .names = '{.col}_text')) |>
-    dplyr::rename_with(~stringr::str_remove(., '_dmy'), matches('_dmy_.*$')) |>
-    dplyr::relocate(any_of(column_names), .before = last_col())
+    dplyr::mutate(
+      across(ends_with('_dmy'), ~ lubridate::month(.), .names = "{.col}_mo"),
+      across(ends_with('_dmy'), ~ lubridate::day(.), .names = "{.col}_day"),
+      across(ends_with('_dmy'), ~ lubridate::year(.), .names = "{.col}_yr")
+      ) |>
+    dplyr::mutate(across(.cols = c(!!coll_date_q, !!det_date_q), date2text, .names = '{.col}_text'))
+
+  if(any(grep('sf', class(x_dmy)))){
+    x_dmy_geo <- x_dmy |>
+      dplyr::select(geometry)
+
+    x_dmy_no_geo <- x_dmy |>
+      sf::st_drop_geometry(x_dmy) |>
+      dplyr::rename_with(~stringr::str_remove(., '_dmy'), matches('_dmy_.*$')) |>
+      dplyr::relocate(any_of(column_names), .before = last_col())
+
+    x_dmy <- bind_cols(x_dmy_no_geo, x_dmy_geo)
+
+  } else {
+    x_dmy <- x_dmy |>
+      dplyr::rename_with(~stringr::str_remove(., '_dmy'), matches('_dmy_.*$')) |>
+      dplyr::relocate(any_of(column_names), .before = last_col())
+  }
 
   return(x_dmy)
 }

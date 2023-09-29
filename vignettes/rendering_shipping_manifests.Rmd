@@ -1,0 +1,11 @@
+---
+title: "Rendering a shipping manifest"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Rendering a shipping manifest}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+
