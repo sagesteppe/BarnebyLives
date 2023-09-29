@@ -48,7 +48,8 @@ date_parser <- function(x, coll_date, det_date){
       dplyr::rename_with(~stringr::str_remove(., '_dmy'), matches('_dmy_.*$')) |>
       dplyr::relocate(any_of(column_names), .before = last_col())
 
-    x_dmy <- bind_cols(x_dmy_no_geo, x_dmy_geo)
+    x_dmy <- bind_cols(x_dmy_no_geo, x_dmy_geo) |>
+      sf::st_as_sf(crs = sf::st_crs(x_dmy_geo))
 
   } else {
     x_dmy <- x_dmy |>
