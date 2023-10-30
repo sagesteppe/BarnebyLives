@@ -1,4 +1,4 @@
-#' gather distance and azimuth from shop to center of town
+#' gather distance and azimuth from site to center of town
 #'
 #' Help provide some simple context between the building and the
 #' @param x an sf/tibble/dataframe of locations with associated nearest locality data

@@ -11,6 +11,13 @@ directions_grabber <- function(x, api_key){
   sites <- split(x, f = list(x$latitude_dd, x$longitude_dd), drop=TRUE)
   sites <- lapply(sites,  '[' , 1,)
 
+  # retrieve the site name
+  sitename <- paste('. Head to',
+                    gsub('^ ', '',
+                         gsub('^.*from', '', strs)
+                    )
+  )
+
   # gather results from API
   test_gq <- get_google_directions(sites, api_key = SoS_gkey)
 
@@ -31,10 +38,11 @@ directions_grabber <- function(x, api_key){
   sites_out <- do.call(rbind, sites)
   sites_out <- sites_out[, c('latitude_dd', 'longitude_dd')]
   sites_out <- sf::st_drop_geometry(sites_out)
-  sites_out$Directions_BL = paste(dir_over, dir_specific)
+  sites_out$Directions_BL = paste(dir_over, dir_specific, sitename)
   out <- dplyr::left_join(x,
                           sites_out, by = c('latitude_dd', 'longitude_dd')) |>
     dplyr::relocate(Directions_BL, .before = geometry)
 
   return(out)
 }
+
