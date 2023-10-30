@@ -16,6 +16,9 @@ political_grabber <- function(x, y, path){
                     'Unit_Nm', 'trs', 'Allotment')))
 
   political <- sf::st_read( file.path(path, 'political/political.shp'), quiet = T)
+  mountains <- sf::st_read( file.path(p2geo, 'mountains/mountains.shp'), quiet = T) |>
+    dplyr::rename(Mountains = MapName) |>
+    dplyr::mutate(Mountains = stringr::str_remove(Mountains, '[(]nn[])]'))
   allotment <- sf::st_read( file.path(path, 'allotments/allotments.shp'), quiet = T)
   plss <- sf::st_read( file.path(path, 'plss/plss.shp'), quiet = T)
   ownership <- sf::st_read( file.path(path, 'pad/pad.shp'), quiet = T)
@@ -25,6 +28,7 @@ political_grabber <- function(x, y, path){
   x <- sf::st_join(x, political)
   x <- sf::st_join(x, allotment)
   x <- sf::st_join(x, ownership)
+  x <- sf::st_join(x, mountains)
 
   x_plss <- sf::st_transform(x, sf::st_crs(plss))
   x_plss <- sf::st_join(x_plss, plss) |>
@@ -33,7 +37,8 @@ political_grabber <- function(x, y, path){
 
   x_vars <- dplyr::left_join(x, x_plss, by = y) |>
     dplyr::mutate(Country = 'U.S.A.') |>
-    dplyr::relocate(any_of(c('Country', 'State', 'County', 'Mang_Name', 'Unit_Nm', 'trs', 'Allotment')),
+    dplyr::relocate(any_of(
+      c('Country', 'State', 'County', 'Mountains', 'Mang_Name', 'Unit_Nm', 'trs', 'Allotment')),
              .before = geometry) |>
     dplyr::distinct(.keep_all = T) |>
     # with large enough sample size some points fall on an exact border
@@ -44,9 +49,11 @@ political_grabber <- function(x, y, path){
   x_vars <- x_vars |>
     dplyr::mutate(
       Gen = paste0(
-        Country, ', ', State, ', ', County, ' Co., ', Mang_Name, " ", Unit_Nm, " ", trs),
+        Country, ', ', State, ', ', County, ' Co., ', Mountains,
+        ', ', Mang_Name, " ", Unit_Nm, " ", trs),
       Gen = stringr::str_replace_all(Gen, "NA", ""),
       Gen = stringr::str_replace_all(Gen, "  ", ""),
+      Gen = stringr::str_replace_all(Gen, ", ,", ","),
       Gen = stringr::str_trim(Gen),
       Gen = stringr::str_remove(Gen, ",$"),
       .before = geometry)
@@ -55,3 +62,4 @@ political_grabber <- function(x, y, path){
 
   rm(political, allotment, plss, ownership)
 }
+

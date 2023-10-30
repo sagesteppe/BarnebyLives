@@ -261,7 +261,9 @@ mtns <- st_read('../geodata_raw/globalMountains/GMBA_Inventory_v2.0_standard_bas
         quiet = T) %>% 
   st_make_valid() %>% 
   select(MapName) %>% 
-  st_crop(., st_union(tile_cells))
+  st_crop(., st_union(tile_cells))|>
+  dplyr::rename(Mountains = MapName) |>
+  dplyr::mutate(Mountains = stringr::str_remove(Mountains, '[(]nn[])]'))
 
 st_write(mtns, dsn = file.path('../geodata/mountains', 'mountains.shp'), quiet = T)
 
@@ -295,7 +297,7 @@ To determine the land ownership of collections we utilize the Protected Areas Da
 ```{r crop padus to domain, eval = F}
 
 padus <- st_read(dsn = '../geodata_raw/PADUS3/PAD_US3_0.gdb', 
-                 layer = 'PADUS3_0Fee') %>% 
+                 layer = 'PADUS3_0Fee' %>% 
   filter(State_Nm %in% states) %>% 
   select(Mang_Name, Unit_Nm) %>% 
   st_cast('MULTIPOLYGON')
@@ -305,6 +307,19 @@ padus <- padus[st_intersects(padus, st_union(tile_cells)) %>% lengths > 0, ]
 padus <- st_transform(padus, crs = 4326)
 
 st_write(padus, dsn = file.path('../geodata/pad', 'pad.shp'), quiet = T)
+
+# replace really long state land board names with 'STATE SLB'
+
+padus <- st_read('../../Barneby_Lives-dev/geodata/pad/pad.shp')
+
+padus <- padus %>% 
+  mutate(Unit_Nm = 
+           str_replace(Unit_Nm, 
+                               'The State of Utah School and Institutional Trust Lands Administration', 'Utah')
+         )
+
+st_write(padus, dsn = file.path('../geodata/pad', 'pad.shp'), quiet = T, append = F)
+
 rm(padus)
 ```
 
