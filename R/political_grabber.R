@@ -16,9 +16,7 @@ political_grabber <- function(x, y, path){
                     'Unit_Nm', 'trs', 'Allotment')))
 
   political <- sf::st_read( file.path(path, 'political/political.shp'), quiet = T)
-  mountains <- sf::st_read( file.path(p2geo, 'mountains/mountains.shp'), quiet = T) |>
-    dplyr::rename(Mountains = MapName) |>
-    dplyr::mutate(Mountains = stringr::str_remove(Mountains, '[(]nn[])]'))
+  mountains <- sf::st_read( file.path(p2geo, 'mountains/mountains.shp'), quiet = T)
   allotment <- sf::st_read( file.path(path, 'allotments/allotments.shp'), quiet = T)
   plss <- sf::st_read( file.path(path, 'plss/plss.shp'), quiet = T)
   ownership <- sf::st_read( file.path(path, 'pad/pad.shp'), quiet = T)
