@@ -1,10 +1,10 @@
 #' query plants of the world online for taxonomic information
 #'
-#'  a wrapper for kewr::search_powo
+#' @description a wrapper for kewr::search_powo
 #' @param x a vector of species names to submit, these should have clean spelling
 #' notes: results are observed to fail for valid infraspecies on Kew's end, and they seem not
 #' to mention valid infraspecies.
-#' @examples
+#' @example
 #' library(dplyr)
 #' pow_results <- lapply(
 #'       c('Linnaea borealis var. borealis', 'Linnaea borealis var. americana', 'Astragalus purshii', 'Pinus ponderosa'),
@@ -55,8 +55,3 @@ powo_searcher <- function(x){
 
   return(out_ob)
 }
-
-pow_results <- lapply(
-     c('Linnaea borealis var. borealis', 'Linnaea borealis var. americana', 'Astragalus purshii', 'Pinus ponderosa'),
-     powo_searcher) |>
-  dplyr::bind_rows()

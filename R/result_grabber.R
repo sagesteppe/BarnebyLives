@@ -3,7 +3,7 @@
 #' @description this function is used within 'powo_searcher' to retrieve the results from a successful POWO query.
 #' @param x a successful powo search query
 #' @export
-result_grabber <- function(x) {
+result_grabber <- function(x){
   # subset the appropriate data frame, there is one if clean data were entered,
   # and two if a synonym was entered.
   results <- x[['results']]
