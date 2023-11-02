@@ -18,7 +18,7 @@ geodata_writer <- function(x, path, filename, filetype){
 
   x <- x |>
     dplyr::select(Name = Collection_number) |>
-    sf::st_write(dsn = fname, driver = filetype, delete_dsn = TRUE, quiet = T)
+    sf::st_write(dsn = fname, driver = filetype, delete_dsn = TRUE, quiet = T, append = F)
 
   return(x)
   cat('data written to: ', fname)
