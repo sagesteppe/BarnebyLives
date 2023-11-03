@@ -14,7 +14,7 @@ directions_grabber <- function(x, api_key){
   # retrieve the site name
   sitename <- paste('. Head to',
                     gsub('^ ', '',
-                         gsub('^.*from', '', strs)
+                         gsub('^.*from', '', x$Site)
                     )
   )
 

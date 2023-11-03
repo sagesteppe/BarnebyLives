@@ -1,7 +1,7 @@
 #' Retrieve binomials from a list of USDA Plants codes
 #'
 #' Spell out abbreviated fields
-#' @param x a dataframe containing the values
+#' @param x a data frame containing the values
 #' @param y the first column containing the codes, the function works row by row allowing
 #' for mixed columns, i.e. those with both spelled out and abbreviated species
 #' @param path path to the folder containing taxonomic data
