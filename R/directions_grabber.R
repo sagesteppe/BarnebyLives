@@ -14,9 +14,10 @@ directions_grabber <- function(x, api_key){
   # retrieve the site name
   sitename <- paste('. Head to',
                     gsub('^ ', '',
-                         gsub('^.*from', '', x$Site)
+                         gsub('^.*from', '', sites_names$Site)
                     )
   )
+  sites_names <- do.call(rbind,  lapply(sites, '[',  'Site') )
 
   # gather results from API
   test_gq <- get_google_directions(sites, api_key = SoS_gkey)
