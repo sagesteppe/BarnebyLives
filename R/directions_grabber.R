@@ -13,7 +13,7 @@ directions_grabber <- function(x, api_key){
 
   sites_names <- do.call(rbind,  lapply(sites, '[',  'Site') )
   # retrieve the site name
-  sitename <- paste('. Head to',
+  sitename <- paste(' Head to',
                     gsub('^ ', '',
                          gsub('^.*from', '', sites_names$Site)
                     )
