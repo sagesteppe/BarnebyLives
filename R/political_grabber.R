@@ -17,9 +17,12 @@ political_grabber <- function(x, y, path){
 
   political <- sf::st_read( file.path(path, 'political/political.shp'), quiet = T)
   mountains <- sf::st_read( file.path(p2geo, 'mountains/mountains.shp'), quiet = T)
+  valleys <- sf::st_read( file.path(p2geo, 'mountains/valleys_11-5.shp'), quiet = T)
   allotment <- sf::st_read( file.path(path, 'allotments/allotments.shp'), quiet = T)
   plss <- sf::st_read( file.path(path, 'plss/plss.shp'), quiet = T)
   ownership <- sf::st_read( file.path(path, 'pad/pad.shp'), quiet = T)
+
+  mountains <- dplyr::bind_rows(mountains, valleys)
 
   # write attributes to data set
 
