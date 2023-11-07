@@ -39,7 +39,7 @@ directions_grabber <- function(x, api_key){
   sites_out <- do.call(rbind, sites)
   sites_out <- sites_out[, c('latitude_dd', 'longitude_dd')]
   sites_out <- sf::st_drop_geometry(sites_out)
-  sites_out$Directions_BL = paste(dir_over, dir_specific, sitename)
+  sites_out$Directions_BL = paste0(dir_over, ' ', dir_specific, sitename)
   out <- dplyr::left_join(x,
                           sites_out, by = c('latitude_dd', 'longitude_dd')) |>
     dplyr::relocate(Directions_BL, .before = geometry)

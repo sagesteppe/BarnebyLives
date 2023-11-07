@@ -16,20 +16,25 @@ political_grabber <- function(x, y, path){
                     'Unit_Nm', 'trs', 'Allotment')))
 
   political <- sf::st_read( file.path(path, 'political/political.shp'), quiet = T)
-  mountains <- sf::st_read( file.path(p2geo, 'mountains/mountains.shp'), quiet = T)
-  valleys <- sf::st_read( file.path(p2geo, 'mountains/valleys_11-5.shp'), quiet = T)
+  mountains <- sf::st_read( file.path(p2geo, 'mountains/mountains.shp'), quiet = T) |>
+    dplyr::rename(Feature = Mountains)
+  valleys <- sf::st_read( file.path(p2geo, 'valleys/valleys_11-5.shp'), quiet = T) |>
+    sf::st_transform(sf::st_crs(mountains)) |>
+    dplyr::rename(Feature = Valley) |>
+    dplyr::select(Feature)
   allotment <- sf::st_read( file.path(path, 'allotments/allotments.shp'), quiet = T)
   plss <- sf::st_read( file.path(path, 'plss/plss.shp'), quiet = T)
   ownership <- sf::st_read( file.path(path, 'pad/pad.shp'), quiet = T)
 
-  mountains <- dplyr::bind_rows(mountains, valleys)
+  feature <- dplyr::bind_rows(mountains, valleys) |>
+    sf::st_make_valid()
 
   # write attributes to data set
 
   x <- sf::st_join(x, political)
   x <- sf::st_join(x, allotment)
   x <- sf::st_join(x, ownership)
-  x <- sf::st_join(x, mountains)
+  x <- sf::st_join(x, feature)
 
   x_plss <- sf::st_transform(x, sf::st_crs(plss))
   x_plss <- sf::st_join(x_plss, plss) |>
@@ -39,7 +44,7 @@ political_grabber <- function(x, y, path){
   x_vars <- dplyr::left_join(x, x_plss, by = y) |>
     dplyr::mutate(Country = 'U.S.A.') |>
     dplyr::relocate(any_of(
-      c('Country', 'State', 'County', 'Mountains', 'Mang_Name', 'Unit_Nm', 'trs', 'Allotment')),
+      c('Country', 'State', 'County', 'Feature', 'Mang_Name', 'Unit_Nm', 'trs', 'Allotment')),
              .before = geometry) |>
     dplyr::distinct(.keep_all = T) |>
     # with large enough sample size some points fall on an exact border
@@ -50,7 +55,7 @@ political_grabber <- function(x, y, path){
   x_vars <- x_vars |>
     dplyr::mutate(
       Gen = paste0(
-        Country, ', ', State, ', ', County, ' Co., ', Mountains,
+        Country, ', ', State, ', ', County, ' Co., ', Feature,
         ', ', Mang_Name, " ", Unit_Nm, " ", trs),
       Gen = stringr::str_replace_all(Gen, "NA", ""),
       Gen = stringr::str_replace_all(Gen, "  ", ""),
