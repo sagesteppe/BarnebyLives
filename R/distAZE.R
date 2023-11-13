@@ -32,3 +32,16 @@ distAZE <- function(x, path){
   )
 
 }
+
+
+library(BarnebyLives)
+ce <- collection_examples |>
+  sf::st_as_sf(coords = c('longitude_dd', 'latitude_dd'), crs = 4326) %>%
+  mutate(UNIQUEID  = 'RCB12')
+d1 <- ce[1,]
+
+p2geo <- '/media/steppe/hdd/Barneby_Lives-dev/geodata'
+
+d1 <- physical_grabber(d1, path = p2geo)
+
+distAZE(d1, path = p2geo)

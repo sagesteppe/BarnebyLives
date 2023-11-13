@@ -20,37 +20,34 @@
 site_writer <- function(x, path){
 
   gnis_places <- sf::st_read( file.path(path, 'places/places.shp'), quiet = T)
-  nf <- sf::st_nearest_feature(x, gnis_places)
+  nf <- sf::st_nearest_feature(x, gnis_places) # identify the row of the nearest GNIS feature
 
-  sites <- x |>
-   dplyr::mutate(sf::st_drop_geometry(gnis_places[nf, 'ID']),
-                 .before = geometry)
+  sites <- gnis_places[nf,]
 
-  locality <- sf::st_drop_geometry(sites)
-  locality <- locality[1, 'ID']
+  azimuth <- round(
+    geosphere::bearingRhumb(
+      sf::st_coordinates(sites), sf::st_coordinates(x)
+      ),
+    0)
 
-  focal <- gnis_places[grep(locality, gnis_places$ID), ]
-  location_from <- sf::st_centroid(focal)
+  distance_miles <- as.numeric(
+    round(
+      sf::st_distance(sites, x, by_element = T)
+      / 1609.34, 1
+    )
+  )
 
-  location_from <- sf::st_transform(location_from, 5070)
-  x_planar <- sf::st_transform(x, 5070)
-  distances <- sf::st_distance(location_from, x_planar, which = 'Euclidean')
   place <- data.frame('Place' =
                         sf::st_drop_geometry(gnis_places[nf, 'fetr_nm']))
 
-  azy <- nngeo::st_azimuth(
-    location_from,
-    x_planar
-  )
-
   distances_df <- data.frame(
-    Distance = round(as.numeric(distances / 1609.34), -1),
-    Azimuth = round(as.numeric(azy), 0),
+    Distance = distance_miles,
+    Azimuth = azimuth,
     Place = place
   )  |>
     dplyr::mutate(Site = if_else(
-      Distance < 100, paste0(fetr_nm, '.'),
-     paste0(Distance, 'm', ' at ', format_degree(Azimuth), ' from ', fetr_nm, '.')),
+      Distance < 0.25, paste0(fetr_nm, '.'),
+      paste0(Distance, 'mi', ' at ', format_degree(Azimuth), ' from ', fetr_nm, '.')),
       Site = stringr::str_replace(Site, '\\..$', '.')) |>
     dplyr::select(-any_of(c('Distance', 'Azimuth', 'Place', 'ID', 'fetr_nm')))
 
@@ -60,4 +57,3 @@ site_writer <- function(x, path){
 
   return(distances_df)
 }
-
