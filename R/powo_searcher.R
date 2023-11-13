@@ -4,7 +4,7 @@
 #' @param x a vector of species names to submit, these should have clean spelling
 #' notes: results are observed to fail for valid infraspecies on Kew's end, and they seem not
 #' to mention valid infraspecies.
-#' @example
+#' @examples
 #' library(dplyr)
 #' pow_results <- lapply(
 #'       c('Linnaea borealis var. borealis', 'Linnaea borealis var. americana', 'Astragalus purshii', 'Pinus ponderosa'),

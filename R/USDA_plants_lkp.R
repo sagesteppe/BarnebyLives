@@ -5,7 +5,7 @@
 #' @param y the first column containing the codes, the function works row by row allowing
 #' for mixed columns, i.e. those with both spelled out and abbreviated species
 #' @param path path to the folder containing taxonomic data
-#' @example # buck <- USDA_plants_lkp(data, 'Vegetation', p2tax)
+#' @example # buck <- USDA_plants_lkp(data, 'Vegetation')
 #' @export
 USDA_plants_lkp <- function(x, y, path ){
 

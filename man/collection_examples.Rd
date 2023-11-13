@@ -11,7 +11,7 @@ A data frame with some collections which will one day be shipped.
 collection_examples
 }
 \description{
-This is a small data frame of species information for use with the shipping/transferral notes
+This is a small data frame of species information for use with the shipping/transferal notes
 as well as with the label makers.
 }
 \details{

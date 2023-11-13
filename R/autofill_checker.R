@@ -5,7 +5,7 @@
 #' This function operates under the observation, that the incrementation only occurs
 #' to the 'integers' or degrees
 #' @param x a dataframe which has undergone 'dms2dd' from BarnebyLives
-#' @example
+#' @examples
 #' coords <- data.frame(
 #'   longitude_dd = c( rep(42.3456, times = 5), 43.3456),
 #'   latitude_dd = c( rep((-116.7890, times = 5), -115.7890))

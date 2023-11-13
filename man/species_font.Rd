@@ -11,9 +11,9 @@ species_font(x)
 }
 \description{
 This function works at the time of label creation to ensure that abbreviations
-such as 'species' 'variety' and such are not italicizded, per convention.
+such as 'species' 'variety' and such are not italicized, per convention.
 }
 \examples{
 associates <- c('Eriogonum ovalifolium var. purpureum, Castilleja sp., Crepis spp.')
-spp_normal(associates)
+species_font(associates)
 }

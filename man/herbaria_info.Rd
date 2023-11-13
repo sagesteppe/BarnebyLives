@@ -5,16 +5,16 @@
 \alias{herbaria_info}
 \title{herbaria_info}
 \format{
-Each is a dataframe with columns relevant to letter heads
+Each is a data frame with columns relevant to letter heads
 }
 \usage{
 herbaria_info
 }
 \description{
-This is a small dataframe of herbaria contact info
+This is a small data frame of herbaria contact info
 }
 \details{
-this data.frame data set is derived ffrom Index Herbariorum and features some places many of our collectors send specimens to.
+this data.frame data set is derived from Index Herbariorum and features some places many of our collectors send specimens to.
 }
 \examples{
 head(herbaria_info)

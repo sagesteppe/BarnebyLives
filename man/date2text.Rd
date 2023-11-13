@@ -10,7 +10,7 @@ date2text(x)
 \item{x}{a data frame with dates}
 }
 \description{
-take the mdy date format, popular in North America, and place it into a
+take the 'month day year' date format, popular in North America, and place it into a
 museum compliant text format
 }
 \examples{

@@ -9,10 +9,10 @@ writer(x, italics)
 \arguments{
 \item{x}{the input character of length 1}
 
-\item{italics}{italicize or not? Boolean, defualts to FALSE}
+\item{italics}{italicize or not? Boolean, defaults to FALSE}
 }
 \description{
-This function will determine whether to print or hide a variable onto labels
+This function will determine whether to print a variable onto labels or hide it
 }
 \examples{
 writer(collection_examples[9,'Binomial_authority'] )

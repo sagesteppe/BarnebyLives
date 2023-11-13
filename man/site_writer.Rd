@@ -2,7 +2,7 @@
 % Please edit documentation in R/site_writer.R
 \name{site_writer}
 \alias{site_writer}
-\title{gather distance and azimuth from shop to center of town}
+\title{gather distance and azimuth from site to center of town}
 \usage{
 site_writer(x, path)
 }
@@ -24,7 +24,7 @@ sites <- data.frame(
  sf::st_as_sf(coords = c('longitude_dd', 'latitude_dd'), crs = 4326)
 
 head(sites)
-distaze_results <- distAZE(sites, path = '/hdd/Barneby_Lives-dev/geodata/places') # takes some time
+distaze_results <- site_writer(sites) # takes some time
 head(distaze_results)
 }
 }

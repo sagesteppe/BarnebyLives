@@ -6,6 +6,9 @@
 \usage{
 writer_fide(x)
 }
+\arguments{
+\item{x}{dataframe holding the values}
+}
 \description{
 This functions determines whether to write information on whom determined the specimen
 when, and via which texts. It used as a final step when formatting labels.

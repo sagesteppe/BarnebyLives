@@ -5,7 +5,7 @@
 #' @param x a dataframe containing collection info
 #' @param Binomial a column containing the name of the collection, without authorship.
 #' @examples
-#' out <- associate_dropper(collection_examples, Binomial = Full_name) |>
+#' out <- associate_dropper(collection_examples, Binomial = 'Full_name') |>
 #'  dplyr::select(Full_name, Associates)
 #' @export
 associate_dropper <- function(x, Binomial){

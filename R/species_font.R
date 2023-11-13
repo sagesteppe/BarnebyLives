@@ -1,7 +1,7 @@
 #' ensure proper italicization of a associated species
 #'
 #' This function works at the time of label creation to ensure that abbreviations
-#' such as 'species' 'variety' and such are not italicizded, per convention.
+#' such as 'species' 'variety' and such are not italicized, per convention.
 #' @param x a value being feed into the label during the merge
 #' @examples
 #' associates <- c('Eriogonum ovalifolium var. purpureum, Castilleja sp., Crepis spp.')

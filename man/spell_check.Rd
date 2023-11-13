@@ -4,20 +4,25 @@
 \alias{spell_check}
 \title{check that genera and specific epithets are spelled (almost) correctly}
 \usage{
-spell_check(x, path)
+spell_check(data, column, path)
 }
 \arguments{
-\item{x}{data frame/ tibble /sf object containing names to spell check}
+\item{data}{data frame/ tibble /sf object containing names to spell check}
 
 \item{path}{a path to a folder containing the taxonomic data.}
+
+\item{full_name}{a column containing the full name, genus, species, and infraspecific rank information as relevant.}
 }
 \description{
 this function attempts to verify the spelling of a user submitted taxonomic name. If necessary it will proceed step-wise by name pieces attempting to place them.
 }
 \examples{
 \dontrun{
-names_vec <- c('Astagalus purshii', 'Linnaeus borealius', 'Heliumorus multifora')
-spelling <- spell_check(names_vec, path = '../taxonomic_data')
-spelling
+names <- data.frame(
+ Full_name = c('Astagalus purshii', 'Linnaeus borealius ssp. borealis', 'Heliumorus multifora', NA, 'Helianthus annuus'),
+ Genus = c('Astagalus', 'Linnaeus', 'Heliumorus', NA, 'Helianthus'),
+ Epithet = c('purshii', 'borealius', 'multifora', NA, 'annuus'))
+names_l <- split(names, f = 1:nrow(names))
+r <- lapply(names_l, spell_check, column = 'Full_name', path = p2tax)
 }
 }

@@ -13,7 +13,7 @@
 #'  sf::st_as_sf(coords = c('longitude_dd', 'latitude_dd'), crs = 4326)
 #'
 #' head(sites)
-#' distaze_results <- distAZE(sites, path = '/hdd/Barneby_Lives-dev/geodata/places') # takes some time
+#' distaze_results <- site_writer(sites) # takes some time
 #' head(distaze_results)
 #' }
 #' @export
