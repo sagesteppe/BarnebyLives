@@ -73,7 +73,14 @@ physical_grabber <- function(x, path){
       physical_environ =
         paste0('At ', elevation_ft, ' ft (', elevation_m, ' m)', ', on a ', geomorphon, ', ', format_degree(slope),
                ' slo. ', format_degree(aspect), ' asp.; geology: ', geology, '.'
-                                ), .before = geometry)
+                                ),
+      physical_environ =
+        stringr::str_replace(physical_environ, 'on a valley', 'in a valley'),
+      physical_environ =
+        stringr::str_replace(physical_environ, 'on a hollow', 'in a hollow'),
+      physical_environ =
+        stringr::str_replace(physical_environ, 'on a pit', 'in a pit'),
+      .before = geometry)
 
   return(object)
 }
