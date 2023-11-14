@@ -71,7 +71,7 @@ physical_grabber <- function(x, path){
     dplyr::relocate(tidyselect::all_of(cols), .before = geometry) |>
     dplyr::mutate(
       physical_environ =
-        paste0('At ', elevation_ft, ' ft, on a ', geomorphon, ', ', format_degree(slope),
+        paste0('At ', elevation_ft, ' (', elevation_m, ' m)', ' ft, on a ', geomorphon, ', ', format_degree(slope),
                ' slo. ', format_degree(aspect), ' asp.; geology: ', geology, '.'
                                 ), .before = geometry)
 

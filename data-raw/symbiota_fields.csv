@@ -1,0 +1,65 @@
+Symbiota,BarnebyLives
+Catalog Number,NA
+Additional Identifier Values,NA
+Collector,Primary_Collector
+Associated Collectors,Associated_Collectors
+Number,Collection_number
+Date,Date_digital_dmy
+Verbatim Date,Date_digital
+Year,Date_digital_year
+Month,Date_digital_month
+Day,Date_digital_day
+Day of year range,NA
+Scientific Name,Name_authority
+Author,AUTHORS_TRUNC
+Identification Qualifier,NA
+Family,Family
+Identified By,Determined_by
+Date Identified,Determined_date_dmy
+ID References,Fide
+ID Remarks,NA
+Taxon Remarks,NA
+Country,Country
+State/Province,State
+Muncipality,NA
+Locality,Site
+Location ID,NA
+Locality Security,NA
+Latitude,latitude_dd
+Longitude,longitude_dd
+Uncertainty (meters),Coordinate_Uncertainty
+Datum,datum
+Verbatim Coordinates,NA
+Elevation in Meters,elevation_m
+Verbatim Elevation,elevation_m
+Depth in Meters,NA
+Verbatim Depth,NA
+Georeferenced By,NA
+Georeference Protocol,NA
+Georeference Sources,NA
+Georef Verification Status,NA
+Georeference Remarks,NA
+Habitat,Habitat
+Substrate,NA
+Associated Taxa,"Vegetation, Associates"
+Description,Notes
+Notes,NA
+Dynamic Properties,NA
+Life Stage,NA
+Sex,NA
+Individual Count,NA
+Sampling Protocol,NA
+Preparations,NA
+Phenology,NA
+Establishment Means,NA
+Cultivated Checkbox,NA
+Type Status,NA
+Disposition,NA
+Occurrence Id,NA
+Field Number,NA
+Owner Code,NA
+Basis of Record,NA
+Language,NA
+Processing Status,NA
+Label Project,NA
+Duplicate Quantity,NA
