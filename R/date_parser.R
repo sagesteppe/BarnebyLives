@@ -20,7 +20,7 @@ date_parser <- function(x, coll_date, det_date){
   coll_date_q <- rlang::enquo(coll_date)
   det_date_q <- rlang::enquo(det_date)
 
-  names_v <- c('_dmy', '_day', '_mo',  '_yr', '_text')
+  names_v <- c('_ymd', '_day', '_mo',  '_yr', '_text')
   if(missing(det_date)){
     column_names <- c(coll_date, paste0(coll_date, names_v))
   } else {
@@ -31,11 +31,11 @@ date_parser <- function(x, coll_date, det_date){
   }
 
   x_dmy <- x |>
-    dplyr::mutate(across(.cols = c(!!coll_date_q, !!det_date_q), lubridate::mdy, .names = "{.col}_dmy")) |>
+    dplyr::mutate(across(.cols = c(!!coll_date_q, !!det_date_q), lubridate::mdy, .names = "{.col}_ymd")) |>
     dplyr::mutate(
-      across(ends_with('_dmy'), ~ lubridate::month(.), .names = "{.col}_mo"),
-      across(ends_with('_dmy'), ~ lubridate::day(.), .names = "{.col}_day"),
-      across(ends_with('_dmy'), ~ lubridate::year(.), .names = "{.col}_yr")
+      across(ends_with('_ymd'), ~ lubridate::month(.), .names = "{.col}_mo"),
+      across(ends_with('_ymd'), ~ lubridate::day(.), .names = "{.col}_day"),
+      across(ends_with('_ymd'), ~ lubridate::year(.), .names = "{.col}_yr")
       ) |>
     dplyr::mutate(across(.cols = c(!!coll_date_q, !!det_date_q), date2text, .names = '{.col}_text'))
 
@@ -45,7 +45,7 @@ date_parser <- function(x, coll_date, det_date){
 
     x_dmy_no_geo <- x_dmy |>
       sf::st_drop_geometry(x_dmy) |>
-      dplyr::rename_with(~stringr::str_remove(., '_dmy'), matches('_dmy_.*$')) |>
+      dplyr::rename_with(~stringr::str_remove(., '_ymd'), matches('_ymd_.*$')) |>
       dplyr::relocate(any_of(column_names), .before = last_col())
 
     x_dmy <- bind_cols(x_dmy_no_geo, x_dmy_geo) |>
@@ -53,7 +53,7 @@ date_parser <- function(x, coll_date, det_date){
 
   } else {
     x_dmy <- x_dmy |>
-      dplyr::rename_with(~stringr::str_remove(., '_dmy'), matches('_dmy_.*$')) |>
+      dplyr::rename_with(~stringr::str_remove(., '_ymd'), matches('_ymd_.*$')) |>
       dplyr::relocate(any_of(column_names), .before = last_col())
   }
 
