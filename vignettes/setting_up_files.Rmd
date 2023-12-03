@@ -10,7 +10,6 @@ vignette: >
 ```{r setup, eval = F}
 library(BarnebyLives)
 library(tidyverse)
-library(WorldFlora)
 ```
 
 We are hoping to have a cloud instance of BarnebyLives(!) running soon. This is able to serve persons which have queries for collection in the Continental United States portions of Western North America (~CONUS). Essentially, you should be able to submit a query, and we will process it and send it back. 
@@ -20,69 +19,72 @@ For collectors operating in smaller geographic areas or herbaria with PC's, you 
 
 ## Taxonomic portion
 
-**World Flora Online** provides the local taxonomic information required to perform much of the name matching. We utilize it to ensure that queries sent to **Plants of The World Online** are spelled correctly, in order to reduce the number of calls dispatched to through the API.
+**Worldwide Checklist of Vascular Plants** provides the local taxonomic information required to perform much of the name matching.
+We utilize it to ensure that queries sent to **Plants of The World Online** are spelled correctly, in order to reduce the number of calls to it. 
+"The World Checklist of Vascular Plants, a continuously updated resource for exploring global plant diversity" serves as the basis for Kews Plants of the Worlds, this publication details the process behind the data set.    `
+We can download a static copy of the data from Kews data portal at: http://sftp.kew.org/pub/data-repositories/WCVP/. It is not that large of a file, so it should come ver in a couple minutes. 
 
-We will download WFO through the package **WorldFlora**. **WorldFlora** can be installed from CRAN
+```{r read in WCVP data, eval = F}
 
-```{r, eval = F}
-install.packages('WorldFlora')
+p2 <- '/home/sagesteppe/Documents/assoRted/Barneby_Lives_dev/wcvp'
+
+names <- read.table(file.path(p2, "wcvp_names.csv"), sep="|", header=TRUE, 
+                    quote = "", fill=TRUE, na.strings = "", encoding = "UTF-8") 
+distributions <- read.table(file.path(p2, "wcvp_distribution.csv"), sep="|",
+                            header=TRUE, quote = "", fill=TRUE, na.strings = "", encoding = "UTF-8") 
 ```
 
-Upon installation you will need to download the taxonomy for the package
-
-```{r}
-library(WorldFlora)
-```
-
-Once you have loaded the package you can access the taxonomy files like this.
-
-```{r, eval = F}
-WFO.download()
-```
-
-Once you have downloaded the taxonomy you can access it via
-
-```{r, eval = F}
-WFO.remember()
-```
-
-an alternative way to read it is to find the location of the data on your computer and load from there. Both us and the package use data.tables::fread function. 
-
-```{r, eval = F}
-cla <- data.table::fread(
-  '../../Barneby_Lives-dev/taxonomic_data_raw/WFO_Backbone/classification.txt', na.strings = "")
-# install.packages('data.table') # this is in depends, but maybe you don't our package yet...
-```
 
 We will also use some functions from the tidyverse.
 
 ```{r, message = F, warning = F}
 library(tidyverse)
+library(data.table)
 ```
 
-The way that BarnebyLives matches spellings of names is very simple. We create three tables, one large table which contains all of the species in the WFO database, one moderately small table which contains all infraspecific taxa (varieties and subspecies), and a small table of all of the genera. 
+The way that BarnebyLives matches spellings of names is very simple. 
+We create three tables, one large table which contains all of the species in the WFO database, one moderately small table which contains all infraspecific taxa (varieties and subspecies), and a small table of all of the genera. 
+
+On the way to completing this process, we will set up a file for a reasonable geographic extent. 
+Since our instance focus on North America, we will only select taxa known to occur there using the Kew Distributions data set. 
+
+```{r subset to area of interest}
+distributions <- distributions[distributions$continent == 'NORTHERN AMERICA'
+                               & grepl('U.S.A.', distributions$region), 
+                               c('plant_name_id')] # here we select for all of the U.S.A.
+distributions <- unique(distributions)
+
+names <- names[names$plant_name_id %in% distributions & names$taxon_rank != 'genus',
+               c('plant_name_id', 'taxon_rank', 'family', 'genus', 'species', 'infraspecific_rank', 
+                 'infraspecies', 'taxon_name', 'accepted_plant_name_id', 'parent_plant_name_id')]
+
+names <-arrange(names, family, genus, species)
+```
 
 However, both the genus and specific epithet tables are abbreviated. We find the results from these tables based on only the leading first two or three characters. This gives rises to one of BarnebyLives(!) limitations, the assumption that the first two characters of the genus, and first three letters of the specific epithet are spelled correctly. 
 
 ```{r prepare materials for taxonomy look up tables, eval = F}
 
-sppLKPtab <- cla[, c('scientificName', 'specificEpithet', 'infraspecificEpithet', 'verbatimTaxonRank')]
-sppLKPtab <- filter(sppLKPtab, is.na(verbatimTaxonRank) | verbatimTaxonRank != "f.") %>% 
-  mutate(Grp = str_extract(specificEpithet, '[a-z]{3}')) 
-infra_sppLKPtab <- na.omit(sppLKPtab) %>% 
-  distinct(scientificName, .keep_all = T) %>% 
-  arrange(scientificName)
+sppLKPtab <- names[, c('taxon_name', 'genus', 'species', 'infraspecific_rank',
+                       'infraspecies', 'taxon_rank')]
 
-sppLKPtab <- sppLKPtab[is.na(sppLKPtab$infraspecificEpithet), ] %>% 
-  distinct(scientificName, .keep_all = T) %>% 
-  arrange(scientificName)
+sppLKPtab <- filter(sppLKPtab, taxon_rank == "Species") %>% 
+  mutate(Grp = str_extract(species, '[a-z]{2}')) %>% 
+  arrange(taxon_name)
 
-genLKPtab <- unique(cla, by = 'genus')[taxonomicStatus == 'Accepted','genus'] %>% 
+infra_sppLKPtab <- filter(names, taxon_rank %in% c("Variety", "Subspecies")) %>% 
+  mutate(Grp = str_extract(infraspecies, '[a-z]{2}')) %>%
+  select('taxon_name', 'genus', 'species', 'infraspecific_rank',
+                       'infraspecies', 'taxon_rank') %>% 
+  arrange(taxon_name) 
+
+genLKPtab <- filter(names, taxon_rank == 'Genus') %>% 
+  select('taxon_name', 'genus', 'taxon_rank') %>% 
   arrange(genus) %>% 
-  mutate(Grp = str_extract(genus, '[A-Z][a-z]{1}'))%>% 
-  rename(strings = genus)
+  mutate(Grp = str_extract(genus, '[A-Z]{1}'))
 
-families <- sort(unique(cla$family))
+
+families <- sort(unique(names$family))
 families <- c(families, 'Hydrophyllaceae', 'Namaceae') #add on a few
 families <- data.frame(Family = families)
 
