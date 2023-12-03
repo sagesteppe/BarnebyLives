@@ -3,10 +3,10 @@
 #' This function checks to see whether the version of WCVP is the most current, if not, it will re-download WCVP and set up the BL taxonomy structure.
 #' @param verbose boolean, TRUE/FALSE, whether to print messages to console or not. Defaults to FALSE.
 #' @param tax_data_path the path to the taxonomic data, the raw wcvp.zip should be there.
-
-tax_dat_p <- '/home/sagesteppe/Downloads'
+#' @example \dontrun{ wcvp_update('/home/sagesteppe/Downloads') }
 wcvp_update <- function(tax_dat_p){
 
+  url2wcvp <- "http://sftp.kew.org/pub/data-repositories/WCVP/"
   ### obtain the date of the current downloaded version ###
 
   if(length(list.files(file.path(tax_dat_p), pattern = 'wcvp.zip') == 1)){
@@ -24,7 +24,6 @@ wcvp_update <- function(tax_dat_p){
   date_extracted <- as.Date(date_extracted, format = '%d/%m/%Y')
 
   ### obtain the date of the most recent version on the web ###
-  url2wcvp <- "http://sftp.kew.org/pub/data-repositories/WCVP/"
   wcvp_pattern <- "wcvp[.]zip\\s*(.*?)\\s*wcvp_dwca[.]zip"
   date_pattern <- '20[0-9]{2}-[0-9]{2}-[0-9]{2}'
 
@@ -46,22 +45,19 @@ wcvp_update <- function(tax_dat_p){
   } else {dif <- 0} # has never been downloaded.
 
 
-  if(dif > 14){ # if two week or more difference,
+  if(dif > 14 | dif == 0){ # if two week or more difference,
     # re-download. 1st time i checked diff was 6 days
 
     orig_TO <- getOption("timeout") # save any local mods to timeout
     if(orig_TO < 420){ # allow users to set options in main env if need be.
       options(timeout = max(420, getOption("timeout")))} # 7 minute timeout
-    download.file(url = paste0(url2wcvp, '/wcvp.zip'), destfile = 'wcvp.zip')
+    download.file(url = paste0(url2wcvp, '/wcvp.zip'), destfile = file.path(tax_dat_p, 'wcvp.zip'))
     options(timeout = max(orig_TO, getOption("timeout"))) # revert to original settings
 
-    cat(crayon::green('WCVP checklist downloaded to: ', url2wcvp,
-                      '\n use the fn `bongwater` to initialize a new taxonomy backbond. '))
+    cat(crayon::green('WCVP checklist downloaded to: ', tax_dat_p,
+                      '\nuse the functionn `BarnebyLives::TaxUnpack` to initialize a new taxonomy backbone.'))
 
     rm(orig_TO)
   } else {cat(crayon::green('WCVP checklist does not appear to have been updated since last download, defaulting to current instance.'))}
 
 }
-
-wcvp_update('/home/sagesteppe/Downloads')
-
