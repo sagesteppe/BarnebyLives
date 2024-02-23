@@ -17,10 +17,15 @@ geodata_writer <- function(x, path, filename, filetype){
          dir.create(file.path(path)), FALSE)
 
   x <- x |>
-    dplyr::select(Name = Collection_number) |>
-    sf::st_write(dsn = fname, driver = filetype, delete_dsn = TRUE, quiet = T, append = F)
+    dplyr::mutate(
+      Collector_n_Number = paste(gsub("(*UCP)[^;-](?<!\\b\\p{L})", "", Primary_Collector, perl=TRUE),
+                                 Collection_number)) |>
+    dplyr::select(Description = Collector_n_Number) |>
+    sf::st_write(dsn = fname, driver = filetype,
+                 delete_dsn = TRUE, quiet = T, append = F)
 
   return(x)
   cat('data written to: ', fname)
 
 }
+
