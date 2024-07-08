@@ -12,17 +12,18 @@ library(BarnebyLives)
 library(tidyverse)
 ```
 
-We are hoping to have a cloud instance of BarnebyLives(!) running soon. This is able to serve persons which have queries for collection in the Continental United States portions of Western North America (~CONUS). Essentially, you should be able to submit a query, and we will process it and send it back. 
+We are hoping to have a cloud instance of BarnebyLives(!) running soon. 
+This is able to serve persons which have queries for collection in the Continental United States portions of Western North America (~CONUS).
+Essentially, you should be able to submit a query, and we will process it and send it back. 
 
 For collectors operating in smaller geographic areas or herbaria with PC's, you are able to readily create your own local instance of BarnebyLives(!) quite easily. 
-
 
 ## Taxonomic portion
 
 **Worldwide Checklist of Vascular Plants** provides the local taxonomic information required to perform much of the name matching.
 We utilize it to ensure that queries sent to **Plants of The World Online** are spelled correctly, in order to reduce the number of calls to it. 
-"The World Checklist of Vascular Plants, a continuously updated resource for exploring global plant diversity" serves as the basis for Kews Plants of the Worlds, this publication details the process behind the data set.    `
-We can download a static copy of the data from Kews data portal at: http://sftp.kew.org/pub/data-repositories/WCVP/. It is not that large of a file, so it should come ver in a couple minutes. 
+"The World Checklist of Vascular Plants, a continuously updated resource for exploring global plant diversity" serves as the basis for Kews Plants of the Worlds, this publication details the process behind the data set. 
+We can download a static copy of the data from Kews data portal at: http://sftp.kew.org/pub/data-repositories/WCVP/. It is not that large of a file, so it should come over in a couple minutes. 
 
 ```{r read in WCVP data, eval = F}
 
