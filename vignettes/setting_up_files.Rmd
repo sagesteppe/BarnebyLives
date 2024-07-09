@@ -95,7 +95,7 @@ rm(sppLKPtab, epiLKPtab, genLKPtab, cla, families)
 
 ```{r Prepare material for authorship lookup tables, eval = F}
 
-abbrevs <- read.csv('/hdd/Barneby_Lives-dev/taxonomic_data_raw/ipni_author_abbreviations.csv')
+abbrevs <- read.csv('/media/steppe/hdd/Barneby_Lives-dev/taxonomic_data_raw/ipni_author_abbreviations.csv')
 
 trailed <- vector(mode = 'character', length = nrow(abbrevs))
 trailed[grep('\\.$', abbrevs$author_abbrevation)] <- '.'
@@ -108,7 +108,7 @@ abbrevs_notrail <- sub('\\.(?!.*\\.)', ". ",
 abbrevs <- paste0(abbrevs_notrail, trailed)
 
 #usethis::use_data(abbrevs)
-write.csv(abbrevs, row.names = F, '/hdd/Barneby_Lives-dev/taxonomic_data/abbrevs.csv')
+write.csv(abbrevs, row.names = F, '/media/steppe/hdd/Barneby_Lives-dev/taxonomic_data/abbrevs.csv')
 
 rm(trailed, abbrevs_notrail, abbrevs_spaced, abbrevs)
 ```

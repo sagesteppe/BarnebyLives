@@ -36,8 +36,8 @@ spell_check <- function(data, column, path) {
         infraspecies_name <- infra_sppLKPtab[pos,]
         infraspecies_name <- infraspecies_name[1,]
         return(data.frame(x, SpellCk = infraspecies_name, Match = 'exact'))
-        
-      } else { # run a search if an exact match is not found. 
+
+      } else { # run a search if an exact match is not found.
         infraspecies_name <-
           infra_sppLKPtab[which.min(
             stringdist::stringdist(full_name, infra_sppLKPtab$taxon_name, method = 'jw')),]
@@ -46,30 +46,30 @@ spell_check <- function(data, column, path) {
       }
 
     } else {
-      # try for the exact match of the species name. 
+      # try for the exact match of the species name.
       pos <- grep(x = sppLKPtab$taxon_name, pattern = binom, fixed = T)
       if (length(pos) == 1) {
-        
+
         species_name <- sppLKPtab[pos,]
         species_name <- species_name[1,]
         return(data.frame(x, SpellCk = species_name, Match = 'exact'))
-        
+
       } else {
-        
+
         # if we were not able to tget an exact match, we will now try jw distance
         # but only testing against a subset of species which have a genus starting
-        # with the same first two letters as the search query. 
-              
+        # with the same first two letters as the search query.
+
         sppLKP_l <- sppLKPtab[sppLKPtab$gGRP == stringr::str_extract(genus, '[A-Z]{1}[a-z]{1}'), ]
         species_name <-
           sppLKP_l[which.min(
             stringdist::stringdist(binom, sppLKP_l$taxon_name, method = 'jw')),]
         return(data.frame(x, SpellCk = species_name, Match = 'fuzzy'))
-        
+
           }
       }
   }
-    
+
   if(any(class(data) == 'sf')){ # drop geometry column to pull vectors out
     geometry_col <- dplyr::select(data, geometry)
     x <- sf::st_drop_geometry(data) |>
@@ -78,10 +78,10 @@ spell_check <- function(data, column, path) {
 
   data_l <- split(x, f = 1:nrow(x))
   sc_res <- lapply(data_l, sc, column = column)
-  
+
   rn <- c(SpellCk_Infraspecific_rank = 'SpellCk.verbatimTaxonRank')
    sc_res <- data.table::rbindlist(sc_res, fill = TRUE) |>
-     dplyr::select(-any_of('SpellCk.Grp')) |>
+     dplyr::select(-any_of('SpellCk.gGrp', 'SpellCk.Taxon.Rank')) |>
      dplyr::rename(any_of(rn))
 
   if(any(class(data) == 'sf')){
