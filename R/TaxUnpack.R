@@ -60,7 +60,7 @@ TaxUnpack <- function(path, continents, regions){
                          'infraspecies', 'taxon_rank')]
 
   sppLKPtab <- dplyr::filter(sppLKPtab, taxon_rank == "Species") |>
-    dplyr::mutate(Grp = stringr::str_extract(species, '[a-z]{2}')) |>
+    dplyr::mutate(gGRP = stringr::str_extract(genus, '[A-Z]{1}[a-z]{1}')) |>
     dplyr::arrange(taxon_name)
 
   infra_sppLKPtab <- dplyr::filter(names, taxon_rank %in% c("Variety", "Subspecies")) |>
@@ -69,26 +69,12 @@ TaxUnpack <- function(path, continents, regions){
            'infraspecies', 'taxon_rank') |>
     dplyr::arrange(taxon_name)
 
-  genLKPtab <- names |>
-    dplyr::select('genus', 'taxon_rank') |>
-    dplyr::distinct(genus, .keep_all = TRUE) |>
-    dplyr::arrange(genus) |>
-    dplyr::mutate(Grp = stringr::str_extract(genus, '[A-Z]{1}'))
-
-  epiLKPtab <- names |>
-    dplyr::select('species', 'taxon_rank') |>
-    dplyr::distinct(species, .keep_all = TRUE) |>
-    dplyr::arrange(species) |>
-    dplyr::mutate(Grp = stringr::str_extract(species, '[a-z]{3}'))
-
   families <- sort(unique(names$family))
   families <- c(families, 'Hydrophyllaceae', 'Namaceae') #add on a few
   families <- data.frame(Family = families)
 
   write.csv(families, file.path(path, 'families_lookup_table.csv'), row.names = F)
   write.csv(sppLKPtab, file.path(path, 'species_lookup_table.csv'), row.names = F)
-  write.csv(genLKPtab, file.path(path, 'genus_lookup_table.csv'), row.names = F)
-  write.csv(epiLKPtab, file.path(path, 'epithet_lookup_table.csv'), row.names = F)
   write.csv(infra_sppLKPtab, file.path(path, 'infra_species_lookup_table.csv'), row.names = F)
 
   cat(crayon::green(

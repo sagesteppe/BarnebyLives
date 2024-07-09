@@ -30,7 +30,6 @@ We can download a static copy of the data from Kews data portal at: http://sftp.
 p2 <- '/media/steppe/hdd/Barneby_Lives-dev/taxonomic_data'
 
 spp <- TaxUnpack(path = p2, continents = 'NORTHERN AMERICA')
-table(spp$taxon_rank)
 ```
 
 We will also use some functions from the tidyverse.
