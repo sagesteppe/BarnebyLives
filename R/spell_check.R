@@ -40,7 +40,8 @@ spell_check <- function(data, column, path) {
         return(data.frame(x, SpellCk = infraspecies_name, Match = 'exact'))
       } else {
         infraspecies_name <-
-          infra_sppLKPtab[which.min(adist(full_name, infra_sppLKPtab$scientificName)),]
+          infra_sppLKPtab[which.min(
+            stringdist::stringdist(full_name, infra_sppLKPtab$scientificName, method = 'jw')),]
         infraspecies_name <- infraspecies_name[1,]
         return(data.frame(x, SpellCk = infraspecies_name, Match = 'fuzzy'))
       }
@@ -48,7 +49,7 @@ spell_check <- function(data, column, path) {
       # species can become difficult due to their short  names, e.g. 'Poa annua'
     } else {
 
-      pos <- grep( x = sppLKPtab$scientificName, pattern = binom, fixed = T)
+      pos <- grep( x = sppLKPtab$taxon_name, pattern = binom, fixed = T)
       if (length(pos) == 1) {
         species_name <- sppLKPtab[pos,]
         species_name <- species_name[1,]
@@ -59,17 +60,18 @@ spell_check <- function(data, column, path) {
         # subset data sets to query each name component separately
         genus2char <- stringr::str_extract(genus, '[A-Z][a-z]{1}')
         species3char <- stringr::str_extract(species, '[a-z]{3}')
+
         gen_strings <-
-          dplyr::filter(genLKPtab, Grp == genus2char) |> dplyr::pull(strings)
+          dplyr::filter(genLKPtab, Grp == genus2char) |> dplyr::pull(genus)
         spe_strings <-
-          dplyr::filter(epiLKPtab, Grp == species3char) |> dplyr::pull(strings)
+          dplyr::filter(epiLKPtab, Grp == species3char) |> dplyr::pull(species)
 
         # check to see if both genus and species are clean
         if (any(grep(x = gen_strings, pattern = paste0('^', genus, '$')))) {
           clean_genus_Tag <- genus
         } else {
           possible_genus_Tag <-
-            gen_strings[which.min(adist(genus, gen_strings))]
+            gen_strings[which.min(stringdist::stringdist(genus, gen_strings, method = 'jw'))]
         }
 
         # is species clean ?
@@ -77,7 +79,7 @@ spell_check <- function(data, column, path) {
           clean_species_Tag <- species
         } else {
           possible_species_Tag <-
-            spe_strings[which.min(adist(species, spe_strings))]
+            spe_strings[which.min(stringdist::stringdist(species, spe_strings, method = 'jw'))]
         }
 
         # if both the genus and species name are present, we could be missing it from the DB
@@ -99,8 +101,8 @@ spell_check <- function(data, column, path) {
 
           } else {
             possible_binomial <-
-              sppLKPtab[which.min(adist(search_nom, sppLKPtab$scientificName)),]
-            return(data.frame(x, SpellCk = possible_binomial, Match = 'fuzzy'))
+              sppLKPtab[which.min(stringdist::stringdist(search_nom, sppLKPtab$taxon_name, method = 'jw')),]
+            return(data.frame(x, SpellCk = possible_binomial, Match = 'final_fyzz'))
           }
         }
       }
@@ -115,9 +117,11 @@ spell_check <- function(data, column, path) {
 
   data_l <- split(x, f = 1:nrow(x))
   sc_res <- lapply(data_l, sc, column = column)
+
+rn <- c(SpellCk_Infraspecific_rank = 'SpellCk.verbatimTaxonRank')
   sc_res <- data.table::rbindlist(sc_res, fill = TRUE) |>
     dplyr::select(-any_of('SpellCk.Grp')) |>
-    dplyr::rename(SpellCk_Infraspecific_rank = SpellCk.verbatimTaxonRank)
+    dplyr::rename(any_of(rn))
 
   if(any(class(data) == 'sf')){
     sc_res <- dplyr::bind_cols(sc_res, geometry_col)
@@ -125,3 +129,4 @@ spell_check <- function(data, column, path) {
 
   return(sc_res)
 }
+

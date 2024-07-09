@@ -27,12 +27,10 @@ We can download a static copy of the data from Kews data portal at: http://sftp.
 
 ```{r read in WCVP data, eval = F}
 
-p2 <- '~/Documents/assoRted/Barneby_Lives_dev/wcvp'
+p2 <- '/media/steppe/hdd/Barneby_Lives-dev/taxonomic_data'
 
-names <- read.table(file.path(p2, "wcvp_names.csv"), sep="|", header=TRUE, 
-                    quote = "", fill=TRUE, na.strings = "", encoding = "UTF-8") 
-distributions <- read.table(file.path(p2, "wcvp_distribution.csv"), sep="|",
-                            header=TRUE, quote = "", fill=TRUE, na.strings = "", encoding = "UTF-8") 
+spp <- TaxUnpack(path = p2, continents = 'NORTHERN AMERICA')
+table(spp$taxon_rank)
 ```
 
 We will also use some functions from the tidyverse.

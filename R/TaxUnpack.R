@@ -3,14 +3,14 @@
 #' This function is run on the WCVP compressed archive downloaded by 'wcvp_update',
 #' and requires some input from the user which specifies a geographic area to establish a
 #' taxonomic look up table for.
-#' @param continents one of: NORTHERN AMERICA', 'AFRICA', 'ANTARCTICA', 'ASIA-TROPICAL', 'ASIA-TEMPERATE', 'AUSTRALASIA', 'EUROPE', 'OCEANIA', 'SOUTHERN AMERICA', 'PACIFIC',
-#' @param regions see ?WCVP_regions for names of all 53 regions
+#' @param path to where wczp is stored
+#' @param continents one of: 'NORTHERN AMERICA', 'AFRICA', 'ANTARCTICA', 'ASIA-TROPICAL', 'ASIA-TEMPERATE', 'AUSTRALASIA', 'EUROPE', 'OCEANIA', 'SOUTHERN AMERICA', 'PACIFIC',
 #' @param examples \dontrun{
 #'reggs <- c('Northwestern U.S.A.', 'Southwestern U.S.A.',
 #' North-Central U.S.A.', 'South-Central U.S.A.')
 #'
 #' oupu <- TaxUnpack(path = '~/Downloads',
-#'                  continent = 'NORTHERN AMERICA', regions = reggs)
+#'                  continent = 'NORTHERN AMERICA')
 #'
 #' ## create names with authorities ##
 #'
@@ -42,12 +42,10 @@ TaxUnpack <- function(path, continents, regions){
   distributions <- read.table(unz(file.path(path, 'wcvp.zip'), 'wcvp_distribution.csv'),
     sep = "|", header = TRUE, quote = "", fill = TRUE, encoding = "UTF-8")
 
-  distributions <- distributions[distributions$continent %in% continents
-                & distributions$region %in% regions, c('plant_name_id')]
-  distributions <- unique(distributions)
+  distributions <- unique(distributions[distributions$continent %in% continents, c('plant_name_id')])
 
   cat(crayon::green(length(distributions),
-                    'accepted names found in this spatial domain.\nSit tight while we process all of the synonyms associated with them.'))
+                    'accepted names found in this spatial domain.\nSit tight while we process all of the synonyms associated with them.\n'))
 
   names <- read.table(unz(file.path(path, 'wcvp.zip'), 'wcvp_names.csv'),
                      sep = "|", header = TRUE, quote = "", fill = TRUE, encoding = "UTF-8")
@@ -58,7 +56,43 @@ TaxUnpack <- function(path, continents, regions){
   names <- names[names$taxon_rank %in% c('Species', 'Subspecies', 'Variety'),]
   names <- dplyr::arrange(names, family, genus, species)
 
-  return(names)
+  sppLKPtab <- names[, c('taxon_name', 'genus', 'species', 'infraspecific_rank',
+                         'infraspecies', 'taxon_rank')]
+
+  sppLKPtab <- dplyr::filter(sppLKPtab, taxon_rank == "Species") |>
+    dplyr::mutate(Grp = stringr::str_extract(species, '[a-z]{2}')) |>
+    dplyr::arrange(taxon_name)
+
+  infra_sppLKPtab <- dplyr::filter(names, taxon_rank %in% c("Variety", "Subspecies")) |>
+    dplyr::mutate(Grp = stringr::str_extract(infraspecies, '[a-z]{2}')) |>
+    dplyr::select('taxon_name', 'genus', 'species', 'infraspecific_rank',
+           'infraspecies', 'taxon_rank') |>
+    dplyr::arrange(taxon_name)
+
+  genLKPtab <- names |>
+    dplyr::select('genus', 'taxon_rank') |>
+    dplyr::distinct(genus, .keep_all = TRUE) |>
+    dplyr::arrange(genus) |>
+    dplyr::mutate(Grp = stringr::str_extract(genus, '[A-Z]{1}'))
+
+  epiLKPtab <- names |>
+    dplyr::select('species', 'taxon_rank') |>
+    dplyr::distinct(species, .keep_all = TRUE) |>
+    dplyr::arrange(species) |>
+    dplyr::mutate(Grp = stringr::str_extract(species, '[a-z]{3}'))
+
+  families <- sort(unique(names$family))
+  families <- c(families, 'Hydrophyllaceae', 'Namaceae') #add on a few
+  families <- data.frame(Family = families)
+
+  write.csv(families, file.path(path, 'families_lookup_table.csv'), row.names = F)
+  write.csv(sppLKPtab, file.path(path, 'species_lookup_table.csv'), row.names = F)
+  write.csv(genLKPtab, file.path(path, 'genus_lookup_table.csv'), row.names = F)
+  write.csv(epiLKPtab, file.path(path, 'epithet_lookup_table.csv'), row.names = F)
+  write.csv(infra_sppLKPtab, file.path(path, 'infra_species_lookup_table.csv'), row.names = F)
+
+  cat(crayon::green(
+    'New taxonomy backbone set up.'))
 
 }
 
