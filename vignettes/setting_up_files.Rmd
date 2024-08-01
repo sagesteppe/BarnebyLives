@@ -501,7 +501,7 @@ usethis::use_data(project_examples)
 
 # Save the output formats for different herbaria databases
 
-```{r}
+```{r, eval = F}
 database_templates <- 
   read.csv('/media/steppe/hdd/Barneby_Lives-dev/database_data/Fields.csv') 
 usethis::use_data(database_templates)

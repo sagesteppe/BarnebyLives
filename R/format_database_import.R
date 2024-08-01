@@ -36,7 +36,3 @@ format_database_import <- function(x, format){
 
   return(x)
 }
-
-format_database_import
-
-symbiota_fields.csv
