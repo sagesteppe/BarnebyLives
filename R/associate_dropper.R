@@ -2,7 +2,7 @@
 #'
 #' this function removes the collected species from the list of associated
 #' species
-#' @param x a dataframe containing collection info
+#' @param x a data frame containing collection info
 #' @param Binomial a column containing the name of the collection, without authorship.
 #' @examples
 #' out <- associate_dropper(collection_examples, Binomial = 'Full_name') |>
@@ -20,8 +20,13 @@ associate_dropper <- function(x, Binomial){
       Associates = trimws(gsub("\\s+", " ", Associates)),
       Associates = gsub(",$", "", Associates),
       Associates = gsub("^, ", "", Associates),
-      Associates = gsub(", ,", ",", Associates)
+      Associates = gsub(", ,", ",", Associates),
+      Associates = gsub(",([A-Za-z])", ", \\1", Associates)
     )
+
+  # we'll make sure there are spaces between commas and the following taxon in the
+  # associates as well.
+
 
   return(x)
 }
