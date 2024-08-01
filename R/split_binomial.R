@@ -33,12 +33,13 @@ split_binomial <- function(x, binomial_col){
   }
 
   # double spaces will mess with some of our sensitive regrexes below
-  x[,binomial_col] <- trimws(gsub("\\s+", " ", x[,binomial_col]))
 
+  x[,binomial_col] <- lapply(x[,binomial_col], gsub, pattern = "\\s+", replacement =  " ")
   # we will proceed row wise, treating each record independently from the last
   # in case that there are missing values.
 
   to_split <- split(x[,binomial_col], f = 1:nrow(x))
+
   binomial <- function(x){ # recovery of the binomial, only the first two pieces of the name.
     pieces <- unlist(stringr::str_split(x, pattern = " "))
     Genus <- pieces[1]; Epithet <- pieces[2]
@@ -54,40 +55,40 @@ split_binomial <- function(x, binomial_col){
 
   # detection of infra-species, the complication for authorship retrieval
 
-  remaining_info <- sub('\\w+\\s\\w+\\s', '', x[,binomial_col])
-  remaining_info <- mapply(
-    \(x, patt) gsub(patt, "", x, ignore.case = T), patt = binomials$Binomial, x = remaining_info)
+  remaining_info <- lapply(x[,binomial_col], sub, pattern = '\\w+\\s\\w+\\s', replacement =  "")
+ # remaining_info <- mapply(
+#    \(x, patt) gsub(patt, "", x, ignore.case = T), patt = binomials$Binomial, x = remaining_info)
 
   # if there is text before the infra rank grab it, this should be the authority
   # for the binomial
 
   # Binomial authority
-  Binomial_authority <- sub("ssp[.].*|subsp[.].*|var[.].*", "", remaining_info)
+  Binomial_authority <- lapply(x[,binomial_col], sub, pattern = "ssp[.].*|subsp[.].*|var[.].*", replacement =  "")
 
   # Infra specific_rank
   Infraspecific_rank <- stringr::str_extract(remaining_info, "var.|subsp.|ssp.")
 
   # the word following infra species is always the name
-
-  infra_info <- gsub(".*subsp[.] |.*var[.] |.*ssp[.] ", "", remaining_info)
+  infra_info <- gsub(".*subsp[.] |.*var[.] |.*ssp[.] ", "", remaining_info, perl = TRUE)
   infra_pieces <- stringr::str_split(infra_info, pattern = " ")
   Infraspecies <- unlist(lapply(infra_pieces, '[[', 1))
 
-  mask  <- grep("subsp[.] |var[.] |ssp[.] ", x[,binomial_col], invert = TRUE)
+  mask  <- grep("subsp[.] |var[.] |ssp[.] ", x[,binomial_col], invert = TRUE, perl = TRUE)
   Infraspecies <- replace(Infraspecies, mask, values = NA )
 
   # all remaining words are potential authors
-  Infraspecific_authority <- mapply(
-    \(x, patt) gsub(patt, "", x, ignore.case = T), patt = Infraspecies, x = infra_info)
-
+#  Infraspecific_authority <- mapply(
+#    \(x, patt) gsub(patt, "", x, ignore.case = T), patt = Infraspecies, x = infra_info)
 
   # combine results to BL format
   output <- cbind(binomials, Binomial_authority,
               Infraspecific_rank, Infraspecies, Infraspecific_authority)
 
   output[output == ""] <- NA
-  output <- data.frame ( apply(output, MARGIN = 2, FUN = trimws) )
-  output <- tidyr::unite(data = output, col = 'Full_name', Genus:Infraspecific_authority, na.rm=TRUE, sep = " ", remove = FALSE)
+  output <- data.frame (apply(output, MARGIN = 2, FUN = trimws) )
+  output <- tidyr::unite(
+    data = output, col = 'Full_name',
+    Genus:Infraspecific_authority, na.rm=TRUE, sep = " ", remove = FALSE)
 
   cols2overwrite <- c('Binomial', 'Genus', 'Epithet', 'Binomial_authority',
                 'Infraspecific_rank', 'Infrarank', 'Infraspecies', 'Infraspecific_authority')
