@@ -1,65 +1,92 @@
-Symbiota,BarnebyLives
-Catalog Number,NA
-Additional Identifier Values,NA
-Collector,Primary_Collector
-Associated Collectors,Associated_Collectors
-Number,Collection_number
-Date,Date_digital_dmy
-Verbatim Date,Date_digital
-Year,Date_digital_year
-Month,Date_digital_month
-Day,Date_digital_day
-Day of year range,NA
-Scientific Name,Name_authority
-Author,AUTHORS_TRUNC
-Identification Qualifier,NA
-Family,Family
-Identified By,Determined_by
-Date Identified,Determined_date_dmy
-ID References,Fide
-ID Remarks,NA
-Taxon Remarks,NA
-Country,Country
-State/Province,State
-Muncipality,NA
-Locality,Site
-Location ID,NA
-Locality Security,NA
-Latitude,latitude_dd
-Longitude,longitude_dd
-Uncertainty (meters),Coordinate_Uncertainty
-Datum,datum
-Verbatim Coordinates,NA
-Elevation in Meters,elevation_m
-Verbatim Elevation,elevation_m
-Depth in Meters,NA
-Verbatim Depth,NA
-Georeferenced By,NA
-Georeference Protocol,NA
-Georeference Sources,NA
-Georef Verification Status,NA
-Georeference Remarks,NA
-Habitat,Habitat
-Substrate,NA
-Associated Taxa,"Vegetation, Associates"
-Description,Notes
-Notes,NA
-Dynamic Properties,NA
-Life Stage,NA
-Sex,NA
-Individual Count,NA
-Sampling Protocol,NA
-Preparations,NA
-Phenology,NA
-Establishment Means,NA
-Cultivated Checkbox,NA
-Type Status,NA
-Disposition,NA
-Occurrence Id,NA
-Field Number,NA
-Owner Code,NA
-Basis of Record,NA
-Language,NA
-Processing Status,NA
-Label Project,NA
-Duplicate Quantity,NA
+Database,OutputField,BarnebyLives
+Symbiota,Catalog Number,NA
+Symbiota,Additional Identifier Values,NA
+Symbiota,Collector,Primary_Collector
+Symbiota,Associated Collectors,Associated_Collectors
+Symbiota,Number,Collection_number
+Symbiota,Date,Date_digital_dmy
+Symbiota,Verbatim Date,Date_digital
+Symbiota,Year,Date_digital_yr
+Symbiota,Month,Date_digital_mo
+Symbiota,Day,Date_digital_day
+Symbiota,Day of year range,NA
+Symbiota,Scientific Name,Name_authority
+Symbiota,Author,AUTHORS_TRUNC
+Symbiota,Identification Qualifier,NA
+Symbiota,Family,Family
+Symbiota,Identified By,Determined_by
+Symbiota,Date Identified,Determined_date_dmy
+Symbiota,ID References,Fide
+Symbiota,ID Remarks,NA
+Symbiota,Taxon Remarks,NA
+Symbiota,Country,Country
+Symbiota,State/Province,State
+Symbiota,Muncipality,NA
+Symbiota,Locality,Site
+Symbiota,Location ID,NA
+Symbiota,Locality Security,NA
+Symbiota,Latitude,latitude_dd
+Symbiota,Longitude,longitude_dd
+Symbiota,Uncertainty (meters),Coordinate_Uncertainty
+Symbiota,Datum,Datum
+Symbiota,Verbatim Coordinates,NA
+Symbiota,Elevation in Meters,elevation_m
+Symbiota,Verbatim Elevation,elevation_m_copy
+Symbiota,Depth in Meters,NA
+Symbiota,Verbatim Depth,NA
+Symbiota,Georeferenced By,NA
+Symbiota,Georeference Protocol,NA
+Symbiota,Georeference Sources,NA
+Symbiota,Georef Verification Status,NA
+Symbiota,Georeference Remarks,NA
+Symbiota,Habitat,Habitat
+Symbiota,Substrate,NA
+Symbiota,Associated Taxa,Vegetation_Associates
+Symbiota,Description,Notes
+Symbiota,Notes,NA
+Symbiota,Dynamic Properties,NA
+Symbiota,Life Stage,NA
+Symbiota,Sex,NA
+Symbiota,Individual Count,NA
+Symbiota,Sampling Protocol,NA
+Symbiota,Preparations,NA
+Symbiota,Phenology,NA
+Symbiota,Establishment Means,NA
+Symbiota,Cultivated Checkbox,NA
+Symbiota,Type Status,NA
+Symbiota,Disposition,NA
+Symbiota,Occurrence Id,NA
+Symbiota,Field Number,NA
+Symbiota,Owner Code,NA
+Symbiota,Basis of Record,NA
+Symbiota,Language,NA
+Symbiota,Processing Status,NA
+Symbiota,Label Project,Project_name
+Symbiota,Duplicate Quantity,NA
+JEPS,Coll_Num,Collection_number
+JEPS,Coll_Date,Date_digital_text
+JEPS,Main_Collector,Primary_Collector
+JEPS,Other_Collectors,Associated_Collectors
+JEPS,ScientificName,Name_authority
+JEPS,DeterminedBy,Determined_by
+JEPS,Det_Date_Display,Determined_date_dmy
+JEPS,Label_Header,Project_name
+JEPS,Label_Footer,NA
+JEPS,Plant_Description,Notes
+JEPS,Comments,NA
+JEPS,Habitat,Habitat
+JEPS,Associated_Taxa,Vegetation_Associates
+JEPS,Country,Country
+JEPS,State_Province,State
+JEPS,County,County
+JEPS,Latitude,latitude_dd
+JEPS,Longitude,longitude_dd
+JEPS,Datum,Datum
+JEPS,Coordinate_Uncertainty_In_Meters,Coordinate_Uncertainty
+JEPS,Coordinate_Source,NA
+JEPS,Elevation,elevation_m
+JEPS,Elevation_Units,NA
+JEPS,Sex,NA
+JEPS,Phase,NA
+JEPS,Cultivated,NA
+JEPS,Accession_Number,NA
