@@ -22,10 +22,15 @@ associate_dropper <- function(x, Binomial){
       Associates = gsub("^, ", "", Associates),
       Associates = gsub(", ,", ",", Associates),
       Associates = gsub(",([A-Za-z])", ", \\1", Associates)
+    ) |>
+    dplyr::mutate(
+      Vegetation = gsub(paste0(Binomial), "", Vegetation),
+      Vegetation = trimws(gsub("\\s+", " ", Vegetation)),
+      Vegetation = gsub(",$", "", Vegetation),
+      Vegetation = gsub("^, ", "", Vegetation),
+      Vegetation = gsub(", ,", ",", Vegetation),
+      Vegetation = gsub(",([A-Za-z])", ", \\1", Vegetation)
     )
-
-  # we'll make sure there are spaces between commas and the following taxon in the
-  # associates as well.
 
 
   return(x)
