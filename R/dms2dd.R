@@ -51,8 +51,8 @@ dms2dd <- function(x, lat, long, dms){
   x <- lapply(x_spl, dmsbyrow, long = long, lat = lat) |>
     data.table::rbindlist(use.names = TRUE)
 
-  x$latitude_dd <- as.numeric(x$latitude_dd)
-  x$longitude_dd <- as.numeric(x$longitude_dd)
+  x$latitude_dd <- as.numeric(x$latitude_dd, options(digits = 9))
+  x$longitude_dd <- as.numeric(x$longitude_dd, options(digits = 9))
 
   # ensure the DD signs are appropriate for domain
   x$latitude_dd <- round(abs(x$latitude_dd), 5)
