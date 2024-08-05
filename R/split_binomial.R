@@ -5,7 +5,7 @@
 #' this function will parse them into the columns used in the BarnebyLives pipeline.
 #' @param x a dataframe with collection information
 #' @param binomial_col column containing the data to parse
-#' @examples
+#' @example
 #' library(BarnebyLives)
 #' ce <- collection_examples
 #' ce <- data.frame(
@@ -17,24 +17,25 @@
 #' split_binomial(ce)|> head()
 #' split_binomial(ce, binomial_col = 'Binomial') |> head()
 #' @export
-split_binomial <- function(x, binomial_col){
+split_binomial <- function(x, binomial_col, overwrite){
 
   if(missing(binomial_col)){  # search for non supplied column name
     indices <- grep('binomial', colnames(x), ignore.case=TRUE)
 
     if(length(indices) > 1){ # if more columns are found, try and find it an # authority column is the culprit
-          indices <- indices[ grep('auth', colnames(x)[indices], invert = TRUE)]}
+      indices <- indices[ grep('auth', colnames(x)[indices], invert = TRUE)]}
     if(length(indices) == 0){
-          stop('unable to find name column, please supply argument to `binomial_col`')}
+      stop('unable to find name column, please supply argument to `binomial_col`')}
     if(length(indices) == 1){
-          binomial_col <- colnames(x)[indices]
-          cat('`binomial_col` argument not supplied, using:', colnames(x)[indices])
-          }
+      binomial_col <- colnames(x)[indices]
+      cat('`binomial_col` argument not supplied, using:', colnames(x)[indices])
+    }
   }
+  if(missing(overwrite)){overwrite <- TRUE}
 
   # double spaces will mess with some of our sensitive regrexes below
-
   x[,binomial_col] <- lapply(x[,binomial_col], gsub, pattern = "\\s+", replacement =  " ")
+  x[,binomial_col] <- lapply(x[,binomial_col], trimws)
   # we will proceed row wise, treating each record independently from the last
   # in case that there are missing values.
 
@@ -47,54 +48,58 @@ split_binomial <- function(x, binomial_col){
 
     vars <- data.frame(cbind(Binomial, Genus, Epithet))
 
-   return(vars)
+    return(vars)
   }
 
   binomials <- lapply(to_split, binomial) |>
     data.table::rbindlist()
 
-  # detection of infra-species, the complication for authorship retrieval
-
+  # We'll use these strings as the basis for all future work - it includes everything past the binomial
   remaining_info <- lapply(x[,binomial_col], sub, pattern = '\\w+\\s\\w+\\s', replacement =  "")
- # remaining_info <- mapply(
-#    \(x, patt) gsub(patt, "", x, ignore.case = T), patt = binomials$Binomial, x = remaining_info)
 
-  # if there is text before the infra rank grab it, this should be the authority
-  # for the binomial
-
-  # Binomial authority
+  # extract the binomial name and the authorities
   Binomial_authority <- lapply(x[,binomial_col], sub, pattern = "ssp[.].*|subsp[.].*|var[.].*", replacement =  "")
+  Binomial_authority <- lapply(Binomial_authority, str_trim)[[1]]
 
-  # Infra specific_rank
-  Infraspecific_rank <- stringr::str_extract(remaining_info, "var.|subsp.|ssp.")
+  # extract the authority for the binomial name.
+  Authority <- unlist(lapply(Binomial_authority, sub,
+                             pattern = '\\w+\\s\\w+\\s', replacement =  ""))
 
-  # the word following infra species is always the name
-  infra_info <- gsub(".*subsp[.] |.*var[.] |.*ssp[.] ", "", remaining_info, perl = TRUE)
-  infra_pieces <- stringr::str_split(infra_info, pattern = " ")
-  Infraspecies <- unlist(lapply(infra_pieces, '[[', 1))
+  # extract the infra specific rank if it exists.
+  Infraspecific_rank <- lapply(remaining_info, stringr::str_extract, "var.|subsp.|ssp.")[[1]]
 
-  mask  <- grep("subsp[.] |var[.] |ssp[.] ", x[,binomial_col], invert = TRUE, perl = TRUE)
-  Infraspecies <- replace(Infraspecies, mask, values = NA )
+  # Now extract the infra species name
+  infra_info <- lapply(remaining_info, stringr::str_extract, "subsp[.] .*$|var[.] .*$|ssp[.] .*$")
+  infra_pieces <- lapply(infra_info, stringr::str_split, pattern = " ")
+  Infraspecies <- lapply(infra_pieces[[1]], '[', 2)
 
-  # all remaining words are potential authors
-#  Infraspecific_authority <- mapply(
-#    \(x, patt) gsub(patt, "", x, ignore.case = T), patt = Infraspecies, x = infra_info)
+  # here extract the infra specific authors
+  infra_authors <- lapply(infra_pieces[[1]], '[', 3:20)
+  authors_part <- lapply(infra_authors, FUN = \(x) paste(x[!is.na(x)], collapse = " "))
+  infra_auth_not_need <- lapply(infra_authors, \(x) all(is.na(x)))
+  authors_part[infra_auth_not_need==TRUE] <- NA
 
-  # combine results to BL format
-  output <- cbind(binomials, Binomial_authority,
-              Infraspecific_rank, Infraspecies, Infraspecific_authority)
 
-  output[output == ""] <- NA
+  # return these data.
+  output <- data.frame(
+    x[,binomial_col],
+    binomials,
+    'Binomial_authority' = Binomial_authority,
+    'Name_authority' = Authority,
+    'Infraspecific_rank' = Infraspecific_rank,
+    'Infraspecies' = unlist(Infraspecies),
+    'Infraspecific_authority' = unlist(authors_part)
+  )
+
   output <- data.frame (apply(output, MARGIN = 2, FUN = trimws) )
-  output <- tidyr::unite(
-    data = output, col = 'Full_name',
-    Genus:Infraspecific_authority, na.rm=TRUE, sep = " ", remove = FALSE)
 
-  cols2overwrite <- c('Binomial', 'Genus', 'Epithet', 'Binomial_authority',
-                'Infraspecific_rank', 'Infrarank', 'Infraspecies', 'Infraspecific_authority')
-  in_out <- dplyr::select(x, -any_of(cols2overwrite))
-  output <- dplyr::bind_cols(in_out, output)
+  if(overwrite == TRUE){
+    cols2overwrite <- c('Binomial', 'Genus', 'Epithet', 'Binomial_authority', 'Name_authority',
+                        'Infraspecific_rank', 'Infraspecies', 'Infraspecific_authority')
+    in_out <- dplyr::select(x, -any_of(cols2overwrite))
+    output <- dplyr::bind_cols(in_out, output)
 
-  return(output)
+    return(output)
+  } else {return(output)}
+
 }
-
