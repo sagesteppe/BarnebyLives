@@ -79,7 +79,6 @@ split_binomial <- function(x, binomial_col, overwrite){
   infra_auth_not_need <- lapply(infra_authors, \(x) all(is.na(x)))
   authors_part[infra_auth_not_need==TRUE] <- NA
 
-
   # return these data.
   output <- data.frame(
     x[,binomial_col],
@@ -94,6 +93,7 @@ split_binomial <- function(x, binomial_col, overwrite){
   output <- data.frame (apply(output, MARGIN = 2, FUN = trimws) )
 
   if(overwrite == TRUE){
+    output <- output[ , !names(output) %in% binomial_col]
     cols2overwrite <- c('Binomial', 'Genus', 'Epithet', 'Binomial_authority', 'Name_authority',
                         'Infraspecific_rank', 'Infraspecies', 'Infraspecific_authority')
     in_out <- dplyr::select(x, -any_of(cols2overwrite))
@@ -103,3 +103,4 @@ split_binomial <- function(x, binomial_col, overwrite){
   } else {return(output)}
 
 }
+

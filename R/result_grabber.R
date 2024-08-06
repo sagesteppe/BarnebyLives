@@ -40,8 +40,6 @@ result_grabber <- function(x){
     name_authority <- as.character(res[[1]])
     binom_authority <- as.character(res[[2]])
     infra_authority <- as.character(res[[3]])
-    message('module ran...')
-
  } else {
     name_authority = paste(full_name, binom_authority)
     infra_authority <- NA
