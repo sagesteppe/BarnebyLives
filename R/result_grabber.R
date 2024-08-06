@@ -34,6 +34,20 @@ result_grabber <- function(x){
     infrarank <- NA
   }
 
+
+  # experimental, let's grab all name components.
+  if (length(split_name) > 2) {
+
+    if(epithet == infraspecies) dispatch autonym
+    res <- autonym(genus, epithet, infrarank, infraspecies)
+    res <- autonym(genus, epithet, infrarank, infraspecies)
+    name_authority <- as.character(res[[1]])
+    authority <- as.character(res[[2]])
+
+
+  }
+  ### end experimental.
+
  if (is.null(authority)){
     res <- autonym(genus, epithet, infrarank, infraspecies)
     name_authority <- as.character(res[[1]])
@@ -49,7 +63,7 @@ result_grabber <- function(x){
     epithet,
     infrarank,
     infraspecies,
-   authority
+    binom_authority
   )
 
   return(taxonomic_info)
