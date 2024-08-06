@@ -13,7 +13,7 @@ result_grabber <- function(x){
 
   # the main variables which all results should have.
   family <- resultT$family
-  authority <- resultT$author
+  binom_authority <- resultT$author
   full_name <- resultT$name
   split_name <- unlist(stringr::str_split(full_name, pattern = " "))
   genus <- split_name[1]
@@ -34,36 +34,29 @@ result_grabber <- function(x){
     infrarank <- NA
   }
 
-
-  # experimental, let's grab all name components.
-  if (length(split_name) > 2) {
-
-    if(epithet == infraspecies) dispatch autonym
-    res <- autonym(genus, epithet, infrarank, infraspecies)
-    res <- autonym(genus, epithet, infrarank, infraspecies)
+ if(!is.na(infrarank)){
+    res <- all_authors(genus, epithet,
+                       infrarank, infraspecies)
     name_authority <- as.character(res[[1]])
-    authority <- as.character(res[[2]])
+    binom_authority <- as.character(res[[2]])
+    infra_authority <- as.character(res[[3]])
+    message('module ran...')
 
-
-  }
-  ### end experimental.
-
- if (is.null(authority)){
-    res <- autonym(genus, epithet, infrarank, infraspecies)
-    name_authority <- as.character(res[[1]])
-    authority <- as.character(res[[2]])
-
-  } else{name_authority = paste(full_name, authority)}
+ } else {
+    name_authority = paste(full_name, binom_authority)
+    infra_authority <- NA
+ }
 
   taxonomic_info <- data.frame(
     family,
     'name_authority' = name_authority,
     full_name,
+    binom_authority,
     genus,
     epithet,
     infrarank,
     infraspecies,
-    binom_authority
+    infra_authority
   )
 
   return(taxonomic_info)

@@ -25,11 +25,12 @@ powo_searcher <- function(x){
         family = as.character(),
         name_authority = as.character(),
         full_name = as.character(),
+        binom_authority = as.character(),
         genus = as.character(),
         epithet = as.character(),
         infrarank = as.character(),
         infraspecies = as.character(),
-        authority = as.character()
+        infra_authority = as.character()
       )
       taxonomic_info[1,] <- 'NOT FOUND'
 
