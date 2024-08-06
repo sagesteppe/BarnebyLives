@@ -1,6 +1,4 @@
 #!/bin/bash
-
-# Loop through named arguments
 for arg in "$@"; do
    case "$arg" in
       collector=*) collector="${arg#*=}" ;;
