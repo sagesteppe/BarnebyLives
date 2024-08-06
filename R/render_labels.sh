@@ -1,25 +1,23 @@
 #!/bin/bash
-
-# Loop through arguments
 for arg in "$@"; do
    case "$arg" in
       collector=*) collector="${arg#*=}" ;;
    esac
 done
 
-mkdir processed-${collector}
-
-files=(raw-${collector}/*)
+mkdir ${collector}-processed
+files=($(ls ${collector}-raw/* | sort -Vt / -k2,2))
 for (( i=0; i<${#files[*]}; i+=4 ));
 do
   filename="${files[i]##*/}"
-  pdfjam "${files[@]:$i:4}" --nup 2x2 --landscape --outfile processed-${collector}/$filename --noautoscale true
+  pdfjam "${files[@]:$i:4}" --nup 2x2 --landscape --outfile ${collector}-processed/$filename --noautoscale true --quiet
 done
 
-files=("processed-${collector}/*")
-pdftk ${files[*]} output final/${collector}-labels.pdf
+mkdir ../final
+files=($(ls ${collector}-processed/* | sort -Vt / -k2,2))
+pdftk ${files[*]} output ../final/${collector}-labels.pdf
 
 echo "final labels are located at: final/${collector}-labels.pdf"
 
-rm -r raw-${collector}
-rm -r processed-${collector}
+rm ${collector}-raw -r
+rm ${collector}-processed -r
