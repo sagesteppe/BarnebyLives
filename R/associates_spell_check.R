@@ -79,17 +79,3 @@ associates_spell_check <- function(x, column, path){
   out <- dplyr::bind_cols(x, spellck)
   return(out)
 }
-
-
-df <- data.frame(
-  named = c(
-    NA,
-    NA,
-  'Boudelou gracilis, Bromus Tectorum, Opuntia sp., vulpia octoflora, Artimisia sp., Taeniatherum caput-medusae',
-  'Coleogyne racimosissima',
-  'Bromus tetorum, Eremoporum triticum, sarcbatus vermiculatus')
-)
-
-
-p2tax <- '/media/steppe/hdd/Barneby_Lives-dev/taxonomic_data'
-associates_spell_check(x = df, column = 'named', p2tax)
