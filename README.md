@@ -24,7 +24,8 @@ BarnebyLives! Is meant to supplement, not supplant, collectors field note endeav
 **Taxonomic**  
 - Spell check for Family, Genus, and specific epithet 
 - Searches for synonym to species  
-- Spell checks taxonomic authorities 
+- Spell checks taxonomic authorities
+- Spell check for associated species
 
 **Directions**  
 - directions to a parking spot can be acquired from Google Maps; however this implies the location can be driven to in the first place.
