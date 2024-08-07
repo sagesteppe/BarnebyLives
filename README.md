@@ -1,8 +1,10 @@
+## Overview  
+
 BarnebyLives! is an R program which serves to help botanical collectors in Western North America. BarnebyLives! runs multiple types of queries to acquire political and administrative, geographic, and taxononomic data for recently collected herbarium specimens. It also has limited abilities to search for taxonomic synonyms, check spelling of family, genus, and species names, as well as author abbreviations.  
 
-BarnebyLives! serves the entirety of the flora of the western conterminous US, which coincides with the Mississippi River. It also includes the entirety of the state of Illinois, and portions of Indiana. However, the area is bounded on it's North by Canada and South by Mexico, essentially it covers the western portion of the Conterminous United States (which excludes Alaska). While it covers this range, most variables are focused on supporting botanists working West of the Rocky Mountain Front Range, especially those operating on Bureau of Land Management and Forest Service lands.
+BarnebyLives! serves the entirety of the flora of the western conterminous US, which coincides with the Mississippi River. It also includes the entirety of the state of Illinois, and portions of Indiana. However, the area is bounded on it's North by Canada and South by Mexico, essentially it covers the western portion of the Conterminous United States (which excludes Alaska). While it covers this range, most variables are focused on supporting botanists working West of the Rocky Mountain Front Range, especially those operating on Bureau of Land Management and Forest Service administered lands.
 
-BarnebyLives! Is meant to supplement, not supplant, collectors field note endeavors. Variables which BarnebyLives! may produce, automatically, for each collection includes:
+BarnebyLives! Is meant to *supplement*, not supplant, collectors field note endeavors. Variables which BarnebyLives! may produce, automatically, for each collection includes:
 
 **Political**  
 - State  
@@ -24,7 +26,8 @@ BarnebyLives! Is meant to supplement, not supplant, collectors field note endeav
 **Taxonomic**  
 - Spell check for Family, Genus, and specific epithet 
 - Searches for synonym to species  
-- Spell checks taxonomic authorities 
+- Spell checks taxonomic authorities
+- Spell check for associated species
 
 **Directions**  
 - directions to a parking spot can be acquired from Google Maps; however this implies the location can be driven to in the first place.
@@ -41,8 +44,6 @@ BarnebyLives! Is meant to supplement, not supplant, collectors field note endeav
 
 **Electronic data for mass digital specimen upload**
 - Puts out data in formats congruent with Symbiota, Darwincore, Rocky Moutain Herbarium, and Consortium of Pacific Northwest Herbaria. 
-
-If the datasheet which is submitted to BarnebyLives! contains text in a cell, the program WILL NOT BE QUERIED for that variable if it is under 'Site Characteristics'. 
 
 Currently BarnebyLives! Is being run on a juiced up computer either in Rogers Park Chicago or Reno. The amount of data which it queries is very large. Please let me know if you have a query and I will run it for you. If you only collect from a smaller portion of the West, e.g. a certain state, or FS/BLM Unit/Field Office, you should be able to set up a local instance. Although, the documentation for such an endeavor is nascent the endeavor is simple, see "crop2boundary" for the workflow. 
 
@@ -109,7 +110,7 @@ Unnecessary columns!
 |          Slope          | The measured or in-field estimated slope which the population faced. |
 
 ## Geodata directory structure
-
+For those that are setting up a local instance the directory structure for the geodata is flat. 
 ```
 $ tree -d
 geodata
@@ -142,21 +143,11 @@ $ du -h
 455M	./geomorphons
 16G	.
 ```
-As you can see the data regarding site physical characteristics take up most of space. Because of this you can download data to a directory which you find suitable. For me personally, I slap all of them on an hdd.
+As you can see the data regarding site physical characteristics take up most of space. 
+Because of this you can download data to a directory which you find suitable.
+Personally, I slap all of them on an hdd.
 
-```
-$ df -h
-Filesystem      Size  Used Avail Use% Mounted on
-tmpfs            13G  2.4M   13G   1% /run
-/dev/nvme0n1p2  468G  278G  167G  63% /
-tmpfs            63G  4.5M   63G   1% /dev/shm
-tmpfs           5.0M  4.0K  5.0M   1% /run/lock
-/dev/nvme0n1p1  511M  6.1M  505M   2% /boot/efi
-/dev/sda1       3.6T  603G  2.9T  18% /hdd
-tmpfs            13G  124K   13G   1% /run/user/1000
-```
-
-## Save the Trees
+## Rendering Labels
 
 You will need to print you labels for the sheets. We do so as follows. 
 
