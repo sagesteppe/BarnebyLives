@@ -104,7 +104,7 @@ Unnecessary columns!
 |        Infraspecies     | The taxonomic entity which this population is a component of within the hierarchy of species.  |
 | Infraspecific_Authority | The scientific authors who conceptualized the species, and described it, and relevant authors whom have transferred the species to within a species. |
 |          Family         | A Family which the Genus which this species is apart of is considered to be a component of. |
-|          Datum          |  A smoothed model of the earths surface and locations on it's surface which represent origin points for referencing positions. Typical geodetic datums include 'WGS 84', 'NAD 83'. |
+|          Datum          |  A smoothed model of the earths surface and reference locations on the surface to measure from (~i.e. meridians). Typical geodetic datums include 'WGS 84', 'NAD 83'. |
 |          Aspect         | The measured or in-field estimated cardinal direction which the population faced. |
 |          Slope          | The measured or in-field estimated slope which the population faced. |
 

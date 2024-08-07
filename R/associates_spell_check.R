@@ -12,7 +12,7 @@
 #'  'Bromus tetorum, Eremoporum triticum, sarcbatus vermiculatus')
 #' )
 #' p2tax <- '/media/steppe/hdd/Barneby_Lives-dev/taxonomic_data'
-#' associates_formatter(x = df, column = 'Associates', p2tax)
+#' associates_spell_check.R(x = df, column = 'Associates', p2tax)
 #' }
 #' @export
 associates_spell_check.R <- function(x, column, path){
