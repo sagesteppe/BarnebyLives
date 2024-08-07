@@ -8,7 +8,7 @@
 #' \dontrun{
 #'df <- data.frame(
 #'  Associates = c(
-#'  'Boudelou gracilis, Bromus Tectorum, Opuntia sp., vulpia octoflora, Artimisia sp.',
+#'  'Boudelou gracilis, Bromus Tectorum, Opuntia sp., vulpia octoflora, Artimisia sp., Taeniatherum caput-medusae',
 #'  'Bromus tetorum, Eremoporum triticum, sarcbatus vermiculatus')
 #' )
 #' p2tax <- '/media/steppe/hdd/Barneby_Lives-dev/taxonomic_data'

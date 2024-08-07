@@ -92,7 +92,7 @@ Suggested columns!
 |       Project_name      | The endeavor which this collection was made for, or which field work may be associated with. | Flora Nevadensis |
 |        Site_name        |  A user defined name for the locality from which collections were made.  | Caliente |
 
-Unneccsary columns!
+Unnecessary columns!
 
 |     Column name        |  Description  |
 |   -----------------    | ------------- |
@@ -125,7 +125,7 @@ geodata
 ├── political
 └── slope
 ```
-Several of these subdirectories are quite large. In total my local instance takes up around 16gb of data.
+Several of these sub-directories are quite large. In total my local instance takes up around 16gb of data.
 
 ```
 $ du -h
@@ -175,15 +175,43 @@ obviously the pages of labels can then be combined, like this, to create a singl
 files=(processed/*)
 pdftk ${files[*]} output final/labels.pdf
 ```
+We have this functionality contained within a bash script which is distributed with the package, 'render_labels'. 
+Which takes a single argument 'collector' e.g. 'collector=Dwight'. 
+We've had difficulty calling this script from it's default install location :/, but it can easily be copied elsewhere and ran from that location. 
+It's easy to find this (and where the default herbarium label templates are, which you can totally modify :-)), in R using the following command. 
+Obviously this file can then be copied to another location (from within R) and ran... 
 
-Creating labels will require several open source pieces of software, both of which are associated with Tex.
 ```
-sudo apt-get update
-sudo apt-get install pdfjam -y
-sudo apt-get install pdftk -y
+p2script <- paste0(.libPaths()[ 
+  grepl(paste0(version$major, '.', sub('\\..*', "", version$minor)), 
+        .libPaths())], '/render_labels.sh')
+file.copy(p2script, destination)
 ```
 
-We also recommend the use of 24 pound paper, it looks better after gluing. 
+You can run the script like this...
+```
+bash path2file/render_labels.sh collector='Dwight'
+```
+reminder, you only need to chmod +x a file if you don't call 'bash' at the start of an argument...
+```
+chmod +x render_labels.sh
+path2file/render_labels.sh collector='Dwight'
+```
+Also a reminder that you can check your paths via `$PATH`, and can install to somewhere on your path! e.g. '/usr/local/bin', after that you can simply call it...
+```
+render_labels.sh collector='Dwight'
+```
+In all instances the script is meant for you to call it from the following location:
+```
+├── HerbariumLabels
+│  ├── final
+│  └── raw ## <- call render_labels.sh from here!!!
+│       └── Dwight-raw
+```
+The labels will end up in 'Final' and the subfolder within raw ('Dwight-raw') will be deleted.
+If you want to re-render you'll need to run the purrr::walk again. 
+
+Note that the 'collector' will need to match (..exactly...) the output of the purrr::walk files collector name. 
 
 ## Chicago Botanic Garden Fieldworkers Usage
 
