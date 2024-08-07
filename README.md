@@ -147,18 +147,6 @@ As you can see the data regarding site physical characteristics take up most of 
 Because of this you can download data to a directory which you find suitable.
 Personally, I slap all of them on an hdd.
 
-```
-$ df -h
-Filesystem      Size  Used Avail Use% Mounted on
-tmpfs            13G  2.4M   13G   1% /run
-/dev/nvme0n1p2  468G  278G  167G  63% /
-tmpfs            63G  4.5M   63G   1% /dev/shm
-tmpfs           5.0M  4.0K  5.0M   1% /run/lock
-/dev/nvme0n1p1  511M  6.1M  505M   2% /boot/efi
-/dev/sda1       3.6T  603G  2.9T  18% /hdd
-tmpfs            13G  124K   13G   1% /run/user/1000
-```
-
 ## Save the Trees
 
 You will need to print you labels for the sheets. We do so as follows. 
