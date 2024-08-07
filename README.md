@@ -108,7 +108,7 @@ Unnecessary columns!
 |          Slope          | The measured or in-field estimated slope which the population faced. |
 
 ## Geodata directory structure
-
+For those that are setting up a local instance the directory structure for the geodata is flat. 
 ```
 $ tree -d
 geodata
