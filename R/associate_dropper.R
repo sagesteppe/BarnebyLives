@@ -11,7 +11,7 @@
 associate_dropper <- function(x, Binomial){
 
   if(missing(Binomial)){Binomial <- 'Full_name' ;
-    cat('Argument to `Binomial` not supplied, defaulting to `Full_name`')}
+    message(crayon::yellow('Argument to `Binomial` not supplied, defaulting to `Full_name`'))}
 
   x <- x |>
     dplyr::rowwise() |>

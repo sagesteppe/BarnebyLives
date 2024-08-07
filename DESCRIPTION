@@ -2,7 +2,7 @@ Package: BarnebyLives
 Type: Package
 Title: Tools for collecting digital data on herbarium specimens
 Version: 0.2.0
-Authors@R: c(person("Reed Clark", "Benkendorf", email = "reedbenkendorf27@gmail.com", role = c("cre","aut")))
+Authors@R: c(person("Reed Clark", "Benkendorf", email = "rbenkendorf@chicagobotanic.org", role = c("cre","aut")))
 Description: BarnebyLives! is an R program which serves to help botanical collectors in Western North America. BarnebyLives! runs multiple types of queries to acquire political and administrative, geographic, and taxononomic data for recently collected herbarium specimens. It also has limited abilities to search for taxonomic synonyms, check spelling of family, genus, and species names, as well as author abbreviations.
 License: MIT + file LICENSE
 Encoding: UTF-8
