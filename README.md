@@ -147,7 +147,7 @@ As you can see the data regarding site physical characteristics take up most of 
 Because of this you can download data to a directory which you find suitable.
 Personally, I slap all of them on an hdd.
 
-## Save the Trees
+## Rendering Labels
 
 You will need to print you labels for the sheets. We do so as follows. 
 
