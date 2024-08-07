@@ -229,8 +229,8 @@ There are two colors on this sheet. White (or Black in dark mode) are cells whic
 
 Allow up to 1 month of processing time for a request. You should be working on labels throughout the season. Your submittal will be ran within a couple weeks.  The results will be populated in the sheet 'Processed', you will need to manually review/edit them, once you are satisfied and made the required alterations we will submit them for label generation.
 
+| ![Portrait of Rupert Barneby by Dwight Ripley 1955](man/figures/Portrait_of_Rupert_Barneby.png) | 
+|:--:| 
+| *Portrait of Rupert Barneby by Dwight Ripley 1955* |
 
-
-*BarnebyLives! Was named after Rupert Charles Barneby, botanist extraordinaire, artist, socialite, and kind hearted human being. He is the hero the West needs not Hayduke. Hence, BarnebyLives!*
-
-![Portrait of Rupert Barneby by Dwight Ripley 1955](man/figures/Portrait_of_Rupert_Barneby.png)
+*BarnebyLives(!) Was named after Rupert Charles Barneby, botanist extraordinaire, artist, socialite, and kind hearted human being. He is the hero the West needs not Hayduke. Hence, BarnebyLives!*
