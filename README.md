@@ -231,6 +231,6 @@ Allow up to 1 month of processing time for a request. You should be working on l
 
 | ![Portrait of Rupert Barneby by Dwight Ripley 1955](man/figures/Portrait_of_Rupert_Barneby.png) | 
 |:--:| 
-| *Portrait of Rupert Barneby by Dwight Ripley 1955* |
+| *'Portrait of Rupert Barneby'* Dwight Ripley (1955) |
 
 *BarnebyLives(!) Was named after Rupert Charles Barneby, botanist extraordinaire, artist, socialite, and kind hearted human being. He is the hero the West needs not Hayduke. Hence, BarnebyLives!*
