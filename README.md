@@ -141,7 +141,9 @@ $ du -h
 455M	./geomorphons
 16G	.
 ```
-As you can see the data regarding site physical characteristics take up most of space. Because of this you can download data to a directory which you find suitable. For me personally, I slap all of them on an hdd.
+As you can see the data regarding site physical characteristics take up most of space. 
+Because of this you can download data to a directory which you find suitable.
+Personally, I slap all of them on an hdd.
 
 ```
 $ df -h
