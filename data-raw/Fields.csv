@@ -85,7 +85,7 @@ JEPS,Datum,Datum
 JEPS,Coordinate_Uncertainty_In_Meters,Coordinate_Uncertainty
 JEPS,Coordinate_Source,NA
 JEPS,Elevation,elevation_m
-JEPS,Elevation_Units,NA
+JEPS,Elevation_Units,Elevation_Units
 JEPS,Sex,NA
 JEPS,Phase,NA
 JEPS,Cultivated,NA
