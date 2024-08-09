@@ -20,7 +20,8 @@ geodata_writer <- function(x, path, filename, filetype){
   x <- x |>
     dplyr::mutate(
       Collector_n_Number = paste(gsub("(*UCP)[^;-](?<!\\b\\p{L})", "", Primary_Collector, perl=TRUE),
-                                 Collection_number)) |>
+                                 Collection_number),
+      UNIQUEID = paste0(Primary_Collector, Collection_number)) |>
     dplyr::select(NAME = Collector_n_Number, Description = UNIQUEID) |>
     sf::st_write(dsn = fname, driver = filetype,
                  delete_dsn = TRUE, quiet = T, append = F)
