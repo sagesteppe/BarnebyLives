@@ -34,8 +34,8 @@ split_binomial <- function(x, binomial_col, overwrite){
   if(missing(overwrite)){overwrite <- TRUE}
 
   # double spaces will mess with some of our sensitive regrexes below
-  x[,binomial_col] <- lapply(x[,binomial_col], gsub, pattern = "\\s+", replacement =  " ")
-  x[,binomial_col] <- lapply(x[,binomial_col], trimws)
+  x[,binomial_col] <- unlist(lapply(x[,binomial_col], gsub, pattern = "\\s+", replacement =  " "))
+  x[,binomial_col] <- unlist(lapply(x[,binomial_col], trimws))
   # we will proceed row wise, treating each record independently from the last
   # in case that there are missing values.
 
@@ -51,7 +51,7 @@ split_binomial <- function(x, binomial_col, overwrite){
     return(vars)
   }
 
-  binomials <- lapply(to_split, binomial) |>
+    binomials <- lapply(to_split, binomial) |>
     data.table::rbindlist()
 
   # We'll use these strings as the basis for all future work - it includes everything past the binomial
@@ -90,7 +90,7 @@ split_binomial <- function(x, binomial_col, overwrite){
     'Infraspecific_authority' = unlist(authors_part)
   )
 
-  output <- data.frame (apply(output, MARGIN = 2, FUN = trimws) )
+  output <- data.frame (apply(output, MARGIN = 2, FUN = trimws))
 
   if(overwrite == TRUE){
     output <- output[ , !names(output) %in% binomial_col]
