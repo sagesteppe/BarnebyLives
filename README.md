@@ -112,9 +112,7 @@ Unnecessary columns!
 
 ## General Workflow 
 
-| ![Suggested Workflow](man/figures/workflow.png) | 
-|:--:| 
-| *'Suggested Workflow'* |
+![Suggested Workflow](man/figures/workflow.png) 
 
 ## Geodata directory structure
 For those that are setting up a local instance the directory structure for the geodata is flat. 
