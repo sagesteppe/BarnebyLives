@@ -1,10 +1,10 @@
-#' split out a binomial input column to pieces
+#' split out a scientific input column to pieces
 #'
 #' This function attempts to split a scientific name into it's component pieces.
-#' Given an input binomial, or binomial with scientific authorities and infraspecies
+#' Given an input scientific, or scientific with scientific authorities and infraspecies
 #' this function will parse them into the columns used in the BarnebyLives pipeline.
 #' @param x a dataframe with collection information
-#' @param binomial_col column containing the data to parse
+#' @param sciName_col column containing the data to parse
 #' @example
 #' library(BarnebyLives)
 #' ce <- collection_examples
@@ -14,32 +14,32 @@
 #'   Binomial_authority = ce$Binomial_authority[sample(1:nrow(ce), size = 100, replace = F)]
 #' ) # extra columns to challenge name search - values are meaningless
 #'
-#' split_binomial(ce)|> head()
-#' split_binomial(ce, binomial_col = 'Binomial') |> head()
+#' split_scientificName(ce)|> head()
+#' split_scientificName(ce, sciName_col = 'Binomial') |> head()
 #' @export
-split_binomial <- function(x, binomial_col, overwrite){
+split_scientificName <- function(x, sciName_col, overwrite){
 
-  if(missing(binomial_col)){  # search for non supplied column name
+  if(missing(sciName_col)){  # search for non supplied column name
     indices <- grep('binomial', colnames(x), ignore.case=TRUE)
 
     if(length(indices) > 1){ # if more columns are found, try and find it an # authority column is the culprit
       indices <- indices[ grep('auth', colnames(x)[indices], invert = TRUE)]}
     if(length(indices) == 0){
-      stop('unable to find name column, please supply argument to `binomial_col`')}
+      stop('unable to find name column, please supply argument to `sciName_col`')}
     if(length(indices) == 1){
-      binomial_col <- colnames(x)[indices]
-      cat('`binomial_col` argument not supplied, using:', colnames(x)[indices])
+      sciName_col <- colnames(x)[indices]
+      cat('`sciName_col` argument not supplied, using:', colnames(x)[indices])
     }
   }
   if(missing(overwrite)){overwrite <- TRUE}
 
   # double spaces will mess with some of our sensitive regrexes below
-  x[,binomial_col] <- unlist(lapply(x[,binomial_col], gsub, pattern = "\\s+", replacement =  " "))
-  x[,binomial_col] <- unlist(lapply(x[,binomial_col], trimws))
+  x[,sciName_col] <- unlist(lapply(x[,sciName_col], gsub, pattern = "\\s+", replacement =  " "))
+  x[,sciName_col] <- unlist(lapply(x[,sciName_col], trimws))
   # we will proceed row wise, treating each record independently from the last
   # in case that there are missing values.
 
-  to_split <- split(x[,binomial_col], f = 1:nrow(x))
+  to_split <- split(x[,sciName_col], f = 1:nrow(x))
 
   binomial <- function(x){ # recovery of the binomial, only the first two pieces of the name.
     pieces <- unlist(stringr::str_split(x, pattern = " "))
@@ -55,10 +55,10 @@ split_binomial <- function(x, binomial_col, overwrite){
     data.table::rbindlist()
 
   # We'll use these strings as the basis for all future work - it includes everything past the binomial
-  remaining_info <- lapply(x[,binomial_col], sub, pattern = '\\w+\\s\\w+\\s', replacement =  "")
+  remaining_info <- lapply(x[,sciName_col], sub, pattern = '\\w+\\s\\w+\\s', replacement =  "")
 
   # extract the binomial name and the authorities
-  Binomial_authority <- lapply(x[,binomial_col], sub, pattern = "ssp[.].*|subsp[.].*|var[.].*", replacement =  "")
+  Binomial_authority <- lapply(x[,sciName_col], sub, pattern = "ssp[.].*|subsp[.].*|var[.].*", replacement =  "")
   Binomial_authority <- lapply(Binomial_authority, str_trim)[[1]]
 
   # extract the authority for the binomial name.
@@ -81,7 +81,7 @@ split_binomial <- function(x, binomial_col, overwrite){
 
   # return these data.
   output <- data.frame(
-    x[,binomial_col],
+    x[,sciName_col],
     binomials,
     'Binomial_authority' = Binomial_authority,
     'Name_authority' = Authority,
@@ -93,7 +93,7 @@ split_binomial <- function(x, binomial_col, overwrite){
   output <- data.frame (apply(output, MARGIN = 2, FUN = trimws))
 
   if(overwrite == TRUE){
-    output <- output[ , !names(output) %in% binomial_col]
+    output <- output[ , !names(output) %in% sciName_col]
     cols2overwrite <- c('Binomial', 'Genus', 'Epithet', 'Binomial_authority', 'Name_authority',
                         'Infraspecific_rank', 'Infraspecies', 'Infraspecific_authority')
     in_out <- dplyr::select(x, -any_of(cols2overwrite))

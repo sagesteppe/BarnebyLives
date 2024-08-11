@@ -109,6 +109,13 @@ Unnecessary columns!
 |          Aspect         | The measured or in-field estimated cardinal direction which the population faced. |
 |          Slope          | The measured or in-field estimated slope which the population faced. |
 
+
+## General Workflow 
+
+| ![Suggested Workflow](man/figures/workflow.png) | 
+|:--:| 
+| *'Suggested Workflow'* |
+
 ## Geodata directory structure
 For those that are setting up a local instance the directory structure for the geodata is flat. 
 ```
