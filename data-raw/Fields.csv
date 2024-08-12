@@ -4,14 +4,14 @@ Symbiota,Additional Identifier Values,NA
 Symbiota,Collector,Primary_Collector
 Symbiota,Associated Collectors,Associated_Collectors
 Symbiota,Number,Collection_number
-Symbiota,Date,Date_digital_dmy
+Symbiota,Date,Date_digital
 Symbiota,Verbatim Date,Date_digital
 Symbiota,Year,Date_digital_yr
 Symbiota,Month,Date_digital_mo
 Symbiota,Day,Date_digital_day
 Symbiota,Day of year range,NA
 Symbiota,Scientific Name,Name_authority
-Symbiota,Author,AUTHORS_TRUNC
+Symbiota,Author,Authority
 Symbiota,Identification Qualifier,NA
 Symbiota,Family,Family
 Symbiota,Identified By,Determined_by
@@ -31,7 +31,7 @@ Symbiota,Uncertainty (meters),Coordinate_Uncertainty
 Symbiota,Datum,Datum
 Symbiota,Verbatim Coordinates,NA
 Symbiota,Elevation in Meters,elevation_m
-Symbiota,Verbatim Elevation,elevation_m_copy
+Symbiota,Verbatim Elevation,elevation_m
 Symbiota,Depth in Meters,NA
 Symbiota,Verbatim Depth,NA
 Symbiota,Georeferenced By,NA

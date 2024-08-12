@@ -3,36 +3,49 @@
 #' Only a few schemas are currently supported, but we always seek to add more.
 #' @param x data frame holding the final output from BarnebyLives
 #' @param format a character vector indicating which database to create output for.
-#' Currently supported options include: Symbiota, JEPS, CHIC...
 #' @examples
+#' #' library(BarnebyLives)
+#' dat4import <- format_database_import(collection_examples, format = 'JEPS')
+#'
+# we also know a bit about our material and can populate it here by hand #
+#' dat4import |>
+#'   dplyr::mutate(
+#'    Label_Footer = 'Collected under the auspices of the Bureau of Land Management',
+#'    Coordinate_Uncertainty_In_Meters = 5,
+#    Coordinate_Source = 'iPad')
 #' @export
 format_database_import <- function(x, format){
 
-  dbt <- data('database_templates')
-  dbt <- dbt[dbt$Database == 'Symbiota', c('BarnebyLives', 'OutputField')]
+  dbt <- database_templates[database_templates$Database == format,]
 
-  lkp <- setNames( # create a look up vector to map our columns to theirs.
-    dbt[!is.na(dbt$BarnebyLives), 'BarnebyLives'],
-    dbt[!is.na(dbt$BarnebyLives), 'OutputField']
-  )
+  col2select <- dbt$BarnebyLives[!is.na(dbt$BarnebyLives)]
+  names4cols <- dbt$OutputField[!is.na(dbt$BarnebyLives)]
 
-  empty_cols <- setNames( # determine which columns we do not have an analogue
-    data.frame( # for, these will be added on as empty columns after we map
-      matrix( # our names to theirs.
-        ncol = sum(is.na(dbt$BarnebyLives)),
-        nrow = x)),
-    dbt[is.na(dbt$BarnebyLives), 'OutputField'])
+  # create any necessary columns by engineering the input data.
+  if(any(col2select=='Vegetation_Associates')){
+    x <- tidyr::unite(x, col = Vegetation_Associates,
+                      Vegetation, Associates, na.rm=TRUE, sep = ", ")}
 
+  if(any(col2select=='Coordinate_Uncertainty')){
+    x <- dplyr::mutate(x, Coordinate_Uncertainty = 'Not Recorded')}
 
-  x <- x |>
-    dplyr::unite(., col = "Vegetation_Associates",  Vegetation, Associates, na.rm=TRUE, sep = ", ") %>%
-    dplyr::mutate(AUTHORS_TRUNC = if_else(
-      is.na(Infraspecific_authority), Binomial_authority, Infraspecific_authority),
-      elevation_m_copy = elevation_m) %>%
-    dplyr::rename(., any_of(lkp)) %>%
-    dplyr::select(all_of(names(lkp))) %>%
-    dplyr::bind_cols(., empty_cols) %>%
-    dplyr::relocate(cname_lkp$OutputField)
+  if(any(col2select=='Elevation_Units')){
+    x <- dplyr::mutate(x, Elevation_Units = 'm')}
 
-  return(x)
+  # select the relevant columns & rename them
+  x_sub <- dplyr::select(x, dplyr::all_of(col2select)) |>
+    purrr::set_names(names4cols)
+
+  # pad output data with empty columns
+  empty_cols <- dbt$OutputField[is.na(dbt$BarnebyLives)]
+  empty_cols <- setNames(
+    data.frame(
+      matrix(nrow = nrow(x), ncol = length(empty_cols))),
+    empty_cols)
+
+  out <- dplyr::bind_cols(x_sub, empty_cols) |>
+    dplyr::select(dplyr::all_of(dbt$OutputField))
+
+  return(out)
+
 }
