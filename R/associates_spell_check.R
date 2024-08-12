@@ -2,17 +2,15 @@
 #'
 #' Apply proper capitalization to the species, and spell check all components.
 #' @param x a data frame containing collection info
-#' @param column a column containing the vegetation, or associated species information
+#' @param column a column containing the family information
 #' @param path a path to a folder containing the taxonomic data.
 #' @examples
 #' \dontrun{
 #'df <- data.frame(
-#'  Associates = c(
-#'  'Boudelou gracilis, Bromus Tectorum, Opuntia sp., vulpia octoflora, Artimisia sp., Taeniatherum caput-medusae',
-#'  'Bromus tetorum, Eremoporum triticum, sarcbatus vermiculatus')
+#'  Family = c('Apiacace', 'Apiaceae', 'Ongraceae', 'Syperaceae', 'Poacaceae')
 #' )
 #' p2tax <- '/media/steppe/hdd/Barneby_Lives-dev/taxonomic_data'
-#' associates_spell_check.R(x = df, column = 'Associates', p2tax)
+#' associates_spell_check.R(x = df, column = 'Family', p2tax)
 #' }
 #' @export
 associates_spell_check <- function(x, column, path){
