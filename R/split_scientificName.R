@@ -81,7 +81,8 @@ split_scientificName <- function(x, sciName_col, overwrite){
 
   # return these data.
   output <- data.frame(
-    deparse(quote(sciName_col)) = x[,sciName_col],
+ #   deparse(quote(sciName_col)) =
+    x[,sciName_col],
     binomials,
     'Binomial_authority' = Binomial_authority,
     'Name_authority' = Authority,
