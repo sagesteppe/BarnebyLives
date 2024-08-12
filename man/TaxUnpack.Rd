@@ -7,9 +7,10 @@
 TaxUnpack(path, continents)
 }
 \arguments{
-\item{path}{to where wczp is stored}
+\item{path}{to where WCVP is stored}
 
-\item{continents}{one of: 'NORTHERN AMERICA', 'AFRICA', 'ANTARCTICA', 'ASIA-TROPICAL', 'ASIA-TEMPERATE', 'AUSTRALASIA', 'EUROPE', 'OCEANIA', 'SOUTHERN AMERICA', 'PACIFIC',}
+\item{continents}{one of: 'NORTHERN AMERICA', 'AFRICA', 'ANTARCTICA', 'ASIA-TROPICAL',
+'ASIA-TEMPERATE', 'AUSTRALASIA', 'EUROPE', 'OCEANIA', 'SOUTHERN AMERICA', 'PACIFIC',}
 }
 \description{
 This function is run on the WCVP compressed archive downloaded by 'wcvp_update',

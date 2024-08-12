@@ -3,8 +3,9 @@
 #' This function is run on the WCVP compressed archive downloaded by 'wcvp_update',
 #' and requires some input from the user which specifies a geographic area to establish a
 #' taxonomic look up table for.
-#' @param path to where wczp is stored
-#' @param continents one of: 'NORTHERN AMERICA', 'AFRICA', 'ANTARCTICA', 'ASIA-TROPICAL', 'ASIA-TEMPERATE', 'AUSTRALASIA', 'EUROPE', 'OCEANIA', 'SOUTHERN AMERICA', 'PACIFIC',
+#' @param path to where WCVP is stored
+#' @param continents one of: 'NORTHERN AMERICA', 'AFRICA', 'ANTARCTICA', 'ASIA-TROPICAL',
+#'  'ASIA-TEMPERATE', 'AUSTRALASIA', 'EUROPE', 'OCEANIA', 'SOUTHERN AMERICA', 'PACIFIC',
 #' @examples \dontrun{
 #'reggs <- c('Northwestern U.S.A.', 'Southwestern U.S.A.',
 #' North-Central U.S.A.', 'South-Central U.S.A.')
@@ -36,7 +37,7 @@
 #'
 #' rm(infra, acc, bases)
 #' }
-#'@param export
+#'@export
 TaxUnpack <- function(path, continents){
 
   distributions <- read.table(unz(file.path(path, 'wcvp.zip'), 'wcvp_distribution.csv'),
