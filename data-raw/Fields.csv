@@ -10,8 +10,8 @@ Symbiota,Year,Date_digital_yr
 Symbiota,Month,Date_digital_mo
 Symbiota,Day,Date_digital_day
 Symbiota,Day of year range,NA
-Symbiota,Scientific Name,Name_authority
-Symbiota,Author,Authority
+Symbiota,Scientific Name,Full_name
+Symbiota,Author,Name_authority
 Symbiota,Identification Qualifier,NA
 Symbiota,Family,Family
 Symbiota,Identified By,Determined_by
