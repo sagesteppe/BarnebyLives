@@ -7,7 +7,7 @@
 associate_dropper(x, Binomial)
 }
 \arguments{
-\item{x}{a dataframe containing collection info}
+\item{x}{a data frame containing collection info}
 
 \item{Binomial}{a column containing the name of the collection, without authorship.}
 }
@@ -16,6 +16,6 @@ this function removes the collected species from the list of associated
 species
 }
 \examples{
-out <- associate_dropper(collection_examples, Binomial = Full_name) |>
+out <- associate_dropper(collection_examples, Binomial = 'Full_name') |>
  dplyr::select(Full_name, Associates)
 }

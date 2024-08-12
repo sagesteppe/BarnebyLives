@@ -5,7 +5,7 @@
 #' this function will parse them into the columns used in the BarnebyLives pipeline.
 #' @param x a dataframe with collection information
 #' @param sciName_col column containing the data to parse
-#' @example
+#' @examples
 #' library(BarnebyLives)
 #' ce <- collection_examples
 #' ce <- data.frame(

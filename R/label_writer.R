@@ -6,8 +6,7 @@
 #' @param x a path to a csv of labels which have been cleaned with BL, and which the analyst
 #' has evaluated for conflicts.
 #' @param outdir an output directory to hold the files.
-#' @example
-#' label_writer(collection_examples, BL_label_example)
+#' @examples \dontrun{label_writer(collection_examples, BL_label_example)}
 #' @export
 label_writer <- function(x, outdir) {
 
@@ -25,5 +24,3 @@ label_writer <- function(x, outdir) {
     	output_dir = outdir)
 	}
 }
-
-
