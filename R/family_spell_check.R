@@ -40,9 +40,3 @@ family_spell_check <- function(x, path){
     return(out)
   } else { return(x)}
 }
-
-names <- data.frame(
-  Collection_number = 1:3,
-    Family = c('Asteracea', 'Flabaceae', 'Onnagraceae')
-   )
-  spelling <- family_spell_check(names, path = '../taxonomic_data')
