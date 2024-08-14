@@ -4,7 +4,7 @@
 #' @param x data frame holding the final output from BarnebyLives
 #' @param format a character vector indicating which database to create output for.
 #' @examples
-#' #' library(BarnebyLives)
+#' library(BarnebyLives)
 #' dat4import <- format_database_import(collection_examples, format = 'JEPS')
 #'
 # we also know a bit about our material and can populate it here by hand #
@@ -39,10 +39,8 @@ format_database_import <- function(x, format){
     x <- dplyr::mutate(x, elevation_m_cp = elevation_m)}
 
   # select the relevant columns & rename them
-  x_sub <- dplyr::select(x, dplyr::all_of(col2select)) #|>
-
-  return(list(col2select, names4cols, x_sub))
-  #  purrr::set_names(names4cols)
+  x_sub <- dplyr::select(x, dplyr::all_of(col2select)) |>
+    purrr::set_names(names4cols)
 
   # pad output data with empty columns
   empty_cols <- dbt$OutputField[is.na(dbt$BarnebyLives)]
@@ -51,8 +49,8 @@ format_database_import <- function(x, format){
       matrix(nrow = nrow(x), ncol = length(empty_cols))),
     empty_cols)
 
-  out <- dplyr::bind_cols(x_sub, empty_cols) #|>
-    #dplyr::select(dplyr::all_of(dbt$OutputField))
+  out <- dplyr::bind_cols(x_sub, empty_cols) |>
+    dplyr::select(dplyr::all_of(dbt$OutputField))
 
   return(out)
 

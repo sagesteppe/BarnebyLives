@@ -73,7 +73,7 @@ associates_spell_check <- function(x, column, path){
     associates[[y]] <- paste(names2search, collapse = ', ')
   }
 
-  spellck <- setNames(data.frame(associates), paste0(column, '-SpellCk'))
+  spellck <- setNames(data.frame(associates), paste0('SpellCk.', column))
   out <- dplyr::bind_cols(x, spellck)
   return(out)
 }
