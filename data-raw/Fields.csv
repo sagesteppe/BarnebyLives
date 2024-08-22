@@ -69,7 +69,7 @@ JEPS,Main_Collector,Primary_Collector
 JEPS,Other_Collectors,Associated_Collectors
 JEPS,ScientificName,Name_authority
 JEPS,DeterminedBy,Determined_by
-JEPS,Det_Date_Display,Determined_date_dmy
+JEPS,Det_Date_Display,Determined_date_text
 JEPS,Label_Header,Project_name
 JEPS,Label_Footer,NA
 JEPS,Plant_Description,Notes
