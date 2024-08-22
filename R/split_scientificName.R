@@ -81,7 +81,6 @@ split_scientificName <- function(x, sciName_col, overwrite){
 
   # return these data.
   output <- data.frame(
- #   deparse(quote(sciName_col)) =
     x[,sciName_col],
     binomials,
     'Binomial_authority' = Binomial_authority,
@@ -91,6 +90,7 @@ split_scientificName <- function(x, sciName_col, overwrite){
     'Infraspecific_authority' = unlist(authors_part)
   )
 
+#  colanmes(output[1]) <- deparse(substitute(sciName_col))
   output <- data.frame (apply(output, MARGIN = 2, FUN = trimws))
 
   if(overwrite == TRUE){

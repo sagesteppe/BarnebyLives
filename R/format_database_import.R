@@ -12,7 +12,8 @@
 #'   dplyr::mutate(
 #'    Label_Footer = 'Collected under the auspices of the Bureau of Land Management',
 #'    Coordinate_Uncertainty_In_Meters = 5,
-#    Coordinate_Source = 'iPad')
+#'     Coordinate_Source = 'iPad')
+#'
 #' @export
 format_database_import <- function(x, format){
 
