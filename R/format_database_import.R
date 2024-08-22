@@ -39,6 +39,9 @@ format_database_import <- function(x, format){
   if(any(col2select=='elevation_m_cp')){
     x <- dplyr::mutate(x, elevation_m_cp = elevation_m)}
 
+  if(any(col2select=='Locality')){
+    x <- tidyr::unite(x, col = Locality, Country, Site, na.rm=TRUE, sep = ", ")}
+
   # select the relevant columns & rename them
   x_sub <- dplyr::select(x, dplyr::all_of(col2select)) |>
     purrr::set_names(names4cols)
