@@ -63,7 +63,7 @@ Symbiota,Language,NA
 Symbiota,Processing Status,NA
 Symbiota,Label Project,Project_name
 Symbiota,Duplicate Quantity,NA
-JEPS,Locality,Country-Site
+JEPS,Locality,Site
 JEPS,Coll_Num,Collection_number
 JEPS,Coll_Date,Date_digital_text
 JEPS,Main_Collector,Primary_Collector
