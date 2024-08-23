@@ -6,11 +6,10 @@
 #' @param path a path to a folder containing the taxonomic data.
 #' @examples
 #' \dontrun{
-#'df <- data.frame(
-#'  Family = c('Apiacace', 'Apiaceae', 'Ongraceae', 'Syperaceae', 'Poacaceae')
-#' )
+#'df <- data.frame('Vegetation' = 'Cypers sp., Persicara spp.,
+#'   Eupatorium occidentalis, Eryngium articuatum, Menta canadense')
 #' p2tax <- '/media/steppe/hdd/Barneby_Lives-dev/taxonomic_data'
-#' associates_spell_check.R(x = df, column = 'Family', p2tax)
+#' associates_spell_check(df, column = 'Vegetation', path = p2tax)
 #' }
 #' @export
 associates_spell_check <- function(x, column, path){
