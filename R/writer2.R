@@ -7,10 +7,13 @@
 #' writer(collection_examples[9,'Binomial_authority'] )
 #' writer(collection_examples[9, 'Infraspecies'], italics = TRUE )
 #' @export
-writer <- function(x, italics){
+writer <- function(x, italics, period){
 
   if(missing(period)){period <- FALSE}
   x[x==""] <- NA
   if(missing(italics)){italics <- FALSE}
+  if(period == TRUE){x <- paste0(gsub('[.]$', '', x), '.')}
   if(is.na(x)){""} else if(italics == FALSE){x} else (paste0('*', x, '*'))
+
+  return(x)
 }
