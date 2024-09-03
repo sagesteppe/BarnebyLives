@@ -17,8 +17,6 @@ associates_spell_check <- function(x, column, path){
   if(missing(column)){column <- 'Associates' ;
     message(crayon::yellow('Argument to `column` not supplied, defaulting to `Associates`'))}
 
-  # remove notation of '.sp' and simply search that the genus is spelled correctly.
-  # we'll simply add 'sp.' to any single piece returned by the fn
   associates <- dplyr::pull(x, column)
   associates <- trimws(associates)
 
