@@ -13,8 +13,8 @@ writer <- function(x, italics, period){
   if(missing(period)){period <- FALSE}
   x[x==""] <- NA
   if(missing(italics)){italics <- FALSE}
-  if (is.na(x)){""} else if(italics == FALSE){x} else (paste0('*', x, '*'))
-
   if(period == TRUE){x <- paste0(gsub('[.]$', '', x), '.')}
+  if(is.na(x)){""} else if(italics == FALSE){x} else (paste0('*', x, '*'))
+
   return(x)
 }
