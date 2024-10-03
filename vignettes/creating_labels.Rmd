@@ -16,27 +16,85 @@ data('collection_examples')
 ```{r move to a working directory and create a place to hold labels, eval = F}
 setwd('~/Documents')
 dir.create('HerbariumLabels')
-```
-
-You can use a purrr function, walk, to write many labels one after another in the following fashion. Be sure to specify reasonable paths to write to. 
-
-```{r run labels, eval = F}
+dir.create('HerbariumLabels/raw')
 
 p <- '~/Documents/HerbariumLabels/raw'
+```
+
+You can use a purrr function, `walk`, to write many labels one after another in the following fashion. Be sure to specify reasonable paths to write to!
+BL will create a temporary 'raw' file in location, which will store the intermediary labels. 
+
+Before you let purrr::walk through the labels to made, you can copy the label template to a more easily accessible location on your computer. 
+The code chunk below will search for your current version of R and bring the template over from within the directory holding the package. 
+```{r Copy the label template to a more accessible location}
+p2libs <- .libPaths()[ 
+  grepl(paste0(version$major, '.', sub('\\..*', "", version$minor)), 
+      .libPaths())]
+```
+
+You can run the labels using a totally default template using the code below. 
+Basically, we are just finding where your most recent installation of R is, and from there identifying the path to package within it. 
+You shouldn't need to modify any of this code
+```{r run labels, eval = F}
 
 p2libs <- .libPaths()[ 
   grepl(paste0(version$major, '.', sub('\\..*', "", version$minor)), 
       .libPaths())]
 
-folds <- c('BarnebyLives/rmarkdown/templates/labels/skeleton/skeleton.Rmd')
+folds <- file.path(
+  'BarnebyLives', 'rmarkdown', 'templates', 'labels', 'skeleton', 'skeleton.Rmd')
 
 purrr::walk(
   .x = collection_examples$Collection_number,
   ~ rmarkdown::render(
-    input = file.path( p2libs, folds),
+    input = file.path(p2libs, folds), 
+    # the template which will be populated
+    output_file = file.path(p, glue::glue("{.x}.pdf")), 
+    # the location and name for the output file. 
+    params = list(Collection_number = {.x}) 
+    # this is what purrr will walk through, the collection numbers. 
+  )
+)
+```
+
+Although generally, we think that users will want to modify the template itself. 
+I suspect it's best practice to make a copy of the template, and save it in a part of the computer which people are more likely to interface with, e.g. within the Documents directory. 
+Using the code below we can simply copy the template to the current working directory. 
+Changing the to argument in `file.copy` will allow you to put it where you see fit. 
+
+```{r}
+file.copy(from = file.path(p2libs, folds), to =  '.')
+```
+
+Now from that location you can run the script again, but this time with modification to the 'input' argument of purrr::walk(). 
+
+```{r}
+purrr::walk(
+  .x = collection_examples$Collection_number,
+  ~ rmarkdown::render(
+    input = 'skeleton.Rmd', 
     output_file = file.path(p, glue::glue("{.x}.pdf")),
     params = list(Collection_number = {.x})
   )
 )
 ```
 
+
+## Exporting a digital copy of the data
+
+This is normally the time when I also make a digital copy of the data for direct accessioning at the herbarium side. 
+
+Currently BL supports writing out data for mass upload in a few formats for herbaria(e.g. Symbiota, Jepson, Chicago Botanic Garden), but we are always interested in adding more, so PLEASE do not hesitate to ask if you want something to be supported!
+
+```{r}
+dat_import <- format_database_import(collection_examples, 'Symbiota') |> 
+  dplyr::mutate(
+    dplyr::across(
+      dplyr::everything(), ~ as.character(.)),
+    dplyr::across(
+      dplyr::everything(), ~ tidyr::replace_na(., '')))  
+
+# write.csv(dat_import, '', row.names = F)
+```
+
+I hashed out the location to which the file will be written, but just in the area between '' with the desired location and you are good to go!

@@ -1,0 +1,109 @@
+---
+title: "Transmittal Notice"
+output: pdf_document
+date: "`r format(as.Date(Sys.Date()), '%B %d, %Y')`"
+header-includes: 
+  - \usepackage{wrapfig}
+  - \usepackage{graphicx}
+---
+
+\fontsize{14pt}{16pt}\selectfont
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(dpi = 300) 
+knitr::opts_chunk$set(message = FALSE)
+knitr::opts_chunk$set(warning = FALSE)
+```
+
+```{r}
+library(BarnebyLives)
+```
+
+\vspace{1cm} 
+
+```{r user defined settings}
+herbarium_code <- 'COLO' # index herbariorum code
+project <- data.frame(
+  Name = 'Seeds of Success', # the project name. 
+  Project_description = 'native seed conservation and development project', # short description
+  Organization = 'Chicago Botanic Garden',
+  Phone = '312-607-0257',
+  Person = 'Reed Benkendorf',
+  Email = 'rbenkendorf@chicagotbotanic.org',
+  PersonTitle = 'Lead Botanist',
+  Sets = 'quadruplicate',
+  Permits = 'These materials were collected under the auspices of the US Department of Interiors Bureau of Land Management, unless noted otherwise.'
+)
+```
+
+```{r load data}
+herbarium <- herbaria_info |> 
+  dplyr::filter(Abbreviation == herbarium_code)
+
+project <- project_examples |> 
+  dplyr::filter(Project == project_code)
+
+specimens <- collection_examples |>
+  dplyr::mutate(Coll = paste(Primary_Collector, Collection_number)) |>
+  dplyr::select(Collection = Coll, Taxon = Full_name) 
+```
+
+`r herbarium$Contact`  
+`r herbarium$Name1`  
+`r herbarium$Name2`  
+`r herbarium$Street`   
+`r herbarium$City`, `r herbarium$State`
+
+\vspace{1cm} 
+
+Dear `r herbarium$Contact`,
+
+\vspace{0.5cm} 
+
+We at `r project$Organization` are transferring these materials to `r herbarium$Abbreviation` to serve as vouchers for the `r project$Name` `r project$Project_description`.
+
+\vspace{0.5cm} 
+
+This package contains the specimens noted on the following page, and labels for them enclosed in the sheets. The material in here is intended to represent a single set from collections made in `project$Sets`. `r project$Permits`
+
+\vspace{0.5cm} 
+
+If you are interested, we are able to share digital copies of relevant collection data to assist digitization endeavors.
+
+\vspace{0.5cm} 
+
+Thank you, we appreciate both your and your staffs assistance in this matter. Please do not hesitate to reach out to me with any questions. 
+
+\vspace{1cm} 
+
+\begin{wrapfigure}{r}{0.15\textwidth}
+  \centering
+    \includegraphics[width=0.15\textwidth]{CBG-logo.png}
+\end{wrapfigure}
+
+Sincerely,
+
+\vspace{0.5cm} 
+\fontsize{14pt}{14pt}\selectfont
+
+`r project$Person`   
+
+`r project$Phone`   
+
+`r project$Email`   
+
+\newpage
+
+\renewcommand{\arraystretch}{2}
+```{r Specimen table}
+knitr::kable(specimens, longtable = TRUE, booktabs = FALSE,  
+             col.names = c('Collector', '#', 'Taxon', 'Pack.', 'Rec.')) |>
+  kableExtra::column_spec(3, '12em') |> 
+  kableExtra::kable_styling(latex_options = c( "repeat_header")) 
+```
+
+```{r clean environment}
+rm(herbarium_code, project_code, herbarium, project, specimens)
+```
+
