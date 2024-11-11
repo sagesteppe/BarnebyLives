@@ -92,7 +92,6 @@ We can do that very simply using a combination of collectors name's and their co
 If you are processing for many many people at once, and worried people may have the same names, and be collecting in the same range of numbers, then you can add in other data which would be required to make a UNIQUEID, most likely a component of the date. 
 
 ```{r determine which data has been processed, eval = F}
-
 # determine whether these data have already been processed by the script, using
 # a unique combination of collection name and collection code. 
 # these are the data which have gone through the pipeline already
@@ -170,20 +169,36 @@ data <- political_grabber(data, y = 'Collection_number', path = p)
 
 ## Geographic Information for Locality info
 
-Many younger collectors use Site Names which are quite broad, we advocate for the usage of locality names. 
+Many younger collectors use Site Names which are quite broad, we advocate for the usage of locality names.  
+
 A locality name is going to provide the relation between a site and the actual collection area through a distance and azimuth.
 All of the sites which we use as prospective identifiers are from the Geographic Names Information System, these names have undergone standardization, and general cleaning up to better reflect currently acceptable naming practices (i.e. misogynistic and racist names have largely - if not entirely - been removed). 
 Using GNIS allows for places to be unambiguously related to each other. 
 While I hate saying that a collection site is XX km from a river at 121 degrees, because well - just think about it, that seems to be what people want. 
 
-Retrieve Nearest GNIS place name, and azimuth from it
+Retrieve Nearest GNIS place name, and azimuth from it.
 ```{r Retrieve Place and location from it, eval = F}
 data <- site_writer(data, path = p)
 ```
 
 ## Site characteristics
 
-Elevation (both meters and feet), Slope, Aspect, Surficial geology, and geomorphons
+BarnebyLives acquires a range of characteristics which are useful to describe the physical environment, these are: elevation (both meters and feet), slope, aspect, surficial geology, and geomorphons.  
+
+While most of BarnebyLives is dedicated towards addressing the peeves of curators with too much time on their hands, this module is for me. 
+What I generally see, if people even both to describe the site at all, is that they are laser focused on a tiny micro-environment that they collected the individual plant in - not the characteristics of the population or even the general area of the population they are seeing. 
+I don't dislike these notes, in fact I find them of the utmost value. 
+However, even those inclusions exist within a broader context, which is doing much habitat filtering in and of itself, and without this relation the obscurity of these certain habitats can be lost. 
+
+Here are some details on some of the data sets which we are using. 
+All elevation data come from [DEM90](https://www.earthenv.org/DEM), as the name implies this data set is at roughly 90 meters of roughly in the X and Y dimensions. 
+This product is then used to derive both slope (in degrees) and aspect (in degrees) information. 
+Slope conveys the change in elevation between adjacent cells, while aspect discusses which way water would flow downslope. 
+An aspect of East states that water would flow downslope to the east. 
+Surficial geology data are acquired from the United States Geological Survey, it works very well for characterizing major geology types in an area, although you may be on a minor inclusion within that material. 
+Geomorphons are a bit more peculiar, they may refer to several things, but here they refer to [10 standardized landform positions](https://www.sciencedirect.com/science/article/abs/pii/S0169555X12005028) [Geomorpho90m](https://portal.opentopography.org/dataspace/dataset?opentopoID=OTDS.012020.4326.1), which are useful for characterizing landform position. 
+These are useful for spatial ecology and describe where on the landscape the population was broadly located. 
+Generally 'Valleys' tend to eat up more land cover than they should, often extending up into alluvial fans, but I find them very useful for describing roughly where on the landscape the population is. 
 
 ```{r, eval = F}
 data <- physical_grabber(data, path = p)
@@ -201,6 +216,9 @@ It will operate on both pieces of the binomial separately, and can work to ident
 ```{r check spelling of binomial and family, eval = F}
 p <- '/media/steppe/hdd/Barneby_Lives-dev/taxonomic_data'
 data <- spell_check(data, path = p)
+
+data <- spell_check(data = data, column = 'Full_name', path = p)
+data <- family_spell_check(data, path = p)
 ```
 
 A similar check is to determine that the author whom is cited for describing the species, or transferring it to another genus, is spelled using the standard author abbreviations.
@@ -209,6 +227,21 @@ The list which is consults *is* comprehensive, within a few years, of all taxono
 
 ```{r check spelling of author, eval = F}
 data <- author_check(data, path = p)
+```
+
+The final process in the taxonomic step is to ensure that the spellings of any species noted in the *vegetation*, or *associates* fields are accurate. These *will not* then be submitted to Kew, as the fields could quickly overwhelm the API. 
+
+```{r check spellings of vegetation and associated species, eval = F}
+data <- associates_spell_check(data, 'Associates', path = p) # we can run on both columns. 
+data <- associates_spell_check(data, 'Vegetation', path = p)
+```
+
+Remove the collected species from the list of associated species. Many collectors will include the focal collection in 
+the list of associated species when performing data entry for a site. We can remove it here.
+
+```{r drop focal species from associated species, eval = F}
+data <- associate_dropper(data, 'Full_name', col  = 'Associates')
+data <- associate_dropper(data, 'Full_name', col  = 'Vegetation')
 ```
 
 After BarnebyLives! has verified the spelling of the species it will submit it to Plants of the World Online to determine whether a more current and accepted name has been applied. 
@@ -229,23 +262,10 @@ data <- bind_cols(data, pow_res)
 rm(names, pow_res)
 ```
 
-The final process in the taxonomic step is to ensure that the spellings of any species noted in the *vegetation*, or *associates* fields are accurate. These *will not* then be submitted to Kew, as the fields could quickly overwhelm the API. 
-
-```{r check spellings of vegetation and associated species, eval = F}
-
-```
-
-Remove the collected species from the list of associated species. Many collectors will include the focal collection in 
-the list of associated species when performing data entry for a site. We can remove it here.
-```{r drop focal species from associated species, eval = F}
-data <- associate_dropper(data)
-```
-
-
 ## Directions
 
-directions to a parking spot can be acquired from Google Maps; however this implies the location can be driven to in the first place. 
-This will require interactive alterations from the user.
+Directions to a parking spot can be acquired from Google Maps; however this implies the location can be driven to in the first place. 
+This may require interactive alterations from the user.
 
 ```{r site directions, eval = F}
 SoS_gkey = Sys.getenv("Sos_gkey")
@@ -253,7 +273,7 @@ directions <- directions_grabber(data, api_key = SoS_gkey)
 ```
 
 
-## Export collections
+# Export collections
 
 We will write these data to Google sheets for our examples. 
 
@@ -261,26 +281,24 @@ We will write these data to Google sheets for our examples.
 
 # first ensure the columns are in the same order as google sheets
 
-#processed <- read_sheet('1iOQBNeGqRJ3yhA-Sujas3xZ2Aw5rFkktUKv3N_e4o8M',
-#                        sheet = 'Processed - Examples') %>% 
-#  colnames() 
+processed <- read_sheet('1iOQBNeGqRJ3yhA-Sujas3xZ2Aw5rFkktUKv3N_e4o8M',
+                        sheet = 'Processed - Examples') %>% 
+  colnames() 
 
-df <- sf::st_drop_geometry(directions) #%>% 
-#  select(all_of(processed))
+df <- sf::st_drop_geometry(directions) %>% 
+  dplyr::select(dplyr::all_of(processed))
+
 # we will add these data onto our final sheet.
 sheet_append('1iOQBNeGqRJ3yhA-Sujas3xZ2Aw5rFkktUKv3N_e4o8M', 
              sheet = 'Processed - Examples', data = df) 
-
 ```
 
 We can also export collections as either (or both!) a 'shapefile' or KML for use in GIS or GoogleEarth.
 
 ```{r write out collections in a spatial data format, eval = F}
-
 geodata_writer(data, path = 'someplace', 
                filename = 'Herbarium_Collections_2023',
                filetype = 'kml')
-
 ```
 
 

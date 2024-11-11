@@ -99,7 +99,7 @@ Sincerely,
 ```{r Specimen table}
 knitr::kable(specimens, longtable = TRUE, booktabs = FALSE,  
              col.names = c('Collector', '#', 'Taxon', 'Pack.', 'Rec.')) |>
-  kableExtra::column_spec(3, '12em') |> 
+  kableExtra::column_spec(3, '18em') |> 
   kableExtra::kable_styling(latex_options = c( "repeat_header")) 
 ```
 
