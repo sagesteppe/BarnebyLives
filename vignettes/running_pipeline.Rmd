@@ -7,76 +7,75 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-The purpose of this script is to assist Botanical Collectors in accessioning their collections. 
+# Purpose 
+The purpose of this script is to assist botanical collectors in accessioning their collections. 
+It is the central component of this entire package. 
+Here we will go over ensuring that values which will be printed onto herbarium labels and uploaded into databases are accurate. 
 
-It is our lived experience that many herbaria now request digital copies of collection information in there own format. 
+It is our experience that many herbaria now request digital copies of collection information in their own format. 
 This script aims to alleviate the investment in time this requires, and in doing so allow the collector more time to do less onerous tasks; such as collection and study. 
 
 While in theory all of the tasks in this script could be automated, doing so would be an unconscionable action against local taxonomic authorities. 
 While several database options for updating collections (and spell checking names) which are current and well curated (e.g. Kew Plants of the World) exist, we feel many proposals and combinations require interpretation by those in the regions attempting to understand the material at hand. 
 
-This script will perform the following tasks:
+This script will perform the following tasks.  
 
-**Geographic:**
+### Geographic
 
-**1)** Convert coordinates to a Decimal Degrees format, if needed (e.g. from DMS 72*17.55 -> 72.29861). 
-**2)** Retrieve appropriate political place names. (i.e. State, County).
-**3)** Retrieve accurate elevation values of coordinates.
-**4)** Retrieve Public Land Ownership (e.g. United States Forest Service, Bureau of Land Management).
-**5)** Project coordinates from one system to another, if needed (e.g. from an UTM zone to WGS84).
-**6)** Retrieve Cadastral data from the PLSS for Township, Range, Section (TRS)
+**1)** Convert coordinates to a Decimal Degrees format, if needed (e.g. from DMS 72*17.55 -> 72.29861).  
+**2)** Retrieve appropriate political place names. (i.e. State, County).  
+**3)** Retrieve accurate elevation values of coordinates.  
+**4)** Retrieve Public Land Ownership (e.g. United States Forest Service, Bureau of Land Management).  
+**5)** Project coordinates from one system to another, if needed (e.g. from an UTM zone to WGS84).  
+**6)** Retrieve Cadastral data from the PLSS for Township, Range, Section (TRS)  
 
-**Temporal:**
+### Temporal
 
 **1)** Provide a 'written' date in the style of choosing. (e.g. 12th May 2021), for the purpose of labeling.
 
-**Taxonomic:**
+### Taxonomic
 
-**1)** Provide a 'spell check' for family. 
-**2)** Provide a 'spell check' for genus. 
-**3)** Provide a 'spell check' for epithet.
-**4)** Provide a 'spell check' for authorities. 
-**5)** In addition you may check for synonymy at each of these taxonomic levels, and accept or reject suggestions. 
+**1)** Provide a 'spell check' for family.  
+**2)** Provide a 'spell check' for genus.  
+**3)** Provide a 'spell check' for epithet.  
+**4)** Provide a 'spell check' for authorities.  
+**5)** In addition you may check for synonymy at each of these taxonomic levels, and accept or reject suggestions.  
 
-**Directions:**
+### Directions  
 
-I preface this with the anecdote that a good deal of collectors and curators consider these data non-essential now. Regardless, if you are so inclined to gain access to a free google maps account these services are provided. 
+I preface this with the observation that a good deal of collectors and curators consider these data non-essential now. Regardless, if you are so inclined to gain access to a free google maps account these services are provided. 
 
 **1)** Write directions, from a town of notable size or repute, to the closet parking spot to the collection locality.
 
-Note that these directions may not reflect the actual route traveled. *Caveat emptor.*
+Note that these directions may not reflect the actual route traveled by the collectors, but rather what Google Maps thinks is optimal - at the time of the query. *Caveat emptor.*
 
-
-We would like to acknowledge the following developers of the libraries, and databases, which this script utilizes. As is everything under the sun, nothing here is new and none of this is novel, it is merely the regurgitated contents from the fingertips and intellect of others. 
-
-Of final note, this script is named for the late and great Rupert Charles Barneby, and by no small means is a dig at certain attributes of the fictional 'Hayduke'. 
+# Usage
 
 Files required to use this script:
 
 - PAD-US database for retrieving land ownership information if needed (*note does not include identities of Private owners*). 
 - World Flora Online static copy of the database.
 
-In order to not bog people's computers down with opening and storing many large files we make use of downloading items into R repeatedly.
-
-```{r setup}
+```{r setup, message = FALSE}
 # devtools::install_github('sagesteppe/BarnebyLives')
 library(tidyverse)
 library(BarnebyLives)
 ```
 
-An alternative format for loading data is through Google Sheets. 
-This can facilitate data-sharing and standardization by many collectors in different locations. 
-This is the source of data which was used during beta-testing for development. 
+In this example I am going to showcase loading the data we want to run through the pipeline using Google Sheets. 
+This can allow for collectors on a team to readily contribute to preparing and transcribing notes for an expedition simultaneously. 
+Loading data in from a local CSV or excel type file is as easy as `read.csv` or `readxl::read_excel` instead. 
 
-We will use googlesheets4, which is a part of the tidyverse, but I do not think installs by default with the remainder of the 'verse. 
+We will use the package `googlesheets4`, which is a part of the tidyverse, but which does not install by default with the remainder of the 'verse. 
 We will feed in the last part of the URL as the link to the path. 
-If this is your first time using googlesheets4, it will walk you through a few steps to log into your google account so you can access data securely. 
-After that googlesheets4 is actually really straightforward to use, note that I use the 'drive_auth' function here. 
+If this is your first time using `googlesheets4`, it will walk you through a few steps to log into your google account so you can access data securely. 
+After that `googlesheets4` is actually really straightforward to use, note that I use the `drive_auth` function here. 
 This function makes non-interactive use easy, it is only used here because the vignette renders as a non-interactive format. 
 
 ```{r load through google sheets, eval = F}
-
+# install.packages('googlesheets4')
 library(googlesheets4)
+
 googledrive::drive_auth("reedbenkendorf27@gmail.com")
 # read in data from the sheet to process
 df <- read_sheet('1iOQBNeGqRJ3yhA-Sujas3xZ2Aw5rFkktUKv3N_e4o8M', 
@@ -85,26 +84,33 @@ df <- read_sheet('1iOQBNeGqRJ3yhA-Sujas3xZ2Aw5rFkktUKv3N_e4o8M',
 
 ```
 
-
 ### only process data which have not yet run through the pipeline. 
 
-BarnebyLives takes a little bit of time to run, but it also requires the usage of Google Developer credits for 
+BarnebyLives takes a little bit of time to run, and it also requires the usage of Google Developer credits for the directions portion. 
+You may want to ensure that you are not re-running files which you have already processed. 
+We can do that very simply using a combination of collectors name's and their collection numbers. 
+If you are processing for many many people at once, and worried people may have the same names, and be collecting in the same range of numbers, then you can add in other data which would be required to make a UNIQUEID, most likely a component of the date. 
 
 ```{r determine which data has been processed, eval = F}
 
 # determine whether these data have already been processed by the script, using
 # a unique combination of collection name and collection code. 
+# these are the data which have gone through the pipeline already
 processed <- read_sheet('1iOQBNeGqRJ3yhA-Sujas3xZ2Aw5rFkktUKv3N_e4o8M',
                         sheet = 'Processed - Examples') %>% 
   select(Collection_number, Primary_Collector) %>% 
   mutate(UNIQUEID = paste0(Primary_Collector, Collection_number))
 
+# here we look for any 'input' files which are present in the processed files and 
+# drop them. 
 input <- filter(df, ! UNIQUEID %in% processed$UNIQUEID ) %>% 
   select(-UNIQUEID)
 
 rm(processed, df)
 ```
 
+Even though I coded this functionality, I essentially never use it. 
+The reason being that I don't use the directions that much, and just get up to start a cup of tea when the pipeline is running. 
 
 ## Ensure Coordinates and Dates and formatted appropriately
 
@@ -120,7 +126,8 @@ dplyr::select(data, starts_with('Date')) %>%
 ```
 
 ### Conversion of Degrees Minutes Seconds (DMS) to Decimal Degrees (DD). 
-The DMS format is still used in a few applications, such as the Seeds of Success program, we will convert this to the more generally utilized DD format.
+The DMS format is still used in a few applications we will convert this to the more generally utilized DD format. 
+Although DMS is certainly prettier to read, DD is just used so much more often we change everything to it. Sad. 
 We will maintain both formats in the data set, so others have them readily available for other uses aside from creating herbarium labels. 
 
 ```{r Conversion of Degrees Minutes Seconds (DMS) to Decimal Degrees (DD), eval = F}
@@ -130,7 +137,8 @@ dplyr::select(data, starts_with(c('latitude', 'longitude'))) %>%
   utils::head()
 ```
 
-Several spreadsheet software auto-increment numeric columns by default. We try to identify that issue here. 
+Several spreadsheet software auto-increment numeric columns by default.
+We try to identify that issue here. 
 ```{r check for autofill on coords, eval = F}
 data <- autofill_checker(data)
 
@@ -139,7 +147,6 @@ dplyr::select(data, Long_AutoFill_Flag, Lat_AutoFill_Flag) |>
   utils::head()
 ```
 
-
 For internal usage and data acquisition we will make data set explicitly spatial, rather than just holding coordinates in a column. 
 This is also required to write out data in a format readable by Google Earth or another Geographic Information System. 
 
@@ -147,7 +154,6 @@ This is also required to write out data in a format readable by Google Earth or 
 data <- coords2sf(data)
 head(data) # now we can see that it is an sf object
 ```
-
 
 ## Retrieve Political/Administrative Information
 
@@ -162,7 +168,13 @@ p <- '/media/steppe/hdd/Barneby_Lives-dev/geodata'
 data <- political_grabber(data, y = 'Collection_number', path = p)
 ```
 
-## Geographic
+## Geographic Information for Locality info
+
+Many younger collectors use Site Names which are quite broad, we advocate for the usage of locality names. 
+A locality name is going to provide the relation between a site and the actual collection area through a distance and azimuth.
+All of the sites which we use as prospective identifiers are from the Geographic Names Information System, these names have undergone standardization, and general cleaning up to better reflect currently acceptable naming practices (i.e. misogynistic and racist names have largely - if not entirely - been removed). 
+Using GNIS allows for places to be unambiguously related to each other. 
+While I hate saying that a collection site is XX km from a river at 121 degrees, because well - just think about it, that seems to be what people want. 
 
 Retrieve Nearest GNIS place name, and azimuth from it
 ```{r Retrieve Place and location from it, eval = F}
