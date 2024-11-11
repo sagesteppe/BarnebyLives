@@ -51,15 +51,13 @@ We find the results from these tables based on only the leading first two or thr
 This gives rises to one of BarnebyLives(!) limitations, the assumption that the first two characters of the genus, and first three letters of the specific epithet are spelled correctly. 
 
 Now we will also prepare the author abbreviations data set. 
-These data come from [IPNI](https://www.ipni.org/)
+These data come from [IPNI](https://www.ipni.org/), and were minimally processed on my end, see the script within the data-raw directory on github for details. 
+We will save a copy of them in the taxonomy folder as well. 
 
 ```{r Prepare material for authorship lookup tables, eval = F}
 data('ipni_authors', package='BarnebyLives')
-data('ipni_authors')
-
 write.csv(ipni_authors, file.path(p2, 'ipni_author_abbreviations.csv'))
 ```
-
 
 ## Geographic data
 
@@ -68,40 +66,41 @@ Many of these data sets are very large we are going to crop them to the area of 
 You can readily define a simple custom extent for your study area. The coordinates are fine to grab and round from Google Maps or similar.
 What is important is that the 5th set of coordinates is a repeat of the 1st set of coordinates. 
 
-```{r define domain of data}
+```{r define domain of data, eval = F}
 
 bound <- data.frame(
   y = c(30, 30, 50, 50, 30), 
   x = c(-85, -125, -125, -85, -85)
-) %>% 
-  st_as_sf(coords = c('x', 'y'), crs = 4326) %>% 
-  st_bbox() %>% 
-  st_as_sfc()
+) |>
+  sf::st_as_sf(coords = c('x', 'y'), crs = 4326) |> 
+  sf::st_bbox() |>
+  sf::st_as_sfc()
 
 bb_vals <- c(-125, -85, 30, 50)
-w_illi <- ext(bb_vals)
+w_illi <- terra::ext(bb_vals)
 ```
 
 The data which we obtain our data sources from come as very large tiles. We will clip these down to the extent of our analysis. Essentially raster tiles should be no larger than 2 gigabytes. So we need to ensure that we create a tile grid which will allow us to save these data under those constraints. 
 
-```{r create tile template grid}
-tile_cells <- st_make_grid(
+```{r create tile template grid, eval = F}
+tile_cells <- sf::st_make_grid(
   bound,
   what = "polygons", square = T, flat_topped = F, crs = 4326,
   n = c(
   abs(round( (bb_vals[2] - bb_vals[1]) / 5, 0)), # rows
     abs(round( (bb_vals[3] - bb_vals[4]) / 5, 0))) #cols
-) %>% 
-  st_as_sf() %>% 
-  rename(geometry = x) %>% 
-  mutate(x = st_coordinates(st_centroid(.))[,1],
-         y = st_coordinates(st_centroid(.))[,2], 
+)  %>% 
+  sf::st_as_sf() %>% 
+  dplyr::rename(geometry = x) %>% 
+  mutate(
+    x = sf::st_coordinates(st_centroid(.))[,1],
+    y = sf::st_coordinates(st_centroid(.))[,2], 
          .before = geometry, 
          across(c('x', 'y'), \(x) round(x, 1)),
          cellname = paste0('n', abs(y), 'w', abs(x))
          )
 
-tile_cellsV <- vect(tile_cells)
+tile_cellsV <- terra::vect(tile_cells)
 ```
 
 This package comes with the 'mason' function, which will cut up the raster data sets, and save them in a new location. 
@@ -284,7 +283,7 @@ rm(geological)
 
 Grazing allotments for the bureau of land management can be downloaded from https://gbp-blm-egis.hub.arcgis.com/datasets/blm-natl-grazing-allotment-polygons 
 
-Grazing allotments for the United States Forest Service can be downloaded from ...
+Grazing allotments for the United States Forest Service can be downloaded from https://data.fs.usda.gov/geodata/edw/datasets.php?xmlKeyword=allotments 
  
 ```{r allotments, eval = F}
 
@@ -419,32 +418,4 @@ sf::st_read('../geodata/places/places.shp', quiet = T) %>%
 
 ```
 
-
-# add files for templates
-
-```{r, eval = F}
-herbaria_info <- read.csv('/media/sagesteppe/ExternalHD/Barneby_Lives-dev/herbarium_data/index_herbariorum_info.csv')
-usethis::use_data(herbaria_info)
-```
-
-```{r, eval = F}
-collection_examples <- read.csv('/media/sagesteppe/ExternalHD/Barneby_Lives-dev/herbarium_data/shipping_examples.csv')
-collection_examples[collection_examples==""] <- NA
-usethis::use_data(collection_examples, overwrite = TRUE)
-```
-
-
-```{r, eval = F}
-project_examples <- 
-  read.csv('/media/sagesteppe/ExternalHD/Barneby_Lives-dev/herbarium_data/project.csv')
-usethis::use_data(project_examples)
-```
-
-# Save the output formats for different herbaria databases
-
-```{r, eval = F}
-database_templates <- 
-  read.csv('/media/steppe/hdd/Barneby_Lives-dev/database_data/Fields.csv') 
-usethis::use_data(database_templates)
-```
 

@@ -30,3 +30,26 @@ abbrevs <- paste0(abbrevs_notrail, trailed)
 ipni_authors <- abbrevs
 
 usethis::use_data(ipni_authors)
+
+
+
+
+
+# add files for templates
+
+herbaria_info <- read.csv('/media/sagesteppe/ExternalHD/Barneby_Lives-dev/herbarium_data/index_herbariorum_info.csv')
+usethis::use_data(herbaria_info)
+
+collection_examples <- read.csv('/media/sagesteppe/ExternalHD/Barneby_Lives-dev/herbarium_data/shipping_examples.csv')
+collection_examples[collection_examples==""] <- NA
+usethis::use_data(collection_examples, overwrite = TRUE)
+
+project_examples <-
+  read.csv('/media/sagesteppe/ExternalHD/Barneby_Lives-dev/herbarium_data/project.csv')
+usethis::use_data(project_examples)
+
+# Save the output formats for different herbaria databases
+
+database_templates <-
+  read.csv('/media/steppe/hdd/Barneby_Lives-dev/database_data/Fields.csv')
+usethis::use_data(database_templates)
