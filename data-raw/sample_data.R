@@ -10,3 +10,22 @@ usethis::use_data(collection_examples, overwrite = TRUE)
 
 database_templates <- read.csv('Fields.csv')
 usethis::use_data(database_templates, overwrite = TRUE)
+
+
+
+# prepare material for authorship table.
+abbrevs <- read.csv('../data-raw/ipni_author_abbreviations.csv')
+
+
+trailed <- vector(mode = 'character', length = nrow(abbrevs))
+trailed[grep('\\.$', abbrevs$author_abbrevation)] <- '.'
+# identify which abbreviations have a trailing period
+
+abbrevs_spaced <- sub('\\.$', '', abbrevs$author_abbrevation) # remove the trailing periods
+abbrevs_notrail <- sub('\\.(?!.*\\.)', ". ",
+                       abbrevs_spaced, perl = T) # identify the last period in the name, and add a space after it
+
+abbrevs <- paste0(abbrevs_notrail, trailed)
+ipni_authors <- abbrevs
+
+usethis::use_data(ipni_authors)

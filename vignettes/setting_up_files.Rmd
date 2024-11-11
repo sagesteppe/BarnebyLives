@@ -7,10 +7,12 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r setup, eval = F, message = F}
+```{r setup, message = F}
 remotes::install_github('sagesteppe/BarnebyLives')
 library(BarnebyLives)
 library(tidyverse)
+library(sf)
+library(terra)
 ```
 
 BarnebyLives relies on a variety of data to be downloaded locally to your computer to work. 
@@ -52,36 +54,14 @@ Now we will also prepare the author abbreviations data set.
 These data come from [IPNI](https://www.ipni.org/)
 
 ```{r Prepare material for authorship lookup tables, eval = F}
-
-abbrevs <- read.csv(
-  file.path(
-    system.file(package = 'BarnebyLives'), 
-    'data-raw', 'ipni_author_abbreviations.csv')
-)
-
-trailed <- vector(mode = 'character', length = nrow(abbrevs))
-trailed[grep('\\.$', abbrevs$author_abbrevation)] <- '.'
- # identify which abbreviations have a trailing period
-
-abbrevs_spaced <- sub('\\.$', '', abbrevs$author_abbrevation) # remove the trailing periods
-abbrevs_notrail <- sub('\\.(?!.*\\.)', ". ", 
-    abbrevs_spaced, perl = T) # identify the last period in the name, and add a space after it
-
-abbrevs <- paste0(abbrevs_notrail, t)
-write.csv(abbrevs, row.names = F, file.path(p2, 'abbrevs.csv'))
-
-rm(trailed, abbrevs_notrail, abbrevs_spaced, abbrevs)
+data("ipni_authors")
+write.csv(ipni_authors, file.path(p2, 'ipni_author_abbreviations.csv'))
 ```
 
 
 ## Geographic data
 
 Many of these data sets are very large we are going to crop them to the area of analysis, and save the subsets. This package depends on **terra** and makes use of Virtual Raster Tiles to query parameters. 
-
-```{r library, message = F}
-library(sf)
-library(terra)
-```
 
 You can readily define a simple custom extent for your study area. The coordinates are fine to grab and round from Google Maps or similar.
 What is important is that the 5th set of coordinates is a repeat of the 1st set of coordinates. 
@@ -210,7 +190,6 @@ usethis::use_data(google_towns)
 
 rm(places, google_towns)
 ```
-
 
 We can access a Mountains dataset from EarthEnv which we can use for portions of our place names here https://www.earthenv.org/mountains.
 
