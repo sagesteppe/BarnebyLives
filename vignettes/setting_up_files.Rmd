@@ -8,7 +8,7 @@ vignette: >
 ---
 
 ```{r setup, message = F}
-remotes::install_github('sagesteppe/BarnebyLives')
+# remotes::install_github('sagesteppe/BarnebyLives')
 library(BarnebyLives)
 library(tidyverse)
 library(sf)
@@ -130,6 +130,7 @@ rm(mason)
 ```
 
 We will simply crop the vector data to the limit of the study area. We utilize the U.S. Census Bureau's data for this. We can download the States data set from the U.S. Census Bureau's website. The other data sets can be loaded in from the tigris r package. 
+The counties outline file can be downloaded from here https://catalog.data.gov/dataset/tiger-line-shapefile-2020-nation-u-s-counties-and-equivalent-entities. 
 
 ```{r crop political boundary data to extent, eval = F}
 counties <- st_read('../geodata_raw/USCounties/tl_2020_us_county.shp', quiet = T) %>% 
@@ -155,7 +156,8 @@ rm(counties)
 ```
 
 We will set up our places data set which we will use go gather driving directions from Google maps. 
-```{r, eval = F}
+We can download these data directly in R using the tigris package. 
+```{r Set up Places data set, eval = F}
 
 bb <- pgirmess::bbox2sf(w = bb_vals[1], e = bb_vals[2],
                         s = bb_vals[3], n = bb_vals[4]) %>% 
@@ -209,7 +211,7 @@ st_write(mtns, dsn = file.path('../geodata/mountains', 'mountains.shp'), quiet =
 rm(mtns)
 ```
 
-Our place names are acquired from the United States Geological Surveys GNIS data set https://www.usgs.gov/tools/geographic-names-information-system-gnis .
+Our place names are acquired from the United States Geological Surveys GNIS data set https://www.usgs.gov/tools/geographic-names-information-system-gnis.
 
 ```{r crop geographic place name database to extent, eval = F}
 
@@ -251,7 +253,7 @@ st_write(padus, dsn = file.path('../geodata/pad', 'pad.shp'), quiet = T)
 
 padus <- st_read('../../Barneby_Lives-dev/geodata/pad/pad.shp')
 
-padus <- padus %>% 
+padus <- padus %>% # this one is just a wild outlier. 
   mutate(Unit_Nm = 
            str_replace(Unit_Nm, 
                                'The State of Utah School and Institutional Trust Lands Administration', 'Utah')
@@ -307,7 +309,8 @@ st_write(allotments, dsn = file.path('../geodata/allotments', 'allotments.shp'),
 rm(blm, usfs, allotments)
 ```
 
-
+Public land survey system data are HUGE. We have to download them from here, as a zipped geodatabase. 
+https://catalog.data.gov/dataset/blm-natl-plss-public-land-survey-system-polygons-national-geospatial-data-asset-ngda
 
 ```{r public land survey system only for land west of CO border, eval = F}
 

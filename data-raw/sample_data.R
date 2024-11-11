@@ -34,6 +34,8 @@ usethis::use_data(ipni_authors)
 
 
 
+###############################################################################
+### Here we will set up some of the data we will use in the package.
 
 # add files for templates
 

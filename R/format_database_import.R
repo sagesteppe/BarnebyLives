@@ -7,7 +7,7 @@
 #' library(BarnebyLives)
 #' dat4import <- format_database_import(collection_examples, format = 'JEPS')
 #'
-# we also know a bit about our material and can populate it here by hand #
+#' # we also know a bit about our material and can populate it here by hand #
 #' dat4import |>
 #'   dplyr::mutate(
 #'    Label_Footer = 'Collected under the auspices of the Bureau of Land Management',
@@ -55,5 +55,5 @@ format_database_import <- function(x, format){
 
   return(out)
 
-}
+}s
 
