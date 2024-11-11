@@ -16,3 +16,4 @@ Suggests: WorldFlora, data.table, testthat (>= 3.0.0), tidyverse, knitr, tigris,
 VignetteBuilder: knitr
 Config/testthat/edition: 3
 Roxygen: list(markdown = TRUE)
+URL: https://sagesteppe.github.io/BarnebyLives/
