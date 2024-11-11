@@ -19,7 +19,7 @@ knitr::opts_chunk$set(warning = FALSE)
 library(BarnebyLives)
 ```
 
-```{r load data}
+```{r load data, eval = F}
 data <- collection_examples |>
   dplyr::filter(Collection_number == params$Collection_number) |>  
   sf::st_drop_geometry()
