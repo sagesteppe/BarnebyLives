@@ -5,6 +5,7 @@
 #' @param  epithet derived from result_grabber
 #' @param  infrarank derived from result_grabber
 #' @param  infraspecies derived from result_grabber
+#' @keywords internal
 #' @export
 all_authors <- function(genus, epithet, infrarank, infraspecies){
 
