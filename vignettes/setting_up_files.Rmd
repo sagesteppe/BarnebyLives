@@ -54,7 +54,9 @@ Now we will also prepare the author abbreviations data set.
 These data come from [IPNI](https://www.ipni.org/)
 
 ```{r Prepare material for authorship lookup tables, eval = F}
-data("ipni_authors")
+data('ipni_authors', package='BarnebyLives')
+data('ipni_authors')
+
 write.csv(ipni_authors, file.path(p2, 'ipni_author_abbreviations.csv'))
 ```
 

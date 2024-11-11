@@ -7,9 +7,8 @@
 #' @keywords datasets
 #' @name randomNames
 #' @usage data(names_vec)
-#' @keywords internal
 #' @format A character vector
-NULL
+"names_vec"
 
 #' IPNI author abbreviations
 #'
@@ -21,4 +20,4 @@ NULL
 #' @name ipni_authors
 #' @usage data(ipni_authors)
 #' @format A character vector
-NULL
+"ipni_authors"
