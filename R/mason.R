@@ -1,6 +1,6 @@
 #' a wrapper around terra::makeTiles for setting the domain of a project
 #'
-#'#' @description for projects with large spatial domains or using relatively high resolution data, this will help
+#' @description for projects with large spatial domains or using relatively high resolution data, this will help
 #'
 #' you make virtual tiles which do not need to be held in memory for the project.
 #' @param dirin the input directory, including path, with the dataset

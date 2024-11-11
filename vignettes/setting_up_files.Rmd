@@ -7,95 +7,56 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r setup, eval = F}
+```{r setup, eval = F, message = F}
 library(BarnebyLives)
 library(tidyverse)
 ```
 
-We are hoping to have a cloud instance of BarnebyLives(!) running soon. 
-This is able to serve persons which have queries for collection in the Continental United States portions of Western North America (~CONUS).
-Essentially, you should be able to submit a query, and we will process it and send it back. 
+BarnebyLives relies on a variety of data to be downloaded locally to your computer to work. 
+My instance, which covers a large area, essentially from Michigan to California, South through Texas to the Canadian border is around 16GiB. 
+Many more regional collections are likely to be in the realm of 4-10 GiB, so relative to a normal R package A LOT of data. 
+Relative to a typical geospatial workflow.... Essentially no data.
+Given how much larger the amount of disk data are on computers I think this amount is trivial to consider. 
 
-For collectors operating in smaller geographic areas or herbaria with PC's, you are able to readily create your own local instance of BarnebyLives(!) quite easily. 
+It's important that you decide where BarnebyLives will be installed on your computer. 
+While I have couple computers, I maintain only a single instance of BarnebyLives. 
+It lives on one of my 3.5 terabyte hard drives which I have set up for various science projects. 
 
-## Taxonomic portion
+I will be downloading and copying some of the data to that location, where I have a directory named 'Barneby_Lives-dev'. 
+
+## Taxonomic Data
 
 **Worldwide Checklist of Vascular Plants** provides the local taxonomic information required to perform much of the name matching.
-We utilize it to ensure that queries sent to **Plants of The World Online** are spelled correctly, in order to reduce the number of calls to it. 
+We utilize it to ensure that queries sent to **Plants of The World Online** are spelled correctly, in order to reduce the number of queries we make to it. 
 "The World Checklist of Vascular Plants, a continuously updated resource for exploring global plant diversity" serves as the basis for Kews Plants of the Worlds, this publication details the process behind the data set. 
-We can download a static copy of the data from Kews data portal at: http://sftp.kew.org/pub/data-repositories/WCVP/. It is not that large of a file, so it should come over in a couple minutes. 
+We can download a static copy of the data from Kews data portal at: http://sftp.kew.org/pub/data-repositories/WCVP/, I simply download the data manually rather than by script. 
+This is not that large of a file, so it be downloaded in a couple minutes. 
 
+We subset names by continent, I have experimented using Regsions within continents, but the results are usually wanting. 
 ```{r read in WCVP data, eval = F}
+p2 <- '/media/steppe/hdd/Barneby_Lives-dev/taxonomic_data' # note we have downloaded it 
+# to this location - this is the location where our taxonomy data will be unpacked to!
 
-p2 <- '/media/steppe/hdd/Barneby_Lives-dev/taxonomic_data'
-
-spp <- TaxUnpack(path = p2, continents = 'NORTHERN AMERICA')
-```
-
-We will also use some functions from the tidyverse.
-
-```{r, message = F, warning = F}
-library(tidyverse)
-library(data.table)
+TaxUnpack(path = p2, continents = 'NORTHERN AMERICA')
 ```
 
 The way that BarnebyLives matches spellings of names is very simple. 
-We create three tables, one large table which contains all of the species in the WFO database, one moderately small table which contains all infraspecific taxa (varieties and subspecies), and a small table of all of the genera. 
+It creates three tables, one large table which contains all of the species in the WFO database, one moderately small table which contains all infraspecific taxa (varieties and subspecies), and a small table of all of the genera. 
 
-On the way to completing this process, we will set up a file for a reasonable geographic extent. 
-Since our instance focus on North America, we will only select taxa known to occur there using the Kew Distributions data set. 
+However, both the genus and specific epithet tables are abbreviated. 
+We find the results from these tables based on only the leading first two or three characters. 
+This gives rises to one of BarnebyLives(!) limitations, the assumption that the first two characters of the genus, and first three letters of the specific epithet are spelled correctly. 
 
-```{r subset to area of interest, eval = F}
-distributions <- distributions[distributions$continent == 'NORTHERN AMERICA'
-                               & grepl('U.S.A.', distributions$region), 
-                               c('plant_name_id')] # here we select for all of the U.S.A.
-distributions <- unique(distributions)
-
-names <- names[names$plant_name_id %in% distributions & names$taxon_rank != 'genus',
-               c('plant_name_id', 'taxon_rank', 'family', 'genus', 'species', 'infraspecific_rank', 
-                 'infraspecies', 'taxon_name', 'accepted_plant_name_id', 'parent_plant_name_id')]
-
-names <-arrange(names, family, genus, species)
-```
-
-However, both the genus and specific epithet tables are abbreviated. We find the results from these tables based on only the leading first two or three characters. This gives rises to one of BarnebyLives(!) limitations, the assumption that the first two characters of the genus, and first three letters of the specific epithet are spelled correctly. 
-
-```{r prepare materials for taxonomy look up tables, eval = F}
-
-sppLKPtab <- names[, c('taxon_name', 'genus', 'species', 'infraspecific_rank',
-                       'infraspecies', 'taxon_rank')]
-
-sppLKPtab <- filter(sppLKPtab, taxon_rank == "Species") %>% 
-  mutate(Grp = str_extract(species, '[a-z]{2}')) %>% 
-  arrange(taxon_name)
-
-infra_sppLKPtab <- filter(names, taxon_rank %in% c("Variety", "Subspecies")) %>% 
-  mutate(Grp = str_extract(infraspecies, '[a-z]{2}')) %>%
-  select('taxon_name', 'genus', 'species', 'infraspecific_rank',
-                       'infraspecies', 'taxon_rank') %>% 
-  arrange(taxon_name) 
-
-genLKPtab <- filter(names, taxon_rank == 'Genus') %>% 
-  select('taxon_name', 'genus', 'taxon_rank') %>% 
-  arrange(genus) %>% 
-  mutate(Grp = str_extract(genus, '[A-Z]{1}'))
-
-
-families <- sort(unique(names$family))
-families <- c(families, 'Hydrophyllaceae', 'Namaceae') #add on a few
-families <- data.frame(Family = families)
-
-write.csv(families, '/media/steppe/hdd/Barneby_Lives-dev/taxonomic_data/families_lookup_table.csv', row.names = F)
-write.csv(sppLKPtab, '/media/steppe/hdd/Barneby_Lives-dev/taxonomic_data/species_lookup_table.csv', row.names = F)
-write.csv(genLKPtab, '/media/steppe/hdd/Barneby_Lives-dev/taxonomic_data/genus_lookup_table.csv', row.names = F)
-write.csv(infra_sppLKPtab, '/media/steppe/hdd/Barneby_Lives-dev/taxonomic_data/infra_species_lookup_table.csv', row.names = F)
-
-rm(sppLKPtab, epiLKPtab, genLKPtab, cla, families)
-```
+Now we will also prepare the author abbreviations data set. 
+These data come from [IPNI](https://www.ipni.org/)
 
 ```{r Prepare material for authorship lookup tables, eval = F}
 
-abbrevs <- read.csv('/media/steppe/hdd/Barneby_Lives-dev/taxonomic_data_raw/ipni_author_abbreviations.csv')
+abbrevs <- read.csv(
+  file.path(
+    system.file(package = 'BarnebyLives'), 
+    'data-raw', 'ipni_author_abbreviations.csv')
+)
 
 trailed <- vector(mode = 'character', length = nrow(abbrevs))
 trailed[grep('\\.$', abbrevs$author_abbrevation)] <- '.'
@@ -105,10 +66,8 @@ abbrevs_spaced <- sub('\\.$', '', abbrevs$author_abbrevation) # remove the trail
 abbrevs_notrail <- sub('\\.(?!.*\\.)', ". ", 
     abbrevs_spaced, perl = T) # identify the last period in the name, and add a space after it
 
-abbrevs <- paste0(abbrevs_notrail, trailed)
-
-#usethis::use_data(abbrevs)
-write.csv(abbrevs, row.names = F, '/media/steppe/hdd/Barneby_Lives-dev/taxonomic_data/abbrevs.csv')
+abbrevs <- paste0(abbrevs_notrail, t)
+write.csv(abbrevs, row.names = F, file.path(p2, 'abbrevs.csv'))
 
 rm(trailed, abbrevs_notrail, abbrevs_spaced, abbrevs)
 ```
