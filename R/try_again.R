@@ -2,6 +2,7 @@
 #'
 #' @description several infra species fail from POWO, retry the query with just the base name. This not accessed directly by the user but used inside 'powo_searcher'
 #' @param x output from the first step of 'powo_searcher'
+#' @keywords internal
 #' @export
 try_again <- function(x){
   q <- x[['query']]

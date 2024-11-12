@@ -3,6 +3,7 @@
 #' This function creates a quick abstract of a google maps route, which contains the travel time, starting location and the route overview. This function operates entirely within 'directions_grabber'.
 #' @param x results from a googleway::google_directions API query
 #' @examples # see 'directions_grabber'
+#' @keywords internal
 #' @export
 directions_overview <- function(x){
   # google maps name for starting location

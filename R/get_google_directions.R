@@ -6,6 +6,7 @@
 #' @param x an sf/tibble/dataframe of locations
 #' @param api_key a google developer api key for use with googleway
 #' @examples # see 'directions_grabber'
+#' @keywords internal
 #' @export
 get_google_directions <- function(x, api_key){
 

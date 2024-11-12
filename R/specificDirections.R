@@ -6,6 +6,7 @@
 #' This function operates entirely within 'directions_grabber'
 #' @param x the output of directions_grabber
 #' @examples # see 'directions_grabber'#
+#' @keywords internal
 #' @export
 specificDirections <- function(x){
 
