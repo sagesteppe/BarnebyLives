@@ -37,9 +37,9 @@
     </div>
 
     <div class="section level2">
-      <h2 id="all-functions">All functions<a class="anchor" aria-label="anchor" href="#all-functions"></a></h2>
+      <h2 id="workflow-functions">Workflow functions<a class="anchor" aria-label="anchor" href="#workflow-functions"></a></h2>
 
-
+      <div class="section-desc"><p>User facing functions for carrying out the BL workflow</p></div>
 
 
     </div><div class="section level2">
@@ -48,18 +48,6 @@
 
 
       <dl><dt>
-
-          <code><a href="TaxUnpack.html">TaxUnpack()</a></code>
-
-        </dt>
-        <dd>a function to subset the WCVP data set to an area of focus</dd>
-      </dl><dl><dt>
-
-          <code><a href="all_authors.html">all_authors()</a></code>
-
-        </dt>
-        <dd>retrieve author results for autonyms</dd>
-      </dl><dl><dt>
 
           <code><a href="associate_dropper.html">associate_dropper()</a></code>
 
@@ -73,12 +61,6 @@
         <dd>Format associated species, and spell check them internally</dd>
       </dl><dl><dt>
 
-          <code><a href="associates_writer.html">associates_writer()</a></code>
-
-        </dt>
-        <dd>do or don't write the associated plant species</dd>
-      </dl><dl><dt>
-
           <code><a href="author_check.html">author_check()</a></code>
 
         </dt>
@@ -89,18 +71,6 @@
 
         </dt>
         <dd>Search for accidental auto-increments from spreadsheet autofills</dd>
-      </dl><dl><dt>
-
-          <code><a href="collection_examples.html">collection_examples</a></code>
-
-        </dt>
-        <dd>collection_examples</dd>
-      </dl><dl><dt>
-
-          <code><a href="collection_writer.html">collection_writer()</a></code>
-
-        </dt>
-        <dd>format collector info and codes</dd>
       </dl><dl><dt>
 
           <code><a href="coords2sf.html">coords2sf()</a></code>
@@ -127,12 +97,6 @@
         <dd>Have Google maps help you write directions to a site</dd>
       </dl><dl><dt>
 
-          <code><a href="directions_overview.html">directions_overview()</a></code>
-
-        </dt>
-        <dd>return a quick route summary from googleway::google_directions</dd>
-      </dl><dl><dt>
-
           <code><a href="dms2dd.html">dms2dd()</a></code>
 
         </dt>
@@ -151,34 +115,10 @@
         <dd>Export a spreadsheet for mass upload to an herbariums database</dd>
       </dl><dl><dt>
 
-          <code><a href="format_degree.html">format_degree()</a></code>
-
-        </dt>
-        <dd>ASCII compliant degree symbol</dd>
-      </dl><dl><dt>
-
           <code><a href="geodata_writer.html">geodata_writer()</a></code>
 
         </dt>
         <dd>write out spatial data for collections to Google Earth or QGIS</dd>
-      </dl><dl><dt>
-
-          <code><a href="get_google_directions.html">get_google_directions()</a></code>
-
-        </dt>
-        <dd>identify a populated place near a collection and get directions from there</dd>
-      </dl><dl><dt>
-
-          <code><a href="google_towns.html">google_towns</a></code>
-
-        </dt>
-        <dd>google_towns</dd>
-      </dl><dl><dt>
-
-          <code><a href="herbaria_info.html">herbaria_info</a></code>
-
-        </dt>
-        <dd>herbaria_info</dd>
       </dl><dl><dt>
 
           <code><a href="label_writer.html">label_writer()</a></code>
@@ -191,18 +131,6 @@
 
         </dt>
         <dd>make a quick county dot map to display the location of the collection</dd>
-      </dl><dl><dt>
-
-          <code><a href="mason.html">mason()</a></code>
-
-        </dt>
-        <dd>a wrapper around terra::makeTiles for setting the domain of a project</dd>
-      </dl><dl><dt>
-
-          <code><a href="notFound.html">notFound()</a></code>
-
-        </dt>
-        <dd>notify user if an entry had any results not found in POWO</dd>
       </dl><dl><dt>
 
           <code><a href="physical_grabber.html">physical_grabber()</a></code>
@@ -229,34 +157,10 @@
         <dd>query plants of the world online for taxonomic information</dd>
       </dl><dl><dt>
 
-          <code><a href="project_examples.html">project_examples</a></code>
-
-        </dt>
-        <dd>project_examples</dd>
-      </dl><dl><dt>
-
-          <code><a href="result_grabber.html">result_grabber()</a></code>
-
-        </dt>
-        <dd>collect the results of a successful powo search</dd>
-      </dl><dl><dt>
-
           <code><a href="site_writer.html">site_writer()</a></code>
 
         </dt>
         <dd>gather distance and azimuth from site to center of town</dd>
-      </dl><dl><dt>
-
-          <code><a href="species_font.html">species_font()</a></code>
-
-        </dt>
-        <dd>ensure proper italicization of a associated species</dd>
-      </dl><dl><dt>
-
-          <code><a href="specificDirections.html">specificDirections()</a></code>
-
-        </dt>
-        <dd>Import Google directions to a site</dd>
       </dl><dl><dt>
 
           <code><a href="spell_check.html">spell_check()</a></code>
@@ -269,18 +173,99 @@
 
         </dt>
         <dd>split out a scientific input column to pieces</dd>
-      </dl><dl><dt>
+      </dl></div><div class="section level2">
+      <h2 id="preparing-data-to-run-bl">Preparing data to run BL<a class="anchor" aria-label="anchor" href="#preparing-data-to-run-bl"></a></h2>
 
-          <code><a href="try_again.html">try_again()</a></code>
+      <div class="section-desc"><p>Data prep functions</p></div>
+
+
+    </div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="mason.html">mason()</a></code>
 
         </dt>
-        <dd>try to download from Kew again, with just the binomial</dd>
+        <dd>a wrapper around terra::makeTiles for setting the domain of a project</dd>
+      </dl><dl><dt>
+
+          <code><a href="TaxUnpack.html">TaxUnpack()</a></code>
+
+        </dt>
+        <dd>a function to subset the WCVP data set to an area of focus</dd>
+      </dl></div><div class="section level2">
+      <h2 id="data">Data<a class="anchor" aria-label="anchor" href="#data"></a></h2>
+
+
+
+
+    </div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="collection_examples.html">collection_examples</a></code>
+
+        </dt>
+        <dd>collection_examples</dd>
+      </dl><dl><dt>
+
+          <code><a href="google_towns.html">google_towns</a></code>
+
+        </dt>
+        <dd>google_towns</dd>
+      </dl><dl><dt>
+
+          <code><a href="herbaria_info.html">herbaria_info</a></code>
+
+        </dt>
+        <dd>herbaria_info</dd>
+      </dl><dl><dt>
+
+          <code><a href="project_examples.html">project_examples</a></code>
+
+        </dt>
+        <dd>project_examples</dd>
       </dl><dl><dt>
 
           <code><a href="wcvp_update.html">wcvp_update()</a></code>
 
         </dt>
         <dd>install or update World Vascular Plants Checklist</dd>
+      </dl></div><div class="section level2">
+      <h2 id="label-formatting-functions">Label formatting functions<a class="anchor" aria-label="anchor" href="#label-formatting-functions"></a></h2>
+
+      <div class="section-desc"><p>functions used while labels are being generated</p></div>
+
+
+    </div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="associates_writer.html">associates_writer()</a></code>
+
+        </dt>
+        <dd>do or don't write the associated plant species</dd>
+      </dl><dl><dt>
+
+          <code><a href="collection_writer.html">collection_writer()</a></code>
+
+        </dt>
+        <dd>format collector info and codes</dd>
+      </dl><dl><dt>
+
+          <code><a href="species_font.html">species_font()</a></code>
+
+        </dt>
+        <dd>ensure proper italicization of a associated species</dd>
       </dl><dl><dt>
 
           <code><a href="writer.html">writer()</a></code>
@@ -293,8 +278,68 @@
 
         </dt>
         <dd>do or don't write determination information</dd>
+      </dl></div><div class="section level2">
+      <h2 id="some-internals">Some internals<a class="anchor" aria-label="anchor" href="#some-internals"></a></h2>
+
+      <div class="section-desc"><p>functions used internally</p></div>
+
+
+    </div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="all_authors.html">all_authors()</a></code>
+
+        </dt>
+        <dd>retrieve author results for autonyms</dd>
+      </dl><dl><dt>
+
+          <code><a href="directions_overview.html">directions_overview()</a></code>
+
+        </dt>
+        <dd>return a quick route summary from googleway::google_directions</dd>
+      </dl><dl><dt>
+
+          <code><a href="format_degree.html">format_degree()</a></code>
+
+        </dt>
+        <dd>ASCII compliant degree symbol</dd>
+      </dl><dl><dt>
+
+          <code><a href="get_google_directions.html">get_google_directions()</a></code>
+
+        </dt>
+        <dd>identify a populated place near a collection and get directions from there</dd>
+      </dl><dl><dt>
+
+          <code><a href="notFound.html">notFound()</a></code>
+
+        </dt>
+        <dd>notify user if an entry had any results not found in POWO</dd>
+      </dl><dl><dt>
+
+          <code><a href="result_grabber.html">result_grabber()</a></code>
+
+        </dt>
+        <dd>collect the results of a successful powo search</dd>
+      </dl><dl><dt>
+
+          <code><a href="specificDirections.html">specificDirections()</a></code>
+
+        </dt>
+        <dd>Import Google directions to a site</dd>
+      </dl><dl><dt>
+
+          <code><a href="try_again.html">try_again()</a></code>
+
+        </dt>
+        <dd>try to download from Kew again, with just the binomial</dd>
       </dl></div>
-  </main></div>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+    </nav></aside></div>
 
 
     <footer><div class="pkgdown-footer-left">
