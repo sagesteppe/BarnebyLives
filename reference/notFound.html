@@ -20,8 +20,8 @@
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/creating_labels.html">Printing herbarium labels and exporting a digital copy of data</a></li>
     <li><a class="dropdown-item" href="../articles/rendering_shipping_manifests.html">Rendering a shipping manifest</a></li>
-    <li><a class="dropdown-item" href="../articles/running_pipeline.html">running pipeline</a></li>
-    <li><a class="dropdown-item" href="../articles/setting_up_files.html">setting up files</a></li>
+    <li><a class="dropdown-item" href="../articles/running_pipeline.html">BarnebyLives! Running pipeline</a></li>
+    <li><a class="dropdown-item" href="../articles/setting_up_files.html">Preparing to use BarnebyLives!</a></li>
   </ul></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
@@ -73,7 +73,7 @@
 <span class="r-msg co"><span class="r-pr">#&gt;</span>     intersect, setdiff, setequal, union</span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-lib.github.io/crayon/" class="external-link">crayon</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
-<span class="r-in"><span><span class="va">names_vec</span> <span class="op">&lt;-</span> <span class="fu">taxize</span><span class="fu">::</span><span class="fu">names_list</span><span class="op">(</span>rank <span class="op">=</span> <span class="st">'species'</span>, size <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">names_vec</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">names_vec</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># 10 random species from taxize, usually 1 or 2 species are not found in Plants of the world online</span></span></span>
 <span class="r-in"><span><span class="va">pow_results</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">names_vec</span>, <span class="va">powo_searcher</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_rows.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="op">)</span></span></span>

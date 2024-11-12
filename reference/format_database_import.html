@@ -20,8 +20,8 @@
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/creating_labels.html">Printing herbarium labels and exporting a digital copy of data</a></li>
     <li><a class="dropdown-item" href="../articles/rendering_shipping_manifests.html">Rendering a shipping manifest</a></li>
-    <li><a class="dropdown-item" href="../articles/running_pipeline.html">running pipeline</a></li>
-    <li><a class="dropdown-item" href="../articles/setting_up_files.html">setting up files</a></li>
+    <li><a class="dropdown-item" href="../articles/running_pipeline.html">BarnebyLives! Running pipeline</a></li>
+    <li><a class="dropdown-item" href="../articles/setting_up_files.html">Preparing to use BarnebyLives!</a></li>
   </ul></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
@@ -62,7 +62,37 @@
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://sagesteppe.github.io/BarnebyLives/">BarnebyLives</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">dat4import</span> <span class="op">&lt;-</span> <span class="fu">format_database_import</span><span class="op">(</span><span class="va">collection_examples</span>, format <span class="op">=</span> <span class="st">'JEPS'</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># we also know a bit about our material and can populate it here by hand #</span></span></span>
+<span class="r-in"><span><span class="va">dat4import</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>   Label_Footer <span class="op">=</span> <span class="st">'Collected under the auspices of the Bureau of Land Management'</span>,</span></span>
+<span class="r-in"><span>   Coordinate_Uncertainty_In_Meters <span class="op">=</span> <span class="fl">5</span>,</span></span>
+<span class="r-in"><span>    Coordinate_Source <span class="op">=</span> <span class="st">'iPad'</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 113 × 28</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    Locality    Coll_Num Coll_Date Main_Collector Other_Collectors ScientificName</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> Jumbo.          <span style="text-decoration: underline;">2</span>819 6 May, 2… Reed Clark Be… <span style="color: #BB0000;">NA</span>               Poa secunda J…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> Jumbo.          <span style="text-decoration: underline;">2</span>820 6 May, 2… Reed Clark Be… <span style="color: #BB0000;">NA</span>               Prunus anders…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> Jumbo.          <span style="text-decoration: underline;">2</span>821 6 May, 2… Reed Clark Be… <span style="color: #BB0000;">NA</span>               Layia glandul…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> Jumbo.          <span style="text-decoration: underline;">2</span>822 6 May, 2… Reed Clark Be… <span style="color: #BB0000;">NA</span>               Phlox longifo…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> Washoe Sum…     <span style="text-decoration: underline;">2</span>823 6 May, 2… Reed Clark Be… <span style="color: #BB0000;">NA</span>               Lomatium neva…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> Washoe Sum…     <span style="text-decoration: underline;">2</span>824 6 May, 2… Reed Clark Be… <span style="color: #BB0000;">NA</span>               Camissonia co…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> Washoe Sum…     <span style="text-decoration: underline;">2</span>825 15 May, … Reed Clark Be… <span style="color: #BB0000;">NA</span>               Lomatium neva…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> Washoe Sum…     <span style="text-decoration: underline;">2</span>826 15 May, … Reed Clark Be… <span style="color: #BB0000;">NA</span>               Viola purpure…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> Washoe Sum…     <span style="text-decoration: underline;">2</span>827 15 May, … Reed Clark Be… <span style="color: #BB0000;">NA</span>               Agoseris retr…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> Washoe Sum…     <span style="text-decoration: underline;">2</span>828 15 May, … Reed Clark Be… <span style="color: #BB0000;">NA</span>               Purshia tride…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 103 more rows</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 22 more variables: DeterminedBy &lt;chr&gt;, Det_Date_Display &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   Label_Header &lt;chr&gt;, Label_Footer &lt;chr&gt;, Plant_Description &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   Comments &lt;lgl&gt;, Habitat &lt;chr&gt;, Associated_Taxa &lt;chr&gt;, Country &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   State_Province &lt;chr&gt;, County &lt;chr&gt;, Latitude &lt;dbl&gt;, Longitude &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   Datum &lt;chr&gt;, Coordinate_Uncertainty_In_Meters &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   Coordinate_Source &lt;chr&gt;, Elevation &lt;chr&gt;, Elevation_Units &lt;chr&gt;, …</span></span>
+<span class="r-in"><span></span></span>
+</code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
