@@ -47,3 +47,15 @@ reference:
   - species_font
   - writer
   - writer_fide
+- title: Some internals
+  desc: functions used internally 
+  contents:
+  - all_authors
+  - directions_overview
+  - format_degree
+  - get_google_directions
+  - notFound
+  - result_grabber
+  - specificDirections
+  - try_again
+  
