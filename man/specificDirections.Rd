@@ -18,3 +18,4 @@ This function operates entirely within 'directions_grabber'
 \examples{
 # see 'directions_grabber'#
 }
+\keyword{internal}

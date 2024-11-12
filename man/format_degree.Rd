@@ -18,3 +18,4 @@ encoded degree symbol in line.
 \examples{
 format_degree(180)
 }
+\keyword{internal}

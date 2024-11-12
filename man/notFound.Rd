@@ -19,7 +19,7 @@ simple function to run on 'powo_searcher' results to show species not found whic
 library(dplyr)
 library(crayon)
 \dontrun{
-names_vec <- taxize::names_list(rank = 'species', size = 10)
+names_vec <- data(names_vec)
 # 10 random species from taxize, usually 1 or 2 species are not found in Plants of the world online
 pow_results <- lapply(names_vec, powo_searcher) |>
   dplyr::bind_rows()

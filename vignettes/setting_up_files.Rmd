@@ -1,8 +1,8 @@
 ---
-title: "setting up files"
+title: "Preparing to use BarnebyLives!"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{setting up files}
+  %\VignetteIndexEntry{Preparing to use BarnebyLives!}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

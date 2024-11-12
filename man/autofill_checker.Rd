@@ -17,8 +17,8 @@ to the 'integers' or degrees
 }
 \examples{
 coords <- data.frame(
-  longitude_dd = c( rep(42.3456, times = 5), 43.3456),
-  latitude_dd = c( rep((-116.7890, times = 5), -115.7890))
+  longitude_dd = c(rep(42.3456, times = 5), 43.3456),
+  latitude_dd = c(rep(-116.7890, times = 5), -115.7890))
 )
 autofill_checker(coords) # note that all values in the column will
 flagged after the occurrence (see 'Lat_AutoFill_Flag')

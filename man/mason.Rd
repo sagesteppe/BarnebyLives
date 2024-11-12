@@ -18,9 +18,8 @@ mason(dirin, dirout, grid, fnames, ...)
 \item{...}{other arguments passed to file.path}
 }
 \description{
-#' @description for projects with large spatial domains or using relatively high resolution data, this will help
-}
-\details{
+for projects with large spatial domains or using relatively high resolution data, this will help
+
 you make virtual tiles which do not need to be held in memory for the project.
 }
 \examples{

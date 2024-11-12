@@ -17,3 +17,10 @@ This function is run on the WCVP compressed archive downloaded by 'wcvp_update',
 and requires some input from the user which specifies a geographic area to establish a
 taxonomic look up table for.
 }
+\examples{
+\dontrun{
+oupu <- TaxUnpack(path = '~/Downloads',
+                 continent = 'NORTHERN AMERICA')
+
+}
+}

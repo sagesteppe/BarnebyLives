@@ -12,3 +12,4 @@ result_grabber(x)
 \description{
 this function is used within 'powo_searcher' to retrieve the results from a successful POWO query.
 }
+\keyword{internal}

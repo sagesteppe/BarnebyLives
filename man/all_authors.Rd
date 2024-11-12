@@ -18,3 +18,4 @@ all_authors(genus, epithet, infrarank, infraspecies)
 \description{
 this function is internal to result_grabber, it ensures that an author is collected from the KEW API for infra-species which have autonyms.
 }
+\keyword{internal}

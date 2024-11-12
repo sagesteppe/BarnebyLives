@@ -4,12 +4,14 @@
 \alias{associate_dropper}
 \title{remove collection from associated species}
 \usage{
-associate_dropper(x, Binomial)
+associate_dropper(x, Binomial, col)
 }
 \arguments{
 \item{x}{a data frame containing collection info}
 
 \item{Binomial}{a column containing the name of the collection, without authorship.}
+
+\item{col}{the column with the species to be checked}
 }
 \description{
 this function removes the collected species from the list of associated

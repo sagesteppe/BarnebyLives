@@ -4,7 +4,7 @@
 #' species
 #' @param x a data frame containing collection info
 #' @param Binomial a column containing the name of the collection, without authorship.
-#' @param col
+#' @param col the column with the species to be checked
 #' @examples
 #' out <- associate_dropper(collection_examples, Binomial = 'Full_name') |>
 #'  dplyr::select(Full_name, Associates)

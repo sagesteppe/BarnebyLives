@@ -1,8 +1,8 @@
 ---
-title: "running pipeline"
+title: "BarnebyLives! Running pipeline"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{running pipeline}
+  %\VignetteIndexEntry{BarnebyLives! Running pipeline}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

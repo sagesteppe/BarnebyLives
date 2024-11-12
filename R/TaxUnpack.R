@@ -7,37 +7,11 @@
 #' @param continents one of: 'NORTHERN AMERICA', 'AFRICA', 'ANTARCTICA', 'ASIA-TROPICAL',
 #'  'ASIA-TEMPERATE', 'AUSTRALASIA', 'EUROPE', 'OCEANIA', 'SOUTHERN AMERICA', 'PACIFIC',
 #' @examples \dontrun{
-#'reggs <- c('Northwestern U.S.A.', 'Southwestern U.S.A.',
-#' North-Central U.S.A.', 'South-Central U.S.A.')
-#'
 #' oupu <- TaxUnpack(path = '~/Downloads',
 #'                  continent = 'NORTHERN AMERICA')
 #'
-#' ## create names with authorities ##
-#'
-#' acc <- filter(oupu, taxon_status == 'Accepted')
-#'
-#' species <- filter(acc, taxon_rank == 'Species') %>%
-#'  rename(specific_author = taxon_authors)
-#'
-#'infra <- filter(acc, taxon_rank %in% c('Variety', 'Subspecies')) %>%
-#'  rename(infraspecific_author = taxon_authors)
-#'
-#' bases <- filter(species, plant_name_id %in% infra$parent_plant_name_id) %>%
-#'  select(plant_name_id, specific_author)
-#'
-#' species <- left_join(infra, bases, by = c('parent_plant_name_id' = 'plant_name_id')) %>%
-#'  relocate('specific_author', .after = species) %>%
-#'  relocate('infraspecific_author', .after = infraspecies) %>%
-#' bind_rows(., species) |>
-#'  arrange(family, genus, species) %>%
-#' unite('taxon_name_author', genus:infraspecific_author, remove = FALSE, na.rm = TRUE, sep = ' ') |>
-#' mutate(taxon_name_author = str_trim(taxon_name_author, side = 'both'),
-#'        across(.cols  = infraspecific_rank:infraspecific_author, ~ na_if(.x, ' ')))
-#'
-#' rm(infra, acc, bases)
 #' }
-#'@export
+#' @export
 TaxUnpack <- function(path, continents){
 
   distributions <- read.table(unz(file.path(path, 'wcvp.zip'), 'wcvp_distribution.csv'),

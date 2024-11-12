@@ -15,11 +15,14 @@ format_database_import(x, format)
 Only a few schemas are currently supported, but we always seek to add more.
 }
 \examples{
-#' library(BarnebyLives)
+library(BarnebyLives)
 dat4import <- format_database_import(collection_examples, format = 'JEPS')
 
+# we also know a bit about our material and can populate it here by hand #
 dat4import |>
   dplyr::mutate(
    Label_Footer = 'Collected under the auspices of the Bureau of Land Management',
    Coordinate_Uncertainty_In_Meters = 5,
+    Coordinate_Source = 'iPad')
+
 }

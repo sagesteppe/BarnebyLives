@@ -15,3 +15,4 @@ This function creates a quick abstract of a google maps route, which contains th
 \examples{
 # see 'directions_grabber'
 }
+\keyword{internal}
