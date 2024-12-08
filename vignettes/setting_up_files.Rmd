@@ -130,7 +130,7 @@ rm(mason)
 ```
 
 We will simply crop the vector data to the limit of the study area. We utilize the U.S. Census Bureau's data for this. We can download the States data set from the U.S. Census Bureau's website. The other data sets can be loaded in from the tigris r package. 
-The counties outline file can be downloaded from here https://catalog.data.gov/dataset/tiger-line-shapefile-2020-nation-u-s-counties-and-equivalent-entities. 
+The counties outline file can be downloaded from here  https://catalog.data.gov/dataset/tiger-line-shapefile-2020-nation-u-s-counties-and-equivalent-entities. 
 
 ```{r crop political boundary data to extent, eval = F}
 counties <- st_read('../geodata_raw/USCounties/tl_2020_us_county.shp', quiet = T) %>% 
