@@ -19,7 +19,7 @@ WCVP_dl <- function(){  #  WORKS
   }
 }
 
-WCVP_dl()
+# WCVP_dl()
 
 counties_dl <- function(){ # WORKS
   if(file.exists('COUNTY')){
@@ -29,7 +29,7 @@ counties_dl <- function(){ # WORKS
               httr::write_disk(path = 'COUNTY', overwrite = TRUE))
   }
 }
-counties_dl()
+# counties_dl()
 
 GMBA_dl <- function(){ # WORKS
   if(file.exists('GMBA')){
@@ -40,7 +40,7 @@ GMBA_dl <- function(){ # WORKS
   }
 }
 
-GMBA_dl()
+# GMBA_dl()
 
 PLSS_dl <- function(){ # WORKS
 
@@ -55,10 +55,10 @@ PLSS_dl <- function(){ # WORKS
 }
 
 
-PLSS_dl()
+# PLSS_dl()
 
 
-ALLOTMENTS_dl <- function(){ # works 
+allotments_dl <- function(){ # works
 
   if(file.exists('USFSAllotments')){
     message('Product `USFSAllotments` already downloaded. Skipping.')} else{
@@ -66,7 +66,7 @@ ALLOTMENTS_dl <- function(){ # works
   httr::GET(URL,
             httr::write_disk(path = 'USFSAllotments', overwrite = TRUE))
   }
-  
+
   if(file.exists('BLMAllotments')){
     message('Product `BLMAllotments` already downloaded. Skipping.')} else{
   URL <- "https://gbp-blm-egis.hub.arcgis.com/api/download/v1/items/0882acf7eada4b3bafee4dd673fbe8a0/shapefile?layers=1"
@@ -76,8 +76,7 @@ ALLOTMENTS_dl <- function(){ # works
 }
 
 
-ALLOTMENTS_dl()
-
+# allotments_dl()
 
 
 # we can grab states by using their abbreviations...
@@ -88,7 +87,7 @@ SGMC_dl <- function(){ # WORKS
 
   if(file.exists('SGMC')){
     message('Product `SGMC` already downloaded. Skipping.')} else{
-      
+
   cap_speed <- httr::config(max_recv_speed_large = 10000)
   URL <- 'https://www.sciencebase.gov/catalog/file/get/5888bf4fe4b05ccb964bab9d?name=USGS_SGMC_Geodatabase.zip'
   message("This website is super slow.\nWe recommend downloading the geodata by hand. https://mrdata.usgs.gov/geology/state/")
@@ -97,7 +96,7 @@ SGMC_dl <- function(){ # WORKS
     }
 }
 
-SGMC_dl()
+# SGMC_dl()
 
 
 
@@ -106,9 +105,27 @@ SGMC_dl()
 
 
 
+library(minioclient)
+#install_mc()
+mc_alias_set("anon", "s3.amazonaws.com", access_key = "", secret_key = "")
+mc_ls("anon/gbif-open-data-us-east-1")
 
+mc_alias_set(
+  alias = "minio",
+  endpoint = Sys.getenv("opentopography", "s3.amazonaws.com"),
+  access_key = "",
+  secret_key = "")
 
+mc_ls("OTDS.012020.4326.1", recursive = TRUE)
+?mc_ls
 
+?get_bucket_df
+gnis_products <- aws.s3::get_bucket_df(
+  bucket = "minio",
+  prefix = 'opentopography.s3.sdsc.edu',
+  region = "eu-north-1",
+  max = 200
+)
 
 
 
@@ -120,53 +137,40 @@ aspect_dl <- function(x){
             httr::write_disk(path = 'asp', overwrite = TRUE))
 }
 
-aspect_dl()
-
-library(minio.s3)
-
-
-
-
-
-
-
-
-
-
+# aspect_dl()
 
 
 gnis_products <- aws.s3::get_bucket_df(
-  bucket = "s3://prd-tnm/", 
-  region = "us-west-2", 
+  bucket = "s3://prd-tnm/",
+  region = "us-west-2",
   prefix = 'StagedProducts/GeographicNames/DomesticNames/',
   max = 200
 ) |>
   as.data.frame()
 gnis_products <- gnis_products[ grep('[.]zip$', gnis_products$Key), ]
 
-aws.s3::save_object(
-  file = 'GNIS',
-  object = "s3://prd-tnm/StagedProducts/GeographicNames/DomesticNames/DomesticNames_AllStates_Text.zip",
-  bucket = "s3://prd-tnm/", 
-  region = "us-west-2",
-  show_progress = TRUE
-)
+# aws.s3::save_object(
+#  file = 'GNIS',
+#  object = "s3://prd-tnm/StagedProducts/GeographicNames/DomesticNames/DomesticNames_AllStates_Text.zip",
+#  bucket = "s3://prd-tnm/",
+#  region = "us-west-2",
+#  show_progress = TRUE
+#)
 
 
 
-GNIS_dl <- function(x){ # WORKS 
-  
+GNIS_dl <- function(){ # WORKS
+
   if(file.exists('GNIS')){
     message('Product `GNIS` already downloaded. Skipping.')} else{
-      
+
       aws.s3::save_object(
         file = 'GNIS',
         object = "s3://prd-tnm/StagedProducts/GeographicNames/DomesticNames/DomesticNames_AllStates_Text.zip",
-        bucket = "s3://prd-tnm/", 
+        bucket = "s3://prd-tnm/",
         region = "us-west-2",
         show_progress = TRUE
       )}
-  
 }
 
 GNIS_dl()
