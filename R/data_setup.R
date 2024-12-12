@@ -24,24 +24,21 @@ data_setup <- function(path, bound, cleanup){
   tile_cells <- mt$tile_cells; tile_cellsV <- mt$tile_cellsV
   
   # now crop the data to the extents of analysis. 
-  mason(dirin = '../geodata_raw/geomorphons/',
-        dirout = '../geodata/geomorphons/',
+  mason(dirin = file.path(path, 'geodata_raw', 'geomorphons',
+        dirout = file.path(path, 'geodata', 'geomorphons',,
         grid = tile_cellsV, fnames = 'cellname')
   
-  mason(dirin = '../geodata_raw/aspect/',
-        dirout = '../geodata/aspect/',
+  mason(dirin = file.path(path, 'geodata_raw', 'aspect'),
+        dirout = file.path(path, 'geodata', 'aspect'),
         grid = tile_cellsV, fnames = 'cellname')
   
-  mason(dirin = '../geodata_raw/slope/',
-        dirout = '../geodata/slope/',
+  mason(dirin = file.path(path, 'geodata_raw', 'slope'),
+        dirout = file.path(path, 'geodata', 'slope'),
         grid = tile_cellsV, fnames = 'cellname')
   
-  mason(dirin = '../geodata_raw/elevation/',
-        dirout = '../geodata/elevation/',
+  mason(dirin = file.path(path, 'geodata_raw', 'elevation'),
+        dirout = file.path(path, 'geodata', 'elevation'),
         grid = tile_cellsV, fnames = 'cellname')
-  
-  rm(mason, mt) # done with raster data!! 
-  
   
   ## now combine all of the administrative data into a single vector file. 
   make_it_political(path)
@@ -50,18 +47,18 @@ data_setup <- function(path, bound, cleanup){
   places_and_spaces(bound)
   
   #### process the GMBA data
-  mtns <- sf::st_read('../geodata_raw/globalMountains/GMBA_Inventory_v2.0_standard_basic.shp', 
-                  quiet = T) %>% 
+  p <- file.path(path, 'geodata_raw', 'globalMountains', 'GMBA_Inventory_v2.0_standard_basic.shp'),
+  mtns <- sf::st_read(p, quiet = T) %>% 
     sf::st_make_valid() %>% 
     dplyr::select(MapName) %>% 
     sf::st_crop(., sf::st_union(tile_cells))|>
     dplyr::rename(Mountains = MapName) |>
     dplyr::mutate(Mountains = stringr::str_remove(Mountains, '[(]nn[])]'))
   
-  sf::st_write(mtns, dsn = file.path('../geodata/mountains', 'mountains.shp'), quiet = T)
+  sf::st_write(mtns, dsn = file.path(path, 'geodata', 'mountains', 'mountains.shp'), quiet = T)
   
   ### crop geographic place name database to extent 
-  files <- paste0('../geodata_raw/GNIS/Text/DomesticNames_', states, '.txt')
+  files <- file.path(path, 'geodata_raw', 'GNIS', 'Text', DomesticNames_, states, '.txt.')
   cols <- c('feature_name', 'prim_lat_dec', 'prim_long_dec')
   
   places <- lapply(files, read.csv, sep = "|") %>% 
@@ -74,9 +71,7 @@ data_setup <- function(path, bound, cleanup){
   places <- places %>% 
     dplyr::mutate(ID = 1:nrow(.))
   
-  sf::st_write(places, dsn = file.path('../geodata/places', 'places.shp'), quiet = T)
-  
-  rm(places, cols, files)
+  sf::st_write(places, dsn = file.path(path, 'geodata', 'places', 'place.shp'), quiet = T)
   
   ## crop PADUS to domain
   process_padus(tile_cells)
@@ -128,7 +123,9 @@ make_tiles <- function(bound, bb_vals){
 make_it_political <- function(x){
   
   ## now combine all of the administrative data into a single vector file. 
-  counties <- sf::st_read('../geodata_raw/USCounties/tl_2020_us_county.shp', quiet = T) %>% 
+  
+  p <- file.path(path, 'geodata_raw', 'USCounties', 'tl_2020_us_county.shp')
+  counties <- sf::st_read(p, quiet = T) %>% 
     sf::st_transform(sf::st_crs(tile_cells)) %>% 
     dplyr::select(STATEFP, County = NAME)
   
@@ -141,7 +138,8 @@ make_it_political <- function(x){
     dplyr::select(-STATEFP) %>% 
     dplyr::arrange(STATE) 
   
-  sf::st_write(counties, dsn = file.path('../geodata/political', 'political.shp'))
+  p <- file.path(path, 'geodata', 'political', 'political.shp')
+  sf::st_write(counties, dsn = p)
   
 }
 
@@ -205,8 +203,9 @@ places_and_spaces <- function(bound, path){
 
 process_padus <- function(x){
   
+  p <- file.path(path, 'geodata_raw', 'PADUS3', 'PAD_US3_0.gdb')
   padus <- sf::st_read(
-    dsn = '../geodata_raw/PADUS3/PAD_US3_0.gdb', 
+    dsn = p, 
     layer = 'PADUS3_0Fee') %>% 
     dplyr::filter(State_Nm %in% states) %>% 
     dplyr::select(Mang_Name, Unit_Nm) %>% 
@@ -216,7 +215,7 @@ process_padus <- function(x){
   padus <- padus[sf::st_intersects(padus, sf::st_union(tile_cells)) %>% lengths > 0, ]
   padus <- sf::st_transform(padus, crs = 4326)
   
-  sf::st_write(padus, dsn = file.path('../geodata/pad', 'pad.shp'), quiet = T)
+  sf::st_write(padus, dsn = file.path(path, 'geodata', 'pad.shp'), quiet = T)
   
   # replace really long state land board names with 'STATE SLB'
   padus <- sf::st_read('../../Barneby_Lives-dev/geodata/pad/pad.shp')
@@ -252,10 +251,10 @@ process_padus <- function(x){
 }
 
 
-geological_map <- function(tile_cells){
+geological_map <- function(tile_cells, path){
   
   geological <- sf::st_read(
-    '../geodata_raw/geologicalMap/USGS_StateGeologicMapCompilation_ver1.1.gdb', 
+    file.path(path, 'geodata_raw', 'geologicalMap', 'USGS_StateGeologicMapCompilation_ver1.1.gdb'),
     layer = 'SGMC_Geology', quiet = T) %>% 
     dplyr::select(GENERALIZED_LITH, UNIT_NAME) 
   
@@ -264,7 +263,7 @@ geological_map <- function(tile_cells){
   geological <- sf::st_crop(geological, sf::st_union(tile_cells))
   geological <- sf::st_transform(geological, 4326)
   
-  sf::st_write(geological, dsn = file.path('../geodata/geology', 'geology.shp'), quiet = T)
+  sf::st_write(geological, dsn = file.path(path, 'geodata', 'geology.shp'), quiet = T)
   
   tile_cells <- sf::st_transform(tile_cells, crs = 4326)
 
@@ -273,12 +272,12 @@ geological_map <- function(tile_cells){
 
 process_grazing_allot <- function(tile_cells){
   
-  blm <- sf::st_read(
-    '../geodata_raw/BLMAllotments/BLM_Natl_Grazing_Allotment_Polygons.shp') %>% 
+  p <- file.path(path, 'geodata_raw', 'BLMAllotments', 'BLM_Natl_Grazing_Allotment_Polygons.shp')
+  p1 <- file.path(path, 'geodata_raw', 'USFSAllotment', 'S_USA.Allotment.shp'))
+  blm <- sf::st_read(p, quiet = TRUE) %>% 
     dplyr::select(ALLOT_NAME)
-  usfs <- sf::st_read(
-    '../geodata_raw/USFSAllotment/S_USA.Allotment.shp', quiet = T
-  ) %>% 
+  
+  usfs <- sf::st_read(p1, quiet = TRUE) %>% 
     dplyr::select(ALLOT_NAME = ALLOTMENT_) 
   
   allotments <- dplyr::bind_rows(blm, usfs) %>% 
@@ -290,14 +289,17 @@ process_grazing_allot <- function(tile_cells){
     dplyr::mutate(Allotment = stringr::str_to_title(ALLOT_NAME)) %>% 
     dplyr::select(-ALLOT_NAME) %>% 
     
-  sf::st_write(allotments, dsn = file.path('../geodata/allotments', 'allotments.shp'), quiet = T)
+  sf::st_write(
+    allotments,  quiet = T,
+    dsn = file.path(path, 'geodata', 'allotments', 'allotments.shp')
+    )
 
 }
 
 process_plss <- function(tile_cells){
   
-  township <- sf::st_read(
-    '../geodata_raw/nationalPLSS/ilmocplss.gdb', layer = 'PLSSTownship', quiet = T
+  p <- file.path(path, 'geodata_raw', 'nationalPLSS', 'ilmocplss.gdb')
+  township <- sf::st_read(p, layer = 'PLSSTownship', quiet = T
   ) %>% 
     sf::st_cast('POLYGON') %>% 
     dplyr::select(TWNSHPLAB, PLSSID)
@@ -306,8 +308,7 @@ process_plss <- function(tile_cells){
   township <- township[sf::st_intersects(township, tile_cells) %>% lengths > 0, ]
   township <- sf::st_drop_geometry(township)
   
-  section <- sf::st_read(
-    '../geodata_raw/nationalPLSS/ilmocplss.gdb', layer = 'PLSSFirstDivision', quiet = T
+  section <- sf::st_read(p, layer = 'PLSSFirstDivision', quiet = T
   ) %>% 
     sf::st_cast('POLYGON') %>% 
     dplr::select(FRSTDIVLAB, PLSSID, FRSTDIVID)
@@ -318,6 +319,6 @@ process_plss <- function(tile_cells){
     dplyr::mutate(TRS = paste(TWNSHPLAB, FRSTDIVLAB)) %>% 
     dplyr::select(trs = TRS) 
   
-  sf::st_write(trs, dsn = file.path('../geodata/plss', 'plss.shp'), quiet = T)
+  sf::st_write(trs, dsn = file.path(path, 'geodata', 'plss', 'plss.shp'), quiet = T)
 
 }

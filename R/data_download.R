@@ -3,8 +3,9 @@
 #' @description this function will download the data which are required to set up an instance of BarnebyLives.
 #' These data must then be processed by the `data_process` function to set up the directory structures appropriately.
 #' Note that the function will test if the data already exist in the location, if they do they will not be downloaded again.
-#' @param path The root directory to save all the data in. Please specify.
-#' @examples \donttest{{
+#' @param path The root directory to save all the data in. Please specify a location, we suggest you make a directory for this. 
+#' If not specified will default to your working directory. 
+#' @examples \donttest{
 #' download_data(path = '/media/steppe/hdd/BL_sandbox')
 #' }
 #' @export 
