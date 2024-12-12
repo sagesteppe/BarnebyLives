@@ -4,45 +4,54 @@
 #' These data must then be processed by the `data_process` function to set up the directory structures appropriately.
 #' Note that the function will test if the data already exist in the location, if they do they will not be downloaded again.
 #' @param path The root directory to save all the data in. Please specify.
+#' @examples \donttest{{
+#' download_data(path = '/media/steppe/hdd/BL_sandbox')
+#' }
+#' @export 
+download_data <- function(path){
+  
+  if(missing(path)){path <- '.'}
+  
+  WCVP_dl(path)
+  counties_dl(path)
+  GMBA_dl(path)
+  allotments_dl(path)
+  GNIS_dl(path)
+  
+  PLSS_dl(path) # a slow one !
+  SGMC_dl(path) # hardly ever works
+}
 
-setwd('/media/steppe/hdd/BL_sandbox')
-getwd()
 
-
-WCVP_dl <- function(){  #  WORKS
+WCVP_dl <- function(path){  #  WORKS
 
   if(file.exists('WCVP')){
     message('Product `WCVP` already downloaded. Skipping.')} else{
   URL <- 'https://sftp.kew.org/pub/data-repositories/WCVP/wcvp_dwca.zip'
   httr::GET(URL,
-            httr::write_disk(path = 'WCVP', overwrite = TRUE))
+            httr::write_disk(path = file.path(path, 'WCVP'), overwrite = TRUE))
   }
 }
 
-# WCVP_dl()
-
-counties_dl <- function(){ # WORKS
+counties_dl <- function(path){ # WORKS
   if(file.exists('COUNTY')){
     message('Product `COUNTY` already downloaded. Skipping.')} else{
     URL <- 'https://www2.census.gov/geo/tiger/TIGER2020/COUNTY/tl_2020_us_county.zip'
     httr::GET(URL,
-              httr::write_disk(path = 'COUNTY', overwrite = TRUE))
+              httr::write_disk(path = file.path(path, 'COUNTY'), overwrite = TRUE))
   }
 }
-# counties_dl()
 
-GMBA_dl <- function(){ # WORKS
+GMBA_dl <- function(path){ # WORKS
   if(file.exists('GMBA')){
     message('Product `GMBA` already downloaded. Skipping.')} else{
   URL <- 'https://data.earthenv.org/mountains/standard/GMBA_Inventory_v2.0_standard.zip'
   httr::GET(URL,
-            httr::write_disk(path = 'GMBA', overwrite = TRUE))
+            httr::write_disk(path = file.path(path, 'GMBA'), overwrite = TRUE))
   }
 }
 
-# GMBA_dl()
-
-PLSS_dl <- function(){ # WORKS
+PLSS_dl <- function(path){ # WORKS
 
   if(file.exists('PLSS')){
     message('Product `PLSS` already downloaded. Skipping.')} else{
@@ -50,40 +59,31 @@ PLSS_dl <- function(){ # WORKS
   URL <- 'https://blm-egis.maps.arcgis.com/sharing/rest/content/items/283939812bc34c11bad695a1c8152faf/data'
   message("This one will take a minute (3.6 GB)")
   httr::GET(URL, httr::progress(), cap_speed,
-            httr::write_disk(path = 'PLSS', overwrite = TRUE))
+            httr::write_disk(path = file.path(path, 'PLSS'), overwrite = TRUE))
   }
 }
 
-
-# PLSS_dl()
-
-
-allotments_dl <- function(){ # works
+allotments_dl <- function(path){ # works
 
   if(file.exists('USFSAllotments')){
     message('Product `USFSAllotments` already downloaded. Skipping.')} else{
   URL <- "https://data.fs.usda.gov/geodata/edw/edw_resources/shp/S_USA.Allotment.zip"
   httr::GET(URL,
-            httr::write_disk(path = 'USFSAllotments', overwrite = TRUE))
+            httr::write_disk(path = file.path('USFSAllotments.zip'), overwrite = TRUE))
   }
 
   if(file.exists('BLMAllotments')){
     message('Product `BLMAllotments` already downloaded. Skipping.')} else{
   URL <- "https://gbp-blm-egis.hub.arcgis.com/api/download/v1/items/0882acf7eada4b3bafee4dd673fbe8a0/shapefile?layers=1"
   httr::GET(URL,
-            httr::write_disk(path = 'BLMAllotments', overwrite = TRUE))
+            httr::write_disk(path = file.path('BLMAllotments.zip'), overwrite = TRUE))
     }
 }
 
-
-# allotments_dl()
-
-
 # we can grab states by using their abbreviations...
-
 'https://mrdata.usgs.gov/geology/state/shp/IA.zip'
 
-SGMC_dl <- function(){ # WORKS
+SGMC_dl <- function(path){ # WORKS
 
   if(file.exists('SGMC')){
     message('Product `SGMC` already downloaded. Skipping.')} else{
@@ -92,13 +92,23 @@ SGMC_dl <- function(){ # WORKS
   URL <- 'https://www.sciencebase.gov/catalog/file/get/5888bf4fe4b05ccb964bab9d?name=USGS_SGMC_Geodatabase.zip'
   message("This website is super slow.\nWe recommend downloading the geodata by hand. https://mrdata.usgs.gov/geology/state/")
   httr::GET(URL, httr::progress(), cap_speed,
-            httr::write_disk(path = 'SGMC', overwrite = TRUE))
+            httr::write_disk(path = file.path(path, 'SGMC'), overwrite = TRUE))
     }
 }
 
-# SGMC_dl()
-
-
+GNIS_dl <- function(path){ # WORKS
+  
+  if(file.exists('GNIS')){
+    message('Product `GNIS` already downloaded. Skipping.')} else{
+      
+      aws.s3::save_object(
+        file = file.path(path, 'GNIS.zip'),
+        object = "s3://prd-tnm/StagedProducts/GeographicNames/DomesticNames/DomesticNames_AllStates_Text.zip",
+        bucket = "s3://prd-tnm/",
+        region = "us-west-2",
+        show_progress = TRUE
+      )}
+}
 
 
 
@@ -119,14 +129,12 @@ mc_alias_set(
 mc_ls("OTDS.012020.4326.1", recursive = TRUE)
 ?mc_ls
 
-?get_bucket_df
 gnis_products <- aws.s3::get_bucket_df(
   bucket = "minio",
   prefix = 'opentopography.s3.sdsc.edu',
   region = "eu-north-1",
   max = 200
 )
-
 
 
 aspect_dl <- function(x){
@@ -137,40 +145,4 @@ aspect_dl <- function(x){
             httr::write_disk(path = 'asp', overwrite = TRUE))
 }
 
-# aspect_dl()
 
-
-gnis_products <- aws.s3::get_bucket_df(
-  bucket = "s3://prd-tnm/",
-  region = "us-west-2",
-  prefix = 'StagedProducts/GeographicNames/DomesticNames/',
-  max = 200
-) |>
-  as.data.frame()
-gnis_products <- gnis_products[ grep('[.]zip$', gnis_products$Key), ]
-
-# aws.s3::save_object(
-#  file = 'GNIS',
-#  object = "s3://prd-tnm/StagedProducts/GeographicNames/DomesticNames/DomesticNames_AllStates_Text.zip",
-#  bucket = "s3://prd-tnm/",
-#  region = "us-west-2",
-#  show_progress = TRUE
-#)
-
-
-
-GNIS_dl <- function(){ # WORKS
-
-  if(file.exists('GNIS')){
-    message('Product `GNIS` already downloaded. Skipping.')} else{
-
-      aws.s3::save_object(
-        file = 'GNIS',
-        object = "s3://prd-tnm/StagedProducts/GeographicNames/DomesticNames/DomesticNames_AllStates_Text.zip",
-        bucket = "s3://prd-tnm/",
-        region = "us-west-2",
-        show_progress = TRUE
-      )}
-}
-
-GNIS_dl()

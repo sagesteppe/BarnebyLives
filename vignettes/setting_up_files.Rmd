@@ -35,7 +35,7 @@ We utilize it to ensure that queries sent to **Plants of The World Online** are 
 We can download a static copy of the data from Kews data portal at: http://sftp.kew.org/pub/data-repositories/WCVP/, I simply download the data manually rather than by script. 
 This is not that large of a file, so it be downloaded in a couple minutes. 
 
-We subset names by continent, I have experimented using Regsions within continents, but the results are usually wanting. 
+We subset names by continent, I have experimented using Regions within continents, but the results are usually wanting. 
 ```{r read in WCVP data, eval = F}
 p2 <- '/media/steppe/hdd/Barneby_Lives-dev/taxonomic_data' # note we have downloaded it 
 # to this location - this is the location where our taxonomy data will be unpacked to!
@@ -159,9 +159,7 @@ We will set up our places data set which we will use go gather driving direction
 We can download these data directly in R using the tigris package. 
 ```{r Set up Places data set, eval = F}
 
-bb <- pgirmess::bbox2sf(w = bb_vals[1], e = bb_vals[2],
-                        s = bb_vals[3], n = bb_vals[4]) %>% 
-  st_as_sf()
+bb <- st_as_sf(bound)
 
 st <- tigris::states() %>% 
   st_transform(4326)
@@ -238,7 +236,7 @@ To determine the land ownership of collections we utilize the Protected Areas Da
 ```{r crop padus to domain, eval = F}
 
 padus <- st_read(dsn = '../geodata_raw/PADUS3/PAD_US3_0.gdb', 
-                 layer = 'PADUS3_0Fee' %>% 
+                 layer = 'PADUS3_0Fee') %>% 
   filter(State_Nm %in% states) %>% 
   select(Mang_Name, Unit_Nm) %>% 
   st_cast('MULTIPOLYGON')
@@ -295,7 +293,7 @@ blm <- st_read(
 usfs <- st_read(
   '../geodata_raw/USFSAllotment/S_USA.Allotment.shp', quiet = T
 ) %>% 
-  select(ALLOT_NAME = ALLOTMENT_) 
+  dplyr::select(ALLOT_NAME = ALLOTMENT_) 
 
 allotments <- bind_rows(blm, usfs) %>% 
   st_make_valid()
