@@ -38,8 +38,8 @@ data_setup <- function(path, pathOut, bound, cleanup){
   tile_cellsV <- mt$tile_cellsV
 
   # decompress all of the archives so we can readily read them into R.
-  zzzs <- file.path(path, list.files(path = path, pattern = '*.[.]zip$'))
-  unzip(zzzs)
+  zzzs <- list.files(path = path, pattern = '*.[.]zip$')
+  lapply(zzzs, unzip)
 
   ##### now crop the data to the extents of analysis. ####
 
@@ -87,12 +87,13 @@ data_setup <- function(path, pathOut, bound, cleanup){
 
   if(cleanup==TRUE){
   # remove original zip files.
-    zzzs <- file.path(path, list.files(path = path, pattern = '*.[.]zip$'))
+    zzzs <- list.files(path = path, pattern = '*.[.]zip$')
     file.remove(zzzs)
   }
 
 }
 
+library(magrittr)
 setwd('/media/steppe/hdd/BL_sandbox/geodata_raw')
 data_setup(bound = bound)
 
@@ -150,8 +151,8 @@ make_tiles <- function(bound, bb_vals){
     sf::st_as_sf() %>%
     dplyr::rename(geometry = x) %>%
     dplyr::mutate(
-      x = sf::st_coordinates(st_centroid(.))[,1],
-      y = sf::st_coordinates(st_centroid(.))[,2],
+      x = sf::st_coordinates(sf::st_centroid(.))[,1],
+      y = sf::st_coordinates(sf::st_centroid(.))[,2],
       .before = geometry,
       dplyr::across(c('x', 'y'), \(x) round(x, 1)),
       cellname = paste0('n', abs(y), 'w', abs(x))
