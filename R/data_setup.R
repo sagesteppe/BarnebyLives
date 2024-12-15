@@ -38,8 +38,15 @@ data_setup <- function(path, pathOut, bound, cleanup){
   tile_cellsV <- mt$tile_cellsV
 
   # decompress all of the archives so we can readily read them into R.
-  zzzs <- list.files(path = path, pattern = '*.[.]zip$')
-  lapply(zzzs, unzip)
+  zzzs <- file.path(path, list.files(path = path, pattern = '*.[.]zip$'))
+#  out_dirs <- gsub('[.]zip', '' , zzzs)
+#  lapply(out_dirs, dir.create)
+#  return(zzzs)
+
+  lapply(zzzs, FUN = function(x){
+    out <- gsub('[.]zip', '' , x)
+    unzip(x, exdir = out)}
+    )
 
   ##### now crop the data to the extents of analysis. ####
 
@@ -93,6 +100,7 @@ data_setup <- function(path, pathOut, bound, cleanup){
 
 }
 
+library(magrittr)
 # remotes::install_github('sagesteppe/BarnebyLives')
 # library(BarnebyLives)
 # setwd('/home/sagesteppe/Documents/BL_sandbox')
@@ -125,7 +133,7 @@ process_gnis <- function(path, pathOut, tile_cells){
 #' @description used within `data_setup`
 process_gmba <- function(path, pathOut, tile_cells){
 
-  p <- file.path(path, 'globalMountains', 'GMBA_Inventory_v2.0_standard_basic.shp')
+  p <- file.path(path, 'GMBA', 'GMBA_Inventory_v2.0_standard_basic.shp')
   mtns <- sf::st_read(p, quiet = T) %>%
     sf::st_make_valid() %>%
     dplyr::select(MapName) %>%
@@ -177,7 +185,7 @@ make_it_political <- function(path, pathOut, tile_cells){
 
   ## now combine all of the administrative data into a single vector file.
 
-  p <- file.path(path, 'USCounties', 'tl_2020_us_county.shp')
+  p <- file.path(path, 'Counties', 'tl_2020_us_county.shp')
   counties <- sf::st_read(p, quiet = T) %>%
     sf::st_transform(sf::st_crs(tile_cells)) %>%
     dplyr::select(STATEFP, County = NAME)
@@ -314,7 +322,7 @@ process_padus <- function(path, pathOut, tile_cells){
 geological_map <- function(path, pathOut, tile_cells){
 
   geological <- sf::st_read(
-    file.path(path, 'geologicalMap', 'USGS_StateGeologicMapCompilation_ver1.1.gdb'),
+    file.path(path, 'SGMC', 'USGS_StateGeologicMapCompilation_ver1.1.gdb'),
     layer = 'SGMC_Geology', quiet = T) %>%
     dplyr::select(GENERALIZED_LITH, UNIT_NAME)
 
@@ -363,7 +371,7 @@ process_grazing_allot <- function(path, pathOut, tile_cells){
 #' @description used within `data_setup`
 process_plss <- function(path, pathOut, tile_cells){
 
-  p <- file.path(path, 'nationalPLSS', 'ilmocplss.gdb')
+  p <- file.path(path, 'PLSS', 'ilmocplss.gdb')
   township <- sf::st_read(p, layer = 'PLSSTownship', quiet = T
   ) %>%
     sf::st_cast('POLYGON') %>%

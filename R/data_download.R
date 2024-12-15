@@ -39,11 +39,11 @@ WCVP_dl <- function(path){  #  WORKS
 }
 
 counties_dl <- function(path){ # WORKS
-  if(file.exists('COUNTY.zip')){
-    message('Product `COUNTY` already downloaded. Skipping.')} else{
+  if(file.exists('Counties.zip')){
+    message('Product `Counties` already downloaded. Skipping.')} else{
     URL <- 'https://www2.census.gov/geo/tiger/TIGER2020/COUNTY/tl_2020_us_county.zip'
     httr::GET(URL,
-              httr::write_disk(path = file.path(path, 'COUNTY.zip'), overwrite = TRUE))
+              httr::write_disk(path = file.path(path, 'Counties.zip'), overwrite = TRUE))
   }
 }
 
