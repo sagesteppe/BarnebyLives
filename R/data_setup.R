@@ -3,9 +3,9 @@
 #' @description Once all data are downloaded for BarnebyLives use this function
 #' to set them up to be used by the pipeline.
 #' @param path Character. path to the folder where output from `data_download` was downloaded.
-#'  Defaults to current working directory ('.').
+#'  Defaults to a subfolder within the working directory ('./geodata_raw').
 #' @param pathOut Character. Path to the folder where final spatial data should be placed.
-#' Defaults to up one directory ('..').
+#' Defaults to ('.'), and will create a 'geodata' directory within it to store results.
 #' @param bound Data frame. 'x' and 'y' coordinates of the extent for which the BL instance will cover.
 #' @param cleanup Boolean. Whether to remove the original zip files which were downloaded. Defaults to FALSE.
 #' Either mode of running the function will delete the uncompressed zip files generated during the process.
@@ -20,8 +20,8 @@
 #' @export
 data_setup <- function(path, pathOut, bound, cleanup){
 
-  if(missing(path)){path <- '.'}
-  if(missing(pathOut)){pathOut <- '..'}
+  if(missing(path)){path <- './geodata_raw'}
+  if(missing(pathOut)){pathOut <- '.'}
   dir.create(file.path(pathOut, 'geodata'), showWarnings = FALSE)
   if(missing(cleanup)){default = FALSE}
 
@@ -93,9 +93,10 @@ data_setup <- function(path, pathOut, bound, cleanup){
 
 }
 
-library(magrittr)
-setwd('/media/steppe/hdd/BL_sandbox/geodata_raw')
-data_setup(bound = bound)
+# remotes::install_github('sagesteppe/BarnebyLives')
+# library(BarnebyLives)
+# setwd('/home/sagesteppe/Documents/BL_sandbox')
+# data_setup(bound = bound)
 
 #' Set up the downloaded data for a BarnebyLives instance
 #'
