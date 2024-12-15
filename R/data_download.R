@@ -50,7 +50,7 @@ counties_dl <- function(path){ # WORKS
 GMBA_dl <- function(path){ # WORKS
   if(file.exists('GMBA.zip')){
     message('Product `GMBA` already downloaded. Skipping.')} else{
-  URL <- 'https://data.earthenv.org/mountains/standard/GMBA_Inventory_v2.0_standard.zip'
+  URL <- 'https://data.earthenv.org/mountains/standard/GMBA_Inventory_v2.0_standard_basic.zip'
   httr::GET(URL,
             httr::write_disk(path = file.path(path, 'GMBA.zip'), overwrite = TRUE))
   }
@@ -93,13 +93,15 @@ SGMC_dl <- function(path){ # WORKS
   if(file.exists('SGMC.zip')){
     message('Product `SGMC` already downloaded. Skipping.')} else{
 
- # cap_speed <- httr::config(max_recv_speed_large = 10000)
+#  cap_speed <- httr::config(max_recv_speed_large = 10000)
   URL <- 'https://www.sciencebase.gov/catalog/file/get/5888bf4fe4b05ccb964bab9d?name=USGS_SGMC_Geodatabase.zip'
-  message("This website is super slow.\nWe recommend downloading the geodata by hand. https://mrdata.usgs.gov/geology/state/")
-  httr::GET(URL, httr::progress(), cap_speed,
+  message("This website is slow.\nWe recommend downloading the geodata by hand. https://mrdata.usgs.gov/geology/state/")
+  httr::GET(URL, httr::progress(),
             httr::write_disk(path = file.path(path, 'SGMC.zip'), overwrite = TRUE))
     }
 }
+
+SGMC_dl(path = '.')
 
 GNIS_dl <- function(path){ # WORKS
 
@@ -116,9 +118,28 @@ GNIS_dl <- function(path){ # WORKS
 }
 
 
+PAD_dl <- function(path){ # WORKS
+
+  if(file.exists('PAD.zip')){
+    message('Product `PAD` already downloaded. Skipping.')} else{
+
+      aws.s3::save_object(
+        file = file.path(path, 'GNIS.zip'),
+        object = "s3://prd-tnm/StagedProducts/GeographicNames/DomesticNames/DomesticNames_AllStates_Text.zip",
+        bucket = "s3://prd-tnm/",
+        region = "us-west-2",
+        show_progress = TRUE
+      )}
+}
 
 
+'prod-is-usgs-sb-prod-content.s3.amazonaws.com'
 
+aws.s3
+aws.s3::bucket_exists(
+  bucket = "s3://prod-is-usgs-sb-prod-content/",
+  region = 'us-west-2'
+  )
 
 # library(minioclient)
 #install_mc()
@@ -140,7 +161,6 @@ GNIS_dl <- function(path){ # WORKS
 #   max = 200
 # )
 
-
 # aspect_dl <- function(x){
 
 #   base <- 'https://opentopography.s3.sdsc.edu/minio/dataspace/OTDS.012020.4326.1/raster/aspect/'
@@ -149,4 +169,8 @@ GNIS_dl <- function(path){ # WORKS
 #             httr::write_disk(path = 'asp', overwrite = TRUE))
 # }
 
+
+library(sbtools)
+sbtools::query_sb_doi('10.5066/P96WBCHS', limit=1)
+item <- sbtools::item_get('65294599d34e44db0e2ed7cf')
 
