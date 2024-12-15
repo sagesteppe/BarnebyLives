@@ -308,7 +308,7 @@ process_padus <- function(path, pathOut, tile_cells){
 
 }
 
-tile_cells#' Set up the downloaded data for a BarnebyLives instance
+#' Set up the downloaded data for a BarnebyLives instance
 #'
 #' @description used within `data_setup`
 geological_map <- function(path, pathOut, tile_cells){
