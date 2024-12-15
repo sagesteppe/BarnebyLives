@@ -6,7 +6,8 @@
 #' @param path The root directory to save all the data in. Please specify a location, we suggest you make a directory for this.
 #' If not specified will default to your working directory.
 #' @examples \donttest{
-#' download_data(path = '/media/steppe/hdd/BL_sandbox')
+#' # setwd('/media/steppe/hdd/BL_sandbox/geodata_raw')
+#' # download_data(path = '/media/steppe/hdd/BL_sandbox')
 #' }
 #' @export
 download_data <- function(path){
@@ -23,8 +24,8 @@ download_data <- function(path){
   SGMC_dl(path) # hardly ever works
 }
 
-setwd('/media/steppe/hdd/BL_sandbox/geodata_raw')
-download_data()
+# setwd('/media/steppe/hdd/BL_sandbox/geodata_raw')
+# download_data()
 
 
 WCVP_dl <- function(path){  #  WORKS
@@ -119,34 +120,33 @@ GNIS_dl <- function(path){ # WORKS
 
 
 
-library(minioclient)
+# library(minioclient)
 #install_mc()
-mc_alias_set("anon", "s3.amazonaws.com", access_key = "", secret_key = "")
-mc_ls("anon/gbif-open-data-us-east-1")
+# mc_alias_set("anon", "s3.amazonaws.com", access_key = "", secret_key = "")
+# mc_ls("anon/gbif-open-data-us-east-1")
 
-mc_alias_set(
-  alias = "minio",
-  endpoint = Sys.getenv("opentopography", "s3.amazonaws.com"),
-  access_key = "",
-  secret_key = "")
+# mc_alias_set(
+#  alias = "minio",
+#  endpoint = Sys.getenv("opentopography", "s3.amazonaws.com"),
+#  access_key = "",
+#  secret_key = "")
 
-mc_ls("OTDS.012020.4326.1", recursive = TRUE)
-?mc_ls
+# mc_ls("OTDS.012020.4326.1", recursive = TRUE)
 
-gnis_products <- aws.s3::get_bucket_df(
-  bucket = "minio",
-  prefix = 'opentopography.s3.sdsc.edu',
-  region = "eu-north-1",
-  max = 200
-)
+# gnis_products <- aws.s3::get_bucket_df(
+#   bucket = "minio",
+#   prefix = 'opentopography.s3.sdsc.edu',
+#   region = "eu-north-1",
+#   max = 200
+# )
 
 
-aspect_dl <- function(x){
+# aspect_dl <- function(x){
 
-  base <- 'https://opentopography.s3.sdsc.edu/minio/dataspace/OTDS.012020.4326.1/raster/aspect/'
-  f <- 'aspect_90M_s60w180.tar.gz'
-  httr::GET(paste0(base, f),
-            httr::write_disk(path = 'asp', overwrite = TRUE))
-}
+#   base <- 'https://opentopography.s3.sdsc.edu/minio/dataspace/OTDS.012020.4326.1/raster/aspect/'
+#   f <- 'aspect_90M_s60w180.tar.gz'
+#   httr::GET(paste0(base, f),
+#             httr::write_disk(path = 'asp', overwrite = TRUE))
+# }
 
 
