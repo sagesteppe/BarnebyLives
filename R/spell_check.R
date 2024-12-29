@@ -35,14 +35,15 @@ spell_check <- function(data, column, path) {
       if(length(pos)==1) {
         infraspecies_name <- infra_sppLKPtab[pos,]
         infraspecies_name <- infraspecies_name[1,]
-        return(data.frame(x, SpellCk = infraspecies_name, Match = 'exact'))
+        data.frame(x, SpellCk = infraspecies_name, Match = 'exact')
 
       } else { # run a search if an exact match is not found.
         infraspecies_name <-
           infra_sppLKPtab[which.min(
             stringdist::stringdist(full_name, infra_sppLKPtab$taxon_name, method = 'jw')),]
         infraspecies_name <- infraspecies_name[1,]
-        return(data.frame(x, SpellCk = infraspecies_name, Match = 'fuzzy'))
+
+        data.frame(x, SpellCk = infraspecies_name, Match = 'fuzzy')
       }
 
     } else {
@@ -52,7 +53,7 @@ spell_check <- function(data, column, path) {
 
         species_name <- sppLKPtab[pos,]
         species_name <- species_name[1,]
-        return(data.frame(x, SpellCk = species_name, Match = 'exact'))
+        data.frame(x, SpellCk = species_name, Match = 'exact')
 
       } else {
 
@@ -64,7 +65,7 @@ spell_check <- function(data, column, path) {
         species_name <-
           sppLKP_l[which.min(
             stringdist::stringdist(binom, sppLKP_l$taxon_name, method = 'jw')),]
-        return(data.frame(x, SpellCk = species_name, Match = 'fuzzy'))
+        data.frame(x, SpellCk = species_name, Match = 'fuzzy')
 
           }
       }
@@ -76,7 +77,7 @@ spell_check <- function(data, column, path) {
       data.frame()
   } else {x <- data}
 
-  data_l <- split(x, f = 1:nrow(x))
+  data_l <- split(x, f = seq_len(nrow(x)))
   sc_res <- lapply(data_l, sc, column = column)
 
   rn <- c(SpellCk_Infraspecific_rank = 'SpellCk.verbatimTaxonRank')
@@ -88,6 +89,5 @@ spell_check <- function(data, column, path) {
     sc_res <- dplyr::bind_cols(sc_res, geometry_col)
   }
 
-  return(sc_res)
 }
 

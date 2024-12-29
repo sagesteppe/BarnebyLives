@@ -20,7 +20,7 @@ all_authors <- function(genus, epithet, infrarank, infraspecies){
 
     name_authority <- paste(genus, epithet, binom_auth, infrarank, infraspecies)
 
-    return(list(name_authority, binom_auth, infra_authority))
+    list(name_authority, binom_auth, infra_authority) # this returned
 
   } else {
 
@@ -37,6 +37,7 @@ all_authors <- function(genus, epithet, infrarank, infraspecies){
     infra_authority <- auth_hunt$author
 
     name_authority <- paste(genus, epithet, binom_auth, infrarank, infraspecies, infra_authority)
-    return(list(name_authority, binom_auth, infra_authority))
+
+    list(name_authority, binom_auth, infra_authority) # this returned
   }
 }

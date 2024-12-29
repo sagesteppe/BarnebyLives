@@ -14,7 +14,7 @@
 #' @export
 associates_spell_check <- function(x, column, path){
 
-  if(missing(column)){column <- 'Associates' ;
+  if(missing(column)){column <- 'Associates'
     message(crayon::yellow('Argument to `column` not supplied, defaulting to `Associates`'))}
 
   associates <- dplyr::pull(x, column)
@@ -82,5 +82,5 @@ associates_spell_check <- function(x, column, path){
 
   spellck <- setNames(data.frame(associates), paste0('SpellCk.', column))
   out <- dplyr::bind_cols(x, spellck)
-  return(out)
+
 }

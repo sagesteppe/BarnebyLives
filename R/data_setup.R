@@ -131,11 +131,9 @@ make_tiles <- function(bound, bb_vals){
 
   tile_cellsV <- terra::vect(tile_cells)
 
-  return(
-    list(
-      'tile_cells' = tile_cells,
-      'tile_cellsV' = tile_cellsV
-    )
+  list(
+    'tile_cells' = tile_cells,
+    'tile_cellsV' = tile_cellsV
   )
 
 }
@@ -249,7 +247,7 @@ process_gnis <- function(path, pathOut, bound){
   sf::st_agr(places) <- 'constant'
   places <- places[sf::st_intersects(places, bb) %>% lengths > 0, ]
   places <- places %>%
-    dplyr::mutate(ID = 1:nrow(.)) |>
+    dplyr::mutate(ID = seq_len(nrow(.))) |>
     dplyr::rename(fetr_nm = feature_name)
 
   places <- places |>
