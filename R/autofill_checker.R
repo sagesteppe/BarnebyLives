@@ -33,7 +33,7 @@ autofill_checker <- function(x){
     dplyr::select(Long_AutoFill_Flag, Lat_AutoFill_Flag)
 
   output <- dplyr::bind_cols(x, flags) |>
-    dplyr::relocate(Long_AutoFill_Flag, Lat_AutoFill_Flag, .after = last_col())
+    dplyr::relocate(Long_AutoFill_Flag, Lat_AutoFill_Flag, .after = dplyr::last_col())
 
   return(output)
 }
