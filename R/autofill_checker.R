@@ -4,7 +4,7 @@
 #' Here we try to detect these where they may have effected the coordinates.
 #' This function operates under the observation, that the incrementation only occurs
 #' to the 'integers' or degrees
-#' @param x a dataframe which has undergone 'dms2dd' from BarnebyLives
+#' @param x a data frame which has undergone 'dms2dd' from BarnebyLives
 #' @examples
 #' coords <- data.frame(
 #'   longitude_dd = c(rep(42.3456, times = 5), 43.3456),

@@ -18,7 +18,6 @@ Imports:
     ggplot2,
     googleway,
     lubridate,
-    nngeo,
     kewr,
     rlang,
     rvest,
@@ -29,9 +28,10 @@ Imports:
     dplyr,
     crayon,
     geosphere,
-    glue,
     rmarkdown,
-    magrittr
+    aws.s3,
+    httr,
+    tidyr
 Remotes: barnabywalker/kewr
 Suggests: WorldFlora, data.table, testthat (>= 3.0.0), tidyverse, knitr, tigris, googlesheets4, kableExtra
 VignetteBuilder: knitr

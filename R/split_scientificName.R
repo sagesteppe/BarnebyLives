@@ -5,7 +5,7 @@
 #' this function will parse them into the columns used in the BarnebyLives pipeline.
 #' @param x Dataframe with collection information.
 #' @param sciName_col Character. Column containing the data to parse
-#' @param overwrite. Boolean. Whether to overwrite the original input columns,
+#' @param overwrite Boolean. Whether to overwrite the original input columns,
 #' or simply append the spell checked columns.
 #' @examples
 #' library(BarnebyLives)

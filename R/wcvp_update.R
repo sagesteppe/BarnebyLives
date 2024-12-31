@@ -1,11 +1,12 @@
 #' install or update World Vascular Plants Checklist
 #'
-#' This function checks to see whether the version of WCVP is the most current, if not, it will re-download WCVP and set up the BL taxonomy structure.
-#' @param verbose boolean, TRUE/FALSE, whether to print messages to console or not. Defaults to FALSE.
-#' @param tax_data_p the path to the taxonomic data, the raw wcvp.zip should be there.
+#' This function checks to see whether the version of WCVP is the most current,
+#'  if not, it will re-download WCVP and set up the BL taxonomy structure.
+#' @param tax_dat_p the path to the taxonomic data, the raw wcvp.zip should be there.
 #' @examples \dontrun{
 #' wcvp_update('/home/sagesteppe/Downloads')
 #' }
+#' @param export
 wcvp_update <- function(tax_dat_p){
 
   url2wcvp <- "http://sftp.kew.org/pub/data-repositories/WCVP/"
