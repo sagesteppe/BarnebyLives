@@ -7,7 +7,7 @@
 associates_writer(x)
 }
 \arguments{
-\item{x}{dataframe holding the values}
+\item{x}{data frame holding the values}
 }
 \description{
 This functions determines whether to write information on associated plant
@@ -16,7 +16,7 @@ species. It used as a final step when formatting labels.
 \examples{
 library(BarnebyLives)
 hilaria <- collection_examples[73,]
-associates_writer(hilaria)
+associates_writer(hilaria$Vegetation)
 agoseris <- collection_examples[82,]
-associates_writer(agoseris)
+associates_writer(agoseris$Associates)
 }
