@@ -2,8 +2,8 @@
 #'
 #' Culled list of templates for different herbarium database management systems.
 #'
-#' this data.frame is opporunistically gathered from a variety of herbaria. It shows the formats
-#' which a spreadsheet document can be ordered to for mass uploads. 
+#' this data.frame is opportunistically gathered from a variety of herbaria. It shows the formats
+#' which a spreadsheet document can be ordered to for mass uploads.
 #'
 #' @format data frame
 #' @examples

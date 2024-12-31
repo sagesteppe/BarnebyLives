@@ -14,9 +14,10 @@ take the 'month day year' date format, popular in North America, and place it in
 museum compliant text format
 }
 \examples{
-first50dates <- paste0(sample(3:9, size = 50, replace = TRUE), '-',
-   sample(1:29, size = 50, replace = TRUE), '-',
-   rep(2023, times = 50 ))
+first50dates <- paste0(sample(3:9, size = 10, replace = TRUE), '-',
+   sample(1:29, size = 10, replace = TRUE), '-',
+   rep(2023, times = 10)
+ )
 head(first50dates)
 first50dates <- date2text(first50dates)
 head(first50dates)

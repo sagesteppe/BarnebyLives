@@ -7,17 +7,24 @@
 associate_dropper(x, Binomial, col)
 }
 \arguments{
-\item{x}{a data frame containing collection info}
+\item{x}{data frame containing collection info}
 
-\item{Binomial}{a column containing the name of the collection, without authorship.}
+\item{Binomial}{Character. a column containing the name of the collection, without authorship.
+Defaults to 'Full_name'.}
 
-\item{col}{the column with the species to be checked}
+\item{col}{Character. the column with the species to be checked}
 }
 \description{
-this function removes the collected species from the list of associated
-species
+Removes the collected species from the list of associated species
 }
 \examples{
-out <- associate_dropper(collection_examples, Binomial = 'Full_name') |>r
- dplyr::select(Full_name, Associates)
+ce <- data.frame(
+Full_name = c(
+  'Microseris gracilis', 'Alyssum desertorum', 'Ceratocephala testiculata'),
+Associates = rep(
+   'Microseris gracilis, Lupinus lepidus, Alyssum desertorum, Ceratocephala testiculata',
+ times = 3)
+)
+
+associate_dropper(ce, col = 'Associates')
 }

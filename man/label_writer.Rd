@@ -18,5 +18,7 @@ a mail merge. Each label will be written as a separate file with the dimensions
 of 4x4 inches.
 }
 \examples{
-\dontrun{label_writer(collection_examples, BL_label_example)}
+\dontrun{
+label_writer(collection_examples, BL_label_example)
+}
 }

@@ -44,6 +44,5 @@ directions_grabber <- function(x, api_key){
                           sites_out, by = c('latitude_dd', 'longitude_dd')) |>
     dplyr::relocate(Directions_BL, .before = geometry)
 
-  return(out)
 }
 

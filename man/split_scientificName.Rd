@@ -23,9 +23,9 @@ this function will parse them into the columns used in the BarnebyLives pipeline
 library(BarnebyLives)
 ce <- collection_examples
 ce <- data.frame(
-  Collection_number = ce$Collection_number[sample(1:nrow(ce), size = 100, replace = F)],
-  Binomial = c(ce$Full_name, ce$Name_authority)[sample(1:nrow(ce)*2, size = 100, replace = F)],
-  Binomial_authority = ce$Binomial_authority[sample(1:nrow(ce), size = 100, replace = F)]
+  Collection_number = ce$Collection_number[sample(1:nrow(ce), size = 100, replace = FALSE)],
+  Binomial = c(ce$Full_name, ce$Name_authority)[sample(1:nrow(ce)*2, size = 100, replace = FALSE)],
+  Binomial_authority = ce$Binomial_authority[sample(1:nrow(ce), size = 100, replace = FALSE)]
 ) # extra columns to challenge name search - values are meaningless
 
 split_scientificName(ce)|> head()

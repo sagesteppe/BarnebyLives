@@ -100,7 +100,6 @@ data_setup <- function(path, pathOut, bound, cleanup){
 
 }
 
-# library(magrittr)
 # remotes::install_github('sagesteppe/BarnebyLives')
 # library(BarnebyLives)
 # setwd('/home/sagesteppe/Documents/BL_sandbox')

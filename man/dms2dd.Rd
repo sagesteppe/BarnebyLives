@@ -16,7 +16,7 @@ dms2dd(x, lat, long, dms)
 \item{dms}{are coordinates in degrees minutes seconds? TRUE for yes, FALSE for decimal degrees}
 }
 \value{
-dataframe(/tibble) with coordinates unambiguously labeled as being in both degress, minutes, seconds (_dms) and decimal degrees (_dd).
+data frame(/tibble) with coordinates unambiguously labeled as being in both degrees, minutes, seconds (_dms) and decimal degrees (_dd).
 }
 \description{
 this function parses coordinates from DMS to decimal degrees

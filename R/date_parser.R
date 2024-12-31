@@ -9,9 +9,9 @@
 #' @examples
 #' first50dates <- data.frame(
 #'    collection_date = paste0(
-#'    sample(3:9, size = 50, replace = TRUE), '-',
-#'    sample(1:29, size = 50, replace  = TRUE), '-',
-#'    rep(2023, times = 50 )))
+#'    sample(3:9, size = 10, replace = TRUE), '-',
+#'    sample(1:29, size = 10, replace  = TRUE), '-',
+#'    rep(2023, times = 10 )))
 #' dates <- date_parser(first50dates, coll_date = 'collection_date')
 #' head(dates)
 #' @export

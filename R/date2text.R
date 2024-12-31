@@ -4,9 +4,11 @@
 #' museum compliant text format
 #'
 #' @param x a data frame with dates
-#' @examples first50dates <- paste0(sample(3:9, size = 50, replace = TRUE), '-',
-#'    sample(1:29, size = 50, replace = TRUE), '-',
-#'    rep(2023, times = 50 ))
+#' @examples
+#' first50dates <- paste0(sample(3:9, size = 10, replace = TRUE), '-',
+#'    sample(1:29, size = 10, replace = TRUE), '-',
+#'    rep(2023, times = 10)
+#'  )
 #' head(first50dates)
 #' first50dates <- date2text(first50dates)
 #' head(first50dates)
@@ -20,5 +22,4 @@ date2text <- function(x) {
                  lubridate::month(x1, abbr = T, label = T), # grab the abbreviation for the month here
                  ', ',
                  lubridate::year(x1)) # grab the year here
-  return(text)
 }

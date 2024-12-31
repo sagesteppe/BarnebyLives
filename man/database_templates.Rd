@@ -14,7 +14,7 @@ database_templates
 Culled list of templates for different herbarium database management systems.
 }
 \details{
-this data.frame is opporunistically gathered from a variety of herbaria. It shows the formats
+this data.frame is opportunistically gathered from a variety of herbaria. It shows the formats
 which a spreadsheet document can be ordered to for mass uploads.
 }
 \examples{
