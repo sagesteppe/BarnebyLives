@@ -7,9 +7,12 @@
 split_scientificName(x, sciName_col, overwrite)
 }
 \arguments{
-\item{x}{a dataframe with collection information}
+\item{x}{Dataframe with collection information.}
 
-\item{sciName_col}{column containing the data to parse}
+\item{sciName_col}{Character. Column containing the data to parse}
+
+\item{overwrite.}{Boolean. Whether to overwrite the original input columns,
+or simply append the spell checked columns.}
 }
 \description{
 This function attempts to split a scientific name into it's component pieces.

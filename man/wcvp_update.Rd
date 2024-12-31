@@ -9,7 +9,7 @@ wcvp_update(tax_dat_p)
 \arguments{
 \item{verbose}{boolean, TRUE/FALSE, whether to print messages to console or not. Defaults to FALSE.}
 
-\item{tax_data_path}{the path to the taxonomic data, the raw wcvp.zip should be there.}
+\item{tax_data_p}{the path to the taxonomic data, the raw wcvp.zip should be there.}
 }
 \description{
 This function checks to see whether the version of WCVP is the most current, if not, it will re-download WCVP and set up the BL taxonomy structure.

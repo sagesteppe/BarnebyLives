@@ -10,6 +10,9 @@ writer2(x, italics, period)
 \item{x}{the input character of length 1}
 
 \item{italics}{italicize or not? Boolean, defaults to FALSE}
+
+\item{period.}{Boolean, whether to add a period or not at end of string.
+Defaults to FALSE.}
 }
 \description{
 This function will determine whether to print a variable onto labels or hide it

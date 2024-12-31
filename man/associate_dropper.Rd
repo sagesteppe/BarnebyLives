@@ -18,6 +18,6 @@ this function removes the collected species from the list of associated
 species
 }
 \examples{
-out <- associate_dropper(collection_examples, Binomial = 'Full_name') |>
+out <- associate_dropper(collection_examples, Binomial = 'Full_name') |>r
  dplyr::select(Full_name, Associates)
 }
