@@ -61,7 +61,7 @@ split_scientificName <- function(x, sciName_col, overwrite){
 
   # extract the binomial name and the authorities
   Binomial_authority <- lapply(x[,sciName_col], sub, pattern = "ssp[.].*|subsp[.].*|var[.].*", replacement =  "")
-  Binomial_authority <- unlist(lapply(Binomial_authority, str_trim))
+  Binomial_authority <- unlist(lapply(Binomial_authority, stringr::str_trim))
 
   # extract the authority for the binomial name.
   Authority <- unlist(lapply(Binomial_authority, sub,

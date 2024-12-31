@@ -1,4 +1,4 @@
 exportPattern("^[[:alpha:]]+")
-importFrom("stats", "na.omit")
+importFrom("stats", "na.omit", "setNames")
 import(crayon)
-importFrom("utils", "adist", "read.csv", "data")
+importFrom("utils", "adist", "read.csv", "data", "download.file", "read.table", "unzip", "write.csv")
