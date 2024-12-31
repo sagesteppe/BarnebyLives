@@ -83,7 +83,7 @@ Either mode of running the function will delete the uncompressed zip files gener
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">data_setup</span><span class="op">(</span>path <span class="op">=</span> <span class="st">'./geodata_raw'</span>, bound <span class="op">=</span> <span class="va">bound</span>, cleanup <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in sf::st_make_grid(bound, what = "polygons", square = T, flat_topped = F,     crs = 4326, n = c(abs(round((bb_vals[2] - bb_vals[1])/5,         0)), abs(round((bb_vals[3] - bb_vals[4])/5, 0)))) %&gt;%     sf::st_as_sf() %&gt;% dplyr::rename(geometry = x) %&gt;% dplyr::mutate(x = sf::st_coordinates(sf::st_centroid(.))[,     1], y = sf::st_coordinates(sf::st_centroid(.))[, 2], .before = geometry,     dplyr::across(c("x", "y"), function(x) round(x, 1)), cellname = paste0("n",         abs(y), "w", abs(x))):</span> could not find function "%&gt;%"</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in sf::st_make_grid(bound, what = "polygons", square = T, flat_topped = F,     crs = 4326, n = c(abs(round((bb_vals[2] - bb_vals[1])/5,         0)), abs(round((bb_vals[3] - bb_vals[4])/5, 0)))) %&gt;%     sf::st_as_sf():</span> could not find function "%&gt;%"</span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
