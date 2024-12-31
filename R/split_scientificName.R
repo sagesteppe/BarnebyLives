@@ -3,8 +3,10 @@
 #' This function attempts to split a scientific name into it's component pieces.
 #' Given an input scientific, or scientific with scientific authorities and infraspecies
 #' this function will parse them into the columns used in the BarnebyLives pipeline.
-#' @param x a dataframe with collection information
-#' @param sciName_col column containing the data to parse
+#' @param x Dataframe with collection information.
+#' @param sciName_col Character. Column containing the data to parse
+#' @param overwrite. Boolean. Whether to overwrite the original input columns,
+#' or simply append the spell checked columns.
 #' @examples
 #' library(BarnebyLives)
 #' ce <- collection_examples

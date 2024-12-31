@@ -109,6 +109,7 @@ data_setup <- function(path, pathOut, bound, cleanup){
 #' Set up the downloaded data for a BarnebyLives instance
 #'
 #' @description used within `data_setup`
+#' @NoRd
 make_tiles <- function(bound, bb_vals){
 
   ## need tiles to keep individual raster file tifs relatively small
@@ -141,6 +142,7 @@ make_tiles <- function(bound, bb_vals){
 #' Set up the downloaded data for a BarnebyLives instance
 #'
 #' @description used within `data_setup`
+#' @NoRd
 make_it_political <- function(path, pathOut, tile_cells){
 
   ## now combine all of the administrative data into a single vector file.
@@ -168,6 +170,7 @@ make_it_political <- function(path, pathOut, tile_cells){
 #' Set up the downloaded data for a BarnebyLives instance
 #'
 #' @description used within `data_setup`
+#' @NoRd
 places_and_spaces <- function(path, pathOut, bound){
 
   bb <- sf::st_as_sf(bound)
@@ -204,6 +207,7 @@ places_and_spaces <- function(path, pathOut, bound){
 #' Set up the downloaded data for a BarnebyLives instance
 #'
 #' @description used within `data_setup`
+#' @NoRd
 process_gmba <- function(path, pathOut, tile_cells){
 
   p <- file.path(path, 'GMBA', 'GMBA_Inventory_v2.0_standard_basic.shp')
@@ -223,6 +227,7 @@ process_gmba <- function(path, pathOut, tile_cells){
 #' Set up the downloaded data for a BarnebyLives instance
 #'
 #' @description used within `data_setup`
+#' @NoRd
 process_gnis <- function(path, pathOut, bound){
 
   bb <- sf::st_as_sf(bound)
@@ -287,6 +292,7 @@ process_gnis <- function(path, pathOut, bound){
 #' Set up the downloaded data for a BarnebyLives instance
 #'
 #' @description used within `data_setup`
+#' @NoRd
 process_padus <- function(path, pathOut, tile_cells){
 
   p <- file.path(path, 'PADUS3', 'PAD_US3_0.gdb')
@@ -339,6 +345,7 @@ process_padus <- function(path, pathOut, tile_cells){
 #' Set up the downloaded data for a BarnebyLives instance
 #'
 #' @description used within `data_setup`
+#' @NoRd
 geological_map <- function(path, pathOut, tile_cells){
 
   geological <- sf::st_read(
@@ -360,6 +367,7 @@ geological_map <- function(path, pathOut, tile_cells){
 #' Set up the downloaded data for a BarnebyLives instance
 #'
 #' @description used within `data_setup`
+#' @NoRd
 process_grazing_allot <- function(path, pathOut, tile_cells){
 
   p <- file.path(path, 'BLMAllotments', 'BLM_Natl_Grazing_Allotment_Polygons.shp')
@@ -390,6 +398,7 @@ process_grazing_allot <- function(path, pathOut, tile_cells){
 #' Set up the downloaded data for a BarnebyLives instance
 #'
 #' @description used within `data_setup`
+#' @NoRd
 process_plss <- function(path, pathOut, tile_cells){
 
   p <- file.path(path, 'PLSS', 'ilmocplss.gdb')

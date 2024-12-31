@@ -2,7 +2,7 @@
 #'
 #' This function checks to see whether the version of WCVP is the most current, if not, it will re-download WCVP and set up the BL taxonomy structure.
 #' @param verbose boolean, TRUE/FALSE, whether to print messages to console or not. Defaults to FALSE.
-#' @param tax_data_path the path to the taxonomic data, the raw wcvp.zip should be there.
+#' @param tax_data_p the path to the taxonomic data, the raw wcvp.zip should be there.
 #' @examples \dontrun{
 #' wcvp_update('/home/sagesteppe/Downloads')
 #' }

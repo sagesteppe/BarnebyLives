@@ -2,12 +2,13 @@
 #'
 #' @description this function attempts to verify the spelling of a user submitted taxonomic name. If necessary it will proceed step-wise by name pieces attempting to place them.
 #' @param data data frame/ tibble /sf object containing names to spell check
-#' @param full_name a column containing the full name, genus, species, and infraspecific rank information as relevant.
+#' @param column a column containing the full name, genus, species, and infraspecific rank information as relevant.
 #' @param path a path to a folder containing the taxonomic data.
 #' @examples
 #' \dontrun{
 #' names <- data.frame(
-#'  Full_name = c('Astagalus purshii', 'Linnaeus borealius ssp. borealis', 'Heliumorus multifora', NA, 'Helianthus annuus'),
+#'  Full_name = c('Astagalus purshii', 'Linnaeus borealius ssp. borealis',
+#'   'Heliumorus multifora', NA, 'Helianthus annuus'),
 #'  Genus = c('Astagalus', 'Linnaeus', 'Heliumorus', NA, 'Helianthus'),
 #'  Epithet = c('purshii', 'borealius', 'multifora', NA, 'annuus'))
 #' names_l <- split(names, f = 1:nrow(names))

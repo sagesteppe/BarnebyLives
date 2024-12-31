@@ -7,7 +7,8 @@
 #' @examples
 #' library(dplyr)
 #' pow_results <- lapply(
-#'       c('Linnaea borealis var. borealis', 'Linnaea borealis var. americana', 'Astragalus purshii', 'Pinus ponderosa'),
+#'       c('Linnaea borealis var. borealis', 'Linnaea borealis var. americana',
+#'       'Astragalus purshii', 'Pinus ponderosa'),
 #'       powo_searcher) |>
 #'    dplyr::bind_rows()
 #' head(pow_results)
