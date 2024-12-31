@@ -76,56 +76,56 @@ or simply append the spell checked columns.</p></dd>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://sagesteppe.github.io/BarnebyLives/">BarnebyLives</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">ce</span> <span class="op">&lt;-</span> <span class="va">collection_examples</span></span></span>
 <span class="r-in"><span><span class="va">ce</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  Collection_number <span class="op">=</span> <span class="va">ce</span><span class="op">$</span><span class="va">Collection_number</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">ce</span><span class="op">)</span>, size <span class="op">=</span> <span class="fl">100</span>, replace <span class="op">=</span> <span class="cn">F</span><span class="op">)</span><span class="op">]</span>,</span></span>
-<span class="r-in"><span>  Binomial <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">ce</span><span class="op">$</span><span class="va">Full_name</span>, <span class="va">ce</span><span class="op">$</span><span class="va">Name_authority</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">ce</span><span class="op">)</span><span class="op">*</span><span class="fl">2</span>, size <span class="op">=</span> <span class="fl">100</span>, replace <span class="op">=</span> <span class="cn">F</span><span class="op">)</span><span class="op">]</span>,</span></span>
-<span class="r-in"><span>  Binomial_authority <span class="op">=</span> <span class="va">ce</span><span class="op">$</span><span class="va">Binomial_authority</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">ce</span><span class="op">)</span>, size <span class="op">=</span> <span class="fl">100</span>, replace <span class="op">=</span> <span class="cn">F</span><span class="op">)</span><span class="op">]</span></span></span>
+<span class="r-in"><span>  Collection_number <span class="op">=</span> <span class="va">ce</span><span class="op">$</span><span class="va">Collection_number</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">ce</span><span class="op">)</span>, size <span class="op">=</span> <span class="fl">100</span>, replace <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">]</span>,</span></span>
+<span class="r-in"><span>  Binomial <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">ce</span><span class="op">$</span><span class="va">Full_name</span>, <span class="va">ce</span><span class="op">$</span><span class="va">Name_authority</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">ce</span><span class="op">)</span><span class="op">*</span><span class="fl">2</span>, size <span class="op">=</span> <span class="fl">100</span>, replace <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">]</span>,</span></span>
+<span class="r-in"><span>  Binomial_authority <span class="op">=</span> <span class="va">ce</span><span class="op">$</span><span class="va">Binomial_authority</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">ce</span><span class="op">)</span>, size <span class="op">=</span> <span class="fl">100</span>, replace <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">]</span></span></span>
 <span class="r-in"><span><span class="op">)</span> <span class="co"># extra columns to challenge name search - values are meaningless</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">split_scientificName</span><span class="op">(</span><span class="va">ce</span><span class="op">)</span><span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> `sciName_col` argument not supplied, using: Binomial</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Collection_number                         x...sciName_col.    Genus</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1              2828 Leymus cinereus (Scribn. &amp; Merr.) Á.Löve   Leymus</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2              2862                       Erigeron speciosus Erigeron</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3              2915         Montia linearis (Douglas) Greene   Montia</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4              2880  Diplacus mephiticus (Greene) G.L. Nesom Diplacus</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5              2883                     Eriocoma thurberiana Eriocoma</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6              2878                     Poa secunda J. Presl      Poa</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       Epithet                       Binomial_authority           Name_authority</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1    cinereus Leymus cinereus (Scribn. &amp; Merr.) Á.Löve (Scribn. &amp; Merr.) Á.Löve</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2   speciosus                       Erigeron speciosus       Erigeron speciosus</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3    linearis         Montia linearis (Douglas) Greene         (Douglas) Greene</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4  mephiticus  Diplacus mephiticus (Greene) G.L. Nesom      (Greene) G.L. Nesom</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 thurberiana                     Eriocoma thurberiana     Eriocoma thurberiana</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6     secunda                     Poa secunda J. Presl                 J. Presl</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Infraspecific_rank Infraspecies Infraspecific_authority</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1               &lt;NA&gt;         &lt;NA&gt;                    &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2               &lt;NA&gt;         &lt;NA&gt;                    &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3               &lt;NA&gt;         &lt;NA&gt;                    &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4               &lt;NA&gt;         &lt;NA&gt;                    &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5               &lt;NA&gt;         &lt;NA&gt;                    &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6               &lt;NA&gt;         &lt;NA&gt;                    &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Collection_number         x...sciName_col.       Genus    Epithet</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1              2880    Delphinium andersonii  Delphinium andersonii</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2              2833      Camissonia contorta  Camissonia   contorta</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3              2823           Diplacus nanus    Diplacus      nanus</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4              2923 Scutellaria nana A. Gray Scutellaria       nana</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5              2896 Festuca idahoensis Elmer     Festuca idahoensis</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6              2921  Allium acuminatum Hook.      Allium acuminatum</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         Binomial_authority        Name_authority Infraspecific_rank</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1    Delphinium andersonii Delphinium andersonii               &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2      Camissonia contorta   Camissonia contorta               &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3           Diplacus nanus        Diplacus nanus               &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 Scutellaria nana A. Gray               A. Gray               &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 Festuca idahoensis Elmer                 Elmer               &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6  Allium acuminatum Hook.                 Hook.               &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Infraspecies Infraspecific_authority</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1         &lt;NA&gt;                    &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2         &lt;NA&gt;                    &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3         &lt;NA&gt;                    &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4         &lt;NA&gt;                    &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5         &lt;NA&gt;                    &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6         &lt;NA&gt;                    &lt;NA&gt;</span>
 <span class="r-in"><span><span class="fu">split_scientificName</span><span class="op">(</span><span class="va">ce</span>, sciName_col <span class="op">=</span> <span class="st">'Binomial'</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Collection_number                         x...sciName_col.    Genus</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1              2828 Leymus cinereus (Scribn. &amp; Merr.) Á.Löve   Leymus</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2              2862                       Erigeron speciosus Erigeron</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3              2915         Montia linearis (Douglas) Greene   Montia</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4              2880  Diplacus mephiticus (Greene) G.L. Nesom Diplacus</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5              2883                     Eriocoma thurberiana Eriocoma</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6              2878                     Poa secunda J. Presl      Poa</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       Epithet                       Binomial_authority           Name_authority</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1    cinereus Leymus cinereus (Scribn. &amp; Merr.) Á.Löve (Scribn. &amp; Merr.) Á.Löve</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2   speciosus                       Erigeron speciosus       Erigeron speciosus</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3    linearis         Montia linearis (Douglas) Greene         (Douglas) Greene</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4  mephiticus  Diplacus mephiticus (Greene) G.L. Nesom      (Greene) G.L. Nesom</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 thurberiana                     Eriocoma thurberiana     Eriocoma thurberiana</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6     secunda                     Poa secunda J. Presl                 J. Presl</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Infraspecific_rank Infraspecies Infraspecific_authority</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1               &lt;NA&gt;         &lt;NA&gt;                    &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2               &lt;NA&gt;         &lt;NA&gt;                    &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3               &lt;NA&gt;         &lt;NA&gt;                    &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4               &lt;NA&gt;         &lt;NA&gt;                    &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5               &lt;NA&gt;         &lt;NA&gt;                    &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6               &lt;NA&gt;         &lt;NA&gt;                    &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Collection_number         x...sciName_col.       Genus    Epithet</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1              2880    Delphinium andersonii  Delphinium andersonii</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2              2833      Camissonia contorta  Camissonia   contorta</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3              2823           Diplacus nanus    Diplacus      nanus</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4              2923 Scutellaria nana A. Gray Scutellaria       nana</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5              2896 Festuca idahoensis Elmer     Festuca idahoensis</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6              2921  Allium acuminatum Hook.      Allium acuminatum</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         Binomial_authority        Name_authority Infraspecific_rank</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1    Delphinium andersonii Delphinium andersonii               &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2      Camissonia contorta   Camissonia contorta               &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3           Diplacus nanus        Diplacus nanus               &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 Scutellaria nana A. Gray               A. Gray               &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 Festuca idahoensis Elmer                 Elmer               &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6  Allium acuminatum Hook.                 Hook.               &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Infraspecies Infraspecific_authority</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1         &lt;NA&gt;                    &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2         &lt;NA&gt;                    &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3         &lt;NA&gt;                    &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4         &lt;NA&gt;                    &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5         &lt;NA&gt;                    &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6         &lt;NA&gt;                    &lt;NA&gt;</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

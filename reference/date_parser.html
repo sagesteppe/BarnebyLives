@@ -73,25 +73,25 @@ and determination date</p></dd>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">first50dates</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>   collection_date <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>   <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">3</span><span class="op">:</span><span class="fl">9</span>, size <span class="op">=</span> <span class="fl">50</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>, <span class="st">'-'</span>,</span></span>
-<span class="r-in"><span>   <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">29</span>, size <span class="op">=</span> <span class="fl">50</span>, replace  <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>, <span class="st">'-'</span>,</span></span>
-<span class="r-in"><span>   <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">2023</span>, times <span class="op">=</span> <span class="fl">50</span> <span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>   <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">3</span><span class="op">:</span><span class="fl">9</span>, size <span class="op">=</span> <span class="fl">10</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>, <span class="st">'-'</span>,</span></span>
+<span class="r-in"><span>   <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">29</span>, size <span class="op">=</span> <span class="fl">10</span>, replace  <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>, <span class="st">'-'</span>,</span></span>
+<span class="r-in"><span>   <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">2023</span>, times <span class="op">=</span> <span class="fl">10</span> <span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">dates</span> <span class="op">&lt;-</span> <span class="fu">date_parser</span><span class="op">(</span><span class="va">first50dates</span>, coll_date <span class="op">=</span> <span class="st">'collection_date'</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">dates</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   collection_date collection_date_ymd collection_date_day collection_date_mo</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1       7-14-2023          2023-07-14                  14                  7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2        3-2-2023          2023-03-02                   2                  3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3       7-25-2023          2023-07-25                  25                  7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4        5-5-2023          2023-05-05                   5                  5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5       7-19-2023          2023-07-19                  19                  7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6       4-18-2023          2023-04-18                  18                  4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1        9-5-2023          2023-09-05                   5                  9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2        3-8-2023          2023-03-08                   8                  3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3        8-1-2023          2023-08-01                   1                  8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4       4-12-2023          2023-04-12                  12                  4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5       5-19-2023          2023-05-19                  19                  5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6       8-28-2023          2023-08-28                  28                  8</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   collection_date_yr collection_date_text</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1               2023         14 Jul, 2023</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2               2023          2 Mar, 2023</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3               2023         25 Jul, 2023</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4               2023          5 May, 2023</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5               2023         19 Jul, 2023</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6               2023         18 Apr, 2023</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1               2023          5 Sep, 2023</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2               2023          8 Mar, 2023</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3               2023          1 Aug, 2023</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4               2023         12 Apr, 2023</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5               2023         19 May, 2023</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6               2023         28 Aug, 2023</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
