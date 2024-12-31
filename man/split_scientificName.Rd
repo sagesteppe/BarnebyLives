@@ -11,7 +11,7 @@ split_scientificName(x, sciName_col, overwrite)
 
 \item{sciName_col}{Character. Column containing the data to parse}
 
-\item{overwrite.}{Boolean. Whether to overwrite the original input columns,
+\item{overwrite}{Boolean. Whether to overwrite the original input columns,
 or simply append the spell checked columns.}
 }
 \description{

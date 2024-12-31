@@ -6,7 +6,7 @@
 #' @examples \dontrun{
 #' wcvp_update('/home/sagesteppe/Downloads')
 #' }
-#' @param export
+#' @export
 wcvp_update <- function(tax_dat_p){
 
   url2wcvp <- "http://sftp.kew.org/pub/data-repositories/WCVP/"

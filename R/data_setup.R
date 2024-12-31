@@ -314,25 +314,25 @@ process_padus <- function(path, pathOut, tile_cells){
 
   padus <- padus %>% # this one is just a wild outlier.
     dplyr::mutate(Unit_Nm =
-                    string::str_replace(
+                    stringr::str_replace(
                       Unit_Nm,
                       'The State of Utah School and Institutional Trust Lands Administration', 'Utah')
     ) %>%
     dplyr::mutate(
-      Unit_Nm = str_replace(Unit_Nm, "National Forest", "NF"),
-      Unit_Nm = str_replace(Unit_Nm, "District Office", "DO"),
-      Unit_Nm = str_replace(Unit_Nm, "Field Office", "FO"),
-      Unit_Nm = str_replace(Unit_Nm, "National Park", "NP"),
-      Unit_Nm = str_replace(Unit_Nm, 'National Grassland', 'NG'),
-      Unit_Nm = str_replace(Unit_Nm, "National Wildlife Refuge|National Wildlife Range", "NWR"),
-      Unit_Nm = str_replace(Unit_Nm, 'National Monument', 'NM'),
-      Unit_Nm = str_replace(Unit_Nm, "National Recreation Area", "NRA"),
-      Unit_Nm = str_replace(Unit_Nm, "State Resource Management Area", "SRMA"),
-      Unit_Nm = str_replace(Unit_Nm, "State Trust Lands", "STL"),
-      Unit_Nm = str_replace(Unit_Nm, "Department", "Dept."),
-      Unit_Nm = str_replace(Unit_Nm, "Recreation Area", "Rec. Area"),
-      Unit_Nm = str_replace(Unit_Nm, 'Wildlife Habitat Management Area', "WHMA"),
-      Unit_Nm = str_replace(Unit_Nm, 'Wildlife Management Area', "WMA")
+      Unit_Nm = stringr::str_replace(Unit_Nm, "National Forest", "NF"),
+      Unit_Nm = stringr::str_replace(Unit_Nm, "District Office", "DO"),
+      Unit_Nm = stringr::str_replace(Unit_Nm, "Field Office", "FO"),
+      Unit_Nm = stringr::str_replace(Unit_Nm, "National Park", "NP"),
+      Unit_Nm = stringr::str_replace(Unit_Nm, 'National Grassland', 'NG'),
+      Unit_Nm = stringr::str_replace(Unit_Nm, "National Wildlife Refuge|National Wildlife Range", "NWR"),
+      Unit_Nm = stringr::str_replace(Unit_Nm, 'National Monument', 'NM'),
+      Unit_Nm = stringr::str_replace(Unit_Nm, "National Recreation Area", "NRA"),
+      Unit_Nm = stringr::str_replace(Unit_Nm, "State Resource Management Area", "SRMA"),
+      Unit_Nm = stringr::str_replace(Unit_Nm, "State Trust Lands", "STL"),
+      Unit_Nm = stringr::str_replace(Unit_Nm, "Department", "Dept."),
+      Unit_Nm = stringr::str_replace(Unit_Nm, "Recreation Area", "Rec. Area"),
+      Unit_Nm = stringr::str_replace(Unit_Nm, 'Wildlife Habitat Management Area', "WHMA"),
+      Unit_Nm = stringr::str_replace(Unit_Nm, 'Wildlife Management Area', "WMA")
       )
 
   padus <- padus %>%
@@ -414,7 +414,7 @@ process_plss <- function(path, pathOut, tile_cells){
   section <- sf::st_read(p, layer = 'PLSSFirstDivision', quiet = T
   ) %>%
     sf::st_cast('POLYGON') %>%
-    dplr::select(FRSTDIVLAB, PLSSID, FRSTDIVID)
+    dplyr::select(FRSTDIVLAB, PLSSID, FRSTDIVID)
 
   section <- section[sf::st_intersects(section, tile_cells) %>% lengths > 0, ]
 

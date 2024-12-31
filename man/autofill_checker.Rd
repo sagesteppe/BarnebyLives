@@ -7,7 +7,7 @@
 autofill_checker(x)
 }
 \arguments{
-\item{x}{a dataframe which has undergone 'dms2dd' from BarnebyLives}
+\item{x}{a data frame which has undergone 'dms2dd' from BarnebyLives}
 }
 \description{
 Spreadsheets like to automatically increment everything all the time.
