@@ -92,14 +92,14 @@ split_scientificName <- function(x, sciName_col, overwrite){
     'Infraspecific_authority' = unlist(authors_part)
   )
 
-#  colanmes(output[1]) <- deparse(substitute(sciName_col))
+#  colnames(output[1]) <- deparse(substitute(sciName_col))
   output <- data.frame (apply(output, MARGIN = 2, FUN = trimws))
 
   if(overwrite == TRUE){
     output <- output[ , !names(output) %in% sciName_col]
     cols2overwrite <- c('Binomial', 'Genus', 'Epithet', 'Binomial_authority', 'Name_authority',
                         'Infraspecific_rank', 'Infraspecies', 'Infraspecific_authority')
-    in_out <- dplyr::select(x, -any_of(cols2overwrite))
+    in_out <- dplyr::select(x, -dplyr::any_of(cols2overwrite))
     output <- dplyr::bind_cols(in_out, output)
 
     return(output)

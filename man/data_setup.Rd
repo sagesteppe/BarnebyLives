@@ -23,7 +23,7 @@ Once all data are downloaded for BarnebyLives use this function
 to set them up to be used by the pipeline.
 }
 \examples{
-\donttest{
+\dontrun{
 bound <- data.frame(
   y = c(42, 42, 44, 44, 42),
   x = c(-117, -119, -119, -117, -117)

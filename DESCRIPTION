@@ -33,8 +33,7 @@ Imports:
     httr,
     tidyr,
     readxl,
-    stringdist,
-    magrittr
+    stringdist
 Remotes: barnabywalker/kewr
 Suggests: WorldFlora, data.table, testthat (>= 3.0.0), tidyverse, knitr, tigris, googlesheets4, kableExtra
 VignetteBuilder: knitr

@@ -45,15 +45,15 @@ site_writer <- function(x, path){
     Azimuth = azimuth,
     Place = place
   )  |>
-    dplyr::mutate(Site = if_else(
+    dplyr::mutate(Site = dplyr::if_else(
       Distance < 0.25, paste0(fetr_nm, '.'),
       paste0(Distance, 'mi', ' at ', format_degree(Azimuth), ' from ', fetr_nm, '.')),
       Site = stringr::str_replace(Site, '\\..$', '.')) |>
-    dplyr::select(-any_of(c('Distance', 'Azimuth', 'Place', 'ID', 'fetr_nm')))
+    dplyr::select(-dplyr::any_of(c('Distance', 'Azimuth', 'Place', 'ID', 'fetr_nm')))
 
   distances_df <-  dplyr::bind_cols(x, distances_df) |>
     dplyr::relocate(any_of(c('Site', 'Allotment')), .before = geometry) |>
-    dplyr::select(-any_of(c('ID')))
+    dplyr::select(-dplyr::any_of(c('ID')))
 
   return(distances_df)
 }

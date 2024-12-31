@@ -9,7 +9,7 @@
 #' @param bound Data frame. 'x' and 'y' coordinates of the extent for which the BL instance will cover.
 #' @param cleanup Boolean. Whether to remove the original zip files which were downloaded. Defaults to FALSE.
 #' Either mode of running the function will delete the uncompressed zip files generated during the process.
-#' @examples \donttest{
+#' @examples \dontrun{
 #' bound <- data.frame(
 #'   y = c(42, 42, 44, 44, 42),
 #'   x = c(-117, -119, -119, -117, -117)
@@ -100,11 +100,6 @@ data_setup <- function(path, pathOut, bound, cleanup){
 
 }
 
-# remotes::install_github('sagesteppe/BarnebyLives')
-# library(BarnebyLives)
-# setwd('/home/sagesteppe/Documents/BL_sandbox')
-# data_setup(bound = bound)
-
 #' Set up the downloaded data for a BarnebyLives instance
 #'
 #' @description used within `data_setup`
@@ -118,7 +113,7 @@ make_tiles <- function(bound, bb_vals){
     n = c(
       abs(round((bb_vals[2] - bb_vals[1]) / 5, 0)), # rows
       abs(round((bb_vals[3] - bb_vals[4]) / 5, 0))) #cols
-  )   %>%
+  ) |>
     sf::st_as_sf() |>
     dplyr::rename(geometry = x) |>
     dplyr::mutate(
@@ -147,17 +142,17 @@ make_it_political <- function(path, pathOut, tile_cells){
   ## now combine all of the administrative data into a single vector file.
 
   p <- file.path(path, 'Counties', 'tl_2020_us_county.shp')
-  counties <- sf::st_read(p, quiet = T) %>%
-    sf::st_transform(sf::st_crs(tile_cells)) %>%
+  counties <- sf::st_read(p, quiet = T) |>
+    sf::st_transform(sf::st_crs(tile_cells))  |>
     dplyr::select(STATEFP, County = NAME)
 
-  states <- tigris::states(progress_bar = FALSE, year = 2022) %>%
-    dplyr::select(STATEFP, State = NAME, STUSPS) %>%
+  states <- tigris::states(progress_bar = FALSE, year = 2022) |>
+    dplyr::select(STATEFP, State = NAME, STUSPS)  |>
     sf::st_drop_geometry()
 
   counties <- counties[sf::st_intersects(counties, sf::st_union(tile_cells)) %>% lengths > 0, ]
-  counties <- dplyr::left_join(counties, states, by = "STATEFP") %>%
-    dplyr::select(-STATEFP) %>%
+  counties <- dplyr::left_join(counties, states, by = "STATEFP") |>
+    dplyr::select(-STATEFP) |>
     dplyr::arrange(State)
 
   dir.create(file.path(pathOut, 'geodata', 'political'), showWarnings = FALSE)
@@ -174,7 +169,7 @@ places_and_spaces <- function(path, pathOut, bound){
 
   bb <- sf::st_as_sf(bound)
 
-  st <- tigris::states(progress_bar = FALSE, year = 2022) %>%
+  st <- tigris::states(progress_bar = FALSE, year = 2022) |>
     sf::st_transform(4326)
   st <- st[sf::st_intersects(st, bb) %>% lengths > 0, c('STATEFP', 'NAME', 'STUSPS') ]
   places <- lapply(st$STATEFP, tigris::places, progress_bar = FALSE, year = 2022)
@@ -189,10 +184,10 @@ places_and_spaces <- function(path, pathOut, bound){
     sf::st_centroid() |>
     sf::st_transform(4326)
 
-  places <- places %>%
-    dplyr::rename(CITY = NAME) %>%
-    dplyr::left_join(., st %>%
-                       sf::st_drop_geometry(), by = 'STATEFP') %>%
+  places <- places  |>
+    dplyr::rename(CITY = NAME)  |>
+    dplyr::left_join(., st  |>
+                       sf::st_drop_geometry(), by = 'STATEFP') |>
     sf::st_transform(4326)
 
   places <- places[sf::st_intersects(places, bb) %>% lengths > 0, ]
@@ -210,9 +205,9 @@ places_and_spaces <- function(path, pathOut, bound){
 process_gmba <- function(path, pathOut, tile_cells){
 
   p <- file.path(path, 'GMBA', 'GMBA_Inventory_v2.0_standard_basic.shp')
-  mtns <- sf::st_read(p, quiet = T) %>%
-    sf::st_make_valid() %>%
-    dplyr::select(MapName) %>%
+  mtns <- sf::st_read(p, quiet = T) |>
+    sf::st_make_valid()  |>
+    dplyr::select(MapName)  |>
     sf::st_crop(., sf::st_union(tile_cells))|>
     dplyr::rename(Mountains = MapName) |>
     dplyr::mutate(Mountains = stringr::str_remove(Mountains, '[(]nn[])]'))
@@ -230,7 +225,7 @@ process_gmba <- function(path, pathOut, tile_cells){
 process_gnis <- function(path, pathOut, bound){
 
   bb <- sf::st_as_sf(bound)
-  st <- tigris::states(progress_bar = FALSE, year = 2022) %>%
+  st <- tigris::states(progress_bar = FALSE, year = 2022) |>
     sf::st_transform(4326)
   st <- st[sf::st_intersects(st, bb) %>% lengths > 0, c('STATEFP', 'NAME', 'STUSPS') ]
 
@@ -242,15 +237,15 @@ process_gnis <- function(path, pathOut, bound){
   files <- files[ grep(patterns, files)]
   cols <- c('feature_name', 'prim_lat_dec', 'prim_long_dec')
 
-  places <- lapply(files, read.csv, sep = "|") %>%
-    purrr::map(., ~ .x |> dplyr::select(all_of(cols))) %>%
-    data.table::rbindlist() %>%
-    sf::st_as_sf(coords = c('prim_long_dec', 'prim_lat_dec'), crs = 4269) %>%
+  places <- lapply(files, read.csv, sep = "|") |>
+    purrr::map(., ~ .x |> dplyr::select(all_of(cols)))  |>
+    data.table::rbindlist()  |>
+    sf::st_as_sf(coords = c('prim_long_dec', 'prim_lat_dec'), crs = 4269) |>
     sf::st_transform(4326)
 
   sf::st_agr(places) <- 'constant'
   places <- places[sf::st_intersects(places, bb) %>% lengths > 0, ]
-  places <- places %>%
+  places <- places  |>
     dplyr::mutate(ID = seq_len(nrow(.))) |>
     dplyr::rename(fetr_nm = feature_name)
 
@@ -297,9 +292,9 @@ process_padus <- function(path, pathOut, tile_cells){
   p <- file.path(path, 'PADUS3', 'PAD_US3_0.gdb')
   padus <- sf::st_read(
     dsn = p,
-    layer = 'PADUS3_0Fee') %>%
-    dplyr::filter(State_Nm %in% states) %>%
-    dplyr::select(Mang_Name, Unit_Nm) %>%
+    layer = 'PADUS3_0Fee')  |>
+    dplyr::filter(State_Nm %in% states)  |>
+    dplyr::select(Mang_Name, Unit_Nm)  |>
     sf::st_cast('MULTIPOLYGON')
 
   tile_cells <- sf::st_transform(tile_cells, sf::st_crs(padus))
@@ -311,12 +306,12 @@ process_padus <- function(path, pathOut, tile_cells){
   # replace really long state land board names with 'STATE SLB'
   padus <- sf::st_read('../../Barneby_Lives-dev/geodata/pad/pad.shp')
 
-  padus <- padus %>% # this one is just a wild outlier.
+  padus <- padus  |> # this one is just a wild outlier.
     dplyr::mutate(Unit_Nm =
                     stringr::str_replace(
                       Unit_Nm,
                       'The State of Utah School and Institutional Trust Lands Administration', 'Utah')
-    ) %>%
+    )  |>
     dplyr::mutate(
       Unit_Nm = stringr::str_replace(Unit_Nm, "National Forest", "NF"),
       Unit_Nm = stringr::str_replace(Unit_Nm, "District Office", "DO"),
@@ -334,9 +329,9 @@ process_padus <- function(path, pathOut, tile_cells){
       Unit_Nm = stringr::str_replace(Unit_Nm, 'Wildlife Management Area', "WMA")
       )
 
-  padus <- padus %>%
-    sf::st_make_valid() %>%
-    dplyr::filter(sf::st_is_valid(.)) %>%
+  padus <- padus |>
+    sf::st_make_valid() |>
+    dplyr::filter(sf::st_is_valid(.)) |>
     sf::st_write(padus, dsn = file.path(pathOut, 'pad.shp'), quiet = T, append = F)
 
 }
@@ -349,7 +344,7 @@ geological_map <- function(path, pathOut, tile_cells){
 
   geological <- sf::st_read(
     file.path(path, 'SGMC', 'USGS_SGMC_Geodatabase', 'USGS_StateGeologicMapCompilation_ver1.1.gdb'),
-    layer = 'SGMC_Geology', quiet = T) %>%
+    layer = 'SGMC_Geology', quiet = T) |>
     dplyr::select(GENERALIZED_LITH, UNIT_NAME)
 
   tile_cells <- sf::st_transform(tile_cells, sf::st_crs(geological))
@@ -371,19 +366,19 @@ process_grazing_allot <- function(path, pathOut, tile_cells){
 
   p <- file.path(path, 'BLMAllotments', 'BLM_Natl_Grazing_Allotment_Polygons.shp')
   p1 <- file.path(path, 'USFSAllotments', 'S_USA.Allotment.shp')
-  blm <- sf::st_read(p, quiet = TRUE) %>%
+  blm <- sf::st_read(p, quiet = TRUE) |>
     dplyr::select(ALLOT_NAME)
 
-  usfs <- sf::st_read(p1, quiet = TRUE) %>%
+  usfs <- sf::st_read(p1, quiet = TRUE) |>
     dplyr::select(ALLOT_NAME = ALLOTMENT_)
 
-  allotments <- dplyr::bind_rows(blm, usfs) %>%
+  allotments <- dplyr::bind_rows(blm, usfs) |>
     sf::st_make_valid()
   tile_cells <- sf::st_transform(tile_cells, sf::st_crs(allotments))
   allotments <- allotments[sf::st_intersects(allotments, sf::st_union(tile_cells)) %>% lengths > 0, ]
   allotments <- sf::st_crop(allotments, sf::st_union(tile_cells))
-  allotments <- sf::st_transform(allotments, 4326) %>%
-    dplyr::mutate(Allotment = stringr::str_to_title(ALLOT_NAME)) %>%
+  allotments <- sf::st_transform(allotments, 4326) |>
+    dplyr::mutate(Allotment = stringr::str_to_title(ALLOT_NAME)) |>
     dplyr::select(-ALLOT_NAME)
 
   dir.create(file.path(pathOut, 'geodata', 'allotments'), showWarnings = FALSE)
@@ -402,8 +397,8 @@ process_plss <- function(path, pathOut, tile_cells){
 
   p <- file.path(path, 'PLSS', 'ilmocplss.gdb')
   township <- sf::st_read(p, layer = 'PLSSTownship', quiet = T
-  ) %>%
-    sf::st_cast('POLYGON') %>%
+  ) |>
+    sf::st_cast('POLYGON') |>
     dplyr::select(TWNSHPLAB, PLSSID)
 
   tile_cells <- sf::st_transform(tile_cells, sf::st_crs(township))
@@ -411,18 +406,19 @@ process_plss <- function(path, pathOut, tile_cells){
   township <- sf::st_drop_geometry(township)
 
   section <- sf::st_read(p, layer = 'PLSSFirstDivision', quiet = T
-  ) %>%
-    sf::st_cast('POLYGON') %>%
+  ) |>
+    sf::st_cast('POLYGON') |>
     dplyr::select(FRSTDIVLAB, PLSSID, FRSTDIVID)
 
   section <- section[sf::st_intersects(section, tile_cells) %>% lengths > 0, ]
 
-  trs <- dplyr::inner_join(section, township, 'PLSSID') %>%
-    dplyr::mutate(TRS = paste(TWNSHPLAB, FRSTDIVLAB)) %>%
+  trs <- dplyr::inner_join(section, township, 'PLSSID') |>
+    dplyr::mutate(TRS = paste(TWNSHPLAB, FRSTDIVLAB)) |>
     dplyr::select(trs = TRS)
 
   sf::st_write(trs, dsn = file.path(pathOut, 'geodata', 'plss', 'plss.shp'), quiet = T)
 
 }
+
 
 
