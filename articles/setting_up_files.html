@@ -69,8 +69,11 @@
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># remotes::install_github('sagesteppe/BarnebyLives')</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://sagesteppe.github.io/BarnebyLives/">BarnebyLives</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org" class="external-link">tidyverse</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/" class="external-link">sf</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org" class="external-link">tidyverse</a></span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Error in get(paste0(generic, ".", class), envir = get_method_env()) : </span></span>
+<span><span class="co">##   object 'type_sum.accel' not found</span></span></code></pre>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/" class="external-link">sf</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/" class="external-link">terra</a></span><span class="op">)</span></span></code></pre></div>
 <p>BarnebyLives relies on a variety of data to be downloaded locally to
 your computer to work. My instance, which covers a large area,
@@ -102,7 +105,7 @@ simply download the data manually rather than by script. This is not
 that large of a file, so it be downloaded in a couple minutes.</p>
 <p>We subset names by continent, I have experimented using Regions
 within continents, but the results are usually wanting.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">p2</span> <span class="op">&lt;-</span> <span class="st">'/media/steppe/hdd/Barneby_Lives-dev/taxonomic_data'</span> <span class="co"># note we have downloaded it </span></span>
 <span><span class="co"># to this location - this is the location where our taxonomy data will be unpacked to!</span></span>
 <span></span>
@@ -123,7 +126,7 @@ data come from <a href="https://www.ipni.org/" class="external-link">IPNI</a>, a
 minimally processed on my end, see the script within the data-raw
 directory on github for details. We will save a copy of them in the
 taxonomy folder as well.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">'ipni_authors'</span>, package<span class="op">=</span><span class="st">'BarnebyLives'</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html" class="external-link">write.csv</a></span><span class="op">(</span><span class="va">ipni_authors</span>, <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">p2</span>, <span class="st">'ipni_author_abbreviations.csv'</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 </div>
@@ -138,7 +141,7 @@ parameters.</p>
 The coordinates are fine to grab and round from Google Maps or similar.
 What is important is that the 5th set of coordinates is a repeat of the
 1st set of coordinates.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">bound</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
 <span>  y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">30</span>, <span class="fl">30</span>, <span class="fl">50</span>, <span class="fl">50</span>, <span class="fl">30</span><span class="op">)</span>, </span>
 <span>  x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">85</span>, <span class="op">-</span><span class="fl">125</span>, <span class="op">-</span><span class="fl">125</span>, <span class="op">-</span><span class="fl">85</span>, <span class="op">-</span><span class="fl">85</span><span class="op">)</span></span>
@@ -154,7 +157,7 @@ tiles. We will clip these down to the extent of our analysis.
 Essentially raster tiles should be no larger than 2 gigabytes. So we
 need to ensure that we create a tile grid which will allow us to save
 these data under those constraints.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tile_cells</span> <span class="op">&lt;-</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_make_grid.html" class="external-link">st_make_grid</a></span><span class="op">(</span></span>
 <span>  <span class="va">bound</span>,</span>
 <span>  what <span class="op">=</span> <span class="st">"polygons"</span>, square <span class="op">=</span> <span class="cn">T</span>, flat_topped <span class="op">=</span> <span class="cn">F</span>, crs <span class="op">=</span> <span class="fl">4326</span>,</span>
@@ -178,7 +181,7 @@ raster data sets, and save them in a new location.</p>
 <p>The source for our physical raster data is ‘Geomorpho90m, empirical
 evaluation and accuracy assessment of global high-resolution
 geomorphometric layers’. These data are available from here <a href="https://opentopography.s3.sdsc.edu/minio/dataspace/OTDS.012020.4326.1/raster/" class="external-link uri">https://opentopography.s3.sdsc.edu/minio/dataspace/OTDS.012020.4326.1/raster/</a></p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/mason.html">mason</a></span><span class="op">(</span>dirin <span class="op">=</span> <span class="st">'../geodata_raw/geomorphons/'</span>,</span>
 <span>      dirout <span class="op">=</span> <span class="st">'../geodata/geomorphons/'</span>,</span>
 <span>      grid <span class="op">=</span> <span class="va">tile_cellsV</span>, fnames <span class="op">=</span> <span class="st">'cellname'</span><span class="op">)</span></span>
@@ -201,7 +204,7 @@ We utilize the U.S. Census Bureau’s data for this. We can download the
 States data set from the U.S. Census Bureau’s website. The other data
 sets can be loaded in from the tigris r package. The counties outline
 file can be downloaded from here <a href="https://catalog.data.gov/dataset/tiger-line-shapefile-2020-nation-u-s-counties-and-equivalent-entities" class="external-link uri">https://catalog.data.gov/dataset/tiger-line-shapefile-2020-nation-u-s-counties-and-equivalent-entities</a>.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">counties</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="st">'../geodata_raw/USCounties/tl_2020_us_county.shp'</span>, quiet <span class="op">=</span> <span class="cn">T</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_transform.html" class="external-link">st_transform</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html" class="external-link">st_crs</a></span><span class="op">(</span><span class="va">tile_cells</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">STATEFP</span>, COUNTY <span class="op">=</span> <span class="va">NAME</span><span class="op">)</span></span>
@@ -225,7 +228,7 @@ file can be downloaded from here <a href="https://catalog.data.gov/dataset/tiger
 <p>We will set up our places data set which we will use go gather
 driving directions from Google maps. We can download these data directly
 in R using the tigris package.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">bb</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_as_sf.html" class="external-link">st_as_sf</a></span><span class="op">(</span><span class="va">bound</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">st</span> <span class="op">&lt;-</span> <span class="fu">tigris</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/tigris/man/states.html" class="external-link">states</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
@@ -259,7 +262,7 @@ in R using the tigris package.</p>
 <span><span class="fu"><a href="https://rdrr.io/r/base/rm.html" class="external-link">rm</a></span><span class="op">(</span><span class="va">places</span>, <span class="va">google_towns</span><span class="op">)</span></span></code></pre></div>
 <p>We can access a Mountains dataset from EarthEnv which we can use for
 portions of our place names here <a href="https://www.earthenv.org/mountains" class="external-link uri">https://www.earthenv.org/mountains</a>.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mtns</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="st">'../geodata_raw/globalMountains/GMBA_Inventory_v2.0_standard_basic.shp'</span>, </span>
 <span>        quiet <span class="op">=</span> <span class="cn">T</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://r-spatial.github.io/sf/reference/valid.html" class="external-link">st_make_valid</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
@@ -273,7 +276,7 @@ portions of our place names here <a href="https://www.earthenv.org/mountains" cl
 <span><span class="fu"><a href="https://rdrr.io/r/base/rm.html" class="external-link">rm</a></span><span class="op">(</span><span class="va">mtns</span><span class="op">)</span></span></code></pre></div>
 <p>Our place names are acquired from the United States Geological
 Surveys GNIS data set <a href="https://www.usgs.gov/tools/geographic-names-information-system-gnis" class="external-link uri">https://www.usgs.gov/tools/geographic-names-information-system-gnis</a>.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">files</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">'../geodata_raw/GNIS/Text/DomesticNames_'</span>, <span class="va">states</span>, <span class="st">'.txt'</span><span class="op">)</span></span>
 <span><span class="va">cols</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'feature_name'</span>, <span class="st">'prim_lat_dec'</span>, <span class="st">'prim_long_dec'</span><span class="op">)</span></span>
 <span></span>
@@ -293,7 +296,7 @@ Surveys GNIS data set <a href="https://www.usgs.gov/tools/geographic-names-infor
 <p>To determine the land ownership of collections we utilize the
 Protected Areas Database-United States also from the USGS <a href="https://www.usgs.gov/programs/gap-analysis-project/science/pad-us-data-download" class="external-link uri">https://www.usgs.gov/programs/gap-analysis-project/science/pad-us-data-download</a>
 .</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">padus</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span>dsn <span class="op">=</span> <span class="st">'../geodata_raw/PADUS3/PAD_US3_0.gdb'</span>, </span>
 <span>                 layer <span class="op">=</span> <span class="st">'PADUS3_0Fee'</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">State_Nm</span> <span class="op"><a href="https://rspatial.github.io/terra/reference/match.html" class="external-link">%in%</a></span> <span class="va">states</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
@@ -321,7 +324,7 @@ Protected Areas Database-United States also from the USGS <a href="https://www.u
 <span><span class="fu"><a href="https://rdrr.io/r/base/rm.html" class="external-link">rm</a></span><span class="op">(</span><span class="va">padus</span><span class="op">)</span></span></code></pre></div>
 <p>The best geological data set are also, naturally, provided by the
 USGS. The geodatabase can be downloaded from here <a href="https://mrdata.usgs.gov/geology/state/" class="external-link uri">https://mrdata.usgs.gov/geology/state/</a></p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">geological</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span></span>
 <span>  <span class="st">'../geodata_raw/geologicalMap/USGS_StateGeologicMapCompilation_ver1.1.gdb'</span>, </span>
 <span>          layer <span class="op">=</span> <span class="st">'SGMC_Geology'</span>, quiet <span class="op">=</span> <span class="cn">T</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
@@ -340,7 +343,7 @@ USGS. The geodatabase can be downloaded from here <a href="https://mrdata.usgs.g
 downloaded from <a href="https://gbp-blm-egis.hub.arcgis.com/datasets/blm-natl-grazing-allotment-polygons" class="external-link uri">https://gbp-blm-egis.hub.arcgis.com/datasets/blm-natl-grazing-allotment-polygons</a></p>
 <p>Grazing allotments for the United States Forest Service can be
 downloaded from <a href="https://data.fs.usda.gov/geodata/edw/datasets.php?xmlKeyword=allotments" class="external-link uri">https://data.fs.usda.gov/geodata/edw/datasets.php?xmlKeyword=allotments</a></p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">blm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span></span>
 <span>  <span class="st">'../geodata_raw/BLMAllotments/BLM_Natl_Grazing_Allotment_Polygons.shp'</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">ALLOT_NAME</span><span class="op">)</span></span>
@@ -361,7 +364,7 @@ downloaded from <a href="https://data.fs.usda.gov/geodata/edw/datasets.php?xmlKe
 <span><span class="fu"><a href="https://rdrr.io/r/base/rm.html" class="external-link">rm</a></span><span class="op">(</span><span class="va">blm</span>, <span class="va">usfs</span>, <span class="va">allotments</span><span class="op">)</span></span></code></pre></div>
 <p>Public land survey system data are HUGE. We have to download them
 from here, as a zipped geodatabase. <a href="https://catalog.data.gov/dataset/blm-natl-plss-public-land-survey-system-polygons-national-geospatial-data-asset-ngda" class="external-link uri">https://catalog.data.gov/dataset/blm-natl-plss-public-land-survey-system-polygons-national-geospatial-data-asset-ngda</a></p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">bound_nm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
 <span>  y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">31</span>, <span class="fl">31</span>, <span class="fl">50</span>, <span class="fl">50</span>, <span class="fl">31</span><span class="op">)</span>, </span>
 <span>  x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">95</span>, <span class="op">-</span><span class="fl">125</span>, <span class="op">-</span><span class="fl">125</span>, <span class="op">-</span><span class="fl">95</span>, <span class="op">-</span><span class="fl">95</span><span class="op">)</span></span>
@@ -401,7 +404,7 @@ from here, as a zipped geodatabase. <a href="https://catalog.data.gov/dataset/bl
 <span>         dsn <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="st">'../geodata/plss'</span>, <span class="st">'plss.shp'</span><span class="op">)</span>, quiet <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/rm.html" class="external-link">rm</a></span><span class="op">(</span><span class="va">section</span>, <span class="va">township</span>, <span class="va">trs</span>, <span class="va">bound_nm</span>, <span class="va">before</span>, <span class="va">after</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="st">'../geodata/political/political.shp'</span>, quiet <span class="op">=</span> <span class="cn">T</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename</a></span><span class="op">(</span>County <span class="op">=</span> <span class="va">COUNTY</span>, State <span class="op">=</span> <span class="va">STATE</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_write.html" class="external-link">st_write</a></span><span class="op">(</span><span class="va">.</span>, <span class="st">'../geodata/political/political.shp'</span>, quiet <span class="op">=</span> <span class="cn">T</span>, append <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span>
