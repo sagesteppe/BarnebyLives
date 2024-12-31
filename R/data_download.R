@@ -24,7 +24,9 @@ download_data <- function(path){
   SGMC_dl(path) # hardly ever works
 }
 
-
+#' download data
+#' @description dl data.
+#'
 #' @keywords internal
 WCVP_dl <- function(path){  #  WORKS
 
@@ -36,6 +38,9 @@ WCVP_dl <- function(path){  #  WORKS
   }
 }
 
+#' download data
+#' @description dl data.
+#'
 #' @keywords internal
 counties_dl <- function(path){ # WORKS
   fp <- file.path(path, 'Counties.zip')
@@ -47,6 +52,9 @@ counties_dl <- function(path){ # WORKS
   }
 }
 
+#' download data
+#' @description dl data.
+#'
 #' @keywords internal
 GMBA_dl <- function(path){ # WORKS
   fp <- file.path(path, 'GMBA.zip')
@@ -57,6 +65,9 @@ GMBA_dl <- function(path){ # WORKS
   }
 }
 
+#' download data
+#' @description dl data.
+#'
 #' @keywords internal
 PLSS_dl <- function(path){ # WORKS
 
@@ -69,6 +80,9 @@ PLSS_dl <- function(path){ # WORKS
   }
 }
 
+#' download data
+#' @description dl data.
+#'
 #' @keywords internal
 allotments_dl <- function(path){ # works
 
@@ -90,6 +104,9 @@ allotments_dl <- function(path){ # works
 # we can grab states by using their abbreviations...
 # 'https://mrdata.usgs.gov/geology/state/shp/IA.zip'
 
+#' download data
+#' @description dl data.
+#'
 #' @keywords internal
 SGMC_dl <- function(path){ # WORKS
 
@@ -103,6 +120,9 @@ SGMC_dl <- function(path){ # WORKS
     }
 }
 
+#' download data
+#' @description dl data.
+#'
 #' @keywords internal
 GNIS_dl <- function(path){ # WORKS
 
@@ -119,6 +139,9 @@ GNIS_dl <- function(path){ # WORKS
       )}
 }
 
+#' download data
+#' @description dl data.
+#'
 #' @keywords internal
 PAD_dl <- function(path){ # this is the wrong path
 

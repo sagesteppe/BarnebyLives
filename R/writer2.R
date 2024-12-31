@@ -3,7 +3,7 @@
 #' This function will determine whether to print a variable onto labels or hide it
 #' @param x the input character of length 1
 #' @param italics italicize or not? Boolean, defaults to FALSE
-#' @param period. Boolean, whether to add a period or not at end of string.
+#' @param period Boolean, whether to add a period or not at end of string.
 #' Defaults to FALSE.
 #' @examples
 #' writer(collection_examples[9,'Binomial_authority'] )

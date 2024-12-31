@@ -11,7 +11,7 @@ writer2(x, italics, period)
 
 \item{italics}{italicize or not? Boolean, defaults to FALSE}
 
-\item{period.}{Boolean, whether to add a period or not at end of string.
+\item{period}{Boolean, whether to add a period or not at end of string.
 Defaults to FALSE.}
 }
 \description{
