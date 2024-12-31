@@ -27,7 +27,6 @@ download_data <- function(path){
 # setwd('/media/steppe/hdd/BL_sandbox/geodata_raw')
 # download_data()
 
-
 WCVP_dl <- function(path){  #  WORKS
 
   if(file.exists('WCVP.zip')){
@@ -86,22 +85,19 @@ allotments_dl <- function(path){ # works
 }
 
 # we can grab states by using their abbreviations...
-'https://mrdata.usgs.gov/geology/state/shp/IA.zip'
+# 'https://mrdata.usgs.gov/geology/state/shp/IA.zip'
 
 SGMC_dl <- function(path){ # WORKS
 
   if(file.exists('SGMC.zip')){
     message('Product `SGMC` already downloaded. Skipping.')} else{
 
-#  cap_speed <- httr::config(max_recv_speed_large = 10000)
   URL <- 'https://www.sciencebase.gov/catalog/file/get/5888bf4fe4b05ccb964bab9d?name=USGS_SGMC_Geodatabase.zip'
   message("This website is slow.\nWe recommend downloading the geodata by hand. https://mrdata.usgs.gov/geology/state/")
   httr::GET(URL, httr::progress(),
             httr::write_disk(path = file.path(path, 'SGMC.zip'), overwrite = TRUE))
     }
 }
-
-SGMC_dl(path = '.')
 
 GNIS_dl <- function(path){ # WORKS
 
@@ -133,13 +129,13 @@ PAD_dl <- function(path){ # WORKS
 }
 
 
-'prod-is-usgs-sb-prod-content.s3.amazonaws.com'
+# 'prod-is-usgs-sb-prod-content.s3.amazonaws.com'
 
-aws.s3
-aws.s3::bucket_exists(
-  bucket = "s3://prod-is-usgs-sb-prod-content/",
-  region = 'us-west-2'
-  )
+# aws.s3
+# aws.s3::bucket_exists(
+#   bucket = "s3://prod-is-usgs-sb-prod-content/",
+#   region = 'us-west-2'
+#   )
 
 # library(minioclient)
 #install_mc()
@@ -170,7 +166,7 @@ aws.s3::bucket_exists(
 # }
 
 
-library(sbtools)
-sbtools::query_sb_doi('10.5066/P96WBCHS', limit=1)
-item <- sbtools::item_get('65294599d34e44db0e2ed7cf')
+# library(sbtools)
+# sbtools::query_sb_doi('10.5066/P96WBCHS', limit=1)
+# item <- sbtools::item_get('65294599d34e44db0e2ed7cf')
 

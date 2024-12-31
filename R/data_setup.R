@@ -11,8 +11,8 @@
 #' Either mode of running the function will delete the uncompressed zip files generated during the process.
 #' @examples \donttest{
 #' bound <- data.frame(
-#' y = c(30, 30, 50, 50, 30),
-#' x = c(-85, -125, -125, -85, -85)
+#'   y = c(42, 42, 44, 44, 42),
+#'   x = c(-117, -119, -119, -117, -117)
 #' )
 #'
 #' data_setup(path = './geodata_raw', bound = bound, cleanup = FALSE)
