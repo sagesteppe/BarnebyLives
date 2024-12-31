@@ -2,7 +2,7 @@
 #'
 #' This functions determines whether to write information on whom determined the specimen
 #' when, and via which texts. It used as a final step when formatting labels.
-#' @param x dataframe holding the values
+#' @param x data frame holding the values
 #' @examples
 #' phacelia <- collection_examples[31,]
 #' writer_fide(phacelia)

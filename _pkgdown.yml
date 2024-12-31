@@ -37,10 +37,12 @@ reference:
   desc: 
   contents: 
   - collection_examples
+  - database_templates
   - google_towns
   - herbaria_info
   - ipni_authors 
   - project_examples
+  - shipping_examples
   - randomNames
   - wcvp_update
 - title: Label formatting functions
