@@ -7,7 +7,7 @@
 writer_fide(x)
 }
 \arguments{
-\item{x}{dataframe holding the values}
+\item{x}{data frame holding the values}
 }
 \description{
 This functions determines whether to write information on whom determined the specimen

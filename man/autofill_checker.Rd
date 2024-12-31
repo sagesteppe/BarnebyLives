@@ -21,5 +21,5 @@ coords <- data.frame(
   latitude_dd = c(rep(-116.7890, times = 5), -115.7890)
 )
 autofill_checker(coords) # note that all values in the column will
-flagged after the occurrence (see 'Lat_AutoFill_Flag')
+# flagged after the occurrence (see 'Lat_AutoFill_Flag')
 }
