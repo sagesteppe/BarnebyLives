@@ -21,3 +21,18 @@
 #' @usage data(ipni_authors)
 #' @format A character vector
 "ipni_authors"
+
+
+
+#' Collection examples for a shipping manifest
+#'
+#' This is a small data frame of species information for use with the shipping/transferal notes
+#' as well as with the label makers.
+#'
+#'
+#' @docType data
+#' @keywords datasets
+#' @name collection_examples
+#' @usage data(collection_examples)
+#' @format data frame
+"collection_examples"
