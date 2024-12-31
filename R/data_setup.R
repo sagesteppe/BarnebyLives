@@ -118,9 +118,9 @@ make_tiles <- function(bound, bb_vals){
     n = c(
       abs(round((bb_vals[2] - bb_vals[1]) / 5, 0)), # rows
       abs(round((bb_vals[3] - bb_vals[4]) / 5, 0))) #cols
-  )  %>%
-    sf::st_as_sf() %>%
-    dplyr::rename(geometry = x) %>%
+  )   %>%
+    sf::st_as_sf() |>
+    dplyr::rename(geometry = x) |>
     dplyr::mutate(
       x = sf::st_coordinates(sf::st_centroid(.))[,1],
       y = sf::st_coordinates(sf::st_centroid(.))[,2],
