@@ -3,6 +3,13 @@
 #' @description this function will download the data which are required to set up an instance of BarnebyLives.
 #' These data must then be processed by the `data_process` function to set up the directory structures appropriately.
 #' Note that the function will test if the data already exist in the location, if they do they will not be downloaded again.
+#'
+#' @param PADUS Boolean. Defaults to FALSE. Honestly, downloading this single
+#'  object takes much more hassle than it is worth. You should just download from :
+#' https://www.sciencebase.gov/catalog/item/652ef930d34edd15305a9b03 you'll have to
+#' do a captcha, but just download the 'Geodatabase.zip' and place it in same
+#' directory as other files. Rename it as 'PADUS.zip' and we are good to go.
+#'
 #' @param path The root directory to save all the data in. Please specify a location, we suggest you make a directory for this.
 #' If not specified will default to your working directory.
 #' @examples \donttest{
@@ -10,7 +17,7 @@
 #' # download_data(path = '/media/steppe/hdd/BL_sandbox')
 #' }
 #' @export
-download_data <- function(path){
+data_download <- function(path){
 
   if(missing(path)){path <- '.'}
 
@@ -140,7 +147,10 @@ GNIS_dl <- function(path){ # WORKS
 }
 
 #' download data
-#' @description dl data.
+#' @description dl data. Honestly, downloading this single object takes much
+#' more hassle than it is worth. You should just dowload from :
+#' https://www.sciencebase.gov/catalog/item/652ef930d34edd15305a9b03 you'll have to
+#' do a captcha, but just download the 'Geodatabase.zip' and place it in same directory as other.
 #'
 #' @keywords internal
 PAD_dl <- function(path){ # this is the wrong path
@@ -157,10 +167,68 @@ PAD_dl <- function(path){ # this is the wrong path
       )}
 }
 
+
+#' Determine which raster tiles to download for topographic variables
+#'
+#' @description
+#' Given a bounding box, defining the spatial extent of the study area, return
+#' a list of tiles names which need to be downloaded to cover this area.
+#'
+#' @param bound Data frame. 'x' and 'y' coordinates of the extent for which the BL instance will cover.
+#' @examples \dontrun{
+#' bound <- data.frame(
+#'   y = c(30.1, 30.1, 49.5, 49.5, 30.1),
+#'   x = c(-126, -82, -82, -126, -126)
+#' )
+#'
+#' tileSelector(bound)
+#' }
+#' @keywords internal
+tileSelector <- function(bound){
+
+  bound.v <- bound |>
+    sf::st_as_sf(coords = c('x', 'y'), crs = 4326) |>
+    sf::st_bbox() |>
+    sf::st_as_sfc() |>
+    terra::vect()
+
+  # create a raster where the pixels represent the tiles of the full data set.
+  gr <- terra::rast(
+    nrows = 5, ncols = 12,
+    xmin = -180, xmax = 180, ymin = -90, ymax = 90,
+    crs = "epsg:4326"
+  )
+
+  # these tiles are named by the lower left (SW) coordinates, generate the names
+  # for the raster object.
+  lowerleft <- paste0(
+    paste0(
+      c(rep('n', 36), rep('s', 24)),
+      sprintf("%02.f",rep(abs(seq(-60, 60, by = 30)), each = 12))
+    ),
+    paste0(
+      c(rep('w', 6), rep('e', 6)),
+      sprintf("%03.f", abs(rep(seq(-180, 150, by = 30), times = 5)))
+    )
+  )
+
+  # place the names into the raster as values, allowing them to simple be extracted
+  gr <- terra::setValues(gr, lowerleft)
+  # extract values. these are the values we need to pad with resolution and
+  # file extension
+  touches <- terra::extract(gr, bound.v, touches= TRUE)$lyr.1
+  # returned obs will still require the prefix specififying the product type
+  # e.g. 'aspect'
+  fnames <- paste0('_90M_', touches, '.tar.gz')
+
+  return(fnames)
+
+}
+
 # library(sbtools)
 # sbtools::query_sb_doi('10.5066/P96WBCHS', limit=1)
 # item <- sbtools::item_get('65294599d34e44db0e2ed7cf')
-
+# sbtools::item_file_download('https://www.sciencebase.gov/catalog/items?parentId=65294599d34e44db0e2ed7cf&format=json')
 
 # 'prod-is-usgs-sb-prod-content.s3.amazonaws.com'
 
@@ -197,5 +265,4 @@ PAD_dl <- function(path){ # this is the wrong path
 #   httr::GET(paste0(base, f),
 #             httr::write_disk(path = 'asp', overwrite = TRUE))
 # }
-
 
