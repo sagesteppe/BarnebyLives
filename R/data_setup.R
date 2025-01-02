@@ -9,6 +9,8 @@
 #' @param bound Data frame. 'x' and 'y' coordinates of the extent for which the BL instance will cover.
 #' @param cleanup Boolean. Whether to remove the original zip files which were downloaded. Defaults to FALSE.
 #' Either mode of running the function will delete the uncompressed zip files generated during the process.
+#' If FALSE, this will also bundle the downloaded topographic variables into their own directories,
+#' e.g. all directories of 'aspect' rasters will go into a single 'aspect' directory.
 #' @examples \dontrun{
 #' bound <- data.frame(
 #'   y = c(42, 42, 44, 44, 42),
@@ -32,11 +34,6 @@ data_setup <- function(path, pathOut, bound, cleanup){
     sf::st_bbox() |>
     sf::st_as_sfc()
 
-  # use tiles to create many smaller rasters, rather than one really big raster.
-  mt <- make_tiles(bound, bb_vals)
-  tile_cells <- mt$tile_cells
-  tile_cellsV <- mt$tile_cellsV
-
   # decompress all of the archives so we can readily read them into R.
   zzzs <- file.path(path, list.files(path = path, pattern = '*.[.]zip$'))
 
@@ -47,22 +44,6 @@ data_setup <- function(path, pathOut, bound, cleanup){
 
   ##### now crop the data to the extents of analysis. ####
 
-  # start by making tiles of the landform variables #
-#  mason(dirin = file.path(path,  'geomorphons'),
-#        dirout = file.path(path, 'geodata', 'geomorphons'),
-#        grid = tile_cellsV, fnames = 'cellname')
-
-#  mason(dirin = file.path(path, 'aspect'),
-#        dirout = file.path(path, 'geodata', 'aspect'),
-#        grid = tile_cellsV, fnames = 'cellname')
-
-#  mason(dirin = file.path(path, 'slope'),
-#        dirout = file.path(path, 'geodata', 'slope'),
-#        grid = tile_cellsV, fnames = 'cellname')
-
-#  mason(dirin = file.path(path, 'elevation'),
-#        dirout = file.path(path, 'geodata', 'elevation'),
-#        grid = tile_cellsV, fnames = 'cellname')
 
   ## now combine all of the administrative data into a single vector file.
   make_it_political(path, pathOut, tile_cells)
@@ -115,7 +96,7 @@ make_tiles <- function(bound, bb_vals){
       abs(round((bb_vals[3] - bb_vals[4]) / 5, 0))) #cols
   ) |>
     sf::st_as_sf() |>
-    dplyr::rename(geometry = x) |>
+    dplyr::rename(geometry = x) %>%
     dplyr::mutate(
       x = sf::st_coordinates(sf::st_centroid(.))[,1],
       y = sf::st_coordinates(sf::st_centroid(.))[,2],
@@ -421,4 +402,63 @@ process_plss <- function(path, pathOut, tile_cells){
 }
 
 
+#' a wrapper around terra::makeTiles for setting the domain of a project
+#'
+#' @description for projects with large spatial domains or using relatively high resolution data, this will help
+#'
+#' you make virtual tiles which do not need to be held in memory for the project.
+#' @param dirin the input directory with all geographic data.
+#' @param dirout the output directory for the final data product to go.
+#' Fn will automatically create folders for each product type.
+#' @param bound these extracted from argument to `data_setup` bound.
+#' @param bb_vals these extracted from argument to `data_setup` bound.
+#' @keywords internal
+mason <- function(dirin, dirout, bb_vals, bound){
 
+  # use tiles to create many smaller rasters, rather than one really big raster.
+  mt <- make_tiles(bound, bb_vals)
+  tile_cells <- mt$tile_cells
+  tile_cellsV <- mt$tile_cellsV
+
+  paths2rast <- file.path(dirin, list.files(dirin,  recursive = T, pattern = '[.]tar'))
+
+  prods <- c('aspect', 'dem', 'geom', 'slope')
+  for (i in seq_along(1:length(prods))){
+
+    outdir <- file.path(dirout, prods[i])
+    if(!dir.exists(outdir)){
+      dir.create(outdir) # test the path works before running the big steps...
+
+      # extract all data and temporarily dump into a single directory
+      message(crayon::green('Beginning extraction of files:',
+                            prods[i], format(Sys.time(), "%X")))
+      f <- paths2rast[grep(prods[i], paths2rast)]
+      temp <- file.path(dirname(f[i]), prods[i])
+      sapply(X = f, FUN = untar, exdir = temp)
+
+      # now form a VRT, meaning files don't need to be read into active memory (RAM)
+      # all at once. Now crop all files to the extent of the spatial domain we are
+      # setting the program up for.
+      paths <- file.path(temp, list.files(temp, pattern = '[.]tif$', recursive = TRUE))
+      virtualRast <- terra::vrt(paths)
+      virtualRast_sub <- terra::crop(virtualRast, terra::ext(tile_cellsV))
+
+      # set file names
+      columns <- terra::values(tile_cellsV)
+      cellname <- columns[,'cellname']
+
+      # write out product
+      message(crayon::green('Starting to write out final files for:',
+                            prods[i], format(Sys.time(), "%X")))
+      fname <- file.path(outdir, paste0(cellname, ".tif"))
+      terra::makeTiles(virtualRast_sub, tile_cellsV, filename = fname, na.rm = F)
+
+      # remove connection to the vrt
+      rm(virtualRast_sub)
+      # try and force garbage collection
+      # remove extracted dir.
+      unlink(file.path(dirname(f[i]), prods[i]), recursive = TRUE)
+      gc()
+    }
+  }
+}
