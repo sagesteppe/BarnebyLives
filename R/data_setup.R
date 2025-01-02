@@ -24,7 +24,8 @@ data_setup <- function(path, pathOut, bound, cleanup){
 
   if(missing(path)){path <- './geodata_raw'}
   if(missing(pathOut)){pathOut <- '.'}
-  dir.create(file.path(pathOut, 'geodata'), showWarnings = FALSE)
+  pathOut <- file.path(pathOut, 'geodata')
+  dir.create(pathOut, showWarnings = FALSE)
   if(missing(cleanup)){cleanup = FALSE}
 
   # create the extent which we are operating in
@@ -42,8 +43,13 @@ data_setup <- function(path, pathOut, bound, cleanup){
     unzip(x, exdir = out)}
     )
 
-  ##### now crop the data to the extents of analysis. ####
+  # use tiles to create many smaller rasters, rather than one really big raster.
+  mt <- make_tiles(bound, bb_vals)
+  tile_cells <- mt$tile_cells
+  tile_cellsV <- mt$tile_cellsV
 
+  ##### now crop the data to the extents of analysis. ####
+  mason(path, pathOut, tile_cellsV)
 
   ## now combine all of the administrative data into a single vector file.
   make_it_political(path, pathOut, tile_cells)
@@ -92,8 +98,9 @@ make_tiles <- function(bound, bb_vals){
     bound,
     what = "polygons", square = T, flat_topped = F, crs = 4326,
     n = c(
-      abs(round((bb_vals[2] - bb_vals[1]) / 5, 0)), # rows
-      abs(round((bb_vals[3] - bb_vals[4]) / 5, 0))) #cols
+      # for a very small domain, both values need to be set to one
+      ceiling(abs(bb_vals[2] - bb_vals[1]) / 5), # rows
+      ceiling(abs(bb_vals[3] - bb_vals[4]) / 5)) #cols
   ) |>
     sf::st_as_sf() |>
     dplyr::rename(geometry = x) %>%
@@ -113,6 +120,62 @@ make_tiles <- function(bound, bb_vals){
   )
 
 }
+
+#' a wrapper around terra::makeTiles for setting the domain of a project
+#'
+#' @description for projects with large spatial domains or using relatively high resolution data, this will help
+#'
+#' you make virtual tiles which do not need to be held in memory for the project.
+#' @param path the input directory with all geographic data.
+#' @param pathOut the output directory for the final data product to go.
+#' Fn will automatically create folders for each product type.
+#' @param tile_cellsV output of `make_tiles`
+#' @keywords internal
+mason <- function(path, pathOut, tile_cellsV){
+
+  paths2rast <- file.path(path, list.files(path,  recursive = T, pattern = '[.]tar'))
+
+  prods <- c('aspect', 'dem', 'geom', 'slope')
+  for (i in seq_along(1:length(prods))){
+
+    outdir <- file.path(pathOut, prods[i])
+    if(!dir.exists(outdir)){
+      dir.create(outdir) # test the path works before running the big steps...
+
+      # extract all data and temporarily dump into a single directory
+      message(crayon::green('Beginning extraction of files:',
+                            prods[i], format(Sys.time(), "%X")))
+      f <- paths2rast[grep(prods[i], paths2rast)]
+      temp <- file.path(dirname(f[i]), prods[i])
+      sapply(X = f, FUN = untar, exdir = temp)
+
+      # now form a VRT, meaning files don't need to be read into active memory (RAM)
+      # all at once. Now crop all files to the extent of the spatial domain we are
+      # setting the program up for.
+      paths <- file.path(temp, list.files(temp, pattern = '[.]tif$', recursive = TRUE))
+      virtualRast <- terra::vrt(paths)
+      virtualRast_sub <- terra::crop(virtualRast, terra::ext(tile_cellsV))
+
+      # set file names
+      columns <- terra::values(tile_cellsV)
+      cellname <- columns[,'cellname']
+
+      # write out product
+      message(crayon::green('Starting to write out final files for:',
+                            prods[i], format(Sys.time(), "%X")))
+      fname <- file.path(outdir, paste0(cellname, ".tif"))
+      terra::makeTiles(virtualRast_sub, tile_cellsV, filename = fname, na.rm = F)
+
+      # remove connection to the vrt
+      rm(virtualRast_sub)
+      # try and force garbage collection
+      # remove extracted dir.
+      unlink(file.path(dirname(f[i]), prods[i]), recursive = TRUE)
+      gc()
+    }
+  }
+}
+
 
 #' Set up the downloaded data for a BarnebyLives instance
 #'
@@ -136,8 +199,8 @@ make_it_political <- function(path, pathOut, tile_cells){
     dplyr::select(-STATEFP) |>
     dplyr::arrange(State)
 
-  dir.create(file.path(pathOut, 'geodata', 'political'), showWarnings = FALSE)
-  p <- file.path(pathOut, 'geodata', 'political', 'political.shp')
+  dir.create(file.path(pathOut, 'political'), showWarnings = FALSE)
+  p <- file.path(pathOut, 'political', 'political.shp')
   sf::st_write(counties, dsn = p, quiet = TRUE, append = FALSE)
 
 }
@@ -175,7 +238,7 @@ places_and_spaces <- function(path, pathOut, bound){
   places <- sf::st_set_precision(places, precision=10^3)
   # this will drop location coordinates to 3 decimal places.
 
-  sf::st_write(pathOut, 'geodata', 'places.shp', append = F)
+  sf::st_write(pathOut, 'places.shp', append = F)
 }
 
 
@@ -193,8 +256,8 @@ process_gmba <- function(path, pathOut, tile_cells){
     dplyr::rename(Mountains = MapName) |>
     dplyr::mutate(Mountains = stringr::str_remove(Mountains, '[(]nn[])]'))
 
-  dir.create(file.path(pathOut, 'geodata', 'mountains'), showWarnings = FALSE)
-  sf::st_write(mtns, dsn = file.path(pathOut, 'geodata', 'mountains', 'mountains.shp'),
+  dir.create(file.path(pathOut, 'mountains'), showWarnings = FALSE)
+  sf::st_write(mtns, dsn = file.path(pathOut, 'mountains', 'mountains.shp'),
                quiet = TRUE, append= FALSE)
 }
 
@@ -259,8 +322,10 @@ process_gnis <- function(path, pathOut, bound){
     )
 
 
-  dir.create(file.path(pathOut, 'geodata', 'places'), showWarnings = FALSE)
-  sf::st_write(places, dsn = file.path(pathOut, 'geodata', 'places', 'place.shp'), quiet = T, append = F)
+  dir.create(file.path(pathOut, 'places'), showWarnings = FALSE)
+  sf::st_write(places,
+               dsn = file.path(pathOut, 'places', 'place.shp'),
+               quiet = T, append = F)
 
 }
 
@@ -282,7 +347,7 @@ process_padus <- function(path, pathOut, tile_cells){
   padus <- padus[sf::st_intersects(padus, sf::st_union(tile_cells)) %>% lengths > 0, ]
   padus <- sf::st_transform(padus, crs = 4326)
 
-  sf::st_write(padus, dsn = file.path(path, 'geodata', 'pad.shp'), quiet = T)
+  sf::st_write(padus, dsn = file.path(path, 'pad.shp'), quiet = T)
 
   # replace really long state land board names with 'STATE SLB'
   padus <- sf::st_read('../../Barneby_Lives-dev/geodata/pad/pad.shp')
@@ -334,8 +399,8 @@ geological_map <- function(path, pathOut, tile_cells){
   geological <- sf::st_transform(geological, 4326)
 
 
-  dir.create(file.path(pathOut, 'geodata', 'geology'), showWarnings = FALSE)
-  sf::st_write(geological, dsn = file.path(pathOut, 'geodata', 'geology', 'geology.shp'), quiet = T)
+  dir.create(file.path(pathOut, 'geology'), showWarnings = FALSE)
+  sf::st_write(geological, dsn = file.path(pathOut, 'geology', 'geology.shp'), quiet = T)
 
 }
 
@@ -362,10 +427,10 @@ process_grazing_allot <- function(path, pathOut, tile_cells){
     dplyr::mutate(Allotment = stringr::str_to_title(ALLOT_NAME)) |>
     dplyr::select(-ALLOT_NAME)
 
-  dir.create(file.path(pathOut, 'geodata', 'allotments'), showWarnings = FALSE)
+  dir.create(file.path(pathOut, 'allotments'), showWarnings = FALSE)
   sf::st_write(
     allotments,  quiet = TRUE, append = FALSE,
-    dsn = file.path(pathOut, 'geodata', 'allotments', 'allotments.shp')
+    dsn = file.path(pathOut, 'allotments', 'allotments.shp')
     )
 
 }
@@ -397,68 +462,7 @@ process_plss <- function(path, pathOut, tile_cells){
     dplyr::mutate(TRS = paste(TWNSHPLAB, FRSTDIVLAB)) |>
     dplyr::select(trs = TRS)
 
-  sf::st_write(trs, dsn = file.path(pathOut, 'geodata', 'plss', 'plss.shp'), quiet = T)
+  sf::st_write(trs, dsn = file.path(pathOut, 'plss', 'plss.shp'), quiet = T)
 
 }
 
-
-#' a wrapper around terra::makeTiles for setting the domain of a project
-#'
-#' @description for projects with large spatial domains or using relatively high resolution data, this will help
-#'
-#' you make virtual tiles which do not need to be held in memory for the project.
-#' @param dirin the input directory with all geographic data.
-#' @param dirout the output directory for the final data product to go.
-#' Fn will automatically create folders for each product type.
-#' @param bound these extracted from argument to `data_setup` bound.
-#' @param bb_vals these extracted from argument to `data_setup` bound.
-#' @keywords internal
-mason <- function(dirin, dirout, bb_vals, bound){
-
-  # use tiles to create many smaller rasters, rather than one really big raster.
-  mt <- make_tiles(bound, bb_vals)
-  tile_cells <- mt$tile_cells
-  tile_cellsV <- mt$tile_cellsV
-
-  paths2rast <- file.path(dirin, list.files(dirin,  recursive = T, pattern = '[.]tar'))
-
-  prods <- c('aspect', 'dem', 'geom', 'slope')
-  for (i in seq_along(1:length(prods))){
-
-    outdir <- file.path(dirout, prods[i])
-    if(!dir.exists(outdir)){
-      dir.create(outdir) # test the path works before running the big steps...
-
-      # extract all data and temporarily dump into a single directory
-      message(crayon::green('Beginning extraction of files:',
-                            prods[i], format(Sys.time(), "%X")))
-      f <- paths2rast[grep(prods[i], paths2rast)]
-      temp <- file.path(dirname(f[i]), prods[i])
-      sapply(X = f, FUN = untar, exdir = temp)
-
-      # now form a VRT, meaning files don't need to be read into active memory (RAM)
-      # all at once. Now crop all files to the extent of the spatial domain we are
-      # setting the program up for.
-      paths <- file.path(temp, list.files(temp, pattern = '[.]tif$', recursive = TRUE))
-      virtualRast <- terra::vrt(paths)
-      virtualRast_sub <- terra::crop(virtualRast, terra::ext(tile_cellsV))
-
-      # set file names
-      columns <- terra::values(tile_cellsV)
-      cellname <- columns[,'cellname']
-
-      # write out product
-      message(crayon::green('Starting to write out final files for:',
-                            prods[i], format(Sys.time(), "%X")))
-      fname <- file.path(outdir, paste0(cellname, ".tif"))
-      terra::makeTiles(virtualRast_sub, tile_cellsV, filename = fname, na.rm = F)
-
-      # remove connection to the vrt
-      rm(virtualRast_sub)
-      # try and force garbage collection
-      # remove extracted dir.
-      unlink(file.path(dirname(f[i]), prods[i]), recursive = TRUE)
-      gc()
-    }
-  }
-}
