@@ -194,6 +194,8 @@ make_it_political <- function(path, pathOut, tile_cells){
     dplyr::select(STATEFP, State = NAME, STUSPS)  |>
     sf::st_drop_geometry()
 
+  sf::st_agr(counties) <- 'constant'
+  sf::st_agr(tile_cells) <- 'constant'
   counties <- counties[sf::st_intersects(counties, sf::st_union(tile_cells)) %>% lengths > 0, ]
   counties <- dplyr::left_join(counties, states, by = "STATEFP") |>
     dplyr::select(-STATEFP) |>
@@ -238,7 +240,7 @@ places_and_spaces <- function(path, pathOut, bound){
   places <- sf::st_set_precision(places, precision=10^3)
   # this will drop location coordinates to 3 decimal places.
 
-  sf::st_write(pathOut, 'places.shp', append = F)
+  sf::st_write(pathOut, 'places.shp', append = FALSE)
 }
 
 
@@ -250,9 +252,11 @@ process_gmba <- function(path, pathOut, tile_cells){
 
   p <- file.path(path, 'GMBA', 'GMBA_Inventory_v2.0_standard_basic.shp')
   mtns <- sf::st_read(p, quiet = T) |>
-    sf::st_make_valid()  |>
-    dplyr::select(MapName)  |>
-    sf::st_crop(., sf::st_union(tile_cells))|>
+    sf::st_make_valid()
+  st_agr(mtns) = "constant"
+  mtns <- mtns |>
+    dplyr::select(MapName) |>
+    sf::st_crop(sf::st_union(tile_cells))|>
     dplyr::rename(Mountains = MapName) |>
     dplyr::mutate(Mountains = stringr::str_remove(Mountains, '[(]nn[])]'))
 
@@ -281,7 +285,7 @@ process_gnis <- function(path, pathOut, bound){
   files <- files[ grep(patterns, files)]
   cols <- c('feature_name', 'prim_lat_dec', 'prim_long_dec')
 
-  places <- lapply(files, read.csv, sep = "|") |>
+  places <- lapply(files, read.csv, sep = "|")  %>%
     purrr::map(., ~ .x |> dplyr::select(all_of(cols)))  |>
     data.table::rbindlist()  |>
     sf::st_as_sf(coords = c('prim_long_dec', 'prim_lat_dec'), crs = 4269) |>
@@ -290,7 +294,7 @@ process_gnis <- function(path, pathOut, bound){
   sf::st_agr(places) <- 'constant'
   places <- places[sf::st_intersects(places, bb) %>% lengths > 0, ]
   places <- places  |>
-    dplyr::mutate(ID = seq_len(nrow(.))) |>
+    dplyr::mutate(ID = seq_len(dplyr::n())) |>
     dplyr::rename(fetr_nm = feature_name)
 
   places <- places |>
@@ -325,7 +329,7 @@ process_gnis <- function(path, pathOut, bound){
   dir.create(file.path(pathOut, 'places'), showWarnings = FALSE)
   sf::st_write(places,
                dsn = file.path(pathOut, 'places', 'place.shp'),
-               quiet = T, append = F)
+               quiet = TRUE, append = FALSE)
 
 }
 
@@ -378,7 +382,10 @@ process_padus <- function(path, pathOut, tile_cells){
   padus <- padus |>
     sf::st_make_valid() |>
     dplyr::filter(sf::st_is_valid(.)) |>
-    sf::st_write(padus, dsn = file.path(pathOut, 'pad.shp'), quiet = T, append = F)
+    sf::st_write(
+      padus,
+      dsn = file.path(pathOut, 'pad.shp'),
+      quiet = TRUE, append = FALSE)
 
 }
 
@@ -389,18 +396,25 @@ process_padus <- function(path, pathOut, tile_cells){
 geological_map <- function(path, pathOut, tile_cells){
 
   geological <- sf::st_read(
-    file.path(path, 'SGMC', 'USGS_SGMC_Geodatabase', 'USGS_StateGeologicMapCompilation_ver1.1.gdb'),
+    file.path(path, 'SGMC', 'USGS_SGMC_Geodatabase',
+              'USGS_StateGeologicMapCompilation_ver1.1.gdb'),
     layer = 'SGMC_Geology', quiet = T) |>
     dplyr::select(GENERALIZED_LITH, UNIT_NAME)
 
+  st_agr(tile_cells) = "constant"
+  st_agr(geological) = "constant"
   tile_cells <- sf::st_transform(tile_cells, sf::st_crs(geological))
-  geological <- geological[sf::st_intersects(geological, sf::st_union(tile_cells)) %>% lengths > 0, ]
+  geological <- geological[
+    sf::st_intersects(geological, sf::st_union(tile_cells)) %>% lengths > 0, ]
   geological <- sf::st_crop(geological, sf::st_union(tile_cells))
   geological <- sf::st_transform(geological, 4326)
 
 
   dir.create(file.path(pathOut, 'geology'), showWarnings = FALSE)
-  sf::st_write(geological, dsn = file.path(pathOut, 'geology', 'geology.shp'), quiet = T)
+  sf::st_write(
+    geological,
+    dsn = file.path(pathOut, 'geology', 'geology.shp'),
+    quiet = TRUE, append = FALSE)
 
 }
 
@@ -421,7 +435,11 @@ process_grazing_allot <- function(path, pathOut, tile_cells){
   allotments <- dplyr::bind_rows(blm, usfs) |>
     sf::st_make_valid()
   tile_cells <- sf::st_transform(tile_cells, sf::st_crs(allotments))
-  allotments <- allotments[sf::st_intersects(allotments, sf::st_union(tile_cells)) %>% lengths > 0, ]
+  st_agr(tile_cells) = "constant"
+  st_agr(allotments) = "constant"
+
+  allotments <- allotments[
+    sf::st_intersects(allotments, sf::st_union(tile_cells)) %>% lengths > 0, ]
   allotments <- sf::st_crop(allotments, sf::st_union(tile_cells))
   allotments <- sf::st_transform(allotments, 4326) |>
     dplyr::mutate(Allotment = stringr::str_to_title(ALLOT_NAME)) |>
@@ -442,7 +460,7 @@ process_grazing_allot <- function(path, pathOut, tile_cells){
 process_plss <- function(path, pathOut, tile_cells){
 
   p <- file.path(path, 'PLSS', 'ilmocplss.gdb')
-  township <- sf::st_read(p, layer = 'PLSSTownship', quiet = T
+  township <- sf::st_read(p, layer = 'PLSSTownship', quiet = TRUE
   ) |>
     sf::st_cast('POLYGON') |>
     dplyr::select(TWNSHPLAB, PLSSID)
@@ -451,7 +469,7 @@ process_plss <- function(path, pathOut, tile_cells){
   township <- township[sf::st_intersects(township, tile_cells) %>% lengths > 0, ]
   township <- sf::st_drop_geometry(township)
 
-  section <- sf::st_read(p, layer = 'PLSSFirstDivision', quiet = T
+  section <- sf::st_read(p, layer = 'PLSSFirstDivision', quiet = TRUE
   ) |>
     sf::st_cast('POLYGON') |>
     dplyr::select(FRSTDIVLAB, PLSSID, FRSTDIVID)
@@ -462,7 +480,7 @@ process_plss <- function(path, pathOut, tile_cells){
     dplyr::mutate(TRS = paste(TWNSHPLAB, FRSTDIVLAB)) |>
     dplyr::select(trs = TRS)
 
-  sf::st_write(trs, dsn = file.path(pathOut, 'plss', 'plss.shp'), quiet = T)
+  sf::st_write(trs, dsn = file.path(pathOut, 'plss', 'plss.shp'), quiet = TRUE)
 
 }
 
