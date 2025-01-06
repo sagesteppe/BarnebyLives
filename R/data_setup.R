@@ -61,7 +61,7 @@ data_setup <- function(path, pathOut, bound, cleanup){
   process_gnis(path, pathOut, bound)
 
   ## crop PADUS to domain
- # process_padus(path, pathOut, tile_cells)
+  process_padus(path, pathOut, tile_cells)
 
   ## geological map
   geological_map(path, pathOut, tile_cells)
@@ -70,7 +70,7 @@ data_setup <- function(path, pathOut, bound, cleanup){
   process_grazing_allot(path, pathOut, tile_cells)
 
   ## Public land survey system
-#  process_plss(path, pathOut, tile_cells)
+  process_plss(path, pathOut, tile_cells)
 
   # remove the extracted zip files
   dirs <- list.dirs('geodata_raw', recursive = FALSE)
@@ -333,16 +333,29 @@ process_gnis <- function(path, pathOut, bound){
 
 }
 
+
+setwd('/media/steppe/hdd/BL_sandbox/geodata_raw')
+path = '.'
 #' Set up the downloaded data for a BarnebyLives instance
 #'
 #' @description used within `data_setup`
 #' @keywords internal
 process_padus <- function(path, pathOut, tile_cells){
 
-  p <- file.path(path, 'PADUS3', 'PAD_US3_0.gdb')
+  states <- tigris::states(cb = TRUE, year = 2022, progress_bar = FALSE)
+  states <- states[
+    unlist(sf::st_intersects(
+      sf::st_transform(bound, sf::st_crs(states)),
+      states
+    )),'STUSPS'
+  ] |>
+    sf::st_drop_geometry() |>
+    dplyr::pull(STUSPS)
+
+  p <- file.path(path, 'PADUS4_0Geodatabase', 'PADUS4_0_Geodatabase.gdb')
   padus <- sf::st_read(
-    dsn = p,
-    layer = 'PADUS3_0Fee')  |>
+    dsn = p, quiet = TRUE,
+    layer = 'PADUS4_0Fee')  |>
     dplyr::filter(State_Nm %in% states)  |>
     dplyr::select(Mang_Name, Unit_Nm)  |>
     sf::st_cast('MULTIPOLYGON')
@@ -350,17 +363,17 @@ process_padus <- function(path, pathOut, tile_cells){
   tile_cells <- sf::st_transform(tile_cells, sf::st_crs(padus))
   padus <- padus[sf::st_intersects(padus, sf::st_union(tile_cells)) %>% lengths > 0, ]
   padus <- sf::st_transform(padus, crs = 4326)
-
-  sf::st_write(padus, dsn = file.path(path, 'pad.shp'), quiet = T)
+  padus <- sf::st_make_valid(padus)
+  padus <- dplyr::filter(sf::st_is_valid(padus))
 
   # replace really long state land board names with 'STATE SLB'
-  padus <- sf::st_read('../../Barneby_Lives-dev/geodata/pad/pad.shp')
-
   padus <- padus  |> # this one is just a wild outlier.
-    dplyr::mutate(Unit_Nm =
-                    stringr::str_replace(
-                      Unit_Nm,
-                      'The State of Utah School and Institutional Trust Lands Administration', 'Utah')
+    dplyr::mutate(
+      Unit_Nm =
+        stringr::str_replace(
+          Unit_Nm,
+          'The State of Utah School and Institutional Trust Lands Administration',
+          'Utah')
     )  |>
     dplyr::mutate(
       Unit_Nm = stringr::str_replace(Unit_Nm, "National Forest", "NF"),
@@ -379,9 +392,6 @@ process_padus <- function(path, pathOut, tile_cells){
       Unit_Nm = stringr::str_replace(Unit_Nm, 'Wildlife Management Area', "WMA")
       )
 
-  padus <- padus |>
-    sf::st_make_valid() |>
-    dplyr::filter(sf::st_is_valid(.)) |>
     sf::st_write(
       padus,
       dsn = file.path(pathOut, 'pad.shp'),
@@ -469,8 +479,7 @@ process_plss <- function(path, pathOut, tile_cells){
   township <- township[sf::st_intersects(township, tile_cells) %>% lengths > 0, ]
   township <- sf::st_drop_geometry(township)
 
-  section <- sf::st_read(p, layer = 'PLSSFirstDivision', quiet = TRUE
-  ) |>
+  section <- sf::st_read(p, layer = 'PLSSFirstDivision', quiet = TRUE) |>
     sf::st_cast('POLYGON') |>
     dplyr::select(FRSTDIVLAB, PLSSID, FRSTDIVID)
 
