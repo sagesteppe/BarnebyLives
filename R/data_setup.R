@@ -17,14 +17,14 @@
 #'   x = c(-117, -119, -119, -117, -117)
 #' )
 #'
-#' data_setup(path = './geodata_raw', bound = bound, cleanup = FALSE)
+#' setwd('/media/steppe/hdd/BL_sandbox/geodata_raw')
+#' data_setup(path = '.', pathOut = '../geodata', bound = bound, cleanup = FALSE)
 #' }
 #' @export
 data_setup <- function(path, pathOut, bound, cleanup){
 
-  if(missing(path)){path <- './geodata_raw'}
-  if(missing(pathOut)){pathOut <- '.'}
-  pathOut <- file.path(pathOut, 'geodata')
+  if(missing(path)){path <- file.path('.', 'geodata_raw')}
+  if(missing(pathOut)){pathOut <- file.path('..', 'geodata')}
   dir.create(pathOut, showWarnings = FALSE)
   if(missing(cleanup)){cleanup = FALSE}
 
@@ -37,6 +37,13 @@ data_setup <- function(path, pathOut, bound, cleanup){
 
   # decompress all of the archives so we can readily read them into R.
   zzzs <- file.path(path, list.files(path = path, pattern = '*.[.]zip$'))
+
+  message(
+    crayon::green(
+      'Beginning extraction  ("unzipping") of raw download directories:',
+      format(Sys.time(), "%X")
+      )
+    )
 
   lapply(zzzs, FUN = function(x){
     out <- gsub('[.]zip', '' , x)
@@ -61,7 +68,7 @@ data_setup <- function(path, pathOut, bound, cleanup){
   process_gnis(path, pathOut, bound)
 
   ## crop PADUS to domain
-  process_padus(path, pathOut, tile_cells)
+  process_padus(path, pathOut, bound, tile_cells)
 
   ## geological map
   geological_map(path, pathOut, tile_cells)
@@ -136,14 +143,14 @@ mason <- function(path, pathOut, tile_cellsV){
   paths2rast <- file.path(path, list.files(path,  recursive = T, pattern = '[.]tar'))
 
   prods <- c('aspect', 'dem', 'geom', 'slope')
-  for (i in seq_along(1:length(prods))){
+  for (i in seq_len(length(prods))){
 
     outdir <- file.path(pathOut, prods[i])
     if(!dir.exists(outdir)){
       dir.create(outdir) # test the path works before running the big steps...
 
       # extract all data and temporarily dump into a single directory
-      message(crayon::green('Beginning extraction of files:',
+      message(crayon::green('Beginning extraction of raster files:',
                             prods[i], format(Sys.time(), "%X")))
       f <- paths2rast[grep(prods[i], paths2rast)]
       temp <- file.path(dirname(f[i]), prods[i])
@@ -161,7 +168,7 @@ mason <- function(path, pathOut, tile_cellsV){
       cellname <- columns[,'cellname']
 
       # write out product
-      message(crayon::green('Starting to write out final files for:',
+      message(crayon::green('Starting to write out final raster files for:',
                             prods[i], format(Sys.time(), "%X")))
       fname <- file.path(outdir, paste0(cellname, ".tif"))
       terra::makeTiles(virtualRast_sub, tile_cellsV, filename = fname, na.rm = F)
@@ -174,6 +181,7 @@ mason <- function(path, pathOut, tile_cellsV){
       gc()
     }
   }
+  message(crayon::green('Done with extraction raster data. ', format(Sys.time(), "%X")))
 }
 
 
@@ -253,7 +261,7 @@ process_gmba <- function(path, pathOut, tile_cells){
   p <- file.path(path, 'GMBA', 'GMBA_Inventory_v2.0_standard_basic.shp')
   mtns <- sf::st_read(p, quiet = T) |>
     sf::st_make_valid()
-  st_agr(mtns) = "constant"
+  sf::st_agr(mtns) = "constant"
   mtns <- mtns |>
     dplyr::select(MapName) |>
     sf::st_crop(sf::st_union(tile_cells))|>
@@ -340,7 +348,7 @@ path = '.'
 #'
 #' @description used within `data_setup`
 #' @keywords internal
-process_padus <- function(path, pathOut, tile_cells){
+process_padus <- function(path, pathOut, bound, tile_cells){
 
   states <- tigris::states(cb = TRUE, year = 2022, progress_bar = FALSE)
   states <- states[
@@ -361,10 +369,10 @@ process_padus <- function(path, pathOut, tile_cells){
     sf::st_cast('MULTIPOLYGON')
 
   tile_cells <- sf::st_transform(tile_cells, sf::st_crs(padus))
+  padus <- sf::st_make_valid(padus)
   padus <- padus[sf::st_intersects(padus, sf::st_union(tile_cells)) %>% lengths > 0, ]
   padus <- sf::st_transform(padus, crs = 4326)
-  padus <- sf::st_make_valid(padus)
-  padus <- dplyr::filter(sf::st_is_valid(padus))
+  padus <- dplyr::filter(padus, sf::st_is_valid(padus))
 
   # replace really long state land board names with 'STATE SLB'
   padus <- padus  |> # this one is just a wild outlier.
@@ -392,9 +400,10 @@ process_padus <- function(path, pathOut, tile_cells){
       Unit_Nm = stringr::str_replace(Unit_Nm, 'Wildlife Management Area', "WMA")
       )
 
+  dir.create(file.path(pathOut, 'pad'), showWarnings = FALSE)
     sf::st_write(
       padus,
-      dsn = file.path(pathOut, 'pad.shp'),
+      dsn = file.path(pathOut, 'pad', 'pad.shp'),
       quiet = TRUE, append = FALSE)
 
 }
@@ -411,8 +420,8 @@ geological_map <- function(path, pathOut, tile_cells){
     layer = 'SGMC_Geology', quiet = T) |>
     dplyr::select(GENERALIZED_LITH, UNIT_NAME)
 
-  st_agr(tile_cells) = "constant"
-  st_agr(geological) = "constant"
+  sf::st_agr(tile_cells) = "constant"
+  sf::st_agr(geological) = "constant"
   tile_cells <- sf::st_transform(tile_cells, sf::st_crs(geological))
   geological <- geological[
     sf::st_intersects(geological, sf::st_union(tile_cells)) %>% lengths > 0, ]
@@ -445,8 +454,8 @@ process_grazing_allot <- function(path, pathOut, tile_cells){
   allotments <- dplyr::bind_rows(blm, usfs) |>
     sf::st_make_valid()
   tile_cells <- sf::st_transform(tile_cells, sf::st_crs(allotments))
-  st_agr(tile_cells) = "constant"
-  st_agr(allotments) = "constant"
+  sf::st_agr(tile_cells) = "constant"
+  sf::st_agr(allotments) = "constant"
 
   allotments <- allotments[
     sf::st_intersects(allotments, sf::st_union(tile_cells)) %>% lengths > 0, ]
@@ -470,25 +479,29 @@ process_grazing_allot <- function(path, pathOut, tile_cells){
 process_plss <- function(path, pathOut, tile_cells){
 
   p <- file.path(path, 'PLSS', 'ilmocplss.gdb')
-  township <- sf::st_read(p, layer = 'PLSSTownship', quiet = TRUE
-  ) |>
+  township <- sf::st_read(p, layer = 'PLSSTownship', quiet = TRUE)
+  township <- township |>
     sf::st_cast('POLYGON') |>
-    dplyr::select(TWNSHPLAB, PLSSID)
+    dplyr::select(TWNSHPLAB, PLSSID) |>
+    sf::st_make_valid() |>
+    sf::st_transform(4269)
 
   tile_cells <- sf::st_transform(tile_cells, sf::st_crs(township))
   township <- township[sf::st_intersects(township, tile_cells) %>% lengths > 0, ]
   township <- sf::st_drop_geometry(township)
 
-  section <- sf::st_read(p, layer = 'PLSSFirstDivision', quiet = TRUE) |>
+  section <- sf::st_read(p, layer = 'PLSSFirstDivision', quiet = TRUE)
+  section <- dplyr::right_join(section, township, 'PLSSID',
+                               relationship = "many-to-many")
+
+  trs <- section |>
     sf::st_cast('POLYGON') |>
-    dplyr::select(FRSTDIVLAB, PLSSID, FRSTDIVID)
-
-  section <- section[sf::st_intersects(section, tile_cells) %>% lengths > 0, ]
-
-  trs <- dplyr::inner_join(section, township, 'PLSSID') |>
+    dplyr::select(FRSTDIVLAB, PLSSID, FRSTDIVID, TWNSHPLAB) |>
+    sf::st_make_valid() |>
     dplyr::mutate(TRS = paste(TWNSHPLAB, FRSTDIVLAB)) |>
-    dplyr::select(trs = TRS)
+    dplyr::select(trs = TRS, Geometry = Shape)
 
+  dir.create(file.path(pathOut, 'plss'), showWarnings = FALSE)
   sf::st_write(trs, dsn = file.path(pathOut, 'plss', 'plss.shp'), quiet = TRUE)
 
 }
