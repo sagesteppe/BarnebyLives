@@ -16,7 +16,7 @@
 #'   sf::st_bbox() |>
 #'   sf::st_as_sfc()
 #'
-#' oupu <- TaxUnpack(path = '/media/steppe/hdd/BL_sandbox', bound = bound)
+#' oupu <- TaxUnpack(path = '/media/steppe/hdd/BL_sandbox/taxdata-MI', bound = bound)
 #' }
 #' @export
 TaxUnpack <- function(path, bound ){
@@ -48,7 +48,7 @@ TaxUnpack <- function(path, bound ){
   message(
     crayon::green(
       length(distributions),
-      'names (mostly synonyms...) found in this spatial domain.\nSit tight while we process all of the synonyms associated with them.')
+      'names (mostly synonyms...) found in this spatial domain.\nSit tight while we process them.')
     )
 
   wcvp_names <- read.table(unz(file.path(path, 'WCVP.zip'), 'wcvp_taxon.csv'),
@@ -87,6 +87,10 @@ TaxUnpack <- function(path, bound ){
   write.csv(families, file.path(path, 'families_lookup_table.csv'), row.names = F)
   write.csv(sppLKPtab, file.path(path, 'species_lookup_table.csv'), row.names = F)
   write.csv(infra_sppLKPtab, file.path(path, 'infra_species_lookup_table.csv'), row.names = F)
+
+  # now add in the author abbreviations.
+  data('ipni_authors', package='BarnebyLives')
+  write.csv(ipni_authors, file.path(path, 'ipni_author_abbreviations.csv'), row.names = FALSE)
 
   message(crayon::green(
     'New taxonomy backbone set up.'))

@@ -19,7 +19,7 @@ physical_grabber <- function(x, path){
   x_geo <- terra::extract(geology, x_spat)
 
   asp <- 'aspect'; slo <-  'slope'
-  geo <-  'geomorphons'; elev <-  'elevation'
+  geo <-  'geom'; elev <-  'dem'
 
   paths2rast <- file.path(
     file.path(path, asp), list.files(path = file.path(path, asp), recursive = T))

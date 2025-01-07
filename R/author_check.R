@@ -51,7 +51,7 @@ author_check <- function(x, path){
   }
 
   # load abbreviations
-  abbrevs <- read.csv(file.path(path, 'abbrevs.csv'))
+  abbrevs <- read.csv(file.path(path, 'ipni_author_abbreviations.csv'))$x
 
   # identify columns containing authority information
   binom_auth <- colnames(x)[grep('binom.*author', colnames(x), ignore.case = T)]
@@ -63,7 +63,6 @@ author_check <- function(x, path){
     }
 
   # there should always be at least two columns.
-
   auth <- dplyr::pull(no_spat, binom_auth)
   auth <- sub('\\(', "", auth)
   pieces <- strsplit(auth, split = '\\) | & |, | ex ')
@@ -83,9 +82,9 @@ author_check <- function(x, path){
   Issues <- dplyr::bind_cols(x, Issues)
 
     Issues <- Issues |>
-      dplyr::relocate(any_of( c('Binomial_authority_issues')),
+      dplyr::relocate(dplyr::any_of(c('Binomial_authority_issues')),
                       .after = binom_auth) |>
-      dplyr::relocate(any_of( c('Infra_auth_issues')),
+      dplyr::relocate(dplyr::any_of(c('Infra_auth_issues')),
                       .after = infra_auth)
 
   return(Issues)

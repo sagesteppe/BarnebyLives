@@ -336,7 +336,7 @@ process_gnis <- function(path, pathOut, bound){
 
   dir.create(file.path(pathOut, 'places'), showWarnings = FALSE)
   sf::st_write(places,
-               dsn = file.path(pathOut, 'places', 'place.shp'),
+               dsn = file.path(pathOut, 'places', 'places.shp'),
                quiet = TRUE, append = FALSE)
 
 }
