@@ -45,39 +45,42 @@ TaxUnpack <- function(path, bound ){
   # extract all plant codes associated with these states.
   distributions <- distributions[distributions$locality %in% sts, 'coreid']
 
-  cat(
+  message(
     crayon::green(
       length(distributions),
-      'names (mostly synonyms...) found in this spatial domain.\n
-      Sit tight while we process all of the synonyms associated with them.')
+      'names (mostly synonyms...) found in this spatial domain.\nSit tight while we process all of the synonyms associated with them.')
     )
 
-  names <- read.table(unz(file.path(path, 'WCVP.zip'), 'wcvp_taxon.csv'),
+  wcvp_names <- read.table(unz(file.path(path, 'WCVP.zip'), 'wcvp_taxon.csv'),
                      sep = "|", header = TRUE, quote = "", fill = TRUE, encoding = "UTF-8")
-  names <- names[names$taxonid %in% distributions,
-        c('taxonid', 'taxon_rank', 'family', 'genus', 'specificepithet', 'infraspecific_rank',
-          'infraspecificepithet', 'scientific_name', 'accepted_plant_name_id', 'parent_plant_name_id',
-          'taxononmicstatus', 'scientificnameauthorship')]
+  wcvp_names <- wcvp_names[wcvp_names$taxonid %in% distributions,
+                 c('taxonid', 'taxonrank', 'family', 'genus', 'specificepithet',
+     'infraspecificepithet', 'scientfiicname', 'acceptednameusageid', 'parentnameusageid',
+     'taxonomicstatus', 'scientfiicnameauthorship')]
 
-  return(names)
+  lkp <- c(
+    taxon_name = 'scientfiicname',
+    genus = 'genus',
+    species = 'specificepithet',
+    infraspecific_rank = 'taxonrank',
+    infraspecies = 'infraspecificepithet',
+    taxon_rank = 'taxonrank'
+  )
 
-  names <- names[names$taxon_rank %in% c('Species', 'Subspecies', 'Variety'),]
-  names <- dplyr::arrange(names, family, genus, species)
+  # will select and rename in same step :cool sunglasses:
+  LKPtab <- dplyr::select(wcvp_names, dplyr::all_of(lkp))
 
-  sppLKPtab <- names[, c('taxon_name', 'genus', 'species', 'infraspecific_rank',
-                         'infraspecies', 'taxon_rank')]
-
-  sppLKPtab <- dplyr::filter(sppLKPtab, taxon_rank == "Species") |>
+  sppLKPtab <- LKPtab |>
+    dplyr::filter(taxon_rank == "Species") |>
     dplyr::mutate(gGRP = stringr::str_extract(genus, '[A-Z]{1}[a-z]{1}')) |>
     dplyr::arrange(taxon_name)
 
-  infra_sppLKPtab <- dplyr::filter(names, taxon_rank %in% c("Variety", "Subspecies")) |>
+  infra_sppLKPtab <- LKPtab |>
+    dplyr::filter(taxon_rank %in% c("Variety", "Subspecies")) |>
     dplyr::mutate(Grp = stringr::str_extract(infraspecies, '[a-z]{2}')) |>
-    dplyr::select('taxon_name', 'genus', 'species', 'infraspecific_rank',
-           'infraspecies', 'taxon_rank') |>
     dplyr::arrange(taxon_name)
 
-  families <- sort(unique(names$family))
+  families <- sort(unique(wcvp_names$family))
   families <- c(families, 'Hydrophyllaceae', 'Namaceae') #add on a few
   families <- data.frame(Family = families)
 
@@ -85,7 +88,7 @@ TaxUnpack <- function(path, bound ){
   write.csv(sppLKPtab, file.path(path, 'species_lookup_table.csv'), row.names = F)
   write.csv(infra_sppLKPtab, file.path(path, 'infra_species_lookup_table.csv'), row.names = F)
 
-  cat(crayon::green(
+  message(crayon::green(
     'New taxonomy backbone set up.'))
 
 }
