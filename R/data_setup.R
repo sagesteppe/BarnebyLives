@@ -181,7 +181,7 @@ mason <- function(path, pathOut, tile_cellsV){
       gc()
     }
   }
-  message(crayon::green('Done with extraction raster data. ', format(Sys.time(), "%X")))
+  message(crayon::green('Done with processing raster data. ', format(Sys.time(), "%X")))
 }
 
 
@@ -342,8 +342,6 @@ process_gnis <- function(path, pathOut, bound){
 }
 
 
-setwd('/media/steppe/hdd/BL_sandbox/geodata_raw')
-path = '.'
 #' Set up the downloaded data for a BarnebyLives instance
 #'
 #' @description used within `data_setup`
@@ -469,7 +467,6 @@ process_grazing_allot <- function(path, pathOut, tile_cells){
     allotments,  quiet = TRUE, append = FALSE,
     dsn = file.path(pathOut, 'allotments', 'allotments.shp')
     )
-
 }
 
 #' Set up the downloaded data for a BarnebyLives instance

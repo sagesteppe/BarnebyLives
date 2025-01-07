@@ -25,7 +25,6 @@ data_download <- function(path){
 
   if(missing(path)){path <- '.'}
 
-  WCVP_dl(path)
   counties_dl(path)
   GMBA_dl(path)
   allotments_dl(path)
@@ -35,19 +34,6 @@ data_download <- function(path){
   SGMC_dl(path) # hardly ever works
 }
 
-#' download data
-#' @description dl data.
-#'
-#' @keywords internal
-WCVP_dl <- function(path){  #  WORKS
-
-  fp <- file.path(path, 'WCVP.zip')
-  if(file.exists(fp)){
-    message('Product `WCVP` already downloaded. Skipping.')} else{
-  URL <- 'https://sftp.kew.org/pub/data-repositories/WCVP/wcvp_dwca.zip'
-  httr::GET(URL, httr::progress(), httr::write_disk(path = fp, overwrite = TRUE))
-  }
-}
 
 #' download data
 #' @description dl data.
