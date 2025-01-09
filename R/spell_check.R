@@ -47,7 +47,8 @@ spell_check <- function(data, column, path) {
         data.frame(x, SpellCk = infraspecies_name, Match = 'fuzzy')
       }
 
-    } else {
+    } else { # search for the species epithet down here.
+
       # try for the exact match of the species name.
       pos <- grep(x = sppLKPtab$taxon_name, pattern = binom, fixed = T)
       if (length(pos) == 1) {
@@ -58,17 +59,22 @@ spell_check <- function(data, column, path) {
 
       } else {
 
-        # if we were not able to tget an exact match, we will now try jw distance
+        # if we were not able to to get an exact match, we will now try jw distance
         # but only testing against a subset of species which have a genus starting
         # with the same first two letters as the search query.
 
         sppLKP_l <- sppLKPtab[sppLKPtab$gGRP == stringr::str_extract(genus, '[A-Z]{1}[a-z]{1}'), ]
+
+
+        if(nrow(sppLKP_l)==0){
+          data.frame(x, SpellCk = binom, Match = 'not-performed')} else {
+
         species_name <-
           sppLKP_l[which.min(
             stringdist::stringdist(binom, sppLKP_l$taxon_name, method = 'jw')),]
         data.frame(x, SpellCk = species_name, Match = 'fuzzy')
-
           }
+      }
       }
   }
 
@@ -80,6 +86,7 @@ spell_check <- function(data, column, path) {
 
   data_l <- split(x, f = seq_len(nrow(x)))
   sc_res <- lapply(data_l, sc, column = column)
+
 
   rn <- c(SpellCk_Infraspecific_rank = 'SpellCk.verbatimTaxonRank')
    sc_res <- data.table::rbindlist(sc_res, fill = TRUE) |>

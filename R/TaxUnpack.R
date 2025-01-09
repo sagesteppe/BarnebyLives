@@ -77,7 +77,7 @@ TaxUnpack <- function(path, bound ){
 
   infra_sppLKPtab <- LKPtab |>
     dplyr::filter(taxon_rank %in% c("Variety", "Subspecies")) |>
-    dplyr::mutate(Grp = stringr::str_extract(infraspecies, '[a-z]{2}')) |>
+    dplyr::mutate(Grp = stringr::str_extract(infraspecies, '[a-z]{1}')) |>
     dplyr::arrange(taxon_name)
 
   families <- sort(unique(wcvp_names$family))

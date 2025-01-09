@@ -47,6 +47,9 @@ associates_spell_check <- function(x, column, path){
         names2search[i] <- gsub(' sp[.]', '', names2search[i])
       } else {uncertainty[i] <- NA}
 
+ #   }
+#    return(names2search)
+
       L = lengths(strsplit(names2search[i], " "))
 
       if(L == 1){ # genus search
@@ -57,16 +60,24 @@ associates_spell_check <- function(x, column, path){
             grepl(substr(names2search[[i]], 1, 2), genLKPtab$gGRP, ignore.case = TRUE),]
           names2search[[i]] <- paste(genLKPsub[
             which.min(
-              stringdist::stringdist(names2search[[i]], genLKPsub$genus, method = 'jw')), 'genus'], uncertainty[[i]])
+              stringdist::stringdist(
+                names2search[[i]], genLKPsub$genus, method = 'jw')), 'genus'], uncertainty[[i]])
         }
 
       } else if(L == 2){ # species search
 
         sppLKPsub <- sppLKPtab[
           grepl(substr(names2search[[i]], 1, 2), sppLKPtab$gGRP, ignore.case = TRUE),]
+
+        if(nrow(sppLKPsub)==0){ # if the two first letters don't match, we drop it to first letter.
+          sppLKPsub <- sppLKPtab[
+            grepl(substr(names2search[[i]], 1, 1), substr(sppLKPtab$gGRP, 1, 1), ignore.case = TRUE),]
+        }
+
        names2search[[i]] <- sppLKPsub[
           which.min(
-           stringdist::stringdist(names2search[[i]], sppLKPsub$taxon_name, method = 'jw')), 'taxon_name']
+           stringdist::stringdist(
+             names2search[[i]], sppLKPsub$taxon_name, method = 'jw')), 'taxon_name']
 
         } else if(L == 4) { # infra species search
 
