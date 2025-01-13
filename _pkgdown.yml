@@ -60,6 +60,7 @@ reference:
   - format_degree
   - get_google_directions
   - notFound
+  - mason
   - result_grabber
   - specificDirections
   - try_again
