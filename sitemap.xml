@@ -27,6 +27,7 @@
 <url><loc>https://sagesteppe.github.io/BarnebyLives/reference/collection_writer.html</loc></url>
 <url><loc>https://sagesteppe.github.io/BarnebyLives/reference/coords2sf.html</loc></url>
 <url><loc>https://sagesteppe.github.io/BarnebyLives/reference/counties_dl.html</loc></url>
+<url><loc>https://sagesteppe.github.io/BarnebyLives/reference/data_download.html</loc></url>
 <url><loc>https://sagesteppe.github.io/BarnebyLives/reference/data_setup.html</loc></url>
 <url><loc>https://sagesteppe.github.io/BarnebyLives/reference/database_templates.html</loc></url>
 <url><loc>https://sagesteppe.github.io/BarnebyLives/reference/date2text.html</loc></url>
@@ -34,7 +35,6 @@
 <url><loc>https://sagesteppe.github.io/BarnebyLives/reference/directions_grabber.html</loc></url>
 <url><loc>https://sagesteppe.github.io/BarnebyLives/reference/directions_overview.html</loc></url>
 <url><loc>https://sagesteppe.github.io/BarnebyLives/reference/dms2dd.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/reference/download_data.html</loc></url>
 <url><loc>https://sagesteppe.github.io/BarnebyLives/reference/family_spell_check.html</loc></url>
 <url><loc>https://sagesteppe.github.io/BarnebyLives/reference/format_database_import.html</loc></url>
 <url><loc>https://sagesteppe.github.io/BarnebyLives/reference/format_degree.html</loc></url>
@@ -71,6 +71,7 @@
 <url><loc>https://sagesteppe.github.io/BarnebyLives/reference/specificDirections.html</loc></url>
 <url><loc>https://sagesteppe.github.io/BarnebyLives/reference/spell_check.html</loc></url>
 <url><loc>https://sagesteppe.github.io/BarnebyLives/reference/split_scientificName.html</loc></url>
+<url><loc>https://sagesteppe.github.io/BarnebyLives/reference/tileSelector.html</loc></url>
 <url><loc>https://sagesteppe.github.io/BarnebyLives/reference/try_again.html</loc></url>
 <url><loc>https://sagesteppe.github.io/BarnebyLives/reference/wcvp_update.html</loc></url>
 <url><loc>https://sagesteppe.github.io/BarnebyLives/reference/writer.html</loc></url>

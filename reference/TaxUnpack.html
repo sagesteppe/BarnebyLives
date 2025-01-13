@@ -50,7 +50,7 @@ taxonomic look up table for.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">TaxUnpack</span><span class="op">(</span><span class="va">path</span>, <span class="va">continents</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">TaxUnpack</span><span class="op">(</span><span class="va">path</span>, <span class="va">bound</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -58,21 +58,28 @@ taxonomic look up table for.</p>
 
 
 <dl><dt id="arg-path">path<a class="anchor" aria-label="anchor" href="#arg-path"></a></dt>
-<dd><p>to where WCVP is stored</p></dd>
+<dd><p>Character vector.  Location to where taxonomic data should be saved,
+we recommend asubdirectory in the same folder, and at the same level, as the geographic data.</p></dd>
 
 
-<dt id="arg-continents">continents<a class="anchor" aria-label="anchor" href="#arg-continents"></a></dt>
-<dd><p>one of: 'NORTHERN AMERICA', 'AFRICA', 'ANTARCTICA', 'ASIA-TROPICAL',
-'ASIA-TEMPERATE', 'AUSTRALASIA', 'EUROPE', 'OCEANIA', 'SOUTHERN AMERICA', 'PACIFIC',</p></dd>
+<dt id="arg-bound">bound<a class="anchor" aria-label="anchor" href="#arg-bound"></a></dt>
+<dd><p>Dataframe of x and y coordinates, same argument as to <code>data_setup</code>.
+Coordinates assumed in WG84, NAD83, or googles absurd projection. Coordinate
+specifications are very precise later in the process, but at this level any of these
+three are effectively equivalent.</p></dd>
 
 </dl></div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
-<span class="r-in"><span><span class="va">oupu</span> <span class="op">&lt;-</span> <span class="fu">TaxUnpack</span><span class="op">(</span>path <span class="op">=</span> <span class="st">'~/Downloads'</span>,</span></span>
-<span class="r-in"><span>                 continent <span class="op">=</span> <span class="st">'NORTHERN AMERICA'</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">bound</span> <span class="op">&lt;-</span> <span class="va">bound</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_as_sf.html" class="external-link">st_as_sf</a></span><span class="op">(</span>coords <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'x'</span>, <span class="st">'y'</span><span class="op">)</span>, crs <span class="op">=</span> <span class="fl">4326</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_bbox.html" class="external-link">st_bbox</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_as_sfc.html" class="external-link">st_as_sfc</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">oupu</span> <span class="op">&lt;-</span> <span class="fu">TaxUnpack</span><span class="op">(</span>path <span class="op">=</span> <span class="st">'/media/steppe/hdd/BL_sandbox/taxdata-MI'</span>, bound <span class="op">=</span> <span class="va">bound</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 </code></pre></div>
     </div>

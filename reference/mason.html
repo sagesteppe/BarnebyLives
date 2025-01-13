@@ -47,39 +47,27 @@ you make virtual tiles which do not need to be held in memory for the project.">
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">mason</span><span class="op">(</span><span class="va">dirin</span>, <span class="va">dirout</span>, <span class="va">grid</span>, <span class="va">fnames</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">mason</span><span class="op">(</span><span class="va">path</span>, <span class="va">pathOut</span>, <span class="va">tile_cellsV</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
 
 
-<dl><dt id="arg-dirin">dirin<a class="anchor" aria-label="anchor" href="#arg-dirin"></a></dt>
-<dd><p>the input directory, including path, with the dataset</p></dd>
+<dl><dt id="arg-path">path<a class="anchor" aria-label="anchor" href="#arg-path"></a></dt>
+<dd><p>the input directory with all geographic data.</p></dd>
 
 
-<dt id="arg-dirout">dirout<a class="anchor" aria-label="anchor" href="#arg-dirout"></a></dt>
-<dd><p>the output directory, including path, for the subset dataset to go</p></dd>
+<dt id="arg-pathout">pathOut<a class="anchor" aria-label="anchor" href="#arg-pathout"></a></dt>
+<dd><p>the output directory for the final data product to go.
+Fn will automatically create folders for each product type.</p></dd>
 
 
-<dt id="arg-grid">grid<a class="anchor" aria-label="anchor" href="#arg-grid"></a></dt>
-<dd><p>spatvector defining the tiles, should contain a column containing grid cell names</p></dd>
-
-
-<dt id="arg-fnames">fnames<a class="anchor" aria-label="anchor" href="#arg-fnames"></a></dt>
-<dd><p>name of column containing filenames in the grid</p></dd>
-
-
-<dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
-<dd><p>other arguments passed to file.path</p></dd>
+<dt id="arg-tile-cellsv">tile_cellsV<a class="anchor" aria-label="anchor" href="#arg-tile-cellsv"></a></dt>
+<dd><p>output of <code>make_tiles</code></p></dd>
 
 </dl></div>
 
-    <div class="section level2">
-    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># see package vignette</span></span></span>
-</code></pre></div>
-    </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 
