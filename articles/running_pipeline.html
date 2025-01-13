@@ -135,11 +135,8 @@ the time of the query. <em>Caveat emptor.</em></p>
 </ul>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># devtools::install_github('sagesteppe/BarnebyLives')</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org" class="external-link">tidyverse</a></span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Error in get(paste0(generic, ".", class), envir = get_method_env()) : </span></span>
-<span><span class="co">##   object 'type_sum.accel' not found</span></span></code></pre>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://sagesteppe.github.io/BarnebyLives/">BarnebyLives</a></span><span class="op">)</span></span></code></pre></div>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org" class="external-link">tidyverse</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://sagesteppe.github.io/BarnebyLives/">BarnebyLives</a></span><span class="op">)</span></span></code></pre></div>
 <p>In this example I am going to showcase loading the data we want to
 run through the pipeline using Google Sheets. This can allow for
 collectors on a team to readily contribute to preparing and transcribing
@@ -156,7 +153,7 @@ into your google account so you can access data securely. After that
 note that I use the <code>drive_auth</code> function here. This function
 makes non-interactive use easy, it is only used here because the
 vignette renders as a non-interactive format.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages('googlesheets4')</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://googlesheets4.tidyverse.org" class="external-link">googlesheets4</a></span><span class="op">)</span></span>
 <span></span>
@@ -177,7 +174,7 @@ for many many people at once, and worried people may have the same
 names, and be collecting in the same range of numbers, then you can add
 in other data which would be required to make a UNIQUEID, most likely a
 component of the date.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># determine whether these data have already been processed by the script, using</span></span>
 <span><span class="co"># a unique combination of collection name and collection code. </span></span>
 <span><span class="co"># these are the data which have gone through the pipeline already</span></span>
@@ -205,7 +202,7 @@ recording your dates in the American format of (month/day/year), rather
 than the internationally more common format (day/month/year). We will
 also parse out the day of month, month of year, and year, which is used
 in multiple possible downstream software.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/date_parser.html">date_parser</a></span><span class="op">(</span><span class="va">input</span>, coll_date <span class="op">=</span> <span class="st">'Date_digital'</span>, det_date <span class="op">=</span> <span class="st">'Determined_date'</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">data</span>, <span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with</a></span><span class="op">(</span><span class="st">'Date'</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
@@ -220,14 +217,14 @@ prettier to read, DD is just used so much more often we change
 everything to it. Sad. We will maintain both formats in the data set, so
 others have them readily available for other uses aside from creating
 herbarium labels.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dms2dd.html">dms2dd</a></span><span class="op">(</span><span class="va">data</span>, dms <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">data</span>, <span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'latitude'</span>, <span class="st">'longitude'</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu">utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>Several spreadsheet software auto-increment numeric columns by
 default. We try to identify that issue here.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/autofill_checker.html">autofill_checker</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">data</span>, <span class="va">Long_AutoFill_Flag</span>, <span class="va">Lat_AutoFill_Flag</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
@@ -237,7 +234,7 @@ default. We try to identify that issue here.</p>
 explicitly spatial, rather than just holding coordinates in a column.
 This is also required to write out data in a format readable by Google
 Earth or another Geographic Information System.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/coords2sf.html">coords2sf</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span> <span class="co"># now we can see that it is an sf object</span></span></code></pre></div>
 </div>
@@ -255,7 +252,7 @@ either the United States Forest Service or Bureau of Land Management
 does manage the land, it will return information on grazing
 allotments.</p>
 <p>Retrieve State, County, Ownership, TRS, and allotment information</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="st">'/media/steppe/hdd/Barneby_Lives-dev/geodata'</span></span>
 <span></span>
 <span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/political_grabber.html">political_grabber</a></span><span class="op">(</span><span class="va">data</span>, y <span class="op">=</span> <span class="st">'Collection_number'</span>, path <span class="op">=</span> <span class="va">p</span><span class="op">)</span></span></code></pre></div>
@@ -276,7 +273,7 @@ unambiguously related to each other. While I hate saying that a
 collection site is XX km from a river at 121 degrees, because well -
 just think about it, that seems to be what people want.</p>
 <p>Retrieve Nearest GNIS place name, and azimuth from it.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/site_writer.html">site_writer</a></span><span class="op">(</span><span class="va">data</span>, path <span class="op">=</span> <span class="va">p</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
@@ -314,7 +311,7 @@ was broadly located. Generally ‘Valleys’ tend to eat up more land cover
 than they should, often extending up into alluvial fans, but I find them
 very useful for describing roughly where on the landscape the population
 is.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/physical_grabber.html">physical_grabber</a></span><span class="op">(</span><span class="va">data</span>, path <span class="op">=</span> <span class="va">p</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
@@ -330,7 +327,7 @@ nearly all published plant name spellings, and search for the most
 similar spelling within these lists if material is not found. It will
 operate on both pieces of the binomial separately, and can work to
 identify the species within the context of genus.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="st">'/media/steppe/hdd/Barneby_Lives-dev/taxonomic_data'</span></span>
 <span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/spell_check.html">spell_check</a></span><span class="op">(</span><span class="va">data</span>, path <span class="op">=</span> <span class="va">p</span><span class="op">)</span></span>
 <span></span>
@@ -342,20 +339,20 @@ using the standard author abbreviations. This check operates under a
 similar manner to <strong>spell_check()</strong>. The list which is
 consults <em>is</em> comprehensive, within a few years, of all
 taxonomists whom have published plant species.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/author_check.html">author_check</a></span><span class="op">(</span><span class="va">data</span>, path <span class="op">=</span> <span class="va">p</span><span class="op">)</span></span></code></pre></div>
 <p>The final process in the taxonomic step is to ensure that the
 spellings of any species noted in the <em>vegetation</em>, or
 <em>associates</em> fields are accurate. These <em>will not</em> then be
 submitted to Kew, as the fields could quickly overwhelm the API.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/associates_spell_check.html">associates_spell_check</a></span><span class="op">(</span><span class="va">data</span>, <span class="st">'Associates'</span>, path <span class="op">=</span> <span class="va">p</span><span class="op">)</span> <span class="co"># we can run on both columns. </span></span>
 <span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/associates_spell_check.html">associates_spell_check</a></span><span class="op">(</span><span class="va">data</span>, <span class="st">'Vegetation'</span>, path <span class="op">=</span> <span class="va">p</span><span class="op">)</span></span></code></pre></div>
 <p>Remove the collected species from the list of associated species.
 Many collectors will include the focal collection in the list of
 associated species when performing data entry for a site. We can remove
 it here.</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/associate_dropper.html">associate_dropper</a></span><span class="op">(</span><span class="va">data</span>, <span class="st">'Full_name'</span>, col  <span class="op">=</span> <span class="st">'Associates'</span><span class="op">)</span></span>
 <span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/associate_dropper.html">associate_dropper</a></span><span class="op">(</span><span class="va">data</span>, <span class="st">'Full_name'</span>, col  <span class="op">=</span> <span class="st">'Vegetation'</span><span class="op">)</span></span></code></pre></div>
 <p>After BarnebyLives! has verified the spelling of the species it will
@@ -366,7 +363,7 @@ interpret the results of query. Especially as it is possible that
 <strong>spell_check</strong> has mis-matched your material to another
 name.</p>
 <p>Searches for synonym to species</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">names</span> <span class="op">&lt;-</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_drop_geometry</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html" class="external-link">pull</a></span><span class="op">(</span><span class="va">Full_name</span><span class="op">)</span></span>
 <span></span>
@@ -383,7 +380,7 @@ name.</p>
 <p>Directions to a parking spot can be acquired from Google Maps;
 however this implies the location can be driven to in the first place.
 This may require interactive alterations from the user.</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">SoS_gkey</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"Sos_gkey"</span><span class="op">)</span></span>
 <span><span class="va">directions</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/directions_grabber.html">directions_grabber</a></span><span class="op">(</span><span class="va">data</span>, api_key <span class="op">=</span> <span class="va">SoS_gkey</span><span class="op">)</span></span></code></pre></div>
 </div>
@@ -392,7 +389,7 @@ This may require interactive alterations from the user.</p>
 <h2 id="export-collections">Export collections<a class="anchor" aria-label="anchor" href="#export-collections"></a>
 </h2>
 <p>We will write these data to Google sheets for our examples.</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># first ensure the columns are in the same order as google sheets</span></span>
 <span></span>
 <span><span class="va">processed</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://googlesheets4.tidyverse.org/reference/range_read.html" class="external-link">read_sheet</a></span><span class="op">(</span><span class="st">'1iOQBNeGqRJ3yhA-Sujas3xZ2Aw5rFkktUKv3N_e4o8M'</span>,</span>
@@ -407,7 +404,7 @@ This may require interactive alterations from the user.</p>
 <span>             sheet <span class="op">=</span> <span class="st">'Processed - Examples'</span>, data <span class="op">=</span> <span class="va">df</span><span class="op">)</span> </span></code></pre></div>
 <p>We can also export collections as either (or both!) a ‘shapefile’ or
 KML for use in GIS or GoogleEarth.</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/geodata_writer.html">geodata_writer</a></span><span class="op">(</span><span class="va">data</span>, path <span class="op">=</span> <span class="st">'someplace'</span>, </span>
 <span>               filename <span class="op">=</span> <span class="st">'Herbarium_Collections_2023'</span>,</span>
 <span>               filetype <span class="op">=</span> <span class="st">'kml'</span><span class="op">)</span></span></code></pre></div>
