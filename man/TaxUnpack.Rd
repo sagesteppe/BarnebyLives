@@ -4,13 +4,16 @@
 \alias{TaxUnpack}
 \title{a function to subset the WCVP data set to an area of focus}
 \usage{
-TaxUnpack(path, continents)
+TaxUnpack(path, bound)
 }
 \arguments{
-\item{path}{to where WCVP is stored}
+\item{path}{Character vector.  Location to where taxonomic data should be saved,
+we recommend asubdirectory in the same folder, and at the same level, as the geographic data.}
 
-\item{continents}{one of: 'NORTHERN AMERICA', 'AFRICA', 'ANTARCTICA', 'ASIA-TROPICAL',
-'ASIA-TEMPERATE', 'AUSTRALASIA', 'EUROPE', 'OCEANIA', 'SOUTHERN AMERICA', 'PACIFIC',}
+\item{bound}{Dataframe of x and y coordinates, same argument as to \code{data_setup}.
+Coordinates assumed in WG84, NAD83, or googles absurd projection. Coordinate
+specifications are very precise later in the process, but at this level any of these
+three are effectively equivalent.}
 }
 \description{
 This function is run on the WCVP compressed archive downloaded by 'wcvp_update',
@@ -19,8 +22,12 @@ taxonomic look up table for.
 }
 \examples{
 \dontrun{
-oupu <- TaxUnpack(path = '~/Downloads',
-                 continent = 'NORTHERN AMERICA')
 
+bound <- bound |>
+  sf::st_as_sf(coords = c('x', 'y'), crs = 4326) |>
+  sf::st_bbox() |>
+  sf::st_as_sfc()
+
+oupu <- TaxUnpack(path = '/media/steppe/hdd/BL_sandbox/taxdata-MI', bound = bound)
 }
 }

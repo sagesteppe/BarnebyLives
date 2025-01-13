@@ -4,7 +4,7 @@
 \alias{process_padus}
 \title{Set up the downloaded data for a BarnebyLives instance}
 \usage{
-process_padus(path, pathOut, tile_cells)
+process_padus(path, pathOut, bound, tile_cells)
 }
 \description{
 used within \code{data_setup}

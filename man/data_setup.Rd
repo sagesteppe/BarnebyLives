@@ -16,7 +16,9 @@ Defaults to ('.'), and will create a 'geodata' directory within it to store resu
 \item{bound}{Data frame. 'x' and 'y' coordinates of the extent for which the BL instance will cover.}
 
 \item{cleanup}{Boolean. Whether to remove the original zip files which were downloaded. Defaults to FALSE.
-Either mode of running the function will delete the uncompressed zip files generated during the process.}
+Either mode of running the function will delete the uncompressed zip files generated during the process.
+If FALSE, this will also bundle the downloaded topographic variables into their own directories,
+e.g. all directories of 'aspect' rasters will go into a single 'aspect' directory.}
 }
 \description{
 Once all data are downloaded for BarnebyLives use this function
@@ -29,6 +31,7 @@ bound <- data.frame(
   x = c(-117, -119, -119, -117, -117)
 )
 
-data_setup(path = './geodata_raw', bound = bound, cleanup = FALSE)
+setwd('/media/steppe/hdd/BL_sandbox/geodata_raw')
+data_setup(path = '.', pathOut = '../geodata', bound = bound, cleanup = FALSE)
 }
 }
