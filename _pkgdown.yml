@@ -29,7 +29,7 @@ reference:
 - title: Preparing data to run BL
   desc: Data prep functions
   contents: 
-  - download_data
+  - data_download
   - data_setup
   - TaxUnpack
 - title: Data
