@@ -1,25 +1,26 @@
 library(hexSticker)
 library(showtext)
+setwd('~/Documents/assoRted/BarnebyLives/man/figures')
 
-font_add_google('Exo 2', regular.wt = 400) # download the font locally each session. 
-p <- 'inst/man/figures/BarnebyLivesPress-blk.png'
+font_add_google('Open Sans', regular.wt = 400) # download the font locally each session.
+p <- 'BarnebyLivesPress-trans.png'
 
 sticker(
-	p, 
-	filename = 'inst/man/figures/logo.png', 
-	
+	p,
+	filename = 'logo.png',
+
 	# hexagon colours
-	h_fill = '#8080ff',
-	h_color = '#80ff80', 
-	
+	h_fill = 'black',
+	h_color = '#FF8427',
+
 	# control image placement and size
-	s_x = 1, s_y = 1.2, s_width = 0.6, 
-	
+	s_x = 1, s_y = 1.3, s_width = 0.75,
+
 	# package name specs
-	package = 'safeHavens',
-	p_family = 'Exo 2',  
+	package = 'BarnebyLives',
+	p_family = 'Exo 2',
 	p_color = 'white',
-	p_size = 24, 
+	p_size = 20,
 	p_y = 0.6,
 	dpi = 300
 )
