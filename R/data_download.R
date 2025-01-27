@@ -171,6 +171,11 @@ PAD_dl <- function(path){ # this is the wrong path
 #'   x = c(-126, -82, -82, -126, -126)
 #' )
 #'
+#' bound <- data.frame(
+#'   y = c(15, 50, 75, 44, 15),
+#'   x = c(-63, -64, -180, -180, -180)
+#' )
+#'
 #' tileSelector(bound)
 #' }
 #' @keywords internal

@@ -17,6 +17,7 @@
 #'   x = c(-117, -119, -119, -117, -117)
 #' )
 #'
+#'
 #' setwd('/media/steppe/hdd/BL_sandbox/geodata_raw')
 #' data_setup(path = '.', pathOut = '../geodata', bound = bound, cleanup = FALSE)
 #' }
