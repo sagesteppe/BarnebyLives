@@ -7,6 +7,10 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+```{r}
+knitr::opts_chunk$set(eval = FALSE)
+```
+
 ```{r setup, message = F}
 # remotes::install_github('sagesteppe/BarnebyLives')
 library(BarnebyLives)
@@ -35,10 +39,10 @@ One is a very strange minio server, if you are a minio expert please make an iss
 
 ## Download all data 
 
-```{r}
+```{r, eval = F}
 # I am using R markdown so want to be really sure save data to the correct location
 # so I will use an absolute path
-download_data(path = '/media/steppe/hdd/BL_sandbox/geodata_raw') 
+data_download(path = '/media/steppe/hdd/BL_sandbox/geodata_raw') 
 # if you are using an interactive R script. (file.R) you should be able to do something
 # similar or even just cd into the directory where you want to save everything and 
 # run the function ala `download-data()`
