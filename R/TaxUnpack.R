@@ -3,8 +3,8 @@
 #' This function is run on the WCVP compressed archive downloaded by 'wcvp_update',
 #' and requires some input from the user which specifies a geographic area to establish a
 #' taxonomic look up table for.
-#' @param path Character vector.  Location to where taxonomic data should be saved,
-#' we recommend asubdirectory in the same folder, and at the same level, as the geographic data.
+#' @param path Character vector. Location to where taxonomic data should be saved,
+#' we recommend a subdirectory in the same folder, and at the same level, as the geographic data.
 #' @param bound Dataframe of x and y coordinates, same argument as to `data_setup`.
 #' Coordinates assumed in WG84, NAD83, or googles absurd projection. Coordinate
 #' specifications are very precise later in the process, but at this level any of these
