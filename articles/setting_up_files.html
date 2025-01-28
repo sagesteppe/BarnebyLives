@@ -66,14 +66,6 @@
 
     
     
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/knitr/man/opts_chunk.html" class="external-link">opts_chunk</a></span><span class="op">$</span><span class="fu">set</span><span class="op">(</span>eval <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># remotes::install_github('sagesteppe/BarnebyLives')</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://sagesteppe.github.io/BarnebyLives/">BarnebyLives</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org" class="external-link">tidyverse</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/" class="external-link">sf</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/" class="external-link">terra</a></span><span class="op">)</span></span></code></pre></div>
 <p>BarnebyLives relies on a variety of data to be downloaded locally to
 your computer to work. My instance, which covers a large area,
 essentially from Michigan to California, South through Texas to the
@@ -111,7 +103,7 @@ publication details the process behind the data set. This is not that
 large of a file, so it will be downloaded in a couple minutes.</p>
 <p>This function will simply take the name of the output directory where
 we would like to save our data.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/TaxUnpack.html">TaxUnpack</a></span><span class="op">(</span>path <span class="op">=</span> <span class="st">'/media/steppe/hdd/BL_sandbox/taxdata-MI'</span>, bound <span class="op">=</span> <span class="va">bound</span><span class="op">)</span></span></code></pre></div>
 <p>The way that BarnebyLives matches spellings of names is very simple.
 It creates three tables, one large table which contains all of the
@@ -129,7 +121,7 @@ data come from <a href="https://www.ipni.org/" class="external-link">IPNI</a>, a
 minimally processed on my end, see the script within the data-raw
 directory on github for details. We will save a copy of them in the
 taxonomy directory as well.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">'ipni_authors'</span>, package<span class="op">=</span><span class="st">'BarnebyLives'</span><span class="op">)</span></span>
 <span><span class="va">p2</span> <span class="op">&lt;-</span> <span class="st">'/media/steppe/hdd/BL_sandbox/taxdata-MI'</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html" class="external-link">write.csv</a></span><span class="op">(</span><span class="va">ipni_authors</span>, <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">p2</span>, <span class="st">'ipni_author_abbreviations.csv'</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
@@ -141,7 +133,7 @@ taxonomy directory as well.</p>
 able to download <em>most</em> of the data you need automatically. A
 second function <code>tile_selector</code> will help you determine which
 files you need to download manually.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># I am using R markdown so want to be really sure save data to the correct location</span></span>
 <span><span class="co"># so I will use an absolute path</span></span>
 <span><span class="fu"><a href="../reference/data_download.html">data_download</a></span><span class="op">(</span>path <span class="op">=</span> <span class="st">'/media/steppe/hdd/BL_sandbox/raw_data'</span><span class="op">)</span> </span>
@@ -151,7 +143,7 @@ files you need to download manually.</p>
 <p>We will define a geographic extent that covers our area of interest.
 It will be a simple square, and grabbing coordinates from Open Street
 Maps, or a similar service, will suffice.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">bound</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
 <span>   y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span> <span class="fl">48</span>,  <span class="fl">48</span>,  <span class="fl">41</span>,  <span class="fl">41</span>,  <span class="fl">48</span><span class="op">)</span>,</span>
 <span>   x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">91</span>, <span class="op">-</span><span class="fl">82</span>, <span class="op">-</span><span class="fl">82</span>, <span class="op">-</span><span class="fl">91</span>, <span class="op">-</span><span class="fl">91</span><span class="op">)</span></span>
@@ -180,7 +172,7 @@ downloaded data are ‘path’, where to save the date ‘pathOut’, the square
 the raw downloaded files ‘cleanup’. I always leave cleanup = FALSE,
 until I am 100% certain that everything is all good, which means running
 data through the pipeline and printing labels a couple times.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/data_setup.html">data_setup</a></span><span class="op">(</span> <span class="co"># this one will take maybe 30 minutes or so - can't recall but a start</span></span>
 <span>  <span class="co"># and walk away or do emails type event. </span></span>
 <span>  path <span class="op">=</span> <span class="st">'/media/steppe/hdd/BL_sandbox/geodata_raw'</span>, </span>
