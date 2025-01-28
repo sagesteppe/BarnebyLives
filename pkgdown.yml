@@ -5,9 +5,8 @@ articles:
   creating_labels: creating_labels.html
   rendering_shipping_manifests: rendering_shipping_manifests.html
   running_pipeline: running_pipeline.html
-  setting_up_files-rebooted: setting_up_files-rebooted.html
   setting_up_files: setting_up_files.html
-last_built: 2025-01-27T23:25Z
+last_built: 2025-01-28T00:20Z
 urls:
   reference: https://sagesteppe.github.io/BarnebyLives/reference
   article: https://sagesteppe.github.io/BarnebyLives/articles
