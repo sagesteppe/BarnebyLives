@@ -84,7 +84,7 @@ data_download(path = '/media/steppe/hdd/BL_sandbox/raw_data')
 We will define a geographic extent that covers our area of interest. 
 It will be a simple square, and grabbing coordinates from Open Street Maps, or a similar service, will suffice.
 
-```{r determine tiles to download, eval = TRUE}
+```{r determine tiles to download}
 bound <- data.frame(
    y = c( 48,  48,  41,  41,  48),
    x = c(-91, -82, -82, -91, -91)
