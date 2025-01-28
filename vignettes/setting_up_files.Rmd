@@ -7,11 +7,11 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r}
+```{r, echo = FALSE}
 knitr::opts_chunk$set(eval = FALSE)
 ```
 
-```{r setup, message = F}
+```{r setup, message = F, echo = FALSE}
 # remotes::install_github('sagesteppe/BarnebyLives')
 library(BarnebyLives)
 library(tidyverse)
