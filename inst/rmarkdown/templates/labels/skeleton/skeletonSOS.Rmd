@@ -26,7 +26,7 @@ data <- collection_examples |>
 ```
 
 \begin{center}
-\textbf{\LARGE `r writer(data$Project_Name)`}
+\textbf{\LARGE Seeds of Success}
 \end{center}
 \begin{flushright}
 \uppercase{`r data$Family`}
@@ -55,3 +55,7 @@ Veg.: `r species_font(data$Vegetation)` `r associates_writer(data$Associates)`
 \begingroup
 `r collection_writer(data)`. `r writer_fide(data)`
 \endgroup
+
+\begin{center}
+{\footnotesize Collected under the auspices of the Bureau of Land Management}
+\end{center}
