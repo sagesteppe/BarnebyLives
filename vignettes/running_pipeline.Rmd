@@ -272,7 +272,6 @@ SoS_gkey = Sys.getenv("Sos_gkey")
 directions <- directions_grabber(data, api_key = SoS_gkey)
 ```
 
-
 # Export collections
 
 We will write these data to Google sheets for our examples. 

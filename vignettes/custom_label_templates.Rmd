@@ -1,0 +1,62 @@
+---
+title: "Custom Label Templates"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Custom Label Templates}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+## Overview 
+Obviously, everyone wants to be able to customize their label templates! 
+Why go through the bother of installing and running `BarnebyLives` if you cannot do that! 
+So here are a couple examples of tweaking around with the default skeleton to get some labels which will... Look familiar. 
+
+Note that the labels are made using LaTeX, an awesome guide for LaTeX (relevant to the level you will be using it at) is [Overleaf.org](https://www.overleaf.com/learn/latex/Learn_LaTeX_in_30_minutes), and check the links in the side bar too! 
+
+In this vignette, I will show you what the three default templates look like, and then we will make some slight customizations to them. 
+
+## Examples 
+
+As a reminder, the standard template looks like this. 
+
+INSERT IMG
+
+Another included template, for the Seeds of Success program, looks like this. 
+
+INSERT IMG 
+
+And our final default template looks like this
+
+INSERT IMG
+
+## Modifications
+
+All of the labels can be copied from their original locations using the following code
+```{r}
+```
+
+If you want to customize one, be sure to keep it in a 'local' location on your computer which will not be overwritten when you update the package, which may happen without your knowledge if this becomes a dependency to another package (which seems unlikely to me). 
+Once the file is in that location it can easily be opened for safe editing. 
+
+One final note is that LaTeX uses *spaces*, or ' ' for controlling content. 
+In particular two spaces will force the text onto a new line. 
+It is hard for me illustrate these in the examples, but I'll try and do my best to mention them when relevant. 
+
+For this example we will focus on the final default template, which is a pretty middle of the road design. 
+
+First let's change the line that controls the size of the font FOR ... 
+```{r old font size}
+
+```
+
+Now we can change some alignment
+```{r old alignment}
+
+```
+
+We may also decide that we don't care about presenting all of this information on the label
+```{r old descriptions}
+
+```
+
