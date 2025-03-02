@@ -44,7 +44,6 @@ folds <- file.path(
    'rmarkdown', 'templates', 'labels', 'skeleton', 'skeleton.Rmd')
 ```
 
-
 In this example we are going to use the default BarnebyLives template to create some labels. 
 You can create your own label template as well, that is discussed in the vignette "Custom Label Templates". 
 As mentioned we will use purrr::walk(), this function is going to perform an operation on each record which is feed into it via the `.x` argument. 
@@ -72,7 +71,6 @@ If you make a modified copy of the template in the R package, whenever the packa
 It is very unlikely you will be able to get a template back after it's removed, so don't do this!
 
 Using the code below we can simply copy (`file.copy`) the template to the current working directory (supplied as argument: '.'). 
-
 ```{r Copy template from R installation for local changes, eval = F}
 file.copy(from = file.path(p2libs, folds), to =  '.')
 ```
