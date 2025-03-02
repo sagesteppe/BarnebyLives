@@ -7,6 +7,10 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+```{r, echo = FALSE}
+knitr::opts_chunk$set(eval = FALSE)
+```
+
 # Purpose 
 The purpose of this script is to assist botanical collectors in accessioning their collections. 
 It is the central component of this entire package. 

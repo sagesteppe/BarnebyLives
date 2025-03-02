@@ -7,6 +7,10 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+```{r, echo = FALSE}
+knitr::opts_chunk$set(eval = FALSE)
+```
+
 This vignette will show you how to create your herbarium labels. 
 It also details how to export the data from the BarnebyLives format to some other popular herbarium database formats. 
 

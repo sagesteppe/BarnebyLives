@@ -7,6 +7,10 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+```{r, echo = FALSE}
+knitr::opts_chunk$set(eval = FALSE)
+```
+
 I find it to be good practice to include both a shipping manifest and short note to the curators who are receiving material when I ship out my collections. 
 The 'short notes' I generally send are slightly post-card-esque, unless working on some big government type project - which the note in the example will be. 
 In general I just like these as a nice little way of adding a bit of personal touch or warmth to the interaction. 
