@@ -34,6 +34,7 @@
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><a class="dropdown-item" href="../articles/creating_labels.html">Printing herbarium labels and exporting a digital copy of data</a></li>
+    <li><a class="dropdown-item" href="../articles/custom_label_templates.html">Custom Label Templates</a></li>
     <li><a class="dropdown-item" href="../articles/rendering_shipping_manifests.html">Rendering a shipping manifest</a></li>
     <li><a class="dropdown-item" href="../articles/running_pipeline.html">BarnebyLives! Running pipeline</a></li>
     <li><a class="dropdown-item" href="../articles/setting_up_files.html">Preparing to use BarnebyLives!</a></li>
@@ -67,28 +68,31 @@
     
     
 <p>I find it to be good practice to include both a shipping manifest and
-short note to the curators which are receiving material when I ship out
-my collection. The ‘short notes’ I generally send are slightly
+short note to the curators who are receiving material when I ship out my
+collections. The ‘short notes’ I generally send are slightly
 post-card-esque, unless working on some big government type project -
 which the note in the example will be. In general I just like these as a
-nice little way of communicating with someone with a little bit more
-personal touch.</p>
-<p>The shipping manifests are very important they allow me to check off
-material and make sure it is packed. They also seem like a cool old
-school way of helping people figure what is meant to be where. More feel
-than <em>another</em> email.<br>
-I’ve messed one up big time before, and well, they don’t talk to me
-there anymore. So it’s good to automate these I suppose.</p>
+nice little way of adding a bit of personal touch or warmth to the
+interaction.</p>
+<p>The shipping manifests are very important for practical reasons. They
+allow me to check off material and make sure it is packed. They also
+seem like a cool old school way of helping people figure what is meant
+to be where. More feel than <em>another</em> email. I’ve messed one up
+big time before, and well, they don’t talk to me there anymore, I
+thought botching 2 specimens out of 50 or so wasn’t that bad; he sure
+didn’t. So it’s good to automate these I suppose lest you make enemies
+through an honest mistake.</p>
 <p>BarnebyLives has a default template for this process, which
 automatically combines the transmittal notice with the shipping
 manifest.<br>
 As with the other templates from BL, it is easy to modify this template,
 and supply your local copy - with changes, in lieu of the default data
 set. Unlike the herbarium labels, even if you wanted to use this default
-template, you should copy this fill to a more user friendly location on
+template, you should copy this file to a more user friendly location on
 your computer. You will need to manually update some values, and the
-file itself will be rendered to a pdf in the location which it is found.
-Here we copy the file over to a more ‘natural’ part of the computers
+file itself will be rendered to pdf in whichever location it is
+found.</p>
+<p>Here we copy the file over to a more ‘natural’ part of the computers
 file system just like we did with the label templates.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">p2libs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span>package <span class="op">=</span> <span class="st">'BarnebyLives'</span><span class="op">)</span></span>
@@ -97,28 +101,49 @@ file system just like we did with the label templates.</p>
 <span>  <span class="st">'BarnebyLives'</span>, <span class="st">'rmarkdown'</span>, <span class="st">'templates'</span>, <span class="st">'SoS_transmittal'</span>, <span class="st">'skeleton'</span>, <span class="st">'skeleton.Rmd'</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.copy</a></span><span class="op">(</span>from <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">p2libs</span>, <span class="va">folds</span><span class="op">)</span>, to <span class="op">=</span>  <span class="st">'.'</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] FALSE</span></span></code></pre>
 <p>Remember, changing the ‘to’ parameter in <code>file.copy</code> will
-allow it go wherever you want it go, in this example it is being copied
-into our local directory. Do not make changes to the file in the R
+allow it go wherever you want it go. In this example we copy the file
+into our working directory. Do not make changes to the file in the R
 directory (folder) holding the package itself - these changes will be
-overwritten and lost whenever you end up updating the package. Now you
-should have a skeleton for the transmittal notice. Open this up in a R
-tab, and fill out the <code>User</code> defined settings. An example is
-below (do this in the template! not here).</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+overwritten and lost whenever the package is updated.</p>
+<p>Now you should have a skeleton for the transmittal notice. Open this
+up in a R tab, and fill out the <code>User</code> defined settings. An
+example is below (do this in the template! not here).</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">herbarium_code</span> <span class="op">&lt;-</span> <span class="st">'COLO'</span> <span class="co"># index herbariorum code</span></span>
 <span><span class="va">project</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
 <span>  Name <span class="op">=</span> <span class="st">'Seeds of Success'</span>, <span class="co"># the project name. </span></span>
-<span>  Project_description <span class="op">=</span> <span class="st">'native seed conservation and development project'</span>, <span class="co"># short description</span></span>
+<span>  Project_description <span class="op">=</span> <span class="st">'native seed conservation and development project'</span>,</span>
+<span>  <span class="co"># short description</span></span>
 <span>  Organization <span class="op">=</span> <span class="st">'Chicago Botanic Garden'</span>,</span>
-<span>  Phone <span class="op">=</span> <span class="st">'312-607-0257'</span>,</span>
+<span>  Phone <span class="op">=</span> <span class="st">'312-XXX-0257'</span>,</span>
 <span>  Person <span class="op">=</span> <span class="st">'Reed Benkendorf'</span>,</span>
-<span>  Email <span class="op">=</span> <span class="st">'rbenkendorf@chicagotbotanic.org'</span>,</span>
+<span>  Email <span class="op">=</span> <span class="st">'rxxkendork@chicagotbotanic.org'</span>,</span>
 <span>  PersonTitle <span class="op">=</span> <span class="st">'Lead Botanist'</span>,</span>
 <span>  Sets <span class="op">=</span> <span class="st">'quadruplicate'</span>,</span>
 <span>  Permits <span class="op">=</span> <span class="st">'These materials were collected under the auspices of the US Department of Interiors Bureau of Land Management, unless noted otherwise.'</span></span>
 <span><span class="op">)</span></span></code></pre></div>
+<p>So those are your contact details which will go onto the letter, and
+provide some context to the curator.</p>
+<p>Next you will need to point towards the specimens you want to send.
+In this case I use a relative path to point towards the output from the
+BL cleaning pipeline. I select the few fields which matter, and create
+some empty ones for me to manually check off with a pen. I include this
+little stringr:: call to reduce strip away all but my first initial from
+my first name. It’s not super safe, I can’t come up with an example of a
+name it would malfunction on, but a first name like ‘McKenna’ would
+results in ‘MK’ being left behind, modify it as needed. Realistically, I
+just have a really long last name, so I doubt too many other people even
+care to abbreviate their first names.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">herbarium</span> <span class="op">&lt;-</span> <span class="va">herbaria_info</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">Abbreviation</span> <span class="op">==</span> <span class="va">herbarium_code</span><span class="op">)</span></span>
+<span><span class="va">specimens</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span><span class="st">'../../results/collections-YOUR_NAME.csv'</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">Primary_Collector</span>, <span class="va">Collection_number</span>, <span class="va">Full_name</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
+<span>    Packed <span class="op">=</span> <span class="st">""</span>, </span>
+<span>    Received <span class="op">=</span> <span class="st">""</span>, </span>
+<span>    Primary_Collector <span class="op">=</span> <span class="fu">stringr</span><span class="fu">::</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_replace.html" class="external-link">str_replace</a></span><span class="op">(</span><span class="va">Primary_Collector</span>, <span class="st">"[a-z]+"</span>, <span class="st">"."</span><span class="op">)</span><span class="op">)</span> </span></code></pre></div>
 <p>Once you have made all of your changes simply run the job. And once
 you’ve done that you can ‘knit’ the document using the ‘knit’ button in
 Rmarkdown’s graphic user interface or <code>Ctrl + Shift + k</code>.</p>
