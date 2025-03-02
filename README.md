@@ -73,7 +73,7 @@ and Consortium of Pacific Northwest Herbaria.
 Currently BarnebyLives! Is being run on a juiced up computer either in
 Rogers Park Chicago or Reno. The amount of data which it queries is very
 large. Please let me know if you have a query and I will run it for you.
-If you only collect from a smaller portion of the West, e.g. a certain
+If you only collect from a smaller portion of the West, e.g. a certain
 state, or FS/BLM Unit/Field Office, you should be able to set up a local
 instance. Although, the documentation for such an endeavor is nascent
 the endeavor is simple, see “crop2boundary” for the workflow.
@@ -101,7 +101,7 @@ sudo apt-get install pdftk -y
 ```
 
 We hope to collaborate with others to treat CONUS and to create
-multiformat data e.g. Darwincore, CPNWH, etc., and push this product
+multiformat data e.g. Darwincore, CPNWH, etc., and push this product
 onto CRAN as well as publish a short piece in APPS! It is on the
 backburner, but still simmering! Stay tuned in but dropped out!
 
@@ -153,7 +153,7 @@ Unnecessary columns!
 | Infraspecies | The taxonomic entity which this population is a component of within the hierarchy of species. |
 | Infraspecific_Authority | The scientific authors who conceptualized the species, and described it, and relevant authors whom have transferred the species to within a species. |
 | Family | A Family which the Genus which this species is apart of is considered to be a component of. |
-| Datum | A smoothed model of the earths surface and reference locations on the surface to measure from (~i.e. meridians). Typical geodetic datums include ‘WGS 84’, ‘NAD 83’. |
+| Datum | A smoothed model of the earths surface and reference locations on the surface to measure from (~i.e. meridians). Typical geodetic datums include ‘WGS 84’, ‘NAD 83’. |
 | Aspect | The measured or in-field estimated cardinal direction which the population faced. |
 | Slope | The measured or in-field estimated slope which the population faced. |
 
@@ -206,7 +206,10 @@ which you find suitable. Personally, I slap all of them on an hdd.
 
 ## Rendering Labels
 
-You will need to print you labels for the sheets. We do so as follows.
+You will need to print you labels for the sheets. 
+We use a `purrr` `walk`  to create 4x4in individuals labels as pdf's using Rmarkdown. 
+Then we combine all of them using bash. 
+A script is distributed with the package to accomplish this. 
 
 a bash loop, such as this, works to combine the labels - 4 per page.
 
@@ -267,34 +270,6 @@ run the purrr::walk again.
 
 Note that the ‘collector’ will need to match (..exactly…) the output of
 the purrr::walk files collector name.
-
-## Chicago Botanic Garden Fieldworkers Usage
-
-There are multiple ways to submit jobs to BarnebyLives! One method is to
-submit your herbarium data collection sheet via email to me. The
-preferred method is to enter your data onto [Google
-Sheets](https://docs.google.com/spreadsheets/d/1iOQBNeGqRJ3yhA-Sujas3xZ2Aw5rFkktUKv3N_e4o8M/edit#gid=0).
-You will need to be added as a user for this. Contact my
-@chicagobotanic.org for this. This project contains 3 tabs - definitions
-of all fields which can be filled (Data Definitions)  
-- examples of real (my) collections for 2023 to base your work off (Data
-Entry - Examples)  
-- user submittal sheet (Data Entry)  
-- an example of the text output which will be generated (Processed -
-Examples) - the text output which is generated for queries (Processed)
-
-There are two colors on this sheet. White (or Black in dark mode) are
-cells which cannot be derived via the program. Blue cells are optional,
-or otherwise not required.
-
-### Usage Process
-
-Allow up to 1 month of processing time for a request. You should be
-working on labels throughout the season. Your submittal will be ran
-within a couple weeks. The results will be populated in the sheet
-‘Processed’, you will need to manually review/edit them, once you are
-satisfied and made the required alterations we will submit them for
-label generation.
 
 | ![Portrait of Rupert Barneby by Dwight Ripley 1955](man/figures/Portrait_of_Rupert_Barneby.png) |
 |:--:|

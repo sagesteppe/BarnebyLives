@@ -170,76 +170,49 @@ Personally, I slap all of them on an hdd.
 
 ## Rendering Labels
 
-You will need to print you labels for the sheets. We do so as follows. 
+You will need to print you labels for the sheets. 
+We use a `purrr` `walk`  to create 4x4in individuals labels as pdf's using Rmarkdown. 
+Then we combine all of them using bash. 
+A bash script, `render_labels.sh` is distributed with the package to accomplish this. 
 
-a bash loop, such as this, works to combine the labels - 4 per page. 
-```
-files=(raw/*)
-for (( i=0; i<${#files[*]}; i+=4 ));
-do
-  filename="${files[i]##*/}"
-	pdfjam "${files[@]:$i:4}" --nup 2x2 --landscape --outfile "processed/$filename" --noautoscale true  
-done
-```
-
-obviously the pages of labels can then be combined, like this, to create a single print job. 
-```
-files=(processed/*)
-pdftk ${files[*]} output final/labels.pdf
-```
-We have this functionality contained within a bash script which is distributed with the package, 'render_labels'. 
-Which takes a single argument 'collector' e.g. 'collector=Dwight'. 
-We've had difficulty calling this script from it's default install location :/, but it can easily be copied elsewhere and ran from that location. 
-It's easy to find this (and where the default herbarium label templates are, which you can totally modify :-)), in R using the following command. 
-Obviously this file can then be copied to another location (from within R) and ran... 
+We can copy it to a location, from R, like this. 
 
 ```
-p2script <- paste0(.libPaths()[ 
-  grepl(paste0(version$major, '.', sub('\\..*', "", version$minor)), 
-        .libPaths())], '/render_labels.sh')
-file.copy(p2script, destination)
+p2libs <- system.file(package = 'BarnebyLives')
+folds <- file.path('rmarkdown', 'render_labels.sh') 
+
+file.copy(from = file.path(p2libs, folds), 
+          to = '/media/steppe/hdd/Barneby_Lives-dev/manuscript/labels/raw')
 ```
 
-You can run the script like this...
+And once here, we can run it like this (from a shell!)
+
 ```
-bash path2file/render_labels.sh collector='Dwight'
+bash render_labels.sh collector='Dwight'
 ```
+
+Note that, we've had difficulty calling this script from it's default install location :/, but it can easily be copied elsewhere and ran from that location. 
+
 reminder, you only need to chmod +x a file if you don't call 'bash' at the start of an argument...
 ```
 chmod +x render_labels.sh
 path2file/render_labels.sh collector='Dwight'
 ```
-Also a reminder that you can check your paths via `$PATH`, and can install to somewhere on your path! e.g. '/usr/local/bin', after that you can simply call it...
+Also a reminder that you can check your paths via `$PATH`, and can install to somewhere on your path! e.g. '/usr/local/bin', after that you can simply call it... But I'm not sure if it will find the dir you are looking for. 
 ```
 render_labels.sh collector='Dwight'
 ```
 In all instances the script is meant for you to call it from the following location:
 ```
 ├── HerbariumLabels
-│  ├── final
+│  ├── final ## <- products will go in here!!! 
 │  └── raw ## <- call render_labels.sh from here!!!
 │       └── Dwight-raw
 ```
-The labels will end up in 'Final' and the subfolder within raw ('Dwight-raw') will be deleted.
-If you want to re-render you'll need to run the purrr::walk again. 
+The labels will end up in 'final' and the subfolder within raw ('Dwight-raw') will be deleted.
+If you want to re-render you'll need to run the `purrr::walk` again. 
 
-Note that the 'collector' will need to match (..exactly...) the output of the purrr::walk files collector name. 
-
-## Chicago Botanic Garden Fieldworkers Usage
-
-There are multiple ways to submit jobs to BarnebyLives! One method is to submit your herbarium data collection sheet via email to me. The preferred method is to enter your data onto [Google Sheets](https://docs.google.com/spreadsheets/d/1iOQBNeGqRJ3yhA-Sujas3xZ2Aw5rFkktUKv3N_e4o8M/edit#gid=0). You will need to be added as a user for this. Contact my @chicagobotanic.org for this. This project contains 3 tabs 
-- definitions of all fields which can be filled  (Data Definitions)  
-- examples of real (my) collections for 2023 to base your work off (Data Entry - Examples)  
-- user submittal sheet  (Data Entry)  
-- an example of the text output which will be generated (Processed - Examples)
-- the text output which is generated for queries (Processed)
-
-
-There are two colors on this sheet. White (or Black in dark mode) are cells which cannot be derived via the program. Blue cells are optional, or otherwise not required. 
-
-### Usage Process
-
-Allow up to 1 month of processing time for a request. You should be working on labels throughout the season. Your submittal will be ran within a couple weeks.  The results will be populated in the sheet 'Processed', you will need to manually review/edit them, once you are satisfied and made the required alterations we will submit them for label generation.
+Note that the 'collector' will need to match (..exactly...) the output of the `purrr::walk` files collector name. 
 
 | ![Portrait of Rupert Barneby by Dwight Ripley 1955](man/figures/Portrait_of_Rupert_Barneby.png) | 
 |:--:| 
