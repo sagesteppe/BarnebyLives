@@ -321,7 +321,7 @@ Suggested Workflow
 <div class="section level2">
 <h2 id="rendering-labels">Rendering Labels<a class="anchor" aria-label="anchor" href="#rendering-labels"></a>
 </h2>
-<p>You will need to print you labels for the sheets. We do so as follows.</p>
+<p>You will need to print you labels for the sheets. We use a <code>purrr</code> <code>walk</code> to create 4x4in individuals labels as pdf’s using Rmarkdown. Then we combine all of them using bash. A script is distributed with the package to accomplish this.</p>
 <p>a bash loop, such as this, works to combine the labels - 4 per page.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>files<span class="ot">=</span>(raw<span class="sc">/</span><span class="er">*</span>)</span>
 <span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="cf">for</span> (( <span class="at">i=</span><span class="dv">0</span>; i<span class="sc">&lt;</span><span class="er">$</span>{<span class="co">#files[*]}; i+=4 ));</span></span>
@@ -351,19 +351,6 @@ Suggested Workflow
 <span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>│       └── Dwight<span class="sc">-</span>raw</span></code></pre></div>
 <p>The labels will end up in ‘Final’ and the subfolder within raw (‘Dwight-raw’) will be deleted. If you want to re-render you’ll need to run the purrr::walk again.</p>
 <p>Note that the ‘collector’ will need to match (..exactly…) the output of the purrr::walk files collector name.</p>
-</div>
-<div class="section level2">
-<h2 id="chicago-botanic-garden-fieldworkers-usage">Chicago Botanic Garden Fieldworkers Usage<a class="anchor" aria-label="anchor" href="#chicago-botanic-garden-fieldworkers-usage"></a>
-</h2>
-<p>There are multiple ways to submit jobs to BarnebyLives! One method is to submit your herbarium data collection sheet via email to me. The preferred method is to enter your data onto <a href="https://docs.google.com/spreadsheets/d/1iOQBNeGqRJ3yhA-Sujas3xZ2Aw5rFkktUKv3N_e4o8M/edit#gid=0" class="external-link">Google Sheets</a>. You will need to be added as a user for this. Contact my @chicagobotanic.org for this. This project contains 3 tabs - definitions of all fields which can be filled (Data Definitions)<br>
-- examples of real (my) collections for 2023 to base your work off (Data Entry - Examples)<br>
-- user submittal sheet (Data Entry)<br>
-- an example of the text output which will be generated (Processed - Examples) - the text output which is generated for queries (Processed)</p>
-<p>There are two colors on this sheet. White (or Black in dark mode) are cells which cannot be derived via the program. Blue cells are optional, or otherwise not required.</p>
-<div class="section level3">
-<h3 id="usage-process">Usage Process<a class="anchor" aria-label="anchor" href="#usage-process"></a>
-</h3>
-<p>Allow up to 1 month of processing time for a request. You should be working on labels throughout the season. Your submittal will be ran within a couple weeks. The results will be populated in the sheet ‘Processed’, you will need to manually review/edit them, once you are satisfied and made the required alterations we will submit them for label generation.</p>
 <table class="table">
 <colgroup><col width="100%"></colgroup>
 <thead><tr class="header">
@@ -375,7 +362,6 @@ Suggested Workflow
 </tr></tbody>
 </table>
 <p><em>BarnebyLives(!) Was named after Rupert Charles Barneby, botanist extraordinaire, artist, socialite, and kind hearted human being. He is the hero the West needs not Hayduke. Hence, BarnebyLives!</em></p>
-</div>
 </div>
 
   </main><aside class="col-md-3"><div class="license">
