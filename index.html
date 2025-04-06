@@ -321,36 +321,35 @@ Suggested Workflow
 <div class="section level2">
 <h2 id="rendering-labels">Rendering Labels<a class="anchor" aria-label="anchor" href="#rendering-labels"></a>
 </h2>
-<p>You will need to print you labels for the sheets. We use a <code>purrr</code> <code>walk</code> to create 4x4in individuals labels as pdf’s using Rmarkdown. Then we combine all of them using bash. A script is distributed with the package to accomplish this.</p>
-<p>a bash loop, such as this, works to combine the labels - 4 per page.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>files<span class="ot">=</span>(raw<span class="sc">/</span><span class="er">*</span>)</span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="cf">for</span> (( <span class="at">i=</span><span class="dv">0</span>; i<span class="sc">&lt;</span><span class="er">$</span>{<span class="co">#files[*]}; i+=4 ));</span></span>
-<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>do</span>
-<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>  filename<span class="ot">=</span><span class="st">"${files[i]##*/}"</span></span>
-<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>    pdfjam <span class="st">"${files[@]:$i:4}"</span> <span class="sc">--</span>nup <span class="dv">2</span>x2 <span class="sc">--</span>landscape <span class="sc">--</span>outfile <span class="st">"processed/$filename"</span> <span class="sc">--</span>noautoscale true  </span>
-<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>done</span></code></pre></div>
-<p>obviously the pages of labels can then be combined, like this, to create a single print job.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>files<span class="ot">=</span>(processed<span class="sc">/</span><span class="er">*</span>)</span>
-<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>pdftk <span class="sc">$</span>{files[<span class="sc">*</span>]} output final<span class="sc">/</span>labels.pdf</span></code></pre></div>
-<p>We have this functionality contained within a bash script which is distributed with the package, ‘render_labels’. Which takes a single argument ‘collector’ e.g. ‘collector=Dwight’. We’ve had difficulty calling this script from it’s default install location :/, but it can easily be copied elsewhere and ran from that location. It’s easy to find this (and where the default herbarium label templates are, which you can totally modify :-)), in R using the following command. Obviously this file can then be copied to another location (from within R) and ran…</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>p2script <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="fu">.libPaths</span>()[ </span>
-<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>  <span class="fu">grepl</span>(<span class="fu">paste0</span>(version<span class="sc">$</span>major, <span class="st">'.'</span>, <span class="fu">sub</span>(<span class="st">'</span><span class="sc">\\</span><span class="st">..*'</span>, <span class="st">""</span>, version<span class="sc">$</span>minor)), </span>
-<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>        <span class="fu">.libPaths</span>())], <span class="st">'/render_labels.sh'</span>)</span>
-<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="fu">file.copy</span>(p2script, destination)</span></code></pre></div>
-<p>You can run the script like this…</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>bash path2file<span class="sc">/</span>render_labels.sh collector<span class="ot">=</span><span class="st">'Dwight'</span></span></code></pre></div>
+<p>You will need to print you labels for the sheets. We use a <code>purrr</code> <code>walk</code> to create 4x4in individuals labels as pdf’s using Rmarkdown. Then we combine all of them using bash. A bash script, <code>render_labels.sh</code> is distributed with the package to accomplish this.</p>
+<p>We can copy it to a location, from R, like this.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>p2libs <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="at">package =</span> <span class="st">'BarnebyLives'</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>folds <span class="ot">&lt;-</span> <span class="fu">file.path</span>(<span class="st">'rmarkdown'</span>, <span class="st">'render_labels.sh'</span>) </span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="fu">file.copy</span>(<span class="at">from =</span> <span class="fu">file.path</span>(p2libs, folds), </span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>          <span class="at">to =</span> <span class="st">'/media/steppe/hdd/Barneby_Lives-dev/manuscript/labels/raw'</span>)</span></code></pre></div>
+<p>And once here, we can run it like this (from a shell!)</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>bash render_labels.sh collector<span class="ot">=</span><span class="st">'Dwight'</span></span></code></pre></div>
+<p>Note that, we’ve had difficulty calling this script from it’s default install location :/, but it can easily be copied elsewhere and ran from that location.</p>
 <p>reminder, you only need to chmod +x a file if you don’t call ‘bash’ at the start of an argument…</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>chmod <span class="sc">+</span>x render_labels.sh</span>
-<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>path2file<span class="sc">/</span>render_labels.sh collector<span class="ot">=</span><span class="st">'Dwight'</span></span></code></pre></div>
-<p>Also a reminder that you can check your paths via <code>$PATH</code>, and can install to somewhere on your path! e.g. ‘/usr/local/bin’, after that you can simply call it…</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>render_labels.sh collector<span class="ot">=</span><span class="st">'Dwight'</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>chmod <span class="sc">+</span>x render_labels.sh</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>path2file<span class="sc">/</span>render_labels.sh collector<span class="ot">=</span><span class="st">'Dwight'</span></span></code></pre></div>
+<p>Also a reminder that you can check your paths via <code>$PATH</code>, and can install to somewhere on your path! e.g. ‘/usr/local/bin’, after that you can simply call it… But I’m not sure if it will find the dir you are looking for.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>render_labels.sh collector<span class="ot">=</span><span class="st">'Dwight'</span></span></code></pre></div>
 <p>In all instances the script is meant for you to call it from the following location:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>├── HerbariumLabels</span>
-<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>│  ├── final</span>
-<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>│  └── raw <span class="do">## &lt;- call render_labels.sh from here!!!</span></span>
-<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>│       └── Dwight<span class="sc">-</span>raw</span></code></pre></div>
-<p>The labels will end up in ‘Final’ and the subfolder within raw (‘Dwight-raw’) will be deleted. If you want to re-render you’ll need to run the purrr::walk again.</p>
-<p>Note that the ‘collector’ will need to match (..exactly…) the output of the purrr::walk files collector name.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>├── HerbariumLabels</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>│  ├── final <span class="do">## &lt;- products will go in here!!! </span></span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>│  └── raw <span class="do">## &lt;- call render_labels.sh from here!!!</span></span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>│       └── Dwight<span class="sc">-</span>raw</span></code></pre></div>
+<p>The labels will end up in ‘final’ and the subfolder within raw (‘Dwight-raw’) will be deleted. If you want to re-render you’ll need to run the <code><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">purrr::walk</a></code> again.</p>
+<p>Note that the ‘collector’ will need to match (..exactly…) the output of the <code><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">purrr::walk</a></code> files collector name.</p>
+</div>
+<div class="section level2">
+<h2 id="trouble-printing">Trouble printing?<a class="anchor" aria-label="anchor" href="#trouble-printing"></a>
+</h2>
+<p>Some printers (maybe not updating drivers enough?) have trouble printing LaTeX (in general, not related to this package).</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>ps2pdf labels_in.pdf labels_out<span class="sc">-</span>ps2pdf.pdf</span></code></pre></div>
+<p>Has worked for me.</p>
 <table class="table">
 <colgroup><col width="100%"></colgroup>
 <thead><tr class="header">

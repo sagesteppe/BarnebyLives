@@ -95,6 +95,8 @@ like this.</p>
 <div class="section level2">
 <h2 id="modifications">Modifications<a class="anchor" aria-label="anchor" href="#modifications"></a>
 </h2>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://sagesteppe.github.io/BarnebyLives/">BarnebyLives</a></span><span class="op">)</span></span></code></pre></div>
 <p>All of the labels can be copied from their original locations using
 the following code</p>
 <p>If you want to customize one, be sure to keep it in a ‘local’
@@ -108,11 +110,48 @@ new line. It is hard for me illustrate these in the examples, but I’ll
 try and do my best to mention them when relevant.</p>
 <p>For this example we will focus on the final default template, which
 is a pretty middle of the road design.</p>
-<p>First let’s change the line that controls the size of the font FOR
-…</p>
-<p>Now we can change some alignment</p>
+<p>First let’s change the line that controls the size of the font for
+the project name. Here we will no longer be forcing the project name to
+UPPERCASE large font, and instead allow it to follow the cases we
+provided it with.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>\textbf{\LARGE <span class="st">`</span><span class="at">r writer(data$Project_Name)</span><span class="st">`</span>} (line <span class="dv">29</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>\textbf{\large <span class="st">`</span><span class="at">r writer(data$Project_Name)</span><span class="st">`</span>} (line <span class="dv">29</span>)</span></code></pre></div>
+<p>Let’s change the location of the family on the label. Let’s place it
+at the end of the species name, but still right aligned. Note that all
+calls to R are in a single set of smart quotes, and ‘R’, this allows us
+to run R commands without having to create a code chunk for them in the
+more common markdown syntax.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>\begin{flushright}</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>\uppercase{<span class="st">`</span><span class="at">r data$Family</span><span class="st">`</span>}</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>\end{flushright}</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>\begingroup</span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>\large</span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="st">`</span><span class="at">r writer(paste(data$Genus, data$Epithet), italics = TRUE)</span><span class="st">`</span> <span class="st">`</span><span class="at">r writer(data$Binomial_authority)</span><span class="st">`</span> <span class="st">`</span><span class="at">r writer(data$Infrarank)</span><span class="st">`</span> <span class="st">`</span><span class="at">r  writer(data$Infraspecies, italics = TRUE)</span><span class="st">`</span> <span class="st">`</span><span class="at">r writer(data$Infraspecific_authority)</span><span class="st">`</span>  </span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>\normalsize</span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a>\endgroup</span></code></pre></div>
+<p>Can be combined like this:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>\begingroup</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>\large</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="st">`</span><span class="at">r writer(paste(data$Genus, data$Epithet), italics = TRUE)</span><span class="st">`</span> <span class="st">`</span><span class="at">r writer(data$Binomial_authority)</span><span class="st">`</span> <span class="st">`</span><span class="at">r writer(data$Infrarank)</span><span class="st">`</span> <span class="st">`</span><span class="at">r  writer(data$Infraspecies, italics = TRUE)</span><span class="st">`</span> <span class="st">`</span><span class="at">r writer(data$Infraspecific_authority)</span><span class="st">`</span>  </span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>\begin{flushright}</span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>\uppercase{<span class="st">`</span><span class="at">r data$Family</span><span class="st">`</span>}</span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>\end{flushright}</span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>\normalsize</span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>\endgroup</span></code></pre></div>
+<p>Note this requires us to delete the first three lines while we copy
+them down into the ‘group’. Which brings up a good point, these ‘groups’
+are used to more or less create elements held together like
+paragraphs.</p>
 <p>We may also decide that we don’t care about presenting all of this
-information on the label</p>
+information on the label, here for example we simply remove the command
+to add the information on identification.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>\begingroup</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="st">`</span><span class="at">r collection_writer(data)</span><span class="st">`</span>. <span class="st">`</span><span class="at">r writer_fide(data)</span><span class="st">`</span></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>\endgroup</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>\begingroup</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="st">`</span><span class="at">r collection_writer(data)</span><span class="st">`</span>. </span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>\endgroup</span></code></pre></div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
