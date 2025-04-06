@@ -7,6 +7,13 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(eval = FALSE)
+knitr::opts_chunk$set(message = FALSE)
+knitr::opts_chunk$set(warning = FALSE)
+```
+
 ## Overview 
 Obviously, everyone wants to be able to customize their label templates! 
 Why go through the bother of installing and running `BarnebyLives` if you cannot do that! 
@@ -32,9 +39,12 @@ INSERT IMG
 
 ## Modifications
 
-All of the labels can be copied from their original locations using the following code
 ```{r}
+library(BarnebyLives)
 ```
+
+
+All of the labels can be copied from their original locations using the following code
 
 If you want to customize one, be sure to keep it in a 'local' location on your computer which will not be overwritten when you update the package, which may happen without your knowledge if this becomes a dependency to another package (which seems unlikely to me). 
 Once the file is in that location it can easily be opened for safe editing. 
@@ -45,18 +55,59 @@ It is hard for me illustrate these in the examples, but I'll try and do my best 
 
 For this example we will focus on the final default template, which is a pretty middle of the road design. 
 
-First let's change the line that controls the size of the font FOR ... 
-```{r old font size}
+First let's change the line that controls the size of the font for the project name. 
+Here we will no longer be forcing the project name to UPPERCASE large font, and instead allow it to follow the cases we provided it with. 
+```{r}
+\textbf{\LARGE `r writer(data$Project_Name)`} (line 29)
+```
+
+```{r}
+\textbf{\large `r writer(data$Project_Name)`} (line 29)
+```
+
+Let's change the location of the family on the label. Let's place it at the end of the species name, but still right aligned. 
+Note that all calls to R are in a single set of smart quotes, and 'R', this allows us to run R commands without having to create a code chunk for them in the more common markdown syntax.  
+
+```{r}
+\begin{flushright}
+\uppercase{`r data$Family`}
+\end{flushright}
+
+\begingroup
+\large
+`r writer(paste(data$Genus, data$Epithet), italics = TRUE)` `r writer(data$Binomial_authority)` `r writer(data$Infrarank)` `r  writer(data$Infraspecies, italics = TRUE)` `r writer(data$Infraspecific_authority)`  
+\normalsize
+\endgroup
+```
+
+Can be combined like this: 
+
+```{r}
+
+\begingroup
+\large
+`r writer(paste(data$Genus, data$Epithet), italics = TRUE)` `r writer(data$Binomial_authority)` `r writer(data$Infrarank)` `r  writer(data$Infraspecies, italics = TRUE)` `r writer(data$Infraspecific_authority)`  
+\begin{flushright}
+\uppercase{`r data$Family`}
+\end{flushright}
+\normalsize
+\endgroup
 
 ```
 
-Now we can change some alignment
-```{r old alignment}
+Note this requires us to delete the first three lines while we copy them down into the 'group'. 
+Which brings up a good point, these 'groups' are used to more or less create elements held together like paragraphs. 
 
+We may also decide that we don't care about presenting all of this information on the label, here for example we simply remove the command to add the information on identification. 
+
+```{r}
+\begingroup
+`r collection_writer(data)`. `r writer_fide(data)`
+\endgroup
 ```
 
-We may also decide that we don't care about presenting all of this information on the label
-```{r old descriptions}
-
+```{r}
+\begingroup
+`r collection_writer(data)`. 
+\endgroup
 ```
-

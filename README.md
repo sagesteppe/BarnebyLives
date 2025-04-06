@@ -73,7 +73,7 @@ and Consortium of Pacific Northwest Herbaria.
 Currently BarnebyLives! Is being run on a juiced up computer either in
 Rogers Park Chicago or Reno. The amount of data which it queries is very
 large. Please let me know if you have a query and I will run it for you.
-If you only collect from a smaller portion of the West, e.g. a certain
+If you only collect from a smaller portion of the West, e.g. a certain
 state, or FS/BLM Unit/Field Office, you should be able to set up a local
 instance. Although, the documentation for such an endeavor is nascent
 the endeavor is simple, see “crop2boundary” for the workflow.
@@ -101,7 +101,7 @@ sudo apt-get install pdftk -y
 ```
 
 We hope to collaborate with others to treat CONUS and to create
-multiformat data e.g. Darwincore, CPNWH, etc., and push this product
+multiformat data e.g. Darwincore, CPNWH, etc., and push this product
 onto CRAN as well as publish a short piece in APPS! It is on the
 backburner, but still simmering! Stay tuned in but dropped out!
 
@@ -153,7 +153,7 @@ Unnecessary columns!
 | Infraspecies | The taxonomic entity which this population is a component of within the hierarchy of species. |
 | Infraspecific_Authority | The scientific authors who conceptualized the species, and described it, and relevant authors whom have transferred the species to within a species. |
 | Family | A Family which the Genus which this species is apart of is considered to be a component of. |
-| Datum | A smoothed model of the earths surface and reference locations on the surface to measure from (~i.e. meridians). Typical geodetic datums include ‘WGS 84’, ‘NAD 83’. |
+| Datum | A smoothed model of the earths surface and reference locations on the surface to measure from (~i.e. meridians). Typical geodetic datums include ‘WGS 84’, ‘NAD 83’. |
 | Aspect | The measured or in-field estimated cardinal direction which the population faced. |
 | Slope | The measured or in-field estimated slope which the population faced. |
 
@@ -206,43 +206,26 @@ which you find suitable. Personally, I slap all of them on an hdd.
 
 ## Rendering Labels
 
-You will need to print you labels for the sheets. 
-We use a `purrr` `walk`  to create 4x4in individuals labels as pdf's using Rmarkdown. 
-Then we combine all of them using bash. 
-A script is distributed with the package to accomplish this. 
+You will need to print you labels for the sheets. We use a `purrr`
+`walk` to create 4x4in individuals labels as pdf’s using Rmarkdown. Then
+we combine all of them using bash. A bash script, `render_labels.sh` is
+distributed with the package to accomplish this.
 
-a bash loop, such as this, works to combine the labels - 4 per page.
+We can copy it to a location, from R, like this.
 
-    files=(raw/*)
-    for (( i=0; i<${#files[*]}; i+=4 ));
-    do
-      filename="${files[i]##*/}"
-        pdfjam "${files[@]:$i:4}" --nup 2x2 --landscape --outfile "processed/$filename" --noautoscale true  
-    done
+    p2libs <- system.file(package = 'BarnebyLives')
+    folds <- file.path('rmarkdown', 'render_labels.sh') 
 
-obviously the pages of labels can then be combined, like this, to create
-a single print job.
+    file.copy(from = file.path(p2libs, folds), 
+              to = '/media/steppe/hdd/Barneby_Lives-dev/manuscript/labels/raw')
 
-    files=(processed/*)
-    pdftk ${files[*]} output final/labels.pdf
+And once here, we can run it like this (from a shell!)
 
-We have this functionality contained within a bash script which is
-distributed with the package, ‘render_labels’. Which takes a single
-argument ‘collector’ e.g. ‘collector=Dwight’. We’ve had difficulty
-calling this script from it’s default install location :/, but it can
-easily be copied elsewhere and ran from that location. It’s easy to find
-this (and where the default herbarium label templates are, which you can
-totally modify :-)), in R using the following command. Obviously this
-file can then be copied to another location (from within R) and ran…
+    bash render_labels.sh collector='Dwight'
 
-    p2script <- paste0(.libPaths()[ 
-      grepl(paste0(version$major, '.', sub('\\..*', "", version$minor)), 
-            .libPaths())], '/render_labels.sh')
-    file.copy(p2script, destination)
-
-You can run the script like this…
-
-    bash path2file/render_labels.sh collector='Dwight'
+Note that, we’ve had difficulty calling this script from it’s default
+install location :/, but it can easily be copied elsewhere and ran from
+that location.
 
 reminder, you only need to chmod +x a file if you don’t call ‘bash’ at
 the start of an argument…
@@ -252,7 +235,8 @@ the start of an argument…
 
 Also a reminder that you can check your paths via `$PATH`, and can
 install to somewhere on your path! e.g. ‘/usr/local/bin’, after that you
-can simply call it…
+can simply call it… But I’m not sure if it will find the dir you are
+looking for.
 
     render_labels.sh collector='Dwight'
 
@@ -260,16 +244,25 @@ In all instances the script is meant for you to call it from the
 following location:
 
     ├── HerbariumLabels
-    │  ├── final
+    │  ├── final ## <- products will go in here!!! 
     │  └── raw ## <- call render_labels.sh from here!!!
     │       └── Dwight-raw
 
-The labels will end up in ‘Final’ and the subfolder within raw
+The labels will end up in ‘final’ and the subfolder within raw
 (‘Dwight-raw’) will be deleted. If you want to re-render you’ll need to
-run the purrr::walk again.
+run the `purrr::walk` again.
 
 Note that the ‘collector’ will need to match (..exactly…) the output of
-the purrr::walk files collector name.
+the `purrr::walk` files collector name.
+
+## Trouble printing?
+
+Some printers (maybe not updating drivers enough?) have trouble printing
+LaTeX (in general, not related to this package).
+
+    ps2pdf labels_in.pdf labels_out-ps2pdf.pdf
+
+Has worked for me.
 
 | ![Portrait of Rupert Barneby by Dwight Ripley 1955](man/figures/Portrait_of_Rupert_Barneby.png) |
 |:--:|

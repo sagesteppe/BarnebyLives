@@ -214,6 +214,14 @@ If you want to re-render you'll need to run the `purrr::walk` again.
 
 Note that the 'collector' will need to match (..exactly...) the output of the `purrr::walk` files collector name. 
 
+## Trouble printing? 
+
+Some printers (maybe not updating drivers enough?) have trouble printing LaTeX (in general, not related to this package). 
+```
+ps2pdf labels_in.pdf labels_out-ps2pdf.pdf
+```
+Has worked for me. 
+
 | ![Portrait of Rupert Barneby by Dwight Ripley 1955](man/figures/Portrait_of_Rupert_Barneby.png) | 
 |:--:| 
 | *'Portrait of Rupert Barneby'* Dwight Ripley (1955) |
