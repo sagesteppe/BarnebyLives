@@ -107,16 +107,17 @@ which we will populate our labels values into.</p>
 <p>In this example we are going to use the default BarnebyLives template
 to create some labels. You can create your own label template as well,
 that is discussed in the vignette “Custom Label Templates”. As mentioned
-we will use purrr::walk(), this function is going to perform an
-operation on each record which is feed into it via the <code>.x</code>
-argument. While we are specifying the individual rows of our collections
-in this document, purrr::walk() is going to call another function
+we will use purrr::walk(), which is going to perform an operation on
+each record which is feed into it via the <code>.x</code> argument.
+While we are specifying the individual rows of our collections in this
+document, purrr::walk() is going to call another function
 <code><a href="https://pkgs.rstudio.com/rmarkdown/reference/render.html" class="external-link">rmarkdown::render</a></code>, which will load the data for these
-records from a csv into an R session, and write the labels from there.
-Note that Collection_numbers are essential to making this happen, if you
-are really trying to magyver some things, then you can fake this value
-using another ID which is UNIQUE for each record here, and matches what
-is in the BL output csv data.</p>
+records from a csv into an R session (one per label!), and write the
+labels from there. Note that Collection_numbers are essential to making
+this happen, if you are really trying to magyver some things, then you
+can fake this value using another ID which is UNIQUE for each record
+here, and matches what is in the BL output csv data - maybe row number
+from <code>write.csv</code> default behavior?</p>
 <p>Note that for this to work on your own data, you will need to modify
 a chunk in the label template (‘skeleton’) so that R is reading in your
 data. Something like the below will be what you need to modify:</p>
@@ -126,6 +127,10 @@ data. Something like the below will be what you need to modify:</p>
 <span>    Collection_number <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">Collection_number</span><span class="op">)</span>, </span>
 <span>    Coordinate_Uncertainty <span class="op">=</span> <span class="st">'+/- 5m'</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">Collection_number</span> <span class="op">==</span> <span class="va">params</span><span class="op">$</span><span class="va">Collection_number</span><span class="op">)</span></span></code></pre></div>
+<p>I understand it is slightly obnoxious to need to edit two files to
+get this process to work, but again, BarnebyLives is not quite the
+typical R package. Editing both files allows for some downstream
+flexibility.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">walk</a></span><span class="op">(</span></span>
 <span>  .x <span class="op">=</span> <span class="va">collection_examples</span><span class="op">$</span><span class="va">Collection_number</span>,</span>

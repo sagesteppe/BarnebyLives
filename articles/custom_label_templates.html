@@ -123,12 +123,28 @@ the following code.</p>
 <span>  <span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/rm.html" class="external-link">rm</a></span><span class="op">(</span><span class="va">p2libs</span>, <span class="va">folds</span><span class="op">)</span></span></code></pre></div>
-<p>If you want to customize one, be sure to keep it in a ‘local’
-location on your computer which will not be overwritten when you update
-the package, which may happen without your knowledge if this becomes a
-dependency to another package (which seems highly unlikely to me). Once
-the file is in that location it can easily be opened for safe
-editing.</p>
+<p>When using the program you will need to copy a template from it’s
+location within the package to a ‘local’ location. This is because you
+will <em>always</em> need to modify a small part of the skeleton which
+defines where the document should <em>look</em> for your data it will
+put on the labels, see the ‘creating_labels’ vignette for details. Any
+changes you make to the skeleton’s in the package directory will be lost
+anytime you update the package. Once the file is in that location it can
+easily be opened for safe editing. So by ‘local’ I basically mean put
+the file in a location on your computer which will not be overwritten
+when you update the package, which may happen without your knowledge if
+this becomes a dependency to another package (which seems highly
+unlikely to me). Obviously it’s good to try and place all of these
+skeletons in the same location so you don’t have to do much hunting
+around to find them, the ‘spaces’ in LaTeX formatting can make things go
+haywire quick, so it’s nice to have a backup version as you are
+tailoring a version.</p>
+<p>While I am about to be very busy for the next few years I am happy to
+accept pull requests so that BL has a greater variety of herbarium
+templates, likewise you can make your own <code>writer_*</code> type
+functions and push those to the package. If you have questions about how
+to do this, many good github resources/guides exist, and i am happy to
+try and help with incorporating materials.</p>
 <p>One final note is that LaTeX uses <em>spaces</em>, or ’ ’ for
 controlling content. In particular two spaces will force the text onto a
 new line. It is hard for me illustrate these in the examples, but I’ll
@@ -181,20 +197,20 @@ we need is to empty a blank line to the document</p>
 “And keep one step ahead, of yourself.”</p>
 </blockquote>
 <p>Now let’s change the line that controls the size of the font for the
-project name. Here we will no longer be forcing the project name to
-UPPERCASE large font, and instead allow it to follow the cases we
-provided it with.</p>
+project name. Here we will be making the font size smaller by shifting
+from the <code>LARGE</code> to the <code>large</code> argument.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>\textbf{\LARGE <span class="st">`</span><span class="at">r writer(data$Project_Name)</span><span class="st">`</span>}  </span></code></pre></div>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>\textbf{\large <span class="st">`</span><span class="at">r writer(data$Project_Name)</span><span class="st">`</span>} </span></code></pre></div>
 <div class="float">
 <img src="../reference/figures/large-SOS-2823-1.png" alt="Project name is smaller"><div class="figcaption">Project name is smaller</div>
 </div>
-<p>Let’s change the location of the family on the label. Let’s place it
-at the end of the species name, but still right aligned. Note that all
-calls to R are in a single set of smart quotes, and ‘R’, this allows us
-to run R commands without having to create a code chunk for them in the
-more common markdown syntax. We have created a few commands which help
-format the writing output for making the labels like nice.</p>
+<p>Here we change the location of the family on the label (currently
+aligned right). Let’s make the family left aligned.<br>
+Note that all calls to R are in a single set of smart quotes, and ‘R’,
+this allows us to run R commands without having to create a code chunk
+for them in the more common markdown syntax. We have created a few
+commands which help format the writing output for making the labels like
+nice.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>\begin{flushright}</span>
 <span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>\uppercase{<span class="st">`</span><span class="at">r data$Family</span><span class="st">`</span>}</span>
 <span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>\end{flushright}</span>
@@ -204,23 +220,25 @@ format the writing output for making the labels like nice.</p>
 <span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a><span class="st">`</span><span class="at">r writer(paste(data$Genus, data$Epithet), italics = TRUE)</span><span class="st">`</span> <span class="st">`</span><span class="at">r writer(data$Binomial_authority)</span><span class="st">`</span> <span class="st">`</span><span class="at">r writer(data$Infrarank)</span><span class="st">`</span> <span class="st">`</span><span class="at">r  writer(data$Infraspecies, italics = TRUE)</span><span class="st">`</span> <span class="st">`</span><span class="at">r writer(data$Infraspecific_authority)</span><span class="st">`</span>  </span>
 <span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a>\endgroup</span>
 <span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a>\normalsize</span></code></pre></div>
-<p>Can be combined like this:</p>
+<p>If you remove the <code>flushright</code> commands you bascially end
+up with this:</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>\large</span>
 <span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>\uppercase{<span class="st">`</span><span class="at">r data$Family</span><span class="st">`</span>}  </span>
 <span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>\begingroup</span>
 <span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a><span class="st">`</span><span class="at">r writer(paste(data$Genus, data$Epithet), italics = TRUE)</span><span class="st">`</span> <span class="st">`</span><span class="at">r writer(data$Binomial_authority)</span><span class="st">`</span> <span class="st">`</span><span class="at">r writer(data$Infrarank)</span><span class="st">`</span> <span class="st">`</span><span class="at">r  writer(data$Infraspecies, italics = TRUE)</span><span class="st">`</span> <span class="st">`</span><span class="at">r writer(data$Infraspecific_authority)</span><span class="st">`</span>  </span>
 <span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>\endgroup</span>
 <span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>\normalsize</span></code></pre></div>
-<p>This requires us to delete the first three lines while we copy them
-down into the ‘group’. Which brings up a good point, these ‘groups’ are
-used to more or less create elements held together like paragraphs.</p>
-<div class="float">
-<img src="../reference/figures/familyLeft-SOS-2823-1.png" alt="Family to the left"><div class="figcaption">Family to the left</div>
-</div>
-<p>We may also decide that we want to put determination information
-right under the species. We can do that by just moving these elements
-around. (Be sure to delete the call to <code>writer_fide</code> from the
-chunk located all the way near the bottom of the skeleton!).</p>
+<p>This requires us to delete the first three lines while we copy the
+family down into the ‘group’. Which brings up a good point, these
+‘groups’ are used to more or less create elements held together like
+paragraphs. If we had omitted to bring family into the group, there
+would be a smidge more space between it and the scientific name (as
+exemplified with the habitat and vegetation alterations.)</p>
+<p><img src="../reference/figures/familyLeft-SOS-2823-1.png" alt="Family to the left"><br>
+We may also decide that we want to put determination information right
+under the species. We can do that by just moving these elements around.
+(Be sure to delete the call to <code>writer_fide</code> from the chunk
+located all the way near the bottom of the skeleton!).</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>\begingroup</span>
 <span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a><span class="st">`</span><span class="at">r collection_writer(data)</span><span class="st">`</span>. <span class="st">`</span><span class="at">r writer_fide(data)</span><span class="st">`</span></span>
 <span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>\endgroup</span></code></pre></div>
