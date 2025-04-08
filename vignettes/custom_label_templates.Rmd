@@ -179,10 +179,10 @@ Veg.: `r species_font(data$Vegetation)` `r associates_writer(data$Associates)`
 
 That's better!
 
-> "All I want is to breathe I'm too thin 
-Won't you breathe with me?
-Find a little space, so we can move in-between In-Between it
-And keep one step ahead, of yourself."
+> "All I want is to breathe I'm too thin  
+Won't you breathe with me?  
+Find a little space, so we can move in-between In-Between it  
+And keep one step ahead, of yourself."  
 
 Now let's change the line that controls the size of the font for the project name. 
 Here we will no longer be forcing the project name to UPPERCASE large font, and instead allow it to follow the cases we provided it with. 
@@ -196,6 +196,7 @@ Here we will no longer be forcing the project name to UPPERCASE large font, and 
 ```
 
 ![Project name is smaller](../man/figures/large-SOS-2823-1.png)
+
 
 Let's change the location of the family on the label. Let's place it at the end of the species name, but still right aligned. 
 Note that all calls to R are in a single set of smart quotes, and 'R', this allows us to run R commands without having to create a code chunk for them in the more common markdown syntax. 
@@ -229,6 +230,7 @@ Can be combined like this:
 This requires us to delete the first three lines while we copy them down into the 'group'. 
 Which brings up a good point, these 'groups' are used to more or less create elements held together like paragraphs. 
 
+
 ![Family to the left](../man/figures/familyLeft-SOS-2823-1.png)
 
 We may also decide that we want to put determination information right under the species. 
@@ -252,7 +254,9 @@ And bring it up to where the scientific name is printed, and make the font for t
 \endgroup
 ```
 
+
 ![Moved determination](../man/figures/Det-SOS-2823-1.png)
+
 Obviously, the way I enter data for determination would be bad for this! using my initials after my full name makes sense, in this context, who the hell is "RCB" you would wonder? I am one in a sea of botanists named 'Reed', and certainly other - more illustrious - RCB's are out there. 
 
 ## In summary 
