@@ -67,8 +67,15 @@ file.copy(
 rm(p2libs, folds)
 ```
 
-If you want to customize one, be sure to keep it in a 'local' location on your computer which will not be overwritten when you update the package, which may happen without your knowledge if this becomes a dependency to another package (which seems highly unlikely to me). 
+When using the program you will need to copy a template from it's location within the package to a 'local' location. 
+This is because you will *always* need to modify a small part of the skeleton which defines where the document should *look* for your data it will put on the labels, see the 'creating_labels' vignette for details. 
+Any changes you make to the skeleton's in the package directory will be lost anytime you update the package. 
 Once the file is in that location it can easily be opened for safe editing. 
+So by 'local' I basically mean put the file in a location on your computer which will not be overwritten when you update the package, which may happen without your knowledge if this becomes a dependency to another package (which seems highly unlikely to me). 
+Obviously it's good to try and place all of these skeletons in the same location so you don't have to do much hunting around to find them, the 'spaces' in LaTeX formatting can make things go haywire quick, so it's nice to have a backup version as you are tailoring a version.  
+
+While I am about to be very busy for the next few years I am happy to accept pull requests so that BL has a greater variety of herbarium templates, likewise you can make your own `writer_*` type functions and push those to the package. 
+If you have questions about how to do this, many good github resources/guides exist, and i am happy to try and help with incorporating materials. 
 
 ```{r run labels, echo = F, eval = F}
 purrr::walk(
@@ -134,8 +141,10 @@ For this example we will focus on the final default template, which is a pretty 
 
 ![Default SOS template results](../man/figures/default-SOS-2823-1.png)  
 
-Hmm that's a busy label, we could try and reduce the directions manually... Or, we can just rid of them! 
+Hmm that's a busy label, we could try and reduce the directions manually... 
+Or, we can just rid of them! 
 Around line 50 we can just remove the following details. 
+
 ```{r remove directions, eval = F}
 \begingroup
 \begin{spacing}{0.1}
@@ -184,7 +193,7 @@ That's better!
 > "And keep one step ahead, of yourself."  
 
 Now let's change the line that controls the size of the font for the project name. 
-Here we will no longer be forcing the project name to UPPERCASE large font, and instead allow it to follow the cases we provided it with. 
+Here we will be making the font size smaller by shifting from the `LARGE` to the `large` argument.   
 
 ```{r upper case project, eval = F}
 \textbf{\LARGE `r writer(data$Project_Name)`}  
@@ -197,7 +206,8 @@ Here we will no longer be forcing the project name to UPPERCASE large font, and 
 ![Project name is smaller](../man/figures/large-SOS-2823-1.png)  
 
 
-Let's change the location of the family on the label. Let's place it at the end of the species name, but still right aligned. 
+Here we change the location of the family on the label (currently aligned right). 
+Let's make the family left aligned.  
 Note that all calls to R are in a single set of smart quotes, and 'R', this allows us to run R commands without having to create a code chunk for them in the more common markdown syntax. 
 We have created a few commands which help format the writing output for making the labels like nice. 
 
@@ -213,7 +223,7 @@ We have created a few commands which help format the writing output for making t
 \normalsize
 ```
 
-Can be combined like this: 
+If you remove the `flushright` commands you bascially end up with this:  
 
 ```{r family at left, eval = F}
 
@@ -226,12 +236,12 @@ Can be combined like this:
 
 ```
 
-This requires us to delete the first three lines while we copy them down into the 'group'. 
+This requires us to delete the first three lines while we copy the family down into the 'group'. 
 Which brings up a good point, these 'groups' are used to more or less create elements held together like paragraphs. 
-
+If we had omitted to bring family into the group, there would be a smidge more space between it and the scientific name (as exemplified with the habitat and vegetation alterations.)
 
 ![Family to the left](../man/figures/familyLeft-SOS-2823-1.png)  
-
+\br
 We may also decide that we want to put determination information right under the species. 
 We can do that by just moving these elements around.
 (Be sure to delete the call to `writer_fide` from the chunk located all the way near the bottom of the skeleton!).
