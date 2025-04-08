@@ -170,6 +170,15 @@ Personally, I slap all of them on an hdd.
 
 ## Rendering Labels
 
+BL provides three template labels, each of which are distributed from within the package and copied to their final location using the following commands in R. 
+```
+p2libs <- system.file(package = 'BarnebyLives')
+folds <- file.path('rmarkdown', 'templates', 'labels', 'skeleton', 'SoS-skeleton.Rmd') 
+
+file.copy(from = file.path(p2libs, folds), 
+          to = '.') # change for wherever you want the label to go. 
+```
+
 You will need to print you labels for the sheets. 
 We use a `purrr` `walk`  to create 4x4in individuals labels as pdf's using Rmarkdown. 
 Then we combine all of them using bash. 

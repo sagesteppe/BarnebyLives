@@ -54,6 +54,17 @@ As mentioned we will use purrr::walk(), this function is going to perform an ope
 While we are specifying the individual rows of our collections in this document, purrr::walk() is going to call another function `rmarkdown::render`, which will load the data for these records from a csv into an R session, and write the labels from there. 
 Note that Collection_numbers are essential to making this happen, if you are really trying to magyver some things, then you can fake this value using another ID which is UNIQUE for each record here, and matches what is in the BL output csv data. 
 
+Note that for this to work on your own data, you will need to modify a chunk in the label template ('skeleton') so that R is reading in your data. Something like the below will be what you need to modify:
+
+```{r, eval = F}
+data <- read.csv('SoS-ExampleCollection.csv') |>
+  dplyr::mutate(
+    Collection_number = as.numeric(Collection_number), 
+    Coordinate_Uncertainty = '+/- 5m') |>
+  dplyr::filter(Collection_number == params$Collection_number)
+```
+
+
 ```{r run labels, eval = F}
 purrr::walk(
   .x = collection_examples$Collection_number,
