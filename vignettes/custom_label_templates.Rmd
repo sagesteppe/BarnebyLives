@@ -179,10 +179,10 @@ Veg.: `r species_font(data$Vegetation)` `r associates_writer(data$Associates)`
 
 That's better!
 
-> "All I want is to breathe I'm too thin  
-Won't you breathe with me?  
-Find a little space, so we can move in-between In-Between it  
-And keep one step ahead, of yourself."  
+> "All I want is to breathe I'm too thin"  
+> "Won't you breathe with me?"   
+> "Find a little space, so we can move in-between In-Between it"  
+> "And keep one step ahead, of yourself."  
 
 Now let's change the line that controls the size of the font for the project name. 
 Here we will no longer be forcing the project name to UPPERCASE large font, and instead allow it to follow the cases we provided it with. 
