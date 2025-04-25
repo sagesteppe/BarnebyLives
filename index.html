@@ -105,7 +105,7 @@
 <div class="section level2">
 <h2 id="input-data-column-names">Input Data Column Names<a class="anchor" aria-label="anchor" href="#input-data-column-names"></a>
 </h2>
-<p>The columns in the top table are <strong>required</strong> to run the all the functions in BarnebyLives. The columns in the middle table are suggested to increase the quality of the collections. The columns in the lower table are optional, to be blunt, BarnebyLives will generate all of these values. Ficticious examples are provided here, while links to real examples (over 100) are contained <a href="https://docs.google.com/spreadsheets/d/1iOQBNeGqRJ3yhA-Sujas3xZ2Aw5rFkktUKv3N_e4o8M/edit#gid=0" class="external-link">here</a> and in the vignettes.</p>
+<p>The columns in the top table are <strong>required</strong> to run the all the functions in BarnebyLives. The columns in the middle table are suggested to increase the quality of the collections. The columns in the lower table are optional, to be blunt, BarnebyLives will generate all of these values. Ficticious examples are provided here, while links to real examples (~100) are contained <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vR8I-JBcgA7P9RYjJqbTebzNFLS1bLz1sYVW1vPlU5Bq6WXCwKS4zkeGTCmlo9BcznCKNbdz6gtK9pV/pubhtml" class="external-link">here</a> and in the vignettes.</p>
 <table class="table">
 <colgroup>
 <col width="33%">
@@ -321,26 +321,32 @@ Suggested Workflow
 <div class="section level2">
 <h2 id="rendering-labels">Rendering Labels<a class="anchor" aria-label="anchor" href="#rendering-labels"></a>
 </h2>
-<p>You will need to print you labels for the sheets. We use a <code>purrr</code> <code>walk</code> to create 4x4in individuals labels as pdf’s using Rmarkdown. Then we combine all of them using bash. A bash script, <code>render_labels.sh</code> is distributed with the package to accomplish this.</p>
-<p>We can copy it to a location, from R, like this.</p>
+<p>BL provides three template labels, each of which are distributed from within the package and copied to their final location using the following commands in R.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>p2libs <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="at">package =</span> <span class="st">'BarnebyLives'</span>)</span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>folds <span class="ot">&lt;-</span> <span class="fu">file.path</span>(<span class="st">'rmarkdown'</span>, <span class="st">'render_labels.sh'</span>) </span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>folds <span class="ot">&lt;-</span> <span class="fu">file.path</span>(<span class="st">'rmarkdown'</span>, <span class="st">'templates'</span>, <span class="st">'labels'</span>, <span class="st">'skeleton'</span>, <span class="st">'SoS-skeleton.Rmd'</span>) </span>
 <span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a></span>
 <span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="fu">file.copy</span>(<span class="at">from =</span> <span class="fu">file.path</span>(p2libs, folds), </span>
-<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>          <span class="at">to =</span> <span class="st">'/media/steppe/hdd/Barneby_Lives-dev/manuscript/labels/raw'</span>)</span></code></pre></div>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>          <span class="at">to =</span> <span class="st">'.'</span>) <span class="co"># change for wherever you want the label to go. </span></span></code></pre></div>
+<p>You will need to print you labels for the sheets. We use a <code>purrr</code> <code>walk</code> to create 4x4in individuals labels as pdf’s using Rmarkdown. Then we combine all of them using bash. A bash script, <code>render_labels.sh</code> is distributed with the package to accomplish this.</p>
+<p>We can copy it to a location, from R, like this.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>p2libs <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="at">package =</span> <span class="st">'BarnebyLives'</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>folds <span class="ot">&lt;-</span> <span class="fu">file.path</span>(<span class="st">'rmarkdown'</span>, <span class="st">'render_labels.sh'</span>) </span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="fu">file.copy</span>(<span class="at">from =</span> <span class="fu">file.path</span>(p2libs, folds), </span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>          <span class="at">to =</span> <span class="st">'/media/steppe/hdd/Barneby_Lives-dev/manuscript/labels/raw'</span>)</span></code></pre></div>
 <p>And once here, we can run it like this (from a shell!)</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>bash render_labels.sh collector<span class="ot">=</span><span class="st">'Dwight'</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>bash render_labels.sh collector<span class="ot">=</span><span class="st">'Dwight'</span></span></code></pre></div>
 <p>Note that, we’ve had difficulty calling this script from it’s default install location :/, but it can easily be copied elsewhere and ran from that location.</p>
 <p>reminder, you only need to chmod +x a file if you don’t call ‘bash’ at the start of an argument…</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>chmod <span class="sc">+</span>x render_labels.sh</span>
-<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>path2file<span class="sc">/</span>render_labels.sh collector<span class="ot">=</span><span class="st">'Dwight'</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>chmod <span class="sc">+</span>x render_labels.sh</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>path2file<span class="sc">/</span>render_labels.sh collector<span class="ot">=</span><span class="st">'Dwight'</span></span></code></pre></div>
 <p>Also a reminder that you can check your paths via <code>$PATH</code>, and can install to somewhere on your path! e.g. ‘/usr/local/bin’, after that you can simply call it… But I’m not sure if it will find the dir you are looking for.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>render_labels.sh collector<span class="ot">=</span><span class="st">'Dwight'</span></span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>render_labels.sh collector<span class="ot">=</span><span class="st">'Dwight'</span></span></code></pre></div>
 <p>In all instances the script is meant for you to call it from the following location:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>├── HerbariumLabels</span>
-<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>│  ├── final <span class="do">## &lt;- products will go in here!!! </span></span>
-<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>│  └── raw <span class="do">## &lt;- call render_labels.sh from here!!!</span></span>
-<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>│       └── Dwight<span class="sc">-</span>raw</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>├── HerbariumLabels</span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>│  ├── final <span class="do">## &lt;- products will go in here!!! </span></span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>│  └── raw <span class="do">## &lt;- call render_labels.sh from here!!!</span></span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>│       └── Dwight<span class="sc">-</span>raw</span></code></pre></div>
 <p>The labels will end up in ‘final’ and the subfolder within raw (‘Dwight-raw’) will be deleted. If you want to re-render you’ll need to run the <code><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">purrr::walk</a></code> again.</p>
 <p>Note that the ‘collector’ will need to match (..exactly…) the output of the <code><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">purrr::walk</a></code> files collector name.</p>
 </div>
@@ -348,7 +354,7 @@ Suggested Workflow
 <h2 id="trouble-printing">Trouble printing?<a class="anchor" aria-label="anchor" href="#trouble-printing"></a>
 </h2>
 <p>Some printers (maybe not updating drivers enough?) have trouble printing LaTeX (in general, not related to this package).</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>ps2pdf labels_in.pdf labels_out<span class="sc">-</span>ps2pdf.pdf</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>ps2pdf labels_in.pdf labels_out<span class="sc">-</span>ps2pdf.pdf</span></code></pre></div>
 <p>Has worked for me.</p>
 <table class="table">
 <colgroup><col width="100%"></colgroup>
