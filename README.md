@@ -112,8 +112,8 @@ functions in BarnebyLives. The columns in the middle table are suggested
 to increase the quality of the collections. The columns in the lower
 table are optional, to be blunt, BarnebyLives will generate all of these
 values. Ficticious examples are provided here, while links to real
-examples (over 100) are contained
-[here](https://docs.google.com/spreadsheets/d/1iOQBNeGqRJ3yhA-Sujas3xZ2Aw5rFkktUKv3N_e4o8M/edit#gid=0)
+examples (~100) are contained
+[here](https://docs.google.com/spreadsheets/d/e/2PACX-1vR8I-JBcgA7P9RYjJqbTebzNFLS1bLz1sYVW1vPlU5Bq6WXCwKS4zkeGTCmlo9BcznCKNbdz6gtK9pV/pubhtml)
 and in the vignettes.
 
 | Column name | Description | Example |
@@ -205,6 +205,16 @@ most of space. Because of this you can download data to a directory
 which you find suitable. Personally, I slap all of them on an hdd.
 
 ## Rendering Labels
+
+BL provides three template labels, each of which are distributed from
+within the package and copied to their final location using the
+following commands in R.
+
+    p2libs <- system.file(package = 'BarnebyLives')
+    folds <- file.path('rmarkdown', 'templates', 'labels', 'skeleton', 'SoS-skeleton.Rmd') 
+
+    file.copy(from = file.path(p2libs, folds), 
+              to = '.') # change for wherever you want the label to go. 
 
 You will need to print you labels for the sheets. We use a `purrr`
 `walk` to create 4x4in individuals labels as pdf’s using Rmarkdown. Then
