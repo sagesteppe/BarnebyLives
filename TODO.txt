@@ -1,0 +1,3 @@
+for veg/ass spell check: Roll forward a genus to X., for example (Salix boothii, S. geyeriana) -> (Salix boothii, Salix geyeriana) before running spell check. 
+for veg/ass spell check: add a '.' to the end of ' sp' followed by space or comma, e.g. ' sp ' -> ' sp. ', or ' sp,' _> ' sp., '
+for veg/ass spell check: spp. being matched??
