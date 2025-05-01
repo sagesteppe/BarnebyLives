@@ -50,9 +50,22 @@ folds <- file.path(
 
 In this example we are going to use the default BarnebyLives template to create some labels. 
 You can create your own label template as well, that is discussed in the vignette "Custom Label Templates". 
-As mentioned we will use purrr::walk(), this function is going to perform an operation on each record which is feed into it via the `.x` argument. 
-While we are specifying the individual rows of our collections in this document, purrr::walk() is going to call another function `rmarkdown::render`, which will load the data for these records from a csv into an R session, and write the labels from there. 
-Note that Collection_numbers are essential to making this happen, if you are really trying to magyver some things, then you can fake this value using another ID which is UNIQUE for each record here, and matches what is in the BL output csv data. 
+As mentioned we will use purrr::walk(), which is going to perform an operation on each record which is feed into it via the `.x` argument. 
+While we are specifying the individual rows of our collections in this document, purrr::walk() is going to call another function `rmarkdown::render`, which will load the data for these records from a csv into an R session (one per label!), and write the labels from there. 
+Note that Collection_numbers are essential to making this happen, if you are really trying to magyver some things, then you can fake this value using another ID which is UNIQUE for each record here, and matches what is in the BL output csv data - maybe row number from `write.csv` default behavior? 
+
+Note that for this to work on your own data, you will need to modify a chunk in the label template ('skeleton') so that R is reading in your data. Something like the below will be what you need to modify:
+
+```{r, eval = F}
+data <- read.csv('SoS-ExampleCollection.csv') |>
+  dplyr::mutate(
+    Collection_number = as.numeric(Collection_number), 
+    Coordinate_Uncertainty = '+/- 5m') |>
+  dplyr::filter(Collection_number == params$Collection_number)
+```
+
+I understand it is slightly obnoxious to need to edit two files to get this process to work, but again, BarnebyLives is not quite the typical R package. 
+Editing both files allows for some downstream flexibility. 
 
 ```{r run labels, eval = F}
 purrr::walk(
@@ -75,6 +88,7 @@ If you make a modified copy of the template in the R package, whenever the packa
 It is very unlikely you will be able to get a template back after it's removed, so don't do this!
 
 Using the code below we can simply copy (`file.copy`) the template to the current working directory (supplied as argument: '.'). 
+
 ```{r Copy template from R installation for local changes, eval = F}
 file.copy(from = file.path(p2libs, folds), to =  '.')
 ```
