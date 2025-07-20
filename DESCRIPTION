@@ -13,7 +13,6 @@ Depends:
     R (>= 2.10)
 Imports: 
     purrr,
-    parzer,
     scales,
     googleway,
     lubridate,
@@ -33,7 +32,9 @@ Imports:
     tidyr,
     readxl,
     stringdist
-Remotes: barnabywalker/kewr
+Remotes: 
+	barnabywalker/kewr, 
+	cran/parzer@0.4.3
 Suggests: WorldFlora, data.table, testthat (>= 3.0.0), tidyverse, knitr, tigris, googlesheets4, kableExtra, ggplot2
 VignetteBuilder: knitr
 Config/testthat/edition: 3
