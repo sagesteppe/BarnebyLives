@@ -65,20 +65,68 @@ Currently BarnebyLives! Is being run on a juiced up computer either in Rogers Pa
 
 ## Installation
 
-BarnebyLives! is in beta testing, and can currently only be installed as 0.1.0 from github. 
+BarnebyLives! is stable, and can currently be installed as 0.3.0 from github. 
 ```r
 devtools::install_github('sagesteppe/BarnebyLives')
 ```
-The generation of labels will requires that Rmarkdown is succesfully set up to render to PDF via a LaTeX distribution such as pdflatex, lualatex, xelatex.
 
-Labels will further require two programs, pdfjam and pdftk. These can be installed on Debian flavors of Linux as so:
+### Further packages external to R are required for creating labels
+
+#### Linux
+
+To generate labels, ensure that R Markdown is configured to render PDFs using a LaTeX distribution (e.g., pdflatex, lualatex, xelatex).
+Additionally, you'll need two external programs: pdfjam and pdftk. 
+These can be installed on Debian flavors of Linux as so: 
 ```sh
 sudo apt-get update
-sudo apt-get install pdfjam -y
-sudo apt-get install pdftk -y
+sudo apt-get install pdfjam pdftk -y
 ```
 
-We hope to collaborate with others to treat CONUS and to create multiformat data e.g. Darwincore, CPNWH, etc., and push this product onto CRAN as well as publish a short piece in APPS! It is on the backburner, but still simmering! Stay tuned in but dropped out!
+#### Mac
+On macOS, you can install the required tools using Homebrew:
+```sh
+brew install pdftk-java pdfjam
+```
+
+#### Windows
+To set up the necessary tools on Windows, you'll need the Windows Subsystem for Linux (WSL). 
+If WSL is not already installed, you can use the script provided within the BarnebyLives R package to install it, note you will need this script to install two pdf handling utilities anyways - so use it. 
+If WSL is detected the script will simply skip a re-install. 
+
+##### Step 1: Locate the Installation Script
+
+First to find the script in BarnebyLives R package directory, enter the following into the powershell as an administrator
+```
+$installScript = & Rscript -e "cat(system.file('windowsInstall_pdf_tools.ps1', package='BarnebyLives'))"
+
+if (!(Test-Path $installScript)) {
+  Write-Error "❌ Could not find install script in BarnebyLives package."
+  exit 1
+}
+
+Write-Host "✅ Found installer script at: $installScript"
+```
+
+##### Step 2: Add Script Directory to PATH
+```
+$scriptDir = [System.IO.Path]::GetDirectoryName($installScript)
+
+# Add to user PATH
+$env:Path += ";$scriptDir"
+```
+
+First the script will install WSL, then you will need to restart and run the script again. 
+
+##### Step 3: Install WSL
+
+Run the installation script
+
+```
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force & "windowsInstall_pdf_tools.ps1"
+```
+
+After the script completes, restart your computer as prompted. 
+Then, run the script again to complete the installation process.
 
 ## Input Data Column Names
 
