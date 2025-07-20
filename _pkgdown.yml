@@ -70,7 +70,7 @@ reference:
     contents:
       - Preparing to use BarnebyLives!
   - title: Running pipeline
-    contents: 
+    contents:
       - BarnebyLives! Running pipeline
   - title: Printing labels and exporting data
     contents:
@@ -82,6 +82,6 @@ reference:
     contents: 
       - Custom Label Templates
   - title: Using custom fonts
-    contents: 
+    contents:
       -  Custom Label Fonts
 
