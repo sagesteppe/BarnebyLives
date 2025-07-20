@@ -1,0 +1,115 @@
+---
+title: "Custom Label Fonts"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Custom Label Fonts}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(eval = FALSE)
+knitr::opts_chunk$set(message = FALSE)
+knitr::opts_chunk$set(warning = FALSE)
+```
+
+## Overview 
+Obviously, everyone wants to be able to customize their label templates! 
+Why go through the bother of installing and running `BarnebyLives` if you cannot do that!  
+
+Note that the labels are made using LaTeX, an awesome guide for LaTeX (relevant to the level you will be using it at) is [Overleaf.org](https://www.overleaf.com/learn/latex/Learn_LaTeX_in_30_minutes), and check the links in the side bar too! 
+
+In this vignette we will replace the default LaTeX fonts with add-on fonts using the `fontspec` package. 
+Also note that previously you *may* have been able to scrape by using any old LaTeX installation, at this point you will definitely need to make sure you have either XelaTex for lualatext installed. 
+'tinytex' which is installable directly from R should accomplish this on all operating systems. 
+
+This vignette assumes you were able to get through `Custom Label Templates`. 
+
+```{r tinytex for all OS, eval = F}
+install.packages("tinytex")
+tinytex::install_tinytex()
+```
+
+You can check that you have successfully installed this with
+```{r}
+tinytex::is_tinytex()
+```
+
+If you are on linux for the sake of compatibility for this vignette, please install a ton of Windows fonts. 
+It seems most of these are on Mac - but if you start hitting errors, maybe give this a go. 
+
+You can do this with the code below, which will give part of your soul to Bill Gates of yesteryear. 
+
+```{sh, eval=F}
+echo "ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true" | sudo debconf-set-selections
+sudo apt install -y ttf-mscorefonts-installer
+```
+
+or you can 
+```{sh, eval=F}
+sudo apt install ttf-mscorefonts-installer
+```
+
+and then click `tab` and `enter` on your keyboard when the debconf pops up to accept that you are giving Bill Gates of yesteryear your soul. 
+
+```{sh}
+fc-list | grep "TImes New Roman"
+```
+
+and doubly verify the Tex install can access them
+```{sh}
+sudo fc-cache -fv
+```
+
+You may get messages about loops, these are fine as long as the last line reads something like 
+
+`fc-cache: succeeded`
+
+## Prepare workspace
+
+```{r load libraries and fine labels, eval =F}
+library(BarnebyLives)
+library(tidyverse)
+
+local <- file.path('~', 'Documents', 'assoRted', 'Barneby_Lives_dev', 'LabelStyles')
+
+l.nevadense <- collection_examples |>
+  filter(Collection_number == 2823)
+
+write.csv(l.nevadense, file.path(local, 'SoS-ExampleCollection.csv'))
+```
+
+All of the labels can be copied from their original locations using the following code.  
+
+```{r copy a template to a local directory, eval = F}
+p2lib <- file.path(
+  system.file(package = 'BarnebyLives'),
+  'rmarkdown', 'templates', 'labels', 'skeleton'
+  )
+
+# here we copy over one of the skeletons which we are going to modify in this example
+file.copy(
+  from = file.path(p2lib, 'skeleton-customfont.Rmd'), 
+  to = file.path(local, 'skeleton-customfont.Rmd')
+  )
+
+rm(p2libs, folds)
+```
+
+If you look at the header on this file, you'll notice it has more going on than the other skeletons. 
+As you will likely end up wanting to merge multiple label components together into a single skeleton (eventually), be sure to use this as the preamble. 
+
+```
+output: 
+  pdf_document:
+    latex_engine: xelatex # or lualatex
+    keep_text: true
+params:
+  Collection_number: Collection_number
+geometry: paperheight=4in,paperwidth=4in,margin=0.1in
+header-includes:
+  - \pagenumbering{gobble}
+  - \usepackage{setspace}
+  - \usepackage{fontspec}
+  - \setmainfont{Georgia}
+```

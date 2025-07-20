@@ -31,9 +31,7 @@ Another included template, for the Seeds of Success program (`skeletonSOS.Rmd`),
 Seeds of Success is a rad program all about how plant science will save the planet. 
 This collection didn't lead to a collection, but I am largely indebted to it for a ton of testing data from a whole slew of collectors (holla @ Chicago Botanic Garden & University of Nevada Reno too!)
 
-
 And our final default template (`skeleton-new.Rmd`) looks like this
-
 
 ## Modifications
 
@@ -52,7 +50,6 @@ write.csv(l.nevadense, file.path(local, 'SoS-ExampleCollection.csv'))
 All of the labels can be copied from their original locations using the following code.  
 
 ```{r copy a template to a local directory, eval = F}
-
 p2lib <- file.path(
   system.file(package = 'BarnebyLives'),
   'rmarkdown', 'templates', 'labels', 'skeleton'
@@ -155,6 +152,8 @@ Around line 50 we can just remove the following details.
 
 Delete this!
 
+<br> 
+
 ![No directions](../man/figures/noDir-SOS-2823-1.png)  
 
 That looks better! But now that we can, I want to open up some space between the habitat notes and vegetation information. 
@@ -185,6 +184,7 @@ Veg.: `r species_font(data$Vegetation)` `r associates_writer(data$Associates)`
 
 ![Space between habitat and vegetation](../man/figures/Spaced-SOS-2823-1.png)  
 
+<br> 
 That's better!
 
 > "All I want is to breathe I'm too thin"  
@@ -205,6 +205,7 @@ Here we will be making the font size smaller by shifting from the `LARGE` to the
 
 ![Project name is smaller](../man/figures/large-SOS-2823-1.png)  
 
+<br>
 
 Here we change the location of the family on the label (currently aligned right). 
 Let's make the family left aligned.  
@@ -223,7 +224,7 @@ We have created a few commands which help format the writing output for making t
 \normalsize
 ```
 
-If you remove the `flushright` commands you bascially end up with this:  
+If you remove the `flushright` commands you basically end up with this:  
 
 ```{r family at left, eval = F}
 
@@ -241,7 +242,9 @@ Which brings up a good point, these 'groups' are used to more or less create ele
 If we had omitted to bring family into the group, there would be a smidge more space between it and the scientific name (as exemplified with the habitat and vegetation alterations.)
 
 ![Family to the left](../man/figures/familyLeft-SOS-2823-1.png)  
-\br
+
+<br>
+
 We may also decide that we want to put determination information right under the species. 
 We can do that by just moving these elements around.
 (Be sure to delete the call to `writer_fide` from the chunk located all the way near the bottom of the skeleton!).
@@ -265,6 +268,8 @@ And bring it up to where the scientific name is printed, and make the font for t
 
 
 ![Moved determination](../man/figures/Det-SOS-2823-1.png)  
+
+<br>
 
 Obviously, the way I enter data for determination would be bad for this! using my initials after my full name makes sense, in this context, who the hell is "RCB" you would wonder? I am one in a sea of botanists named 'Reed', and certainly other - more illustrious - RCB's are out there. 
 
