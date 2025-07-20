@@ -99,7 +99,8 @@ like this</p>
 <div class="section level2">
 <h2 id="modifications">Modifications<a class="anchor" aria-label="anchor" href="#modifications"></a>
 </h2>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="st">'inst'</span>, <span class="st">'windowsInstall_pdf_tools.ps1'</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://sagesteppe.github.io/BarnebyLives/">BarnebyLives</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org" class="external-link">tidyverse</a></span><span class="op">)</span></span>
 <span></span>
@@ -111,7 +112,7 @@ like this</p>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html" class="external-link">write.csv</a></span><span class="op">(</span><span class="va">l.nevadense</span>, <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">local</span>, <span class="st">'SoS-ExampleCollection.csv'</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>All of the labels can be copied from their original locations using
 the following code.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">p2lib</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span>package <span class="op">=</span> <span class="st">'BarnebyLives'</span><span class="op">)</span>,</span>
 <span>  <span class="st">'rmarkdown'</span>, <span class="st">'templates'</span>, <span class="st">'labels'</span>, <span class="st">'skeleton'</span></span>
@@ -158,11 +159,11 @@ is a pretty middle of the road design.</p>
 <p>Hmm that’s a busy label, we could try and reduce the directions
 manually… Or, we can just rid of them! Around line 50 we can just remove
 the following details.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>\begingroup</span>
-<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>\begin{spacing}{<span class="fl">0.1</span>}</span>
-<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>{\scriptsize <span class="st">`</span><span class="at">r data$Directions_BL</span><span class="st">`</span>}</span>
-<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>\end{spacing}</span>
-<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>\endgroup</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>\begingroup</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>\begin{spacing}{<span class="fl">0.1</span>}</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>{\scriptsize <span class="st">`</span><span class="at">r data$Directions_BL</span><span class="st">`</span>}</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>\end{spacing}</span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>\endgroup</span></code></pre></div>
 <p>Delete this!</p>
 <p><br></p>
 <div class="float">
@@ -171,23 +172,23 @@ the following details.</p>
 <p>That looks better! But now that we can, I want to open up some space
 between the habitat notes and vegetation information. It’s simple, all
 we need is to empty a blank line to the document</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>\begingroup</span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="st">`</span><span class="at">r data$Gen</span><span class="st">`</span>. <span class="st">`</span><span class="at">r writer(data$Site)</span><span class="st">`</span> <span class="st">`</span><span class="at">r data$latitude_dd</span><span class="st">`</span> <span class="st">`</span><span class="at">r data$longitude_dd</span><span class="st">`</span> (<span class="st">`</span><span class="at">r data$Datum</span><span class="st">`</span> <span class="st">`</span><span class="at">r writer(data$Coordinate_Uncertainty)</span><span class="st">`</span>).</span>
-<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a></span>
-<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="st">`</span><span class="at">r writer(data$Habitat)</span><span class="st">`</span>. <span class="st">`</span><span class="at">r data$physical_environ</span><span class="st">`</span>  </span>
-<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>Veg.<span class="sc">:</span> <span class="st">`</span><span class="at">r species_font(data$Vegetation)</span><span class="st">`</span> <span class="st">`</span><span class="at">r associates_writer(data$Associates)</span><span class="st">`</span></span>
-<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="st">`</span><span class="at">r writer(data$Notes)</span><span class="st">`</span>  </span>
-<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>\endgroup</span></code></pre></div>
-<p>Can become the chunk below. All we do is enter a blank line between
-‘r writer()…’ and ‘Veg.’</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>\begingroup</span>
 <span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="st">`</span><span class="at">r data$Gen</span><span class="st">`</span>. <span class="st">`</span><span class="at">r writer(data$Site)</span><span class="st">`</span> <span class="st">`</span><span class="at">r data$latitude_dd</span><span class="st">`</span> <span class="st">`</span><span class="at">r data$longitude_dd</span><span class="st">`</span> (<span class="st">`</span><span class="at">r data$Datum</span><span class="st">`</span> <span class="st">`</span><span class="at">r writer(data$Coordinate_Uncertainty)</span><span class="st">`</span>).</span>
 <span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a></span>
 <span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="st">`</span><span class="at">r writer(data$Habitat)</span><span class="st">`</span>. <span class="st">`</span><span class="at">r data$physical_environ</span><span class="st">`</span>  </span>
-<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a></span>
-<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>Veg.<span class="sc">:</span> <span class="st">`</span><span class="at">r species_font(data$Vegetation)</span><span class="st">`</span> <span class="st">`</span><span class="at">r associates_writer(data$Associates)</span><span class="st">`</span></span>
-<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="st">`</span><span class="at">r writer(data$Notes)</span><span class="st">`</span>  </span>
-<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>\endgroup</span></code></pre></div>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>Veg.<span class="sc">:</span> <span class="st">`</span><span class="at">r species_font(data$Vegetation)</span><span class="st">`</span> <span class="st">`</span><span class="at">r associates_writer(data$Associates)</span><span class="st">`</span></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="st">`</span><span class="at">r writer(data$Notes)</span><span class="st">`</span>  </span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>\endgroup</span></code></pre></div>
+<p>Can become the chunk below. All we do is enter a blank line between
+‘r writer()…’ and ‘Veg.’</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>\begingroup</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="st">`</span><span class="at">r data$Gen</span><span class="st">`</span>. <span class="st">`</span><span class="at">r writer(data$Site)</span><span class="st">`</span> <span class="st">`</span><span class="at">r data$latitude_dd</span><span class="st">`</span> <span class="st">`</span><span class="at">r data$longitude_dd</span><span class="st">`</span> (<span class="st">`</span><span class="at">r data$Datum</span><span class="st">`</span> <span class="st">`</span><span class="at">r writer(data$Coordinate_Uncertainty)</span><span class="st">`</span>).</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="st">`</span><span class="at">r writer(data$Habitat)</span><span class="st">`</span>. <span class="st">`</span><span class="at">r data$physical_environ</span><span class="st">`</span>  </span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>Veg.<span class="sc">:</span> <span class="st">`</span><span class="at">r species_font(data$Vegetation)</span><span class="st">`</span> <span class="st">`</span><span class="at">r associates_writer(data$Associates)</span><span class="st">`</span></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="st">`</span><span class="at">r writer(data$Notes)</span><span class="st">`</span>  </span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a>\endgroup</span></code></pre></div>
 <div class="float">
 <img src="../reference/figures/Spaced-SOS-2823-1.png" alt="Space between habitat and vegetation"><div class="figcaption">Space between habitat and vegetation</div>
 </div>
@@ -201,8 +202,8 @@ we need is to empty a blank line to the document</p>
 <p>Now let’s change the line that controls the size of the font for the
 project name. Here we will be making the font size smaller by shifting
 from the <code>LARGE</code> to the <code>large</code> argument.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>\textbf{\LARGE <span class="st">`</span><span class="at">r writer(data$Project_Name)</span><span class="st">`</span>}  </span></code></pre></div>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>\textbf{\large <span class="st">`</span><span class="at">r writer(data$Project_Name)</span><span class="st">`</span>} </span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>\textbf{\LARGE <span class="st">`</span><span class="at">r writer(data$Project_Name)</span><span class="st">`</span>}  </span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>\textbf{\large <span class="st">`</span><span class="at">r writer(data$Project_Name)</span><span class="st">`</span>} </span></code></pre></div>
 <div class="float">
 <img src="../reference/figures/large-SOS-2823-1.png" alt="Project name is smaller"><div class="figcaption">Project name is smaller</div>
 </div>
@@ -214,23 +215,23 @@ this allows us to run R commands without having to create a code chunk
 for them in the more common markdown syntax. We have created a few
 commands which help format the writing output for making the labels like
 nice.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>\begin{flushright}</span>
-<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>\uppercase{<span class="st">`</span><span class="at">r data$Family</span><span class="st">`</span>}</span>
-<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>\end{flushright}</span>
-<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a></span>
-<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>\begingroup</span>
-<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>\large</span>
-<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a><span class="st">`</span><span class="at">r writer(paste(data$Genus, data$Epithet), italics = TRUE)</span><span class="st">`</span> <span class="st">`</span><span class="at">r writer(data$Binomial_authority)</span><span class="st">`</span> <span class="st">`</span><span class="at">r writer(data$Infrarank)</span><span class="st">`</span> <span class="st">`</span><span class="at">r  writer(data$Infraspecies, italics = TRUE)</span><span class="st">`</span> <span class="st">`</span><span class="at">r writer(data$Infraspecific_authority)</span><span class="st">`</span>  </span>
-<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a>\endgroup</span>
-<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a>\normalsize</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>\begin{flushright}</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>\uppercase{<span class="st">`</span><span class="at">r data$Family</span><span class="st">`</span>}</span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>\end{flushright}</span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>\begingroup</span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>\large</span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a><span class="st">`</span><span class="at">r writer(paste(data$Genus, data$Epithet), italics = TRUE)</span><span class="st">`</span> <span class="st">`</span><span class="at">r writer(data$Binomial_authority)</span><span class="st">`</span> <span class="st">`</span><span class="at">r writer(data$Infrarank)</span><span class="st">`</span> <span class="st">`</span><span class="at">r  writer(data$Infraspecies, italics = TRUE)</span><span class="st">`</span> <span class="st">`</span><span class="at">r writer(data$Infraspecific_authority)</span><span class="st">`</span>  </span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a>\endgroup</span>
+<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a>\normalsize</span></code></pre></div>
 <p>If you remove the <code>flushright</code> commands you basically end
 up with this:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>\large</span>
-<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>\uppercase{<span class="st">`</span><span class="at">r data$Family</span><span class="st">`</span>}  </span>
-<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>\begingroup</span>
-<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a><span class="st">`</span><span class="at">r writer(paste(data$Genus, data$Epithet), italics = TRUE)</span><span class="st">`</span> <span class="st">`</span><span class="at">r writer(data$Binomial_authority)</span><span class="st">`</span> <span class="st">`</span><span class="at">r writer(data$Infrarank)</span><span class="st">`</span> <span class="st">`</span><span class="at">r  writer(data$Infraspecies, italics = TRUE)</span><span class="st">`</span> <span class="st">`</span><span class="at">r writer(data$Infraspecific_authority)</span><span class="st">`</span>  </span>
-<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>\endgroup</span>
-<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>\normalsize</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>\large</span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>\uppercase{<span class="st">`</span><span class="at">r data$Family</span><span class="st">`</span>}  </span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>\begingroup</span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a><span class="st">`</span><span class="at">r writer(paste(data$Genus, data$Epithet), italics = TRUE)</span><span class="st">`</span> <span class="st">`</span><span class="at">r writer(data$Binomial_authority)</span><span class="st">`</span> <span class="st">`</span><span class="at">r writer(data$Infrarank)</span><span class="st">`</span> <span class="st">`</span><span class="at">r  writer(data$Infraspecies, italics = TRUE)</span><span class="st">`</span> <span class="st">`</span><span class="at">r writer(data$Infraspecific_authority)</span><span class="st">`</span>  </span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a>\endgroup</span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a>\normalsize</span></code></pre></div>
 <p>This requires us to delete the first three lines while we copy the
 family down into the ‘group’. Which brings up a good point, these
 ‘groups’ are used to more or less create elements held together like
@@ -245,17 +246,17 @@ exemplified with the habitat and vegetation alterations.)</p>
 right under the species. We can do that by just moving these elements
 around. (Be sure to delete the call to <code>writer_fide</code> from the
 chunk located all the way near the bottom of the skeleton!).</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>\begingroup</span>
-<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a><span class="st">`</span><span class="at">r collection_writer(data)</span><span class="st">`</span>. <span class="st">`</span><span class="at">r writer_fide(data)</span><span class="st">`</span></span>
-<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>\endgroup</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>\begingroup</span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="st">`</span><span class="at">r collection_writer(data)</span><span class="st">`</span>. <span class="st">`</span><span class="at">r writer_fide(data)</span><span class="st">`</span></span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>\endgroup</span></code></pre></div>
 <p>And bring it up to where the scientific name is printed, and make the
 font for the det info smaller.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>\begingroup</span>
-<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>\large</span>
-<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a><span class="st">`</span><span class="at">r writer(paste(data$Genus, data$Epithet), italics = TRUE)</span><span class="st">`</span> <span class="st">`</span><span class="at">r writer(data$Binomial_authority)</span><span class="st">`</span> <span class="st">`</span><span class="at">r writer(data$Infrarank)</span><span class="st">`</span> <span class="st">`</span><span class="at">r  writer(data$Infraspecies, italics = TRUE)</span><span class="st">`</span> <span class="st">`</span><span class="at">r writer(data$Infraspecific_authority)</span><span class="st">`</span>  </span>
-<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>\normalsize</span>
-<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a><span class="st">`</span><span class="at">r writer_fide(data)</span><span class="st">`</span></span>
-<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a>\endgroup</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a>\begingroup</span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>\large</span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a><span class="st">`</span><span class="at">r writer(paste(data$Genus, data$Epithet), italics = TRUE)</span><span class="st">`</span> <span class="st">`</span><span class="at">r writer(data$Binomial_authority)</span><span class="st">`</span> <span class="st">`</span><span class="at">r writer(data$Infrarank)</span><span class="st">`</span> <span class="st">`</span><span class="at">r  writer(data$Infraspecies, italics = TRUE)</span><span class="st">`</span> <span class="st">`</span><span class="at">r writer(data$Infraspecific_authority)</span><span class="st">`</span>  </span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a>\normalsize</span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a><span class="st">`</span><span class="at">r writer_fide(data)</span><span class="st">`</span></span>
+<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a>\endgroup</span></code></pre></div>
 <div class="float">
 <img src="../reference/figures/Det-SOS-2823-1.png" alt="Moved determination"><div class="figcaption">Moved determination</div>
 </div>
