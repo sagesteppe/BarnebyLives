@@ -104,7 +104,7 @@ soul to Bill Gates of yesteryear.</p>
 <p>and then click <code>tab</code> and <code>enter</code> on your
 keyboard when the debconf pops up to accept that you are giving Bill
 Gates of yesteryear your soul.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="ex">fc-list</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="st">"TImes New Roman"</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="ex">fc-list</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="st">"Times New Roman"</span></span></code></pre></div>
 <p>and doubly verify the Tex install can access them</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">sudo</span> fc-cache <span class="at">-fv</span></span></code></pre></div>
 <p>You may get messages about loops, these are fine as long as the last
@@ -121,9 +121,13 @@ line reads something like</p>
 <span><span class="va">local</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="st">'~'</span>, <span class="st">'Documents'</span>, <span class="st">'assoRted'</span>, <span class="st">'Barneby_Lives_dev'</span>, <span class="st">'LabelStyles'</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">l.nevadense</span> <span class="op">&lt;-</span> <span class="va">collection_examples</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">Collection_number</span> <span class="op">==</span> <span class="fl">2823</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">Collection_number</span> <span class="op">==</span> <span class="fl">2823</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
+<span>    Project_name <span class="op">=</span> <span class="st">'Custom Fonts'</span>, </span>
+<span>    Coordinate_uncertainty <span class="op">=</span> <span class="st">'5m'</span></span>
+<span>    <span class="op">)</span> </span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html" class="external-link">write.csv</a></span><span class="op">(</span><span class="va">l.nevadense</span>, <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">local</span>, <span class="st">'SoS-ExampleCollection.csv'</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html" class="external-link">write.csv</a></span><span class="op">(</span><span class="va">l.nevadense</span>, <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">local</span>, <span class="st">'SoS-ExampleCollection.csv'</span><span class="op">)</span>, row.names <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span></code></pre></div>
 <p>All of the labels can be copied from their original locations using
 the following code.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
@@ -138,7 +142,11 @@ the following code.</p>
 <span>  to <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">local</span>, <span class="st">'skeleton-customfont.Rmd'</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/rm.html" class="external-link">rm</a></span><span class="op">(</span><span class="va">p2libs</span>, <span class="va">folds</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/base/rm.html" class="external-link">rm</a></span><span class="op">(</span><span class="va">p2lib</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="render-labels">Render Labels<a class="anchor" aria-label="anchor" href="#render-labels"></a>
+</h2>
 <p>If you look at the header on this file, you’ll notice it has more
 going on than the other skeletons. As you will likely end up wanting to
 merge multiple label components together into a single skeleton
@@ -155,6 +163,38 @@ header-includes:
   - \usepackage{setspace}
   - \usepackage{fontspec}
   - \setmainfont{Georgia}</code></pre>
+<p>Note that the last line in the preamble is: this is the command
+‘setmainfont’ to set the font ‘Georgia’ which will be used.</p>
+</div>
+<div class="section level2">
+<h2 id="examples-with-common-fonts">Examples with Common Fonts<a class="anchor" aria-label="anchor" href="#examples-with-common-fonts"></a>
+</h2>
+<div class="float">
+<embed src="../man/figures/custom-font2823.pdf"></embed><div class="figcaption">One custom Fonts</div>
+</div>
+<p>However, we can use multiple fonts (…if so desired… ) by importing an
+additional font, and specifying where we should use it.</p>
+<pre><code>output: 
+  ...
+header-includes:
+  ...
+  - \usepackage{fontspec}
+  - \setmainfont{Georgia}
+  - \newfontfamily\couriernew{Courier New}</code></pre>
+<p>And edit portions of the skeletons body</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>...</span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>\textcouriernew{<span class="st">`</span><span class="at">r writer(data[['Habitat']])</span><span class="st">`</span>. <span class="st">`</span><span class="at">r data[['physical_environ']]</span><span class="st">`</span>}</span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>Veg.<span class="sc">:</span> <span class="st">`</span><span class="at">r species_font(record[['Vegetation']])</span><span class="st">`</span> <span class="st">`</span><span class="at">r associates_writer(record[['Associates']])</span><span class="st">`</span></span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a><span class="st">`</span><span class="at">r writer(record[['Notes']])</span><span class="st">`</span>  </span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a>\endgroup</span>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a>...</span></code></pre></div>
+<div class="float">
+<embed src="../man/figures/custom-twofonts2823.pdf"></embed><div class="figcaption">Two custom Fonts</div>
+</div>
+<p>But! Notice that this new font is applied to the <em>whole</em> group
+not just the braced contents, you can bypass this with custom macros -
+which we won’t discuss or support in this package. TBH I’m not sure how
+often you should really have two fonts per label anyways…</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
