@@ -100,11 +100,11 @@ First to find the script in BarnebyLives R package directory, enter the followin
 $installScript = & Rscript -e "cat(system.file('windowsInstall_pdf_tools.ps1', package='BarnebyLives'))"
 
 if (!(Test-Path $installScript)) {
-  Write-Error "❌ Could not find install script in BarnebyLives package."
+  Write-Error "Could not find install script in BarnebyLives package."
   exit 1
 }
 
-Write-Host "✅ Found installer script at: $installScript"
+Write-Host "Found installer script at: $installScript"
 ```
 
 ##### Step 2: Add Script Directory to PATH
@@ -115,8 +115,6 @@ $scriptDir = [System.IO.Path]::GetDirectoryName($installScript)
 $env:Path += ";$scriptDir"
 ```
 
-First the script will install WSL, then you will need to restart and run the script again. 
-
 ##### Step 3: Install WSL
 
 Run the installation script
@@ -126,7 +124,7 @@ Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force & "windowsInst
 ```
 
 After the script completes, restart your computer as prompted. 
-Then, run the script again to complete the installation process.
+Then, run the script again to complete the installation process for the pdf utilities.
 
 ## Input Data Column Names
 
