@@ -146,7 +146,7 @@ Note that the last line in the preamble is: \setmainfont{Georgia} this is the co
 
 ## Examples with Common Fonts
 
-![One custom Fonts](../man/figures/custom-font2823.pdf) 
+![One custom Fonts](../man/figures/custom-font2823.png)  
 
 However, we can use multiple fonts (...if so desired... ) by importing an additional font, and specifying where we should use it. 
 
@@ -171,7 +171,7 @@ Veg.: `r species_font(record[['Vegetation']])` `r associates_writer(record[['Ass
 ...
 ```
 
-![Two custom Fonts](../man/figures/custom-twofonts2823.pdf)  
+![Two custom Fonts](../man/figures/custom-twofonts2823.png)  
 
 But! Notice that this new font is applied to the *whole* group not just the braced contents, you can bypass this with custom macros - which we won't discuss or support in this package. 
 TBH I'm not sure how often you should really have two fonts per label anyways...
