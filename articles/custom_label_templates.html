@@ -34,6 +34,7 @@
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><a class="dropdown-item" href="../articles/creating_labels.html">Printing herbarium labels and exporting a digital copy of data</a></li>
+    <li><a class="dropdown-item" href="../articles/custom_label_fonts.html">Custom Label Fonts</a></li>
     <li><a class="dropdown-item" href="../articles/custom_label_templates.html">Custom Label Templates</a></li>
     <li><a class="dropdown-item" href="../articles/rendering_shipping_manifests.html">Rendering a shipping manifest</a></li>
     <li><a class="dropdown-item" href="../articles/running_pipeline.html">BarnebyLives! Running pipeline</a></li>
@@ -163,6 +164,7 @@ the following details.</p>
 <span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>\end{spacing}</span>
 <span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>\endgroup</span></code></pre></div>
 <p>Delete this!</p>
+<p><br></p>
 <div class="float">
 <img src="../reference/figures/noDir-SOS-2823-1.png" alt="No directions"><div class="figcaption">No directions</div>
 </div>
@@ -189,7 +191,7 @@ we need is to empty a blank line to the document</p>
 <div class="float">
 <img src="../reference/figures/Spaced-SOS-2823-1.png" alt="Space between habitat and vegetation"><div class="figcaption">Space between habitat and vegetation</div>
 </div>
-<p>That’s better!</p>
+<p><br> That’s better!</p>
 <blockquote>
 <p>“All I want is to breathe I’m too thin”<br>
 “Won’t you breathe with me?”<br>
@@ -204,6 +206,7 @@ from the <code>LARGE</code> to the <code>large</code> argument.</p>
 <div class="float">
 <img src="../reference/figures/large-SOS-2823-1.png" alt="Project name is smaller"><div class="figcaption">Project name is smaller</div>
 </div>
+<p><br></p>
 <p>Here we change the location of the family on the label (currently
 aligned right). Let’s make the family left aligned.<br>
 Note that all calls to R are in a single set of smart quotes, and ‘R’,
@@ -220,7 +223,7 @@ nice.</p>
 <span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a><span class="st">`</span><span class="at">r writer(paste(data$Genus, data$Epithet), italics = TRUE)</span><span class="st">`</span> <span class="st">`</span><span class="at">r writer(data$Binomial_authority)</span><span class="st">`</span> <span class="st">`</span><span class="at">r writer(data$Infrarank)</span><span class="st">`</span> <span class="st">`</span><span class="at">r  writer(data$Infraspecies, italics = TRUE)</span><span class="st">`</span> <span class="st">`</span><span class="at">r writer(data$Infraspecific_authority)</span><span class="st">`</span>  </span>
 <span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a>\endgroup</span>
 <span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a>\normalsize</span></code></pre></div>
-<p>If you remove the <code>flushright</code> commands you bascially end
+<p>If you remove the <code>flushright</code> commands you basically end
 up with this:</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>\large</span>
 <span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>\uppercase{<span class="st">`</span><span class="at">r data$Family</span><span class="st">`</span>}  </span>
@@ -234,11 +237,14 @@ family down into the ‘group’. Which brings up a good point, these
 paragraphs. If we had omitted to bring family into the group, there
 would be a smidge more space between it and the scientific name (as
 exemplified with the habitat and vegetation alterations.)</p>
-<p><img src="../reference/figures/familyLeft-SOS-2823-1.png" alt="Family to the left"><br>
-We may also decide that we want to put determination information right
-under the species. We can do that by just moving these elements around.
-(Be sure to delete the call to <code>writer_fide</code> from the chunk
-located all the way near the bottom of the skeleton!).</p>
+<div class="float">
+<img src="../reference/figures/familyLeft-SOS-2823-1.png" alt="Family to the left"><div class="figcaption">Family to the left</div>
+</div>
+<p><br></p>
+<p>We may also decide that we want to put determination information
+right under the species. We can do that by just moving these elements
+around. (Be sure to delete the call to <code>writer_fide</code> from the
+chunk located all the way near the bottom of the skeleton!).</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>\begingroup</span>
 <span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a><span class="st">`</span><span class="at">r collection_writer(data)</span><span class="st">`</span>. <span class="st">`</span><span class="at">r writer_fide(data)</span><span class="st">`</span></span>
 <span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>\endgroup</span></code></pre></div>
@@ -253,6 +259,7 @@ font for the det info smaller.</p>
 <div class="float">
 <img src="../reference/figures/Det-SOS-2823-1.png" alt="Moved determination"><div class="figcaption">Moved determination</div>
 </div>
+<p><br></p>
 <p>Obviously, the way I enter data for determination would be bad for
 this! using my initials after my full name makes sense, in this context,
 who the hell is “RCB” you would wonder? I am one in a sea of botanists
@@ -279,7 +286,7 @@ you’ll probably realize this pales in comparision.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.2.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
 </div>
 
     </footer>

@@ -19,6 +19,7 @@
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/creating_labels.html">Printing herbarium labels and exporting a digital copy of data</a></li>
+    <li><a class="dropdown-item" href="../articles/custom_label_fonts.html">Custom Label Fonts</a></li>
     <li><a class="dropdown-item" href="../articles/custom_label_templates.html">Custom Label Templates</a></li>
     <li><a class="dropdown-item" href="../articles/rendering_shipping_manifests.html">Rendering a shipping manifest</a></li>
     <li><a class="dropdown-item" href="../articles/running_pipeline.html">BarnebyLives! Running pipeline</a></li>
@@ -80,19 +81,19 @@ and determination date</p></dd>
 <span class="r-in"><span><span class="va">dates</span> <span class="op">&lt;-</span> <span class="fu">date_parser</span><span class="op">(</span><span class="va">first50dates</span>, coll_date <span class="op">=</span> <span class="st">'collection_date'</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">dates</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   collection_date collection_date_ymd collection_date_day collection_date_mo</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1        9-5-2023          2023-09-05                   5                  9</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2        3-8-2023          2023-03-08                   8                  3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3        8-1-2023          2023-08-01                   1                  8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4       4-12-2023          2023-04-12                  12                  4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5       5-19-2023          2023-05-19                  19                  5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6       8-28-2023          2023-08-28                  28                  8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1       9-19-2023          2023-09-19                  19                  9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2       4-25-2023          2023-04-25                  25                  4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3        5-2-2023          2023-05-02                   2                  5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4        8-8-2023          2023-08-08                   8                  8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5        6-1-2023          2023-06-01                   1                  6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6       4-28-2023          2023-04-28                  28                  4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   collection_date_yr collection_date_text</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1               2023          5 Sep, 2023</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2               2023          8 Mar, 2023</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3               2023          1 Aug, 2023</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4               2023         12 Apr, 2023</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5               2023         19 May, 2023</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6               2023         28 Aug, 2023</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1               2023         19 Sep, 2023</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2               2023         25 Apr, 2023</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3               2023          2 May, 2023</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4               2023          8 Aug, 2023</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5               2023          1 Jun, 2023</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6               2023         28 Apr, 2023</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -104,7 +105,7 @@ and determination date</p></dd>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.2.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
 </div>
 
     </footer></div>

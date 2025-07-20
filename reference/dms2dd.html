@@ -19,6 +19,7 @@
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/creating_labels.html">Printing herbarium labels and exporting a digital copy of data</a></li>
+    <li><a class="dropdown-item" href="../articles/custom_label_fonts.html">Custom Label Fonts</a></li>
     <li><a class="dropdown-item" href="../articles/custom_label_templates.html">Custom Label Templates</a></li>
     <li><a class="dropdown-item" href="../articles/rendering_shipping_manifests.html">Rendering a shipping manifest</a></li>
     <li><a class="dropdown-item" href="../articles/running_pipeline.html">BarnebyLives! Running pipeline</a></li>
@@ -80,17 +81,11 @@
 <span class="r-in"><span>  latitude_dd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">15</span>, min <span class="op">=</span> <span class="fl">35</span>, max <span class="op">=</span> <span class="fl">48</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">coords_formatted</span> <span class="op">&lt;-</span> <span class="fu">dms2dd</span><span class="op">(</span> <span class="va">coords</span> <span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in loadNamespace(x):</span> there is no package called ‘parzer’</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">coords_formatted</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    longitude_dd latitude_dd latitude_dms longitude_dms</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           &lt;num&gt;       &lt;num&gt;       &lt;char&gt;        &lt;char&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1:   -119.59870    47.96190   N 47°57'43   W 119°35'55</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2:   -112.46058    36.93746   N 36°56'15   W 112°27'38</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3:   -108.80174    41.74124   N 41°44'28    W 108°48'6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4:   -102.85833    45.99956   N 45°59'58   W 102°51'30</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5:   -112.30381    44.33751   N 44°20'15   W 112°18'14</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6:   -109.44166    38.13708    N 38°8'13   W 109°26'30</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'coords_formatted' not found</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">coords_formatted</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "longitude_dd"  "latitude_dd"   "latitude_dms"  "longitude_dms"</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'coords_formatted' not found</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -102,7 +97,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.2.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
 </div>
 
     </footer></div>
