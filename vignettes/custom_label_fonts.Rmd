@@ -53,7 +53,7 @@ sudo apt install ttf-mscorefonts-installer
 and then click `tab` and `enter` on your keyboard when the debconf pops up to accept that you are giving Bill Gates of yesteryear your soul. 
 
 ```{sh}
-fc-list | grep "TImes New Roman"
+fc-list | grep "Times New Roman"
 ```
 
 and doubly verify the Tex install can access them
@@ -74,9 +74,13 @@ library(tidyverse)
 local <- file.path('~', 'Documents', 'assoRted', 'Barneby_Lives_dev', 'LabelStyles')
 
 l.nevadense <- collection_examples |>
-  filter(Collection_number == 2823)
+  filter(Collection_number == 2823) |>
+  mutate(
+    Project_name = 'Custom Fonts', 
+    Coordinate_uncertainty = '5m'
+    ) 
 
-write.csv(l.nevadense, file.path(local, 'SoS-ExampleCollection.csv'))
+write.csv(l.nevadense, file.path(local, 'SoS-ExampleCollection.csv'), row.names = F)
 ```
 
 All of the labels can be copied from their original locations using the following code.  
@@ -93,8 +97,32 @@ file.copy(
   to = file.path(local, 'skeleton-customfont.Rmd')
   )
 
-rm(p2libs, folds)
+rm(p2lib)
 ```
+
+
+## Render Labels 
+
+```{r actually render labels, echo = F, eval = F}
+purrr::walk(
+  .x = l.nevadense$Collection_number,
+  ~ rmarkdown::render(
+    input = file.path(local, 'skeleton-customfont.Rmd'), 
+    output_file = file.path(local, paste0('custom-font', glue::glue("{.x}.pdf"))), 
+    params = list(Collection_number = {.x}) 
+  )
+)
+
+purrr::walk(
+  .x = l.nevadense$Collection_number,
+  ~ rmarkdown::render(
+    input = file.path(local, 'skeleton-customfont-twofonts.Rmd'), 
+    output_file = file.path(local, paste0('custom-twofonts', glue::glue("{.x}.pdf"))), 
+    params = list(Collection_number = {.x}) 
+  )
+)
+```
+
 
 If you look at the header on this file, you'll notice it has more going on than the other skeletons. 
 As you will likely end up wanting to merge multiple label components together into a single skeleton (eventually), be sure to use this as the preamble. 
@@ -113,3 +141,37 @@ header-includes:
   - \usepackage{fontspec}
   - \setmainfont{Georgia}
 ```
+
+Note that the last line in the preamble is: \setmainfont{Georgia} this is the command 'setmainfont' to set the font 'Georgia' which will be used. 
+
+## Examples with Common Fonts
+
+![One custom Fonts](../man/figures/custom-font2823.pdf) 
+
+However, we can use multiple fonts (...if so desired... ) by importing an additional font, and specifying where we should use it. 
+
+```
+output: 
+  ...
+header-includes:
+  ...
+  - \usepackage{fontspec}
+  - \setmainfont{Georgia}
+  - \newfontfamily\couriernew{Courier New}
+```
+
+And edit portions of the skeletons body
+
+```{r, eval = F}
+...
+\textcouriernew{`r writer(data[['Habitat']])`. `r data[['physical_environ']]`}
+Veg.: `r species_font(record[['Vegetation']])` `r associates_writer(record[['Associates']])`
+`r writer(record[['Notes']])`  
+\endgroup
+...
+```
+
+![Two custom Fonts](../man/figures/custom-twofonts2823.pdf)  
+
+But! Notice that this new font is applied to the *whole* group not just the braced contents, you can bypass this with custom macros - which we won't discuss or support in this package. 
+TBH I'm not sure how often you should really have two fonts per label anyways...

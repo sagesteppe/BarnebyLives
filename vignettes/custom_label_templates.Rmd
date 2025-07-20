@@ -61,7 +61,7 @@ file.copy(
   to = file.path(local, 'SoS-skeleton.Rmd')
   )
 
-rm(p2libs, folds)
+rm(p2lib)
 ```
 
 When using the program you will need to copy a template from it's location within the package to a 'local' location. 

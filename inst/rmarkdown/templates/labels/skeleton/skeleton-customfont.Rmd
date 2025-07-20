@@ -2,7 +2,7 @@
 output: 
   pdf_document:
     latex_engine: xelatex # or lualatex
-    keep_text: true
+    keep_tex: true
 params:
   Collection_number: Collection_number
 geometry: paperheight=4in,paperwidth=4in,margin=0.1in
@@ -25,35 +25,38 @@ library(BarnebyLives)
 ```
 
 ```{r load data}
-data <- collection_examples |>
-  dplyr::filter(Collection_number == params$Collection_number) |>  
-  sf::st_drop_geometry()
+local <- file.path('~', 'Documents', 'assoRted', 'Barneby_Lives_dev', 'LabelStyles')
+
+record <- read.csv(file.path(local, 'SoS-ExampleCollection.csv')) |>
+  sf::st_drop_geometry() |>
+  data.frame() |>
+  dplyr::filter(Collection_number == params$Collection_number)  
 ```
 
 \begin{center}
-\textbf{\Large `r writer(data$Project_Name)`}
+\textbf{\Large `r writer(record[['Project_name']])`}
 \end{center}
 \begin{flushright}
-\uppercase{`r data$Family`}
+\uppercase{`r record[['Family']]`}
 \end{flushright}
 \begingroup
 \large
-`r writer(paste(data$Genus, data$Epithet), italics = TRUE)` `r writer(data$Binomial_authority)` `r writer(data$Infrarank)` `r writer(data$Infraspecies, italics = TRUE)` `r writer(data$Infraspecific_authority)`  
-`r writer_fide(data)`
+`r writer(paste(record[['Genus']], record[['Epithet']]), italics = TRUE)` `r writer(record[['Binomial_authority']])` `r writer(record[['Infrarank']])` `r writer(record[['Infraspecies']], italics = TRUE)` `r writer(record[['Infraspecific_authority']])`  
+`r writer_fide(record)`
 \normalsize
 \endgroup
 
 \vspace*{\fill}
 \begingroup
-`r data$Gen`. `r writer(data$Site)` `r data$latitude_dd` `r data$longitude_dd` (`r data$Datum` `r writer(data$Coordinate_Uncertainty)`).
+`r record[['Gen']]`. `r writer(record[['Site']])` `r record[['latitude_dd']]` `r record[['longitude_dd']]` (`r record[['Datum']]` `r writer(record[['Coordinate_uncertainty']])`).
 
-`r writer(data$Habitat)`. `r data$physical_environ`  
-Veg.: `r species_font(data$Vegetation)` `r associates_writer(data$Associates)`
-`r writer(data$Notes)`  
+`r writer(record[['Habitat']])`. `r record[['physical_environ']]`  
+Veg.: `r species_font(record[['Vegetation']])` `r associates_writer(record[['Associates']])`
+`r writer(record[['Notes']])`  
 \endgroup
  
 \vspace*{\fill}
 \begingroup
-`r collection_writer(data)`
+`r collection_writer(record)`
 \endgroup
 
