@@ -60,7 +60,7 @@ file.copy(
   from = 
     file.path(
     system.file(package = 'BarnebyLives'), 
-    'rmarkdown', 'SoS_transmittal', 'skeleton', 'logo.png'),
+    'rmarkdown', 'templates', 'transmittal', 'skeleton', 'logo.png'),
   to = file.path(local, 'logo.png')
   )
 
