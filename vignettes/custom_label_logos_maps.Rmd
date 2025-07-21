@@ -58,7 +58,9 @@ file.copy(
 # copy an image to use for a logo
 file.copy(
   from = 
-    file.path(system.file(package = 'BarnebyLives'), 'man', 'figures', 'logo.png'),
+    file.path(
+    system.file(package = 'BarnebyLives'), 
+    'rmarkdown', 'SoS_transmittal', 'skeleton', 'logo.png'),
   to = file.path(local, 'logo.png')
   )
 
