@@ -34,9 +34,6 @@ This collection didn't lead to a collection, but I am largely indebted to it for
 And our final default template (`skeleton-new.Rmd`) looks like this
 
 ## Modifications
-```{r}
-'inst', 'windowsInstall_pdf_tools.ps1'
-```
 
 ```{r, eval =F}
 library(BarnebyLives)

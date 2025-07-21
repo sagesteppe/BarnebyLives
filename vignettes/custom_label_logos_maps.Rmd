@@ -1,0 +1,114 @@
+---
+title: "Custom label logos and maps"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Custom label logos and maps}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(eval = FALSE)
+knitr::opts_chunk$set(message = FALSE)
+knitr::opts_chunk$set(warning = FALSE)
+```
+
+## Overview 
+Obviously, everyone wants to be able to customize their label templates! 
+Why go through the bother of installing and running `BarnebyLives` if you cannot do that!  
+
+This section is on embedding maps or logos onto labels. 
+
+Note that the labels are made using LaTeX, an awesome guide for LaTeX (relevant to the level you will be using it at) is [Overleaf.org](https://www.overleaf.com/learn/latex/Learn_LaTeX_in_30_minutes), and check the links in the side bar too! 
+
+This vignette assumes you were able to get through `Custom Label Templates`. 
+
+## Prepare workspace
+
+```{r load libraries and fine labels, eval =F}
+library(BarnebyLives)
+library(tidyverse)
+
+local <- file.path('~', 'Documents', 'assoRted', 'Barneby_Lives_dev', 'LabelStyles')
+
+l.nevadense <- collection_examples |>
+  filter(Collection_number == 2823) |>
+  mutate(
+    Project_name = 'Custom Fonts', 
+    Coordinate_uncertainty = '5m'
+    ) 
+
+write.csv(l.nevadense, file.path(local, 'SoS-ExampleCollection.csv'), row.names = F)
+```
+
+Label templates can be copied from their original locations using the following code.  
+
+```{r copy a template to a local directory, eval = F}
+p2lib <- file.path(
+  system.file(package = 'BarnebyLives'),
+  'rmarkdown', 'templates', 'labels', 'skeleton'
+  )
+
+# here we copy over one of the skeletons which we are going to modify in this example
+file.copy(
+  from = file.path(p2lib, 'skeleton-maps.Rmd'), 
+  to = file.path(local, 'skeleton-maps.Rmd')
+  )
+
+# copy an image to use for a logo
+file.copy(
+  from = 
+    file.path(system.file(package = 'BarnebyLives'), 'man', 'figures', 'logo.png'),
+  to = file.path(local, 'logo.png')
+  )
+
+rm(p2lib)
+```
+
+
+We will also make a map to embed on a label. 
+
+```{r, eval = F}
+st <- tigris::states()
+
+l.nevadense.sf <- sf::st_as_sf(
+  l.nevadense, 
+  coords = c('longitude_dd', 'latitude_dd'),
+  crs = 4326
+  )
+
+# create a simple dot map of the state. 
+map_maker(
+  l.nevadense.sf, 
+  st, 
+  path = local,
+  collection_col = 'Collection_number'
+  )
+```
+
+
+## Render Labels 
+
+```{r actually render labels, echo = F, eval = F}
+purrr::walk(
+  .x = l.nevadense$Collection_number,
+  ~ rmarkdown::render(
+    input = file.path(local, 'skeleton-maps.Rmd'), 
+    output_file = file.path(local, paste0('custom-font', glue::glue("{.x}.pdf"))), 
+    params = list(Collection_number = {.x}, imagepath = 'logo.png'), 
+  )
+)
+
+purrr::walk(
+  .x = l.nevadense$Collection_number,
+  ~ rmarkdown::render(
+    input = file.path(local, 'skeleton-customfont-twofonts.Rmd'), 
+    output_file = file.path(local, paste0('custom-twofonts', glue::glue("{.x}.pdf"))), 
+    params = list(
+      Collection_number = {.x}, 
+      imagepath = file.path('maps', 'map_2823.png')
+      ) 
+  )
+)
+```
+

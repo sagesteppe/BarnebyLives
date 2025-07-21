@@ -23,6 +23,8 @@ library(BarnebyLives)
 record <- collection_examples |>
   dplyr::filter(Collection_number == params$Collection_number) |>  
   sf::st_drop_geometry()
+
+imagepath <- params$imagepath
 ```
 
 \begin{center}
@@ -43,6 +45,7 @@ record <- collection_examples |>
 \endgroup
 
 \vspace*{\fill}
+
 \begingroup
 `r record[['Gen']]`. `r writer(record[['Site']])` `r record[['latitude_dd']]` `r record[['longitude_dd']]` (`r record[['Datum']]` `r writer(record[['Coordinate_Uncertainty']])`).
 
@@ -55,3 +58,10 @@ Veg.: `r species_font(record[['Vegetation']])` `r associates_writer(record[['Ass
 \begingroup
 `r collection_writer(record)`
 \endgroup
+\end{minipage}%
+\hfill
+\begin{minipage}[c]{0.18\textwidth}\vspace*{0pt}
+\hspace*{4mm}% left margin
+\centering
+\includegraphics[width=\linewidth,height=0.66\textheight,keepaspectratio]{`r imagepath`}
+\end{minipage}

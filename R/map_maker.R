@@ -15,15 +15,16 @@ map_maker <- function(x, states, path, collection_col){
     pts } else {pts <- sf::st_transform(x, sf::st_crs(states))}
 
   ints <- sf::st_intersection(pts, states)
-
-  focal_state <- dplyr::filter(states, STATE == ints$STATE)
+  focal_state <- dplyr::filter(states, NAME == ints$NAME)
 
   p <- ggplot2::ggplot() +
     ggplot2::geom_sf(data = focal_state, fill = NA, color = 'grey15') +
     ggplot2::geom_sf(data = pts, size = 0.5) +
     ggplot2::theme_void()
 
-  fname <- file.path(path, 'maps', paste0('map_', sf::st_drop_geometry(x[1,'collectionNo']), '.png'))
+  col_no <- sf::st_drop_geometry(x[,collection_col])
+
+  fname <- file.path(path, 'maps', paste0('map_', col_no, '.png'))
   ggplot2::ggsave(filename =  fname, plot = p, device = 'png', dpi = 300,
                   width = 1, height = 1, units = 'in', bg = 'transparent')
 }
