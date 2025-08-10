@@ -70,7 +70,7 @@ reference:
 articles:
   - title: Setup
     contents:
-      - "Preparing to use BarnebyLives!"
+      - "setting_up_files!"
   - title: Running pipeline
     contents:
       - "running_pipeline"
