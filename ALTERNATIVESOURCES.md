@@ -6,4 +6,4 @@ Here we list the sources of data used by BL, indicating which are sourced direct
 
 Please note that because BL utilizes local compute, these data sources being removed by the Federal government will not effect existing instances. 
 
-![Data Sources](../graphics/tables/Alternative_data_sources.png){width=50%}  
+![Data Sources](../man/figures/Alternative_data_sources.png){width=50%}  
