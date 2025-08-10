@@ -1,7 +1,16 @@
 url: https://sagesteppe.github.io/BarnebyLives/
 template:
   bootstrap: 5
-
+  
+navbar:
+  structure:
+    left: [home, reference, articles, data-sources]
+    right: [search, github]
+  components:
+    data-sources:
+      text: "Alternative Data Sources"
+      href: alternative-data-sources.html
+      
 reference:
   - title: Workflow functions
     desc: User facing functions for carrying out the BL workflow
