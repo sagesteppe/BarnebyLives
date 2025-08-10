@@ -1,6 +1,6 @@
 url: https://sagesteppe.github.io/BarnebyLives/
 template:
-  bootstrap: 5
+  bootstrap: 5 
 reference:
 - title: Workflow functions
   desc: User facing functions for carrying out the BL workflow
@@ -68,23 +68,23 @@ reference:
  articles:
   - title: Setup
     contents:
-      - "Preparing to use BarnebyLives!"
+    - "Preparing to use BarnebyLives!"
   - title: Running pipeline
     contents:
-      - "BarnebyLives! Running pipeline"
+    - "BarnebyLives! Running pipeline"
   - title: Printing labels and exporting data
     contents:
-      - "Printing herbarium labels and exporting a digital copy of data"
+    - "Printing herbarium labels and exporting a digital copy of data"
   - title: Creating shipping manifests
     contents:
-      - "Rendering a shipping manifest"
+    - "Rendering a shipping manifest"
   - title: General Label Customization
     contents: 
-      - "Custom Label Templates"
+    - "Custom Label Templates"
   - title: Using custom fonts
     contents:
-      - "Custom Label Fonts"
+    - "Custom Label Fonts"
   - title: "Custom labels with logos"
     contents:
-      - "Custom label logos and maps"
+    - "Custom label logos and maps"
 
