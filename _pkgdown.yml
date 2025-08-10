@@ -70,7 +70,7 @@ reference:
 articles:
   - title: Setup
     contents:
-      - "setting_up_files!"
+      - "setting_up_files"
   - title: Running pipeline
     contents:
       - "running_pipeline"
