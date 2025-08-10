@@ -4,8 +4,12 @@ template:
   
 navbar:
   structure:
-    left: [home, reference, articles, changelog, data-sources]
+    left: [home, reference, articles, news, data-sources]
     right: [search, github]
+  components:
+    data-sources:
+      text: "news"
+      href: news.html
   components:
     data-sources:
       text: "Alternative Data Sources"
