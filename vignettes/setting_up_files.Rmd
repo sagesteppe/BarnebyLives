@@ -11,7 +11,7 @@ vignette: >
 knitr::opts_chunk$set(eval = FALSE)
 ```
 
-```{r setup, message = F, echo = FALSE}
+```{r setup, message = F, echo = FALSE, eval = F}
 # remotes::install_github('sagesteppe/BarnebyLives')
 library(BarnebyLives)
 library(tidyverse)
@@ -84,7 +84,7 @@ data_download(path = '/media/steppe/hdd/BL_sandbox/raw_data')
 We will define a geographic extent that covers our area of interest. 
 It will be a simple square, and grabbing coordinates from Open Street Maps, or a similar service, will suffice.
 
-```{r determine tiles to download}
+```{r determine tiles to download, eval = F}
 bound <- data.frame(
    y = c( 48,  48,  41,  41,  48),
    x = c(-91, -82, -82, -91, -91)
@@ -108,7 +108,7 @@ Now that you have all of the data we can set up an instance, to do this all we n
 Specify where the downloaded data are 'path', where to save the date 'pathOut', the square (or bounding box) around your study area 'bound', and whether to remove the raw downloaded files 'cleanup'. 
 I always leave cleanup = FALSE, until I am 100% certain that everything is all good, which means running data through the pipeline and printing labels a couple times. 
 
-```{r}
+```{r, eval = F}
 data_setup( # this one will take maybe 30 minutes or so - can't recall but a start
   # and walk away or do emails type event. 
   path = '/media/steppe/hdd/BL_sandbox/geodata_raw', 
