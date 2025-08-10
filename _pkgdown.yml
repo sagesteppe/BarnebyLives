@@ -73,19 +73,19 @@ articles:
       - "Preparing to use BarnebyLives!"
   - title: Running pipeline
     contents:
-      - "BarnebyLives! Running pipeline"
+      - "running_pipeline"
   - title: Printing labels and exporting data
     contents:
-      - "Printing herbarium labels and exporting a digital copy of data"
+      - "creating_labels"
   - title: Creating shipping manifests
     contents:
-      - "Rendering a shipping manifest"
+      - "rendering_shipping_manifests"
   - title: General Label Customization
     contents: 
-      - "Custom Label Templates"
+      - "custom_label_templates"
   - title: Using custom fonts
     contents:
-      - "Custom Label Fonts"
+      - "custom_label_fonts"
   - title: Custom labels with logos
     contents:
-      - "Custom label logos and maps"
+      - "custom_label_logos_maps"
