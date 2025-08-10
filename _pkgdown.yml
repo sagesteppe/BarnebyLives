@@ -7,10 +7,9 @@ navbar:
     left: [home, reference, articles, news, data-sources]
     right: [search, github]
   components:
-    data-sources:
+    news:
       text: "news"
       href: news.html
-  components:
     data-sources:
       text: "Alternative Data Sources"
       href: data-sources.html
