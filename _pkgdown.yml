@@ -84,4 +84,7 @@ reference:
   - title: Using custom fonts
     contents:
       - "Custom Label Fonts"
+  - title: "Custom labels with logos"
+    contents:
+      - "Custom label logos and maps"
 
