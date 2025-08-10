@@ -4,12 +4,12 @@ template:
   
 navbar:
   structure:
-    left: [home, reference, articles, data-sources]
+    left: [home, reference, articles, changelog, data-sources]
     right: [search, github]
   components:
     data-sources:
       text: "Alternative Data Sources"
-      href: alternative-data-sources.html
+      href: data-sources.html
       
 reference:
   - title: Workflow functions
