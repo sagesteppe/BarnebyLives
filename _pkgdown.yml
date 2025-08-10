@@ -1,72 +1,73 @@
 url: https://sagesteppe.github.io/BarnebyLives/
 template:
-  bootstrap: 5 
+  bootstrap: 5
+
 reference:
-- title: Workflow functions
-  desc: User facing functions for carrying out the BL workflow
-  contents:
-  - associate_dropper
-  - associates_spell_check
-  - author_check
-  - autofill_checker
-  - coords2sf
-  - date2text
-  - date_parser
-  - directions_grabber 
-  - dms2dd
-  - family_spell_check
-  - format_database_import
-  - geodata_writer
-  - label_writer
-  - map_maker
-  - physical_grabber
-  - political_grabber
-  - powNAce
-  - powo_searcher
-  - site_writer
-  - spell_check
-  - split_scientificName
-- title: Preparing data to run BL
-  desc: Data prep functions
-  contents: 
-  - data_download
-  - data_setup
-  - TaxUnpack
-- title: Data
-  desc: 
-  contents: 
-  - collection_examples
-  - database_templates
-  - google_towns
-  - herbaria_info
-  - ipni_authors 
-  - project_examples
-  - shipping_examples
-  - randomNames
-  - wcvp_update
-- title: Label formatting functions
-  desc: functions used while labels are being generated
-  contents:
-  - associates_writer
-  - collection_writer
-  - species_font
-  - writer
-  - writer_fide
-- title: Some internals
-  desc: functions used internally 
-  contents:
-  - all_authors
-  - directions_overview
-  - format_degree
-  - get_google_directions
-  - notFound
-  - mason
-  - result_grabber
-  - specificDirections
-  - try_again
-  - writer2
-  
- articles:
+  - title: Workflow functions
+    desc: User facing functions for carrying out the BL workflow
+    contents:
+      - associate_dropper
+      - associates_spell_check
+      - author_check
+      - autofill_checker
+      - coords2sf
+      - date2text
+      - date_parser
+      - directions_grabber 
+      - dms2dd
+      - family_spell_check
+      - format_database_import
+      - geodata_writer
+      - label_writer
+      - map_maker
+      - physical_grabber
+      - political_grabber
+      - powNAce
+      - powo_searcher
+      - site_writer
+      - spell_check
+      - split_scientificName
+  - title: Preparing data to run BL
+    desc: Data prep functions
+    contents: 
+      - data_download
+      - data_setup
+      - TaxUnpack
+  - title: Data
+    desc: 
+    contents: 
+      - collection_examples
+      - database_templates
+      - google_towns
+      - herbaria_info
+      - ipni_authors 
+      - project_examples
+      - shipping_examples
+      - randomNames
+      - wcvp_update
+  - title: Label formatting functions
+    desc: functions used while labels are being generated
+    contents:
+      - associates_writer
+      - collection_writer
+      - species_font
+      - writer
+      - writer_fide
+  - title: Some internals
+    desc: functions used internally 
+    contents:
+      - all_authors
+      - directions_overview
+      - format_degree
+      - get_google_directions
+      - notFound
+      - mason
+      - result_grabber
+      - specificDirections
+      - try_again
+      - writer2
+
+articles:
   - title: Setup
     contents:
       - "Preparing to use BarnebyLives!"
@@ -85,6 +86,6 @@ reference:
   - title: Using custom fonts
     contents:
       - "Custom Label Fonts"
-  - title: "Custom labels with logos"
+  - title: Custom labels with logos
     contents:
       - "Custom label logos and maps"
