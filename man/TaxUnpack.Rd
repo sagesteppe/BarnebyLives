@@ -7,8 +7,8 @@
 TaxUnpack(path, bound)
 }
 \arguments{
-\item{path}{Character vector.  Location to where taxonomic data should be saved,
-we recommend asubdirectory in the same folder, and at the same level, as the geographic data.}
+\item{path}{Character vector. Location to where taxonomic data should be saved,
+we recommend a subdirectory in the same folder, and at the same level, as the geographic data.}
 
 \item{bound}{Dataframe of x and y coordinates, same argument as to \code{data_setup}.
 Coordinates assumed in WG84, NAD83, or googles absurd projection. Coordinate

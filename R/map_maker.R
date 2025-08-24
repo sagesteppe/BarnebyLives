@@ -27,8 +27,8 @@
 #' # but speed up gains unlikely. if pct is % loading cores took longer than single threading.
 #' speedup <- as.numeric(single_duration) / as.numeric(parallel_duration)
 #' if(speedup > 1) {
-  cat("Parallel was", round((1 - as.numeric(parallel_duration)/as.numeric(single_duration)) * 100, 1), "% faster\n")
-} else {
+#'  cat("Parallel was", round((1 - as.numeric(parallel_duration)/as.numeric(single_duration)) * 100, 1), "% faster\n")
+#' } else {
 #'   cat("Single-threaded was", round((1 - speedup) * 100, 1), "% faster (parallel overhead exceeded benefits)\n")
 #' }
 #'
@@ -114,9 +114,3 @@ map_maker <- function(x, path_out, path, collection_col, parallel = 0){
       collection_col = collection_col)
   }
 }
-
-setwd('/home/sagesteppe/Documents/assoRted/Barneby_Lives_dev')
-path <- '/home/sagesteppe/Documents/BL_sandbox/geodata'
-library(BarnebyLives)
-ce <- collection_examples[ sample(1:nrow(collection_examples), size = 20), ] |>
-  sf::st_as_sf(coords = c('longitude_dd', 'latitude_dd'), crs = 4326)
