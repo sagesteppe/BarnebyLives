@@ -22,9 +22,12 @@ use sf to create a 20th century style 'dot map' which features the state
 boundary and county lines.
 }
 \examples{
-\dontrun {
+\dontrun{
 ce <- collection_examples[ sample(1:nrow(collection_examples), size = 20), ] |>
-sf::st_as_sf(coords = c('longitude_dd', 'latitude_dd'), crs = 4326)
+  sf::st_as_sf(coords = c('longitude_dd', 'latitude_dd'), crs = 4326)
+
+#' # You need to define 'path' to point to your geodata's root location
+path <- "/path/to/your/BarnebyLivesGeodata"
 
 map_maker(ce, path_out = 'test', path = path, collection_col = 'Collection_number')
 
@@ -39,9 +42,9 @@ map_maker(ce, path_out = 'test', path = path, collection_col = 'Collection_numbe
 parallel_duration <- Sys.time() - start_time_parallel
 
 # but speed up gains unlikely. if pct is \% loading cores took longer than single threading.
-speedup <- as.numeric(single_duration) / as.numeric(parallel_duration)
+speedup <- as.numeric(duration) / as.numeric(parallel_duration)
 if(speedup > 1) {
- cat("Parallel was", round((1 - as.numeric(parallel_duration)/as.numeric(single_duration)) * 100, 1), "\% faster\n")
+ cat("Parallel was", round((1 - as.numeric(parallel_duration)/as.numeric(duration)) * 100, 1), "\% faster\n")
 } else {
   cat("Single-threaded was", round((1 - speedup) * 100, 1), "\% faster (parallel overhead exceeded benefits)\n")
 }
