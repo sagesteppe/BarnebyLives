@@ -103,13 +103,15 @@ map_maker <- function(x, path_out, path, collection_col, parallel = 0){
       library(sf); library(ggplot2); library(dplyr)
     })
 
-    parallel::parLapply(cl, pts_list, core_map_maker,
-                        path_out = path_out, political = political,
-                        collection_col = collection_col)
+    parallel::parLapply(
+      cl, pts_list, core_map_maker,
+      path_out = path_out, political = political,
+      collection_col = collection_col)
   } else {
-    lapply(pts_list, core_map_maker,
-           path_out = path_out, political = political,
-           collection_col = collection_col)
+    lapply(
+      pts_list, core_map_maker,
+      path_out = path_out, political = political,
+      collection_col = collection_col)
   }
 }
 
