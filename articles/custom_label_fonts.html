@@ -64,9 +64,9 @@
 
     
     
-<div class="section level2">
-<h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
-</h2>
+<div class="section level3">
+<h3 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
+</h3>
 <p>Obviously, everyone wants to be able to customize their label
 templates! Why go through the bother of installing and running
 <code>BarnebyLives</code> if you cannot do that!</p>
@@ -74,12 +74,13 @@ templates! Why go through the bother of installing and running
 (relevant to the level you will be using it at) is <a href="https://www.overleaf.com/learn/latex/Learn_LaTeX_in_30_minutes" class="external-link">Overleaf.org</a>,
 and check the links in the side bar too!</p>
 <p>In this vignette we will replace the default LaTeX fonts with add-on
-fonts using the <code>fontspec</code> package. Also note that previously
-you <em>may</em> have been able to scrape by using any old LaTeX
-installation, at this point you will definitely need to make sure you
-have either XelaTex for lualatext installed. ‘tinytex’ which is
-installable directly from R should accomplish this on all operating
-systems.</p>
+fonts using the <code>fontspec</code> <a href="https://ctan.org/pkg/fontspec?lang=en" class="external-link">package</a>, an illustrated
+guide of it’s fonts is available <a href="https://www.overleaf.com/latex/templates/fontspec-all-the-fonts/hjrpnxhrrtxc" class="external-link">here</a>.<br>
+Also note that previously you <em>may</em> have been able to scrape by
+using any old LaTeX installation, at this point you will definitely need
+to make sure you have either XelaTex for lualatext installed. ‘tinytex’
+which is installable directly from R should accomplish this on all
+operating systems.</p>
 <p>This vignette assumes you were able to get through
 <code>Custom Label Templates</code>.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
@@ -88,9 +89,14 @@ systems.</p>
 <p>You can check that you have successfully installed this with</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">tinytex</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/tinytex/man/is_tinytex.html" class="external-link">is_tinytex</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="linux-users">linux users<a class="anchor" aria-label="anchor" href="#linux-users"></a>
+</h3>
 <p>If you are on linux for the sake of compatibility for this vignette,
-please install a ton of Windows fonts. It seems most of these are on Mac
-- but if you start hitting errors, maybe give this a go.</p>
+please install some of the Windows fonts. It seems most of these are
+available on Mac - but if you start hitting errors, maybe give this a
+go.</p>
 <p>You can do this with the code below, which will give part of your
 soul to Bill Gates of yesteryear.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true"</span> <span class="kw">|</span> <span class="fu">sudo</span> debconf-set-selections</span>
@@ -99,7 +105,7 @@ soul to Bill Gates of yesteryear.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">sudo</span> apt install ttf-mscorefonts-installer</span></code></pre></div>
 <p>and then click <code>tab</code> and <code>enter</code> on your
 keyboard when the debconf pops up to accept that you are giving Bill
-Gates of yesteryear your soul.</p>
+Gates your soul.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="ex">fc-list</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="st">"Times New Roman"</span></span></code></pre></div>
 <p>and doubly verify the Tex install can access them</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">sudo</span> fc-cache <span class="at">-fv</span></span></code></pre></div>
@@ -107,14 +113,15 @@ Gates of yesteryear your soul.</p>
 line reads something like</p>
 <p><code>fc-cache: succeeded</code></p>
 </div>
-<div class="section level2">
-<h2 id="prepare-workspace">Prepare workspace<a class="anchor" aria-label="anchor" href="#prepare-workspace"></a>
-</h2>
+<div class="section level3">
+<h3 id="prepare-workspace">Prepare workspace<a class="anchor" aria-label="anchor" href="#prepare-workspace"></a>
+</h3>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://sagesteppe.github.io/BarnebyLives/">BarnebyLives</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org" class="external-link">tidyverse</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">local</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="st">'~'</span>, <span class="st">'Documents'</span>, <span class="st">'assoRted'</span>, <span class="st">'Barneby_Lives_dev'</span>, <span class="st">'LabelStyles'</span><span class="op">)</span></span>
+<span><span class="va">local</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span></span>
+<span>  <span class="st">'~'</span>, <span class="st">'Documents'</span>, <span class="st">'assoRted'</span>, <span class="st">'Barneby_Lives_dev'</span>, <span class="st">'LabelStyles'</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">l.nevadense</span> <span class="op">&lt;-</span> <span class="va">collection_examples</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">Collection_number</span> <span class="op">==</span> <span class="fl">2823</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -123,7 +130,10 @@ line reads something like</p>
 <span>    Coordinate_uncertainty <span class="op">=</span> <span class="st">'5m'</span></span>
 <span>    <span class="op">)</span> </span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html" class="external-link">write.csv</a></span><span class="op">(</span><span class="va">l.nevadense</span>, <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">local</span>, <span class="st">'SoS-ExampleCollection.csv'</span><span class="op">)</span>, row.names <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html" class="external-link">write.csv</a></span><span class="op">(</span></span>
+<span>  <span class="va">l.nevadense</span>, </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">local</span>, <span class="st">'SoS-ExampleCollection.csv'</span><span class="op">)</span>,</span>
+<span>  row.names <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span></code></pre></div>
 <p>All of the labels can be copied from their original locations using
 the following code.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
@@ -140,13 +150,15 @@ the following code.</p>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/rm.html" class="external-link">rm</a></span><span class="op">(</span><span class="va">p2lib</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div class="section level2">
-<h2 id="render-labels">Render Labels<a class="anchor" aria-label="anchor" href="#render-labels"></a>
-</h2>
-<p>If you look at the header on this file, you’ll notice it has more
-going on than the other skeletons. As you will likely end up wanting to
-merge multiple label components together into a single skeleton
-(eventually), be sure to use this as the preamble.</p>
+<div class="section level3">
+<h3 id="use-a-single-custom-font">Use a single custom font<a class="anchor" aria-label="anchor" href="#use-a-single-custom-font"></a>
+</h3>
+<p>Here we will use a custom font that ships with fontspec.</p>
+<p>If you look at the header of the <code>skeleton-customfont.Rmd</code>
+file, you’ll notice it has more going on than the other skeletons. In
+particular it has more <code>header-includes</code> calls. We just want
+to point this out as you will likely want to merge the components of
+different label templates together.</p>
 <pre><code>output: 
   pdf_document:
     latex_engine: xelatex # or lualatex
@@ -159,17 +171,26 @@ header-includes:
   - \usepackage{setspace}
   - \usepackage{fontspec}
   - \setmainfont{Georgia}</code></pre>
+<p>Notice that the last two lines in this <em>excerpt</em> of the header
+<code>- \usepackage{fontspec}</code> and
+<code>- \setmainfont{Georgia}</code> are required to use a custom
+font.</p>
 <p>Note that the last line in the preamble is: this is the command
-‘setmainfont’ to set the font ‘Georgia’ which will be used.</p>
+<code>setmainfont</code> and we specifying that our mainfont should be
+changed to ‘Georgia’.</p>
 </div>
-<div class="section level2">
-<h2 id="examples-with-common-fonts">Examples with Common Fonts<a class="anchor" aria-label="anchor" href="#examples-with-common-fonts"></a>
-</h2>
+<div class="section level3">
+<h3 id="examples-with-common-fonts">Examples with Common Fonts<a class="anchor" aria-label="anchor" href="#examples-with-common-fonts"></a>
+</h3>
 <div class="float">
-<img src="../reference/figures/custom-font2823.png" alt="One custom Fonts"><div class="figcaption">One custom Fonts</div>
+<img src="../reference/figures/custom-font2823.png" alt="One custom Font"><div class="figcaption">One custom Font</div>
 </div>
 <p>However, we can use multiple fonts (…if so desired… ) by importing an
-additional font, and specifying where we should use it.</p>
+additional font, and specifying where we should use it. Note that in our
+header (again more truncated to highlight the parameters we need to
+modify) we are also now calling
+<code>\newfontfamily\couriernew{Courier New}</code> which loads and, I
+believe, aliases the font.</p>
 <pre><code>output: 
   ...
 header-includes:
@@ -177,7 +198,9 @@ header-includes:
   - \usepackage{fontspec}
   - \setmainfont{Georgia}
   - \newfontfamily\couriernew{Courier New}</code></pre>
-<p>And edit portions of the skeletons body</p>
+<p>Once you have the loaded the font via specification in the YAML
+header, you can specify where it is used using the
+<code>\textcouriernew{...}</code> command.</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>...</span>
 <span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>\textcouriernew{<span class="st">`</span><span class="at">r writer(data[['Habitat']])</span><span class="st">`</span>. <span class="st">`</span><span class="at">r data[['physical_environ']]</span><span class="st">`</span>}</span>
 <span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>Veg.<span class="sc">:</span> <span class="st">`</span><span class="at">r species_font(record[['Vegetation']])</span><span class="st">`</span> <span class="st">`</span><span class="at">r associates_writer(record[['Associates']])</span><span class="st">`</span></span>
@@ -188,9 +211,50 @@ header-includes:
 <img src="../reference/figures/custom-twofonts2823.png" alt="Two custom Fonts"><div class="figcaption">Two custom Fonts</div>
 </div>
 <p>But! Notice that this new font is applied to the <em>whole</em> group
-not just the braced contents, you can bypass this with custom macros -
-which we won’t discuss or support in this package. TBH I’m not sure how
-often you should really have two fonts per label anyways…</p>
+not just the braced contents - we can bypass this by specifying the
+arguments as below.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a>...</span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>\textcouriernew{<span class="st">`</span><span class="at">r writer(data[['Habitat']])</span><span class="st">`</span>. <span class="st">`</span><span class="at">r data[['physical_environ']]</span><span class="st">`</span>}</span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a>\endgroup</span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a>Veg.<span class="sc">:</span> <span class="st">`</span><span class="at">r species_font(record[['Vegetation']])</span><span class="st">`</span> <span class="st">`</span><span class="at">r associates_writer(record[['Associates']])</span><span class="st">`</span></span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a><span class="st">`</span><span class="at">r writer(record[['Notes']])</span><span class="st">`</span>  </span>
+<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a>\endgroup</span>
+<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a>...</span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="downloading-fonts">downloading fonts<a class="anchor" aria-label="anchor" href="#downloading-fonts"></a>
+</h2>
+<p>Individuals may find that fontspec does not have a font to their
+liking, and may want to supply a custom font. A comprehensive guide to
+do this is located <a href="https://www.overleaf.com/learn/latex/Questions/I_have_a_custom_font_I%27d_like_to_load_to_my_document._How_can_I_do_this%3F" class="external-link">here</a>.<br>
+You should be able to add downloaded fonts to the font directory on your
+computer and have text find them automatically.</p>
+<p>But in this example we will manually download from Google Fonts, and
+store the font in our project repository so we can load it if from a
+relative path - a process I think may be easier for some users. Note I
+normally use R to download the fonts etc., but have not tried it with a
+system this complex. We can download the font Nunito from [Google
+Fonts](<a href="https://fonts.google.com/" class="external-link uri">https://fonts.google.com/</a>, by following the (‘Get Font’
+-&gt; ‘Download all’) options.</p>
+<p>We then need to use a relative path in <code>\setmainfont</code> to
+point it to the ttf files, note here we actually have to go on folder
+into the downloaded font directory and include a trailing ‘/’.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>...</span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>  <span class="sc">-</span> \usepackage{fontspec}</span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a>  <span class="sc">-</span> <span class="er">|</span></span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a>    \setmainfont[</span>
+<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a>      Path <span class="ot">=</span> <span class="er">/</span>home<span class="sc">/</span>sagesteppe<span class="sc">/</span>Documents<span class="sc">/</span>assoRted<span class="sc">/</span>Barneby_Lives_dev<span class="sc">/</span>LabelStyles<span class="sc">/</span>Nunito<span class="sc">/</span>static<span class="sc">/</span>,</span>
+<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a>      UprightFont <span class="ot">=</span> <span class="er">*</span><span class="sc">-</span>Regular,</span>
+<span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a>      ItalicFont <span class="ot">=</span> <span class="er">*</span><span class="sc">-</span>Italic,</span>
+<span id="cb13-8"><a href="#cb13-8" tabindex="-1"></a>      BoldFont <span class="ot">=</span> <span class="er">*</span><span class="sc">-</span>Bold,</span>
+<span id="cb13-9"><a href="#cb13-9" tabindex="-1"></a>      BoldItalicFont <span class="ot">=</span> <span class="er">*</span><span class="sc">-</span>BoldItalic</span>
+<span id="cb13-10"><a href="#cb13-10" tabindex="-1"></a>    ]{Nunito}</span>
+<span id="cb13-11"><a href="#cb13-11" tabindex="-1"></a><span class="sc">---</span></span>
+<span id="cb13-12"><a href="#cb13-12" tabindex="-1"></a>...</span></code></pre></div>
+<p>Which gets us the following.</p>
+<div class="float">
+<embed src="../man/figures/custom-font-downloaded2823.pdf"></embed><div class="figcaption">A downloaded font</div>
+</div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
