@@ -19,7 +19,7 @@ Why go through the bother of installing and running `BarnebyLives` if you cannot
 
 Note that the labels are made using LaTeX, an awesome guide for LaTeX (relevant to the level you will be using it at) is [Overleaf.org](https://www.overleaf.com/learn/latex/Learn_LaTeX_in_30_minutes), and check the links in the side bar too! 
 
-In this vignette we will replace the default LaTeX fonts with add-on fonts using the `fontspec` package. 
+In this vignette we will replace the default LaTeX fonts with add-on fonts using the `fontspec` [package](https://ctan.org/pkg/fontspec?lang=en), an illustrated guide of it's fonts is available [here](https://www.overleaf.com/latex/templates/fontspec-all-the-fonts/hjrpnxhrrtxc).  
 Also note that previously you *may* have been able to scrape by using any old LaTeX installation, at this point you will definitely need to make sure you have either XelaTex for lualatext installed. 
 'tinytex' which is installable directly from R should accomplish this on all operating systems. 
 
@@ -35,8 +35,11 @@ You can check that you have successfully installed this with
 tinytex::is_tinytex()
 ```
 
-If you are on linux for the sake of compatibility for this vignette, please install a ton of Windows fonts. 
-It seems most of these are on Mac - but if you start hitting errors, maybe give this a go. 
+
+## linux users 
+
+If you are on linux for the sake of compatibility for this vignette, please install some of the Windows fonts. 
+It seems most of these are available on Mac - but if you start hitting errors, maybe give this a go. 
 
 You can do this with the code below, which will give part of your soul to Bill Gates of yesteryear. 
 
@@ -50,8 +53,7 @@ or you can
 sudo apt install ttf-mscorefonts-installer
 ```
 
-and then click `tab` and `enter` on your keyboard when the debconf pops up to accept that you are giving Bill Gates of yesteryear your soul. 
-
+and then click `tab` and `enter` on your keyboard when the debconf pops up to accept that you are giving Bill Gates your soul. 
 ```{sh}
 fc-list | grep "Times New Roman"
 ```
@@ -71,7 +73,8 @@ You may get messages about loops, these are fine as long as the last line reads 
 library(BarnebyLives)
 library(tidyverse)
 
-local <- file.path('~', 'Documents', 'assoRted', 'Barneby_Lives_dev', 'LabelStyles')
+local <- file.path(
+  '~', 'Documents', 'assoRted', 'Barneby_Lives_dev', 'LabelStyles')
 
 l.nevadense <- collection_examples |>
   filter(Collection_number == 2823) |>
@@ -80,7 +83,10 @@ l.nevadense <- collection_examples |>
     Coordinate_uncertainty = '5m'
     ) 
 
-write.csv(l.nevadense, file.path(local, 'SoS-ExampleCollection.csv'), row.names = F)
+write.csv(
+  l.nevadense, 
+  file.path(local, 'SoS-ExampleCollection.csv'),
+  row.names = F)
 ```
 
 All of the labels can be copied from their original locations using the following code.  
@@ -101,7 +107,9 @@ rm(p2lib)
 ```
 
 
-## Render Labels 
+## Use a single custom font
+
+Here we will use a custom font that ships with fontspec.
 
 ```{r actually render labels, echo = F, eval = F}
 purrr::walk(
@@ -121,11 +129,20 @@ purrr::walk(
     params = list(Collection_number = {.x}) 
   )
 )
+
+purrr::walk(
+  .x = l.nevadense$Collection_number,
+  ~ rmarkdown::render(
+    input = file.path(local, 'skeleton-customfont-downloaded.Rmd'), 
+    output_file = file.path(local, paste0('custom-font-downloaded', glue::glue("{.x}.pdf"))), 
+    params = list(Collection_number = {.x}) 
+  )
+)
 ```
 
-
-If you look at the header on this file, you'll notice it has more going on than the other skeletons. 
-As you will likely end up wanting to merge multiple label components together into a single skeleton (eventually), be sure to use this as the preamble. 
+If you look at the header of the `skeleton-customfont.Rmd` file, you'll notice it has more going on than the other skeletons. 
+In particular it has more `header-includes` calls. 
+We just want to point this out as you will likely want to merge the components of different label templates together. 
 
 ```
 output: 
@@ -142,13 +159,17 @@ header-includes:
   - \setmainfont{Georgia}
 ```
 
-Note that the last line in the preamble is: \setmainfont{Georgia} this is the command 'setmainfont' to set the font 'Georgia' which will be used. 
+Notice that the last two lines in this *excerpt* of the header `- \usepackage{fontspec}` and `- \setmainfont{Georgia}` are required to use a custom font. 
+
+Note that the last line in the preamble is: \setmainfont{Georgia} this is the command `setmainfont` and we specifying that our mainfont should be changed to 'Georgia'.  
 
 ## Examples with Common Fonts
 
-![One custom Fonts](../man/figures/custom-font2823.png)  
+![One custom Font](../man/figures/custom-font2823.png)  
+
 
 However, we can use multiple fonts (...if so desired... ) by importing an additional font, and specifying where we should use it. 
+Note that in our header (again more truncated to highlight the parameters we need to modify) we are also now calling `\newfontfamily\couriernew{Courier New}` which loads and, I believe, aliases the font. 
 
 ```
 output: 
@@ -160,9 +181,9 @@ header-includes:
   - \newfontfamily\couriernew{Courier New}
 ```
 
-And edit portions of the skeletons body
+Once you have the loaded the font via specification in the YAML header, you can specify where it is used using the `\textcouriernew{...}` command. 
 
-```{r, eval = F}
+```{r multiple fonts 1, eval = F}
 ...
 \textcouriernew{`r writer(data[['Habitat']])`. `r data[['physical_environ']]`}
 Veg.: `r species_font(record[['Vegetation']])` `r associates_writer(record[['Associates']])`
@@ -173,5 +194,46 @@ Veg.: `r species_font(record[['Vegetation']])` `r associates_writer(record[['Ass
 
 ![Two custom Fonts](../man/figures/custom-twofonts2823.png)  
 
-But! Notice that this new font is applied to the *whole* group not just the braced contents, you can bypass this with custom macros - which we won't discuss or support in this package. 
-TBH I'm not sure how often you should really have two fonts per label anyways...
+But! Notice that this new font is applied to the *whole* group not just the braced contents - we can bypass this by specifying the arguments as below. 
+
+```{r multiple fonts 2, eval = F}
+...
+\textcouriernew{`r writer(data[['Habitat']])`. `r data[['physical_environ']]`}
+\endgroup
+Veg.: `r species_font(record[['Vegetation']])` `r associates_writer(record[['Associates']])`
+`r writer(record[['Notes']])`  
+\endgroup
+...
+```
+
+
+# downloading fonts 
+
+Individuals may find that fontspec does not have a font to their liking, and may want to supply a custom font. 
+A comprehensive guide to do this is located [here](https://www.overleaf.com/learn/latex/Questions/I_have_a_custom_font_I%27d_like_to_load_to_my_document._How_can_I_do_this%3F).  
+You should be able to add downloaded fonts to the font directory on your computer and have text find them automatically. 
+ 
+But in this example we will manually download from Google Fonts, and store the font in our project repository so we can load it if from a relative path - a process I think may be easier for some users. 
+Note I normally use R to download the fonts etc., but have not tried it with a system this complex. 
+We can download the font Nunito from [Google Fonts](https://fonts.google.com/, by following the ('Get Font' -> 'Download all') options. 
+
+We then need to use a relative path in `\setmainfont` to point it to the ttf files, note here we actually have to go on folder into the downloaded font directory and include a trailing '/'. 
+```{r downloaded font header, eval = F}
+...
+  - \usepackage{fontspec}
+  - |
+    \setmainfont[
+      Path = /home/sagesteppe/Documents/assoRted/Barneby_Lives_dev/LabelStyles/Nunito/static/,
+      UprightFont = *-Regular,
+      ItalicFont = *-Italic,
+      BoldFont = *-Bold,
+      BoldItalicFont = *-BoldItalic
+    ]{Nunito}
+---
+...
+```
+
+
+Which gets us the following. 
+
+![A downloaded font](../man/figures/custom-font-downloaded2823.pdf)  
