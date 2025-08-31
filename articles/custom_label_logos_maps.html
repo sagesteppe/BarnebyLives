@@ -91,7 +91,7 @@ and check the links in the side bar too!</p>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
 <span>    Project_name <span class="op">=</span> <span class="st">'Custom Fonts'</span>, </span>
 <span>    Coordinate_uncertainty <span class="op">=</span> <span class="st">'5m'</span></span>
-<span>    <span class="op">)</span> </span>
+<span>  <span class="op">)</span> </span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html" class="external-link">write.csv</a></span><span class="op">(</span><span class="va">l.nevadense</span>, <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">local</span>, <span class="st">'SoS-ExampleCollection.csv'</span><span class="op">)</span>, row.names <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span></code></pre></div>
 <p>Label templates can be copied from their original locations using the
@@ -119,7 +119,10 @@ following code.</p>
 <span>  <span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/rm.html" class="external-link">rm</a></span><span class="op">(</span><span class="va">p2lib</span><span class="op">)</span></span></code></pre></div>
-<p>We will also make a map to embed on a label.</p>
+<p>We will also make a map to embed on a label. To do this we use the
+map_maker function. Like many things in the package it is an homage to
+older styles, while aiming to be minimalist and looking good for time to
+come.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">l.nevadense.sf</span> <span class="op">&lt;-</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_as_sf.html" class="external-link">st_as_sf</a></span><span class="op">(</span></span>
 <span>  <span class="va">l.nevadense</span>, </span>
@@ -130,10 +133,53 @@ following code.</p>
 <span><span class="co"># create a simple dot map of the state. </span></span>
 <span><span class="fu"><a href="../reference/map_maker.html">map_maker</a></span><span class="op">(</span></span>
 <span>  <span class="va">l.nevadense.sf</span>, </span>
-<span>  path <span class="op">=</span> <span class="va">geo_path</span>, </span>
-<span>  path_out <span class="op">=</span> <span class="va">local</span>,</span>
+<span>  path <span class="op">=</span> <span class="va">geo_path</span>, <span class="co"># path for your geographic information. </span></span>
+<span>  path_out <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">local</span>, <span class="st">'maps'</span><span class="op">)</span>, <span class="co"># where the map will be saved </span></span>
 <span>  collection_col <span class="op">=</span> <span class="st">'Collection_number'</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="glimpse-at-the-label-skeleton">glimpse at the label skeleton<a class="anchor" aria-label="anchor" href="#glimpse-at-the-label-skeleton"></a>
+</h2>
+<p>Embedding images is a pinch more nuanced than some of the other
+customizations.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="sc">---</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>output<span class="sc">:</span> </span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>  pdf_document<span class="sc">:</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>    latex_engine<span class="sc">:</span> xelatex <span class="co"># or lualatex</span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>    keep_tex<span class="sc">:</span> true</span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>params<span class="sc">:</span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>  Collection_number<span class="sc">:</span> <span class="cn">NULL</span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>  imagepath<span class="sc">:</span> <span class="cn">NULL</span> <span class="co"># new parameters</span></span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a>geometry<span class="sc">:</span> paperheight<span class="ot">=</span><span class="dv">4</span><span class="dt">i</span>n,paperwidth<span class="ot">=</span><span class="dv">4</span><span class="dt">i</span>n,margin<span class="ot">=</span><span class="fl">0.1</span>in</span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a>header<span class="sc">-</span>includes<span class="sc">:</span></span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a>  <span class="sc">-</span> \pagenumbering{gobble}</span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a>  <span class="sc">-</span> \usepackage{setspace}</span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a>  <span class="sc">-</span> \usepackage{wrapfig} <span class="co"># new package</span></span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a><span class="sc">---</span></span></code></pre></div>
+<p>The header in the ‘skeleton-maps’ document has two additional
+arguments. One an additional parameter specifying the path to a
+directory containing the map images to include on the image. Two,
+another package used to insert the image, and wrap the text around.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>\begin{wrapfigure}[<span class="dv">5</span>]{r}[<span class="dv">0</span>pt]{<span class="dv">1</span><span class="dt">i</span>n} </span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>\vspace{<span class="sc">-</span><span class="fl">5.0</span>ex} </span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>\includegraphics[width<span class="ot">=</span><span class="dv">1</span><span class="dt">i</span>n,height<span class="ot">=</span><span class="dv">1</span><span class="dt">i</span>n,keepaspectratio]{<span class="st">`</span><span class="at">r imagepath</span><span class="st">`</span>} </span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>\end{wrapfigure}</span></code></pre></div>
+<p>The body of the document has one major block added to it. An
+annotated version is shown below</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>\begin{wrapfigure}[<span class="dv">5</span>]{r}[<span class="dv">0</span>pt]{<span class="dv">1</span><span class="dt">i</span>n} <span class="co">#% wrap text around fig, [5] lines of text,</span></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="co">#% {r} align, [0pt] no additional spacing, {1in} image</span></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>\vspace{<span class="sc">-</span><span class="fl">5.0</span>ex} <span class="co">#% push the image upwards above it's starting line. </span></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>\includegraphics[width<span class="ot">=</span><span class="dv">1</span><span class="dt">i</span>n,height<span class="ot">=</span><span class="dv">1</span><span class="dt">i</span>n,keepaspectratio]{<span class="st">`</span><span class="at">r imagepath</span><span class="st">`</span>} <span class="co">#% path to image</span></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>\end{wrapfigure}</span></code></pre></div>
+<p>PLEASE NOTE that the [5] argument refers to how many lines of text
+the image is expected to span. People using a smaller font may need to
+kick that up a notch to [6].</p>
+<p>You may also notice we use a <code>\par</code> command further down
+in the skeleton. <code>\par</code> allows for us to force a new
+paragraph within our group. This is just for spacing and style, and is
+by no means necessary.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="st">`</span><span class="at">r writer(record[['Habitat']])</span><span class="st">`</span>. <span class="st">`</span><span class="at">r record[['physical_environ']]</span><span class="st">`</span> \par</span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="render-labels">Render Labels<a class="anchor" aria-label="anchor" href="#render-labels"></a>
