@@ -4,13 +4,20 @@ output:
     latex_engine: xelatex # or lualatex
     keep_tex: true
 params:
-  Collection_number: NULL
-  imagepath: NULL
+  Collection_number: Collection_number
 geometry: paperheight=4in,paperwidth=4in,margin=0.1in
 header-includes:
   - \pagenumbering{gobble}
   - \usepackage{setspace}
-  - \usepackage{wrapfig}
+  - \usepackage{fontspec}
+  - |
+    \setmainfont[
+      Path = /home/sagesteppe/Documents/assoRted/Barneby_Lives_dev/LabelStyles/Nunito/static/,
+      UprightFont = *-Regular,
+      ItalicFont = *-Italic,
+      BoldFont = *-Bold,
+      BoldItalicFont = *-BoldItalic
+    ]{Nunito}
 ---
 
 ```{r setup, include=FALSE}
@@ -25,19 +32,12 @@ library(BarnebyLives)
 ```
 
 ```{r load data}
-record <- collection_examples |>
-  dplyr::filter(Collection_number == params$Collection_number) |>  
-  sf::st_drop_geometry()
+local <- file.path('~', 'Documents', 'assoRted', 'Barneby_Lives_dev', 'LabelStyles')
 
-# escape character columns to ensure characters which interfere with latex
-# rendering are escaped. 
-char_cols <- sapply(record, is.character)
-char_col_names <- names(record)[char_cols]
-record[char_col_names] <- lapply(record[char_col_names], escape_latex)
-
-imagepath <- file.path(
-  params$imagepath, paste0('map_', params$Collection_number, '.png')
-  )
+record <- read.csv(file.path(local, 'SoS-ExampleCollection.csv')) |>
+  sf::st_drop_geometry() |>
+  data.frame() |>
+  dplyr::filter(Collection_number == params$Collection_number) 
 ```
 
 \begin{center}
@@ -46,26 +46,18 @@ imagepath <- file.path(
 \begin{flushright}
 \uppercase{`r record[['Family']]`}
 \end{flushright}
-
 \begingroup
 \large
 `r writer(paste(record[['Genus']], record[['Epithet']]), italics = TRUE)` `r writer(record[['Binomial_authority']])` `r writer(record[['Infrarank']])` `r writer(record[['Infraspecies']], italics = TRUE)` `r writer(record[['Infraspecific_authority']])`  
-\normalsize
 `r writer_fide(record)`
+\normalsize
 \endgroup
 
-\begin{wrapfigure}[5]{r}[0pt]{1in} % wrap text around fig, [5] lines of text,
-% {r} align, [0pt] no additional spacing, {1in} image
-\vspace{-5.0ex} % push the image upwards above it's starting line. 
-\includegraphics[width=1in,height=1in,keepaspectratio]{`r imagepath`} % path to image
-\end{wrapfigure}
-
 \vspace*{\fill}
-
 \begingroup
 `r record[['Gen']]`. `r writer(record[['Site']])` `r record[['latitude_dd']]` `r record[['longitude_dd']]` (`r record[['Datum']]` `r writer(record[['Coordinate_uncertainty']])`).
 
-`r writer(record[['Habitat']])`. `r record[['physical_environ']]` \par
+`r writer(record[['Habitat']])`. `r record[['physical_environ']]`  
 Veg.: `r species_font(record[['Vegetation']])` `r associates_writer(record[['Associates']])`
 `r writer(record[['Notes']])`  
 \endgroup
@@ -74,3 +66,4 @@ Veg.: `r species_font(record[['Vegetation']])` `r associates_writer(record[['Ass
 \begingroup
 `r collection_writer(record)`
 \endgroup
+

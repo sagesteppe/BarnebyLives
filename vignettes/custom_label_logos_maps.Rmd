@@ -25,7 +25,7 @@ This vignette assumes you were able to get through `Custom Label Templates`.
 
 ## Prepare workspace
 
-```{r load libraries and fine labels, eval =F}
+```{r load libraries and find labels, eval =F}
 library(BarnebyLives)
 library(tidyverse)
 
@@ -52,7 +52,8 @@ p2lib <- file.path(
 # here we copy over one of the skeletons which we are going to modify in this example
 file.copy(
   from = file.path(p2lib, 'skeleton-maps.Rmd'), 
-  to = file.path(local, 'skeleton-maps.Rmd')
+  to = file.path(local, 'skeleton-maps.Rmd'), 
+  overwrite = FALSE
   )
 
 # copy an image to use for a logo
@@ -71,8 +72,6 @@ rm(p2lib)
 We will also make a map to embed on a label. 
 
 ```{r, eval = F}
-st <- tigris::states()
-
 l.nevadense.sf <- sf::st_as_sf(
   l.nevadense, 
   coords = c('longitude_dd', 'latitude_dd'),
@@ -82,12 +81,11 @@ l.nevadense.sf <- sf::st_as_sf(
 # create a simple dot map of the state. 
 map_maker(
   l.nevadense.sf, 
-  st, 
-  path = local,
+  path = geo_path, 
+  path_out = local,
   collection_col = 'Collection_number'
   )
 ```
-
 
 ## Render Labels 
 
@@ -97,20 +95,10 @@ purrr::walk(
   ~ rmarkdown::render(
     input = file.path(local, 'skeleton-maps.Rmd'), 
     output_file = file.path(local, paste0('custom-font', glue::glue("{.x}.pdf"))), 
-    params = list(Collection_number = {.x}, imagepath = 'logo.png'), 
-  )
-)
-
-purrr::walk(
-  .x = l.nevadense$Collection_number,
-  ~ rmarkdown::render(
-    input = file.path(local, 'skeleton-customfont-twofonts.Rmd'), 
-    output_file = file.path(local, paste0('custom-twofonts', glue::glue("{.x}.pdf"))), 
     params = list(
-      Collection_number = {.x}, 
-      imagepath = file.path('maps', 'map_2823.png')
+      Collection_number = .x, 
+      imagepath = '~/Documents/assoRted/Barneby_Lives_dev/LabelStyles/maps'
       ) 
-  )
+   )
 )
 ```
-
