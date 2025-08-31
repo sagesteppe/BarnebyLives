@@ -79,6 +79,7 @@ l.nevadense.sf <- sf::st_as_sf(
   crs = 4326
   )
 
+geo_path <- '~/Documents/BL_sandbox/geodata'
 # create a simple dot map of the state. 
 map_maker(
   l.nevadense.sf, 
@@ -88,6 +89,20 @@ map_maker(
   )
 ```
 
+
+```{r actually render labels, echo = F, eval = F}
+purrr::walk(
+  .x = l.nevadense$Collection_number,
+  ~ rmarkdown::render(
+    input = file.path(local, 'skeleton-maps.Rmd'), 
+    output_file = file.path(local, paste0('custom-font', glue::glue("{.x}.pdf"))), 
+    params = list(
+      Collection_number = .x, 
+      imagepath = '~/Documents/assoRted/Barneby_Lives_dev/LabelStyles/maps'
+      ) 
+   )
+)
+```
 
 ## glimpse at the label skeleton
 
@@ -143,19 +158,9 @@ This is just for spacing and style, and is by no means necessary.
 `r writer(record[['Habitat']])`. `r record[['physical_environ']]` \par
 ```
 
+and you will then end up with 
 
-## Render Labels 
+<br>
 
-```{r actually render labels, echo = F, eval = F}
-purrr::walk(
-  .x = l.nevadense$Collection_number,
-  ~ rmarkdown::render(
-    input = file.path(local, 'skeleton-maps.Rmd'), 
-    output_file = file.path(local, paste0('custom-font', glue::glue("{.x}.pdf"))), 
-    params = list(
-      Collection_number = .x, 
-      imagepath = '~/Documents/assoRted/Barneby_Lives_dev/LabelStyles/maps'
-      ) 
-   )
-)
-```
+![Map](../man/figures/Map-2823.png)  
+

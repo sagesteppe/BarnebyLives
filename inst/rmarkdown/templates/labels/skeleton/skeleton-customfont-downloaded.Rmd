@@ -4,7 +4,7 @@ output:
     latex_engine: xelatex # or lualatex
     keep_tex: true
 params:
-  Collection_number: Collection_number
+  Collection_number: NULL
 geometry: paperheight=4in,paperwidth=4in,margin=0.1in
 header-includes:
   - \pagenumbering{gobble}
