@@ -36,7 +36,7 @@ l.nevadense <- collection_examples |>
   mutate(
     Project_name = 'Custom Fonts', 
     Coordinate_uncertainty = '5m'
-    ) 
+  ) 
 
 write.csv(l.nevadense, file.path(local, 'SoS-ExampleCollection.csv'), row.names = F)
 ```
@@ -68,10 +68,11 @@ file.copy(
 rm(p2lib)
 ```
 
-
 We will also make a map to embed on a label. 
+To do this we use the map_maker function. 
+Like many things in the package it is an homage to older styles, while aiming to be minimalist and looking good for time to come. 
 
-```{r, eval = F}
+```{r create map, eval = F}
 l.nevadense.sf <- sf::st_as_sf(
   l.nevadense, 
   coords = c('longitude_dd', 'latitude_dd'),
@@ -81,11 +82,67 @@ l.nevadense.sf <- sf::st_as_sf(
 # create a simple dot map of the state. 
 map_maker(
   l.nevadense.sf, 
-  path = geo_path, 
-  path_out = local,
+  path = geo_path, # path for your geographic information. 
+  path_out = file.path(local, 'maps'), # where the map will be saved 
   collection_col = 'Collection_number'
   )
 ```
+
+
+## glimpse at the label skeleton
+
+Embedding images is a pinch more nuanced than some of the other customizations.
+
+```{r header, eval = F}
+---
+output: 
+  pdf_document:
+    latex_engine: xelatex # or lualatex
+    keep_tex: true
+params:
+  Collection_number: NULL
+  imagepath: NULL # new parameters
+geometry: paperheight=4in,paperwidth=4in,margin=0.1in
+header-includes:
+  - \pagenumbering{gobble}
+  - \usepackage{setspace}
+  - \usepackage{wrapfig} # new package
+---
+```
+
+The header in the 'skeleton-maps' document has two additional arguments. 
+One an additional parameter specifying the path to a directory containing the map images to include on the image. 
+Two, another package used to insert the image, and wrap the text around. 
+
+```{r wrapfig block, eval = F}
+\begin{wrapfigure}[5]{r}[0pt]{1in} 
+\vspace{-5.0ex} 
+\includegraphics[width=1in,height=1in,keepaspectratio]{`r imagepath`} 
+\end{wrapfigure}
+```
+
+The body of the document has one major block added to it. 
+An annotated version is shown below
+
+```{r wrapfig annotated, eval = F}
+\begin{wrapfigure}[5]{r}[0pt]{1in} #% wrap text around fig, [5] lines of text,
+#% {r} align, [0pt] no additional spacing, {1in} image
+\vspace{-5.0ex} #% push the image upwards above it's starting line. 
+\includegraphics[width=1in,height=1in,keepaspectratio]{`r imagepath`} #% path to image
+\end{wrapfigure}
+```
+
+PLEASE NOTE that the [5] argument refers to how many lines of text the image is expected to span. 
+People using a smaller font may need to kick that up a notch to [6]. 
+
+You may also notice we use a `\par` command further down in the skeleton. 
+`\par` allows for us to force a new paragraph within our group. 
+This is just for spacing and style, and is by no means necessary. 
+
+```{r par arg, eval = F}
+`r writer(record[['Habitat']])`. `r record[['physical_environ']]` \par
+```
+
 
 ## Render Labels 
 
