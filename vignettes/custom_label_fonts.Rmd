@@ -165,8 +165,9 @@ Note that the last line in the preamble is: \setmainfont{Georgia} this is the co
 
 ## Examples with Common Fonts
 
-![One custom Font](../man/figures/custom-font2823.png)  
+![*One custom Font*](../man/figures/custom-font2823.png)  
 
+<br>
 
 However, we can use multiple fonts (...if so desired... ) by importing an additional font, and specifying where we should use it. 
 Note that in our header (again more truncated to highlight the parameters we need to modify) we are also now calling `\newfontfamily\couriernew{Courier New}` which loads and, I believe, aliases the font. 
@@ -192,7 +193,9 @@ Veg.: `r species_font(record[['Vegetation']])` `r associates_writer(record[['Ass
 ...
 ```
 
-![Two custom Fonts](../man/figures/custom-twofonts2823.png)  
+![*Two custom Fonts*](../man/figures/custom-twofonts2823.png)  
+
+<br>
 
 But! Notice that this new font is applied to the *whole* group not just the braced contents - we can bypass this by specifying the arguments as below. 
 
@@ -237,4 +240,6 @@ We then need to use a relative path in `\setmainfont` to point it to the ttf fil
 
 Which gets us the following. 
 
-![A downloaded font](../man/figures/custom-font-downloaded2823.pdf)  
+![*A downloaded font*](../man/figures/custom-font-downloaded2823.pdf)  
+
+<br>

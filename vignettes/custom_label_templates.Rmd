@@ -136,7 +136,7 @@ It is hard for me illustrate these in the examples, but I'll try and do my best 
 
 For this example we will focus on the final default template, which is a pretty middle of the road design. 
 
-![Default SOS template results](../man/figures/default-SOS-2823-1.png)  
+![*Default SOS template results*](../man/figures/default-SOS-2823-1.png)  
 
 Hmm that's a busy label, we could try and reduce the directions manually... 
 Or, we can just rid of them! 
@@ -154,7 +154,7 @@ Delete this!
 
 <br> 
 
-![No directions](../man/figures/noDir-SOS-2823-1.png)  
+![*No directions*](../man/figures/noDir-SOS-2823-1.png)  
 
 That looks better! But now that we can, I want to open up some space between the habitat notes and vegetation information. 
 It's simple, all we need is to empty a blank line to the document
@@ -182,7 +182,7 @@ Veg.: `r species_font(data$Vegetation)` `r associates_writer(data$Associates)`
 \endgroup
 ```
 
-![Space between habitat and vegetation](../man/figures/Spaced-SOS-2823-1.png)  
+![*Space between habitat and vegetation*](../man/figures/Spaced-SOS-2823-1.png)  
 
 <br> 
 That's better!
@@ -191,6 +191,8 @@ That's better!
 > "Won't you breathe with me?"   
 > "Find a little space, so we can move in-between In-Between it"  
 > "And keep one step ahead, of yourself."  
+
+<br> 
 
 Now let's change the line that controls the size of the font for the project name. 
 Here we will be making the font size smaller by shifting from the `LARGE` to the `large` argument.   
@@ -203,7 +205,7 @@ Here we will be making the font size smaller by shifting from the `LARGE` to the
 \textbf{\large `r writer(data$Project_Name)`} 
 ```
 
-![Project name is smaller](../man/figures/large-SOS-2823-1.png)  
+![*Smaller project name*](../man/figures/large-SOS-2823-1.png)  
 
 <br>
 
@@ -241,7 +243,7 @@ This requires us to delete the first three lines while we copy the family down i
 Which brings up a good point, these 'groups' are used to more or less create elements held together like paragraphs. 
 If we had omitted to bring family into the group, there would be a smidge more space between it and the scientific name (as exemplified with the habitat and vegetation alterations.)
 
-![Family to the left](../man/figures/familyLeft-SOS-2823-1.png)  
+![*Family to the left*](../man/figures/familyLeft-SOS-2823-1.png)  
 
 <br>
 
@@ -267,7 +269,7 @@ And bring it up to where the scientific name is printed, and make the font for t
 ```
 
 
-![Moved determination](../man/figures/Det-SOS-2823-1.png)  
+![*Determination at top of label*](../man/figures/Det-SOS-2823-1.png)  
 
 <br>
 

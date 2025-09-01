@@ -159,7 +159,8 @@ This is just for spacing and style, and is by no means necessary.
 
 and you will then end up with 
 
-![Map](../man/figures/Map-2823.png)  
+![*Map*](../man/figures/Map-2823.png)  
+<br>
 
 # Logos
 
@@ -200,6 +201,7 @@ purrr::walk(
 )
 ```
 
+<br>
 
-![Logo](../man/figures/logo-2823.png)  
+![*Logo*](../man/figures/logo-2823.png)  
 
