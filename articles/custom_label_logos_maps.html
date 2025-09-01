@@ -81,16 +81,16 @@ and check the links in the side bar too!</p>
 <h3 id="prepare-workspace">Prepare workspace<a class="anchor" aria-label="anchor" href="#prepare-workspace"></a>
 </h3>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://sagesteppe.github.io/BarnebyLives/">BarnebyLives</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="co">#devtools::install_github('sagesteppe/BarnebyLives')</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://sagesteppe.github.io/BarnebyLives/">BarnebyLives</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org" class="external-link">tidyverse</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">local</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="st">'~'</span>, <span class="st">'Documents'</span>, <span class="st">'assoRted'</span>, <span class="st">'Barneby_Lives_dev'</span>, <span class="st">'LabelStyles'</span><span class="op">)</span></span>
-<span></span>
+<span><span class="va">local</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/path.expand.html" class="external-link">path.expand</a></span><span class="op">(</span><span class="st">'~'</span><span class="op">)</span>, <span class="st">'Documents'</span>, <span class="st">'assoRted'</span>, <span class="st">'Barneby_Lives_dev'</span>, <span class="st">'LabelStyles'</span><span class="op">)</span></span>
 <span><span class="va">l.nevadense</span> <span class="op">&lt;-</span> <span class="va">collection_examples</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">Collection_number</span> <span class="op">==</span> <span class="fl">2823</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
 <span>    Project_name <span class="op">=</span> <span class="st">'Custom Fonts'</span>, </span>
-<span>    Coordinate_uncertainty <span class="op">=</span> <span class="st">'5m'</span></span>
+<span>    Coordinate_uncertainty <span class="op">=</span> <span class="st">'+/- 5m'</span></span>
 <span>  <span class="op">)</span> </span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html" class="external-link">write.csv</a></span><span class="op">(</span><span class="va">l.nevadense</span>, <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">local</span>, <span class="st">'SoS-ExampleCollection.csv'</span><span class="op">)</span>, row.names <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span></code></pre></div>
@@ -133,7 +133,7 @@ come.</p>
 <span><span class="fu"><a href="../reference/map_maker.html">map_maker</a></span><span class="op">(</span></span>
 <span>  <span class="va">l.nevadense.sf</span>, </span>
 <span>  path <span class="op">=</span> <span class="va">geo_path</span>, <span class="co"># path for your geographic information. </span></span>
-<span>  path_out <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">local</span>, <span class="st">'maps'</span><span class="op">)</span>, <span class="co"># where the map will be saved </span></span>
+<span>  path_out <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">local</span><span class="op">)</span>, <span class="co"># where the map will be saved </span></span>
 <span>  collection_col <span class="op">=</span> <span class="st">'Collection_number'</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
 </div>
@@ -181,7 +181,7 @@ by no means necessary.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="st">`</span><span class="at">r writer(record[['Habitat']])</span><span class="st">`</span>. <span class="st">`</span><span class="at">r record[['physical_environ']]</span><span class="st">`</span> \par</span></code></pre></div>
 <p>and you will then end up with</p>
 <div class="float">
-<img src="../reference/figures/Map2-2823.png" alt="Map"><div class="figcaption">Map</div>
+<img src="../reference/figures/Map-2823.png" alt="Map"><div class="figcaption">Map</div>
 </div>
 </div>
 <div class="section level2">
@@ -201,10 +201,13 @@ then label can be moved around as you see fit.</p>
 <span>  .x <span class="op">=</span> <span class="va">l.nevadense</span><span class="op">$</span><span class="va">Collection_number</span>,</span>
 <span>  <span class="op">~</span> <span class="fu">rmarkdown</span><span class="fu">::</span><span class="fu"><a href="https://pkgs.rstudio.com/rmarkdown/reference/render.html" class="external-link">render</a></span><span class="op">(</span></span>
 <span>    input <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">local</span>, <span class="st">'skeleton-logo.Rmd'</span><span class="op">)</span>, </span>
-<span>    output_file <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">local</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">'logo'</span>, <span class="fu">glue</span><span class="fu">::</span><span class="fu"><a href="https://glue.tidyverse.org/reference/glue.html" class="external-link">glue</a></span><span class="op">(</span><span class="st">"{.x}.pdf"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>, </span>
-<span>    params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>Collection_number <span class="op">=</span> <span class="va">.x</span><span class="op">)</span> </span>
+<span>    output_file <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">local</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">'logo-'</span>, <span class="fu">glue</span><span class="fu">::</span><span class="fu"><a href="https://glue.tidyverse.org/reference/glue.html" class="external-link">glue</a></span><span class="op">(</span><span class="st">"{.x}.pdf"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>, </span>
+<span>     params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>Collection_number <span class="op">=</span> <span class="op">{</span><span class="va">.x</span><span class="op">}</span><span class="op">)</span> </span>
 <span>   <span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
+<div class="float">
+<img src="../reference/figures/logo-2823.png" alt="Logo"><div class="figcaption">Logo</div>
+</div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
