@@ -187,10 +187,26 @@ by no means necessary.</p>
 <div class="section level2">
 <h2 id="logos">Logos<a class="anchor" aria-label="anchor" href="#logos"></a>
 </h2>
-<p>adding logos or other images to labels is even simpler. A path to an
-image can be hard coded onto the skeleton, of feed in via params, and
-then label can be moved around as you see fit.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<p>Adding logos or other images to labels does not require their
+generation via a function, but can overall be more challenging. Several
+parameters in the skeleton file may need to be altered to ensure
+appropriate placement.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>\vspace{\fill} </span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>\noindent</span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>\begin{minipage}[t]{<span class="fl">0.8</span>\textwidth} <span class="co">#% - [t] anchor image to top of new portion of page we are cutting out</span></span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a><span class="co">#% width of new page is total doc * 0.8</span></span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>  \begingroup</span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a>  <span class="st">`</span><span class="at">r collection_writer(record)</span><span class="st">`</span></span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a>  \endgroup</span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a>\end{minipage}%</span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a>\hfill</span>
+<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a>\begin{minipage}[b]{<span class="fl">0.2</span>\textwidth} <span class="co"># image is anchored to bottom of new page, takes up 1/5 of it.</span></span>
+<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a>  \includegraphics[width<span class="ot">=</span>\linewidth,keepaspectratio]{<span class="st">`</span><span class="at">r logopath</span><span class="st">`</span>}</span>
+<span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a>\end{minipage}</span></code></pre></div>
+<p>A path to an image can be hard coded onto the skeleton, of feed in
+via params, and then label can be moved around as you see fit.</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.copy</a></span><span class="op">(</span></span>
 <span>  from <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">p2lib</span>, <span class="st">'skeleton-logo.Rmd'</span><span class="op">)</span>, </span>
 <span>  to <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">local</span>, <span class="st">'skeleton-logo.Rmd'</span><span class="op">)</span>, </span>
