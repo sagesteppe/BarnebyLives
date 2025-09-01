@@ -23,6 +23,12 @@ library(BarnebyLives)
 record <- collection_examples |>
   dplyr::filter(Collection_number == params$Collection_number) |>  
   sf::st_drop_geometry()
+
+# escape character columns to ensure characters which interfere with latex
+# rendering are escaped. 
+char_cols <- sapply(record, is.character)
+char_col_names <- names(record)[char_cols]
+record[char_col_names] <- lapply(record[char_col_names], escape_latex)
 ```
 
 \begin{center}

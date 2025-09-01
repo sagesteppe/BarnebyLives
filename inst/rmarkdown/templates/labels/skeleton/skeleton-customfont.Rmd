@@ -31,6 +31,13 @@ record <- read.csv(file.path(local, 'SoS-ExampleCollection.csv')) |>
   sf::st_drop_geometry() |>
   data.frame() |>
   dplyr::filter(Collection_number == params$Collection_number)  
+
+# escape character columns to ensure characters which interfere with latex
+# rendering are escaped. 
+char_cols <- sapply(record, is.character)
+char_col_names <- names(record)[char_cols]
+record[char_col_names] <- lapply(record[char_col_names], escape_latex)
+
 ```
 
 \begin{center}
