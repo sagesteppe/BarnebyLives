@@ -163,9 +163,26 @@ and you will then end up with
 
 # Logos
 
-adding logos or other images to labels is even simpler. 
-A path to an image can be hard coded onto the skeleton, of feed in via params, and then label can be moved around as you see fit. 
+Adding logos or other images to labels does not require their generation via a function, but can overall be more challenging. 
+Several parameters in the skeleton file may need to be altered to ensure appropriate placement. 
 
+```{r, eval = F}
+\vspace{\fill} 
+
+\noindent
+\begin{minipage}[t]{0.8\textwidth} #% - [t] anchor image to top of new portion of page we are cutting out
+#% width of new page is total doc * 0.8
+  \begingroup
+  `r collection_writer(record)`
+  \endgroup
+\end{minipage}%
+\hfill
+\begin{minipage}[b]{0.2\textwidth} # image is anchored to bottom of new page, takes up 1/5 of it.
+  \includegraphics[width=\linewidth,keepaspectratio]{`r logopath`}
+\end{minipage}
+```
+
+A path to an image can be hard coded onto the skeleton, of feed in via params, and then label can be moved around as you see fit. 
 ```{r, eval = F}
 file.copy(
   from = file.path(p2lib, 'skeleton-logo.Rmd'), 
