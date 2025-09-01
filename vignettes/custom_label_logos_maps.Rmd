@@ -26,16 +26,16 @@ This vignette assumes you were able to get through `Custom Label Templates`.
 ## Prepare workspace
 
 ```{r load libraries and find labels, eval =F}
+#devtools::install_github('sagesteppe/BarnebyLives')
 library(BarnebyLives)
 library(tidyverse)
 
-local <- file.path('~', 'Documents', 'assoRted', 'Barneby_Lives_dev', 'LabelStyles')
-
+local <- file.path(path.expand('~'), 'Documents', 'assoRted', 'Barneby_Lives_dev', 'LabelStyles')
 l.nevadense <- collection_examples |>
   filter(Collection_number == 2823) |>
   mutate(
     Project_name = 'Custom Fonts', 
-    Coordinate_uncertainty = '5m'
+    Coordinate_uncertainty = '+/- 5m'
   ) 
 
 write.csv(l.nevadense, file.path(local, 'SoS-ExampleCollection.csv'), row.names = F)
@@ -82,13 +82,14 @@ geo_path <- '~/Documents/BL_sandbox/geodata'
 map_maker(
   l.nevadense.sf, 
   path = geo_path, # path for your geographic information. 
-  path_out = file.path(local, 'maps'), # where the map will be saved 
+  path_out = file.path(local), # where the map will be saved 
   collection_col = 'Collection_number'
   )
 ```
 
 
 ```{r actually render labels, echo = F, eval = F}
+local <- file.path(path.expand('~'), 'Documents', 'assoRted', 'Barneby_Lives_dev', 'LabelStyles')
 purrr::walk(
   .x = l.nevadense$Collection_number,
   ~ rmarkdown::render(
@@ -96,8 +97,8 @@ purrr::walk(
     output_file = file.path(local, paste0('map', glue::glue("{.x}.pdf"))), 
     params = list(
       Collection_number = .x, 
-      imagepath = '~/Documents/assoRted/Barneby_Lives_dev/LabelStyles/maps'
-      ) 
+      imagepath = file.path(local, 'maps')
+      )
    )
 )
 ```
@@ -158,13 +159,12 @@ This is just for spacing and style, and is by no means necessary.
 
 and you will then end up with 
 
-![Map](../man/figures/Map2-2823.png)  
+![Map](../man/figures/Map-2823.png)  
 
 # Logos
 
 adding logos or other images to labels is even simpler. 
 A path to an image can be hard coded onto the skeleton, of feed in via params, and then label can be moved around as you see fit. 
-
 
 ```{r, eval = F}
 file.copy(
@@ -177,8 +177,11 @@ purrr::walk(
   .x = l.nevadense$Collection_number,
   ~ rmarkdown::render(
     input = file.path(local, 'skeleton-logo.Rmd'), 
-    output_file = file.path(local, paste0('logo', glue::glue("{.x}.pdf"))), 
-    params = list(Collection_number = .x) 
+    output_file = file.path(local, paste0('logo-', glue::glue("{.x}.pdf"))), 
+     params = list(Collection_number = {.x}) 
    )
 )
 ```
+
+
+![Logo](../man/figures/logo-2823.png)  

@@ -1,15 +1,20 @@
 #' escape characters for use with latex rendering
 
 escape_latex <- function(x) {
-  if(is.na(x) || is.null(x)) return("")
-  x <- gsub("&", "\\\\&", x)      # Escape &
-  x <- gsub("%", "\\\\%", x)      # Escape %
-  x <- gsub("\\$", "\\\\$", x)    # Escape $
-  x <- gsub("#", "\\\\#", x)      # Escape #
-  x <- gsub("\\^", "\\\\textasciicircum{}", x)  # Escape ^
-  x <- gsub("_", "\\\\_", x)      # Escape _
-  x <- gsub("\\{", "\\\\{", x)    # Escape {
-  x <- gsub("\\}", "\\\\}", x)    # Escape }
-  x <- gsub("~", "\\\\textasciitilde{}", x)     # Escape ~
+  if (is.null(x)) return("")
+  x[is.na(x)] <- ""
+
+  x <- gsub("\\\\", "\\\\textbackslash{}", x)  # Escape backslash
+
+  x <- gsub("&", "\\\\&", x)
+  x <- gsub("%", "\\\\%", x)
+  x <- gsub("\\$", "\\\\$", x)
+  x <- gsub("#", "\\\\#", x)
+  x <- gsub("\\^", "\\\\textasciicircum{}", x)
+  x <- gsub("_", "\\\\_", x)
+  x <- gsub("\\{", "\\\\{", x)
+  x <- gsub("\\}", "\\\\}", x)
+  x <- gsub("~", "\\\\textasciitilde{}", x)
+
   return(x)
 }

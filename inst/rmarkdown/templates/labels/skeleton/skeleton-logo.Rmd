@@ -9,7 +9,7 @@ geometry: paperheight=4in,paperwidth=4in,margin=0.1in
 header-includes:
   - \pagenumbering{gobble}
   - \usepackage{setspace}
-  - \usepackage{wrapfig}
+  - \usepackage{minipage}
 ---
 
 ```{r setup, include=FALSE}
@@ -23,12 +23,14 @@ knitr::opts_chunk$set(warning = FALSE)
 library(BarnebyLives)
 ```
 
-```{r load data}
-logopath <- file.path('..', 'man', 'figures', 'BarnebyLivesPress-trans.png') # default change. 
+```{r load data, eval = T}
+logopath <- file.path('~/Documents/assoRted/BarnebyLives/man/figures/logo.png') # default change. 
 
 record <- collection_examples |> # default feed in the path to your csv. 
+#  dplyr::filter(Collection_number == 2826) |>  
   dplyr::filter(Collection_number == params$Collection_number) |>  
-  sf::st_drop_geometry()
+  sf::st_drop_geometry() |>
+  dplyr::mutate(Coordinate_uncertainty = '+/- 5m')
 
 # escape character columns to ensure characters which interfere with latex
 # rendering are escaped. 
@@ -55,18 +57,21 @@ record[char_col_names] <- lapply(record[char_col_names], escape_latex)
 
 \begingroup
 `r record[['Gen']]`. `r writer(record[['Site']])` `r record[['latitude_dd']]` `r record[['longitude_dd']]` (`r record[['Datum']]` `r writer(record[['Coordinate_uncertainty']])`).
-
+s
 `r writer(record[['Habitat']])`. `r record[['physical_environ']]` \par
 Veg.: `r species_font(record[['Vegetation']])` `r associates_writer(record[['Associates']])`
 `r writer(record[['Notes']])`  
 \endgroup
 
-\begin{wrapfigure}[5]{r}[0pt]{1in}
-\vspace{-5.0ex} 
-\includegraphics[width=0.5in,height=0.5in,keepaspectratio]{`r logopath`} 
-\end{wrapfigure}
+\vspace{\fill} 
 
-\vspace*{\fill}
-\begingroup
-`r collection_writer(record)`
-\endgroup
+\noindent
+\begin{minipage}[t]{0.75\textwidth}
+  \begingroup
+  `r collection_writer(record)`
+  \endgroup
+\end{minipage}%
+\hfill
+\begin{minipage}[b]{0.2\textwidth}
+  \includegraphics[width=\linewidth,keepaspectratio]{`r logopath`}
+\end{minipage}
