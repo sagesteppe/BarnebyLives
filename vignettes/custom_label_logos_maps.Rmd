@@ -64,8 +64,6 @@ file.copy(
     'rmarkdown', 'templates', 'transmittal', 'skeleton', 'logo.png'),
   to = file.path(local, 'logo.png')
   )
-
-rm(p2lib)
 ```
 
 We will also make a map to embed on a label. 
@@ -95,7 +93,7 @@ purrr::walk(
   .x = l.nevadense$Collection_number,
   ~ rmarkdown::render(
     input = file.path(local, 'skeleton-maps.Rmd'), 
-    output_file = file.path(local, paste0('custom-font', glue::glue("{.x}.pdf"))), 
+    output_file = file.path(local, paste0('map', glue::glue("{.x}.pdf"))), 
     params = list(
       Collection_number = .x, 
       imagepath = '~/Documents/assoRted/Barneby_Lives_dev/LabelStyles/maps'
@@ -160,7 +158,27 @@ This is just for spacing and style, and is by no means necessary.
 
 and you will then end up with 
 
-<br>
+![Map](../man/figures/Map2-2823.png)  
 
-![Map](../man/figures/Map-2823.png)  
+# Logos
 
+adding logos or other images to labels is even simpler. 
+A path to an image can be hard coded onto the skeleton, of feed in via params, and then label can be moved around as you see fit. 
+
+
+```{r, eval = F}
+file.copy(
+  from = file.path(p2lib, 'skeleton-logo.Rmd'), 
+  to = file.path(local, 'skeleton-logo.Rmd'), 
+  overwrite = FALSE
+  )
+
+purrr::walk(
+  .x = l.nevadense$Collection_number,
+  ~ rmarkdown::render(
+    input = file.path(local, 'skeleton-logo.Rmd'), 
+    output_file = file.path(local, paste0('logo', glue::glue("{.x}.pdf"))), 
+    params = list(Collection_number = .x) 
+   )
+)
+```

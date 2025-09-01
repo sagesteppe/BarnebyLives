@@ -5,7 +5,6 @@ output:
     keep_tex: true
 params:
   Collection_number: NULL
-  imagepath: NULL
 geometry: paperheight=4in,paperwidth=4in,margin=0.1in
 header-includes:
   - \pagenumbering{gobble}
@@ -25,7 +24,9 @@ library(BarnebyLives)
 ```
 
 ```{r load data}
-record <- collection_examples |>
+logopath <- file.path('..', 'man', 'figures', 'BarnebyLivesPress-trans.png') # default change. 
+
+record <- collection_examples |> # default feed in the path to your csv. 
   dplyr::filter(Collection_number == params$Collection_number) |>  
   sf::st_drop_geometry()
 
@@ -34,10 +35,6 @@ record <- collection_examples |>
 char_cols <- sapply(record, is.character)
 char_col_names <- names(record)[char_cols]
 record[char_col_names] <- lapply(record[char_col_names], escape_latex)
-
-imagepath <- file.path(
-  params$imagepath, paste0('map_', params$Collection_number, '.png')
-  )
 ```
 
 \begin{center}
@@ -54,11 +51,6 @@ imagepath <- file.path(
 `r writer_fide(record)`
 \endgroup
 
-\begin{wrapfigure}[5]{r}[0pt]{1in}
-\vspace{-5.0ex} 
-\includegraphics[width=1in,height=1in,keepaspectratio]{`r imagepath`} 
-\end{wrapfigure}
-
 \vspace*{\fill}
 
 \begingroup
@@ -68,7 +60,12 @@ imagepath <- file.path(
 Veg.: `r species_font(record[['Vegetation']])` `r associates_writer(record[['Associates']])`
 `r writer(record[['Notes']])`  
 \endgroup
- 
+
+\begin{wrapfigure}[5]{r}[0pt]{1in}
+\vspace{-5.0ex} 
+\includegraphics[width=0.5in,height=0.5in,keepaspectratio]{`r logopath`} 
+\end{wrapfigure}
+
 \vspace*{\fill}
 \begingroup
 `r collection_writer(record)`
