@@ -55,22 +55,22 @@ record[char_col_names] <- lapply(record[char_col_names], escape_latex)
 \begingroup
 \large
 `r writer(paste(record[['Genus']], record[['Epithet']]), italics = TRUE)` `r writer(record[['Binomial_authority']])` `r writer(record[['Infrarank']])` `r writer(record[['Infraspecies']], italics = TRUE)` `r writer(record[['Infraspecific_authority']])`  
-`r writer_fide(record)`
 \normalsize
 \endgroup
 
-\vspace*{\fill}
+\vspace{\fill}
 \begingroup
-`r record[['Gen']]`. `r writer(record[['Site']])` `r record[['latitude_dd']]` `r record[['longitude_dd']]` (`r record[['Datum']]` `r writer(record[['Coordinate_uncertainty']])`).
+`r record[['Gen']]`. `r record[['latitude_dd']]` `r record[['longitude_dd']]` (`r record[['Datum']]` `r writer(record[['Coordinate_uncertainty']])`).  `r writer(record[['Site']])`.
 
 `r writer(record[['Habitat']])`. `r record[['physical_environ']]`  
-Vegetation: `r species_font(record[['Vegetation']])`
-Associated species: `r associates_writer(record[['Associates']])`
+Vegetation: `r species_font(record[['Vegetation']])` 
+Associated species: `r associates_writer(record[['Associates']])` 
 `r writer(record[['Notes']])`  
 \endgroup
  
-\vspace*{\fill}
+\vspace{\fill}
 \begingroup
-`r collection_writer(record)`
+`r collection_writer(record)`.  
+`r writer_fide(record)`
 \endgroup
 

@@ -146,8 +146,8 @@ An annotated version is shown below
 \end{wrapfigure}
 ```
 
-PLEASE NOTE that the [5] argument refers to how many lines of text the image is expected to span. 
-People using a smaller font may need to kick that up a notch to [6]. 
+PLEASE NOTE that the `[5]` argument refers to the number of lines of text the image is expected to span. 
+People using a smaller font may need to kick that up a notch to `[6]`S. 
 
 You may also notice we use a `\par` command further down in the skeleton. 
 `\par` allows for us to force a new paragraph within our group. 
