@@ -7,14 +7,26 @@
 #' ce <- collection_examples[14,]
 #' collection_writer(ce)
 #' @export
-collection_writer <- function(x){
+collection_writer <- function(x) {
+  x$Associated_Collectors[x$Associated_Collectors == ""] <- NA
 
-  x$Associated_Collectors[x$Associated_Collectors==""] <- NA
-
-  if (is.na(x$Associated_Collectors)){
-    paste0(x$Primary_Collector, " ", x$Collection_number, '; ', x$Date_digital_text)
+  if (is.na(x$Associated_Collectors)) {
+    paste0(
+      x$Primary_Collector,
+      " ",
+      x$Collection_number,
+      '; ',
+      x$Date_digital_text
+    )
   } else {
-    paste0(x$Primary_Collector, " ",  x$Collection_number, ', ',
-                  x$Associated_Collectors, '; ', x$Date_digital_text)
-           }
+    paste0(
+      x$Primary_Collector,
+      " ",
+      x$Collection_number,
+      ', ',
+      x$Associated_Collectors,
+      '; ',
+      x$Date_digital_text
+    )
+  }
 }

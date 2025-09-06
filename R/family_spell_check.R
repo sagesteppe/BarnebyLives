@@ -12,10 +12,11 @@
 #' spelling <- family_spell_check(names, path = '../taxonomic_data')
 #'}
 #' @export
-family_spell_check <- function(x, path){
-
-  closest_name <- function(x){
-    if(is.na(x)){out <- data.frame(Family = NA)} else {
+family_spell_check <- function(x, path) {
+  closest_name <- function(x) {
+    if (is.na(x)) {
+      out <- data.frame(Family = NA)
+    } else {
       out <- famLKPtab[which.min(adist(x, famLKPtab$Family)), 'Family']
     }
     return(out)
@@ -25,18 +26,20 @@ family_spell_check <- function(x, path){
     dplyr::mutate(SPELLING = TRUE)
   families <- dplyr::left_join(x, famLKPtab, by = 'Family')
 
-  correct_families <- families[!is.na(families$SPELLING),]
-  incorrect_families <- families[is.na(families$SPELLING),]
+  correct_families <- families[!is.na(families$SPELLING), ]
+  incorrect_families <- families[is.na(families$SPELLING), ]
 
   searchF <- sf::st_drop_geometry(incorrect_families) |>
     dplyr::pull(Family)
 
-  if(nrow(incorrect_families) > 0){
+  if (nrow(incorrect_families) > 0) {
     incorrect_families$Family = unlist(sapply(searchF, closest_name))
     out <-
       dplyr::bind_rows(incorrect_families, correct_families) |>
       dplyr::select(-SPELLING) |>
       dplyr::arrange(Collection_number)
     return(out)
-  } else { return(x)}
+  } else {
+    return(x)
+  }
 }

@@ -19,8 +19,7 @@
 #' oupu <- TaxUnpack(path = '/media/steppe/hdd/BL_sandbox/taxdata-MI', bound = bound)
 #' }
 #' @export
-TaxUnpack <- function(path, bound ){
-
+TaxUnpack <- function(path, bound) {
   bound <- bound |>
     sf::st_as_sf(coords = c('x', 'y'), crs = 4326) |>
     sf::st_bbox() |>
@@ -29,10 +28,14 @@ TaxUnpack <- function(path, bound ){
   # identify which states we want to download the plants for.
   sts <- tigris::states(cb = TRUE, progress_bar = FALSE, year = 2022) |>
     dplyr::select(NAME)
-  sts <- sts[unlist(
-    sf::st_intersects(
-      sf::st_transform(bound, sf::st_crs(sts)), sts)
-  ),] |>
+  sts <- sts[
+    unlist(
+      sf::st_intersects(
+        sf::st_transform(bound, sf::st_crs(sts)),
+        sts
+      )
+    ),
+  ] |>
     dplyr::pull(NAME)
 
   # download the current data version
@@ -40,7 +43,12 @@ TaxUnpack <- function(path, bound ){
 
   distributions <- read.table(
     unz(file.path(path, 'WCVP.zip'), 'wcvp_distribution.csv'),
-    sep = "|", header = TRUE, quote = "", fill = TRUE, encoding = "UTF-8")
+    sep = "|",
+    header = TRUE,
+    quote = "",
+    fill = TRUE,
+    encoding = "UTF-8"
+  )
 
   # extract all plant codes associated with these states.
   distributions <- distributions[distributions$locality %in% sts, 'coreid']
@@ -48,15 +56,34 @@ TaxUnpack <- function(path, bound ){
   message(
     crayon::green(
       length(distributions),
-      'names (mostly synonyms...) found in this spatial domain.\nSit tight while we process them.')
+      'names (mostly synonyms...) found in this spatial domain.\nSit tight while we process them.'
     )
+  )
 
-  wcvp_names <- read.table(unz(file.path(path, 'WCVP.zip'), 'wcvp_taxon.csv'),
-                     sep = "|", header = TRUE, quote = "", fill = TRUE, encoding = "UTF-8")
-  wcvp_names <- wcvp_names[wcvp_names$taxonid %in% distributions,
-                 c('taxonid', 'taxonrank', 'family', 'genus', 'specificepithet',
-     'infraspecificepithet', 'scientfiicname', 'acceptednameusageid', 'parentnameusageid',
-     'taxonomicstatus', 'scientfiicnameauthorship')]
+  wcvp_names <- read.table(
+    unz(file.path(path, 'WCVP.zip'), 'wcvp_taxon.csv'),
+    sep = "|",
+    header = TRUE,
+    quote = "",
+    fill = TRUE,
+    encoding = "UTF-8"
+  )
+  wcvp_names <- wcvp_names[
+    wcvp_names$taxonid %in% distributions,
+    c(
+      'taxonid',
+      'taxonrank',
+      'family',
+      'genus',
+      'specificepithet',
+      'infraspecificepithet',
+      'scientfiicname',
+      'acceptednameusageid',
+      'parentnameusageid',
+      'taxonomicstatus',
+      'scientfiicnameauthorship'
+    )
+  ]
 
   lkp <- c(
     taxon_name = 'scientfiicname',
@@ -84,17 +111,33 @@ TaxUnpack <- function(path, bound ){
   families <- c(families, 'Hydrophyllaceae', 'Namaceae') #add on a few
   families <- data.frame(Family = families)
 
-  write.csv(families, file.path(path, 'families_lookup_table.csv'), row.names = F)
-  write.csv(sppLKPtab, file.path(path, 'species_lookup_table.csv'), row.names = F)
-  write.csv(infra_sppLKPtab, file.path(path, 'infra_species_lookup_table.csv'), row.names = F)
+  write.csv(
+    families,
+    file.path(path, 'families_lookup_table.csv'),
+    row.names = F
+  )
+  write.csv(
+    sppLKPtab,
+    file.path(path, 'species_lookup_table.csv'),
+    row.names = F
+  )
+  write.csv(
+    infra_sppLKPtab,
+    file.path(path, 'infra_species_lookup_table.csv'),
+    row.names = F
+  )
 
   # now add in the author abbreviations.
-  data('ipni_authors', package='BarnebyLives')
-  write.csv(ipni_authors, file.path(path, 'ipni_author_abbreviations.csv'), row.names = FALSE)
+  data('ipni_authors', package = 'BarnebyLives')
+  write.csv(
+    ipni_authors,
+    file.path(path, 'ipni_author_abbreviations.csv'),
+    row.names = FALSE
+  )
 
   message(crayon::green(
-    'New taxonomy backbone set up.'))
-
+    'New taxonomy backbone set up.'
+  ))
 }
 
 
@@ -102,12 +145,18 @@ TaxUnpack <- function(path, bound ){
 #' @description dl data.
 #'
 #' @keywords internal
-WCVP_dl <- function(path){  #  WORKS
+WCVP_dl <- function(path) {
+  #  WORKS
 
   fp <- file.path(path, 'WCVP.zip')
-  if(file.exists(fp)){
-    message('Product `WCVP` already downloaded. Skipping.')} else{
-      URL <- 'https://sftp.kew.org/pub/data-repositories/WCVP/wcvp_dwca.zip'
-      httr::GET(URL, httr::progress(), httr::write_disk(path = fp, overwrite = TRUE))
-    }
+  if (file.exists(fp)) {
+    message('Product `WCVP` already downloaded. Skipping.')
+  } else {
+    URL <- 'https://sftp.kew.org/pub/data-repositories/WCVP/wcvp_dwca.zip'
+    httr::GET(
+      URL,
+      httr::progress(),
+      httr::write_disk(path = fp, overwrite = TRUE)
+    )
+  }
 }

@@ -4,7 +4,7 @@
 #' @param x output from the first step of 'powo_searcher'
 #' @keywords internal
 #' @export
-try_again <- function(x){
+try_again <- function(x) {
   q <- x[['query']]
   only_binomial <- unlist(stringr::str_split(q, pattern = " "))
   only_binomial <- paste(only_binomial[1], only_binomial[2])

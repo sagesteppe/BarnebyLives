@@ -12,16 +12,17 @@
 #' agoseris <- collection_examples[82,]
 #' associates_writer(agoseris$Associates)
 #' @export
-associates_writer <- function(x, full = FALSE){
+associates_writer <- function(x, full = FALSE) {
+  x[x == ""] <- NA
+  x[x == " "] <- NA
 
-  x[x==""] <- NA ; x[x==" "] <- NA
-
-  if (is.na(x)){""} else {
-
-    if(full==FALSE){
+  if (is.na(x)) {
+    ""
+  } else {
+    if (full == FALSE) {
       gsub("..", ".", paste0('Ass.: ', species_font(x)), fixed = TRUE)
     } else {
       gsub("..", ".", paste0('Associates: ', species_font(x)), fixed = TRUE)
-      }
     }
+  }
 }

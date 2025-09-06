@@ -7,6 +7,6 @@
 #' @examples format_degree(180)
 #' @keywords internal
 #' @export
-format_degree <- function(x, symbol="\u00B0"){
+format_degree <- function(x, symbol = "\u00B0") {
   paste0(x, symbol) # @ dirk
 }

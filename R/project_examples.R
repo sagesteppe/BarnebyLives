@@ -8,4 +8,3 @@
 #' @examples
 #' head(project_examples)
 "project_examples"
-

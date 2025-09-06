@@ -21,9 +21,10 @@
 #' # download_data(path = '/media/steppe/hdd/BL_sandbox')
 #' }
 #' @export
-data_download <- function(path){
-
-  if(missing(path)){path <- '.'}
+data_download <- function(path) {
+  if (missing(path)) {
+    path <- '.'
+  }
 
   counties_dl(path)
   GMBA_dl(path)
@@ -39,13 +40,19 @@ data_download <- function(path){
 #' @description dl data.
 #'
 #' @keywords internal
-counties_dl <- function(path){ # WORKS
+counties_dl <- function(path) {
+  # WORKS
   fp <- file.path(path, 'Counties.zip')
 
-  if(file.exists(fp)){
-    message('Product `Counties` already downloaded. Skipping.')} else{
+  if (file.exists(fp)) {
+    message('Product `Counties` already downloaded. Skipping.')
+  } else {
     URL <- 'https://www2.census.gov/geo/tiger/TIGER2020/COUNTY/tl_2020_us_county.zip'
-    httr::GET(URL, httr::progress(), httr::write_disk(path = fp, overwrite = TRUE))
+    httr::GET(
+      URL,
+      httr::progress(),
+      httr::write_disk(path = fp, overwrite = TRUE)
+    )
   }
 }
 
@@ -53,12 +60,18 @@ counties_dl <- function(path){ # WORKS
 #' @description dl data.
 #'
 #' @keywords internal
-GMBA_dl <- function(path){ # WORKS
+GMBA_dl <- function(path) {
+  # WORKS
   fp <- file.path(path, 'GMBA.zip')
-  if(file.exists(fp)){
-    message('Product `GMBA` already downloaded. Skipping.')} else{
-  URL <- 'https://data.earthenv.org/mountains/standard/GMBA_Inventory_v2.0_standard_basic.zip'
-  httr::GET(URL, httr::progress(), httr::write_disk(path = fp, overwrite = TRUE))
+  if (file.exists(fp)) {
+    message('Product `GMBA` already downloaded. Skipping.')
+  } else {
+    URL <- 'https://data.earthenv.org/mountains/standard/GMBA_Inventory_v2.0_standard_basic.zip'
+    httr::GET(
+      URL,
+      httr::progress(),
+      httr::write_disk(path = fp, overwrite = TRUE)
+    )
   }
 }
 
@@ -66,14 +79,16 @@ GMBA_dl <- function(path){ # WORKS
 #' @description dl data.
 #'
 #' @keywords internal
-PLSS_dl <- function(path){ # WORKS
+PLSS_dl <- function(path) {
+  # WORKS
 
   fp <- file.path(path, 'PLSS.zip')
-  if(file.exists(fp)){
-    message('Product `PLSS` already downloaded. Skipping.')} else{
-  URL <- 'https://blm-egis.maps.arcgis.com/sharing/rest/content/items/283939812bc34c11bad695a1c8152faf/data'
-  message("PLSS - this one will take a minute (3.6 GB)")
-  httr::GET(URL, httr::progress(), httr::write_disk(fp))
+  if (file.exists(fp)) {
+    message('Product `PLSS` already downloaded. Skipping.')
+  } else {
+    URL <- 'https://blm-egis.maps.arcgis.com/sharing/rest/content/items/283939812bc34c11bad695a1c8152faf/data'
+    message("PLSS - this one will take a minute (3.6 GB)")
+    httr::GET(URL, httr::progress(), httr::write_disk(fp))
   }
 }
 
@@ -81,21 +96,28 @@ PLSS_dl <- function(path){ # WORKS
 #' @description dl data.
 #'
 #' @keywords internal
-allotments_dl <- function(path){ # works
+allotments_dl <- function(path) {
+  # works
 
   fp <- file.path(path, 'USFSAllotments.zip')
-  if(file.exists(fp)){
-    message('Product `USFSAllotments` already downloaded. Skipping.')} else{
-  URL <- "https://data.fs.usda.gov/geodata/edw/edw_resources/shp/S_USA.Allotment.zip"
-  httr::GET(URL, httr::progress(), httr::write_disk(fp, overwrite = TRUE))
+  if (file.exists(fp)) {
+    message('Product `USFSAllotments` already downloaded. Skipping.')
+  } else {
+    URL <- "https://data.fs.usda.gov/geodata/edw/edw_resources/shp/S_USA.Allotment.zip"
+    httr::GET(URL, httr::progress(), httr::write_disk(fp, overwrite = TRUE))
   }
 
   fp <- file.path(path, 'BLMAllotments.zip')
-  if(file.exists(fp)){
-    message('Product `BLMAllotments` already downloaded. Skipping.')} else{
-  URL <- "https://gbp-blm-egis.hub.arcgis.com/api/download/v1/items/0882acf7eada4b3bafee4dd673fbe8a0/shapefile?layers=1"
-  httr::GET(URL, httr::progress(), httr::write_disk(path = fp, overwrite = TRUE))
-    }
+  if (file.exists(fp)) {
+    message('Product `BLMAllotments` already downloaded. Skipping.')
+  } else {
+    URL <- "https://gbp-blm-egis.hub.arcgis.com/api/download/v1/items/0882acf7eada4b3bafee4dd673fbe8a0/shapefile?layers=1"
+    httr::GET(
+      URL,
+      httr::progress(),
+      httr::write_disk(path = fp, overwrite = TRUE)
+    )
+  }
 }
 
 # we can grab states by using their abbreviations...
@@ -105,35 +127,44 @@ allotments_dl <- function(path){ # works
 #' @description dl data.
 #'
 #' @keywords internal
-SGMC_dl <- function(path){ # WORKS
+SGMC_dl <- function(path) {
+  # WORKS
 
   fp <- file.path(path, 'SGMC.zip')
-  if(file.exists(fp)){
-    message('Product `SGMC` already downloaded. Skipping.')} else{
-
-  URL <- 'https://www.sciencebase.gov/catalog/file/get/5888bf4fe4b05ccb964bab9d?name=USGS_SGMC_Geodatabase.zip'
-  message("This website is slow, If it doesn't download.\nThen we recommend downloading the data by hand. https://mrdata.usgs.gov/geology/state/")
-  httr::GET(URL, httr::progress(), httr::write_disk(path = fp, overwrite = TRUE))
-    }
+  if (file.exists(fp)) {
+    message('Product `SGMC` already downloaded. Skipping.')
+  } else {
+    URL <- 'https://www.sciencebase.gov/catalog/file/get/5888bf4fe4b05ccb964bab9d?name=USGS_SGMC_Geodatabase.zip'
+    message(
+      "This website is slow, If it doesn't download.\nThen we recommend downloading the data by hand. https://mrdata.usgs.gov/geology/state/"
+    )
+    httr::GET(
+      URL,
+      httr::progress(),
+      httr::write_disk(path = fp, overwrite = TRUE)
+    )
+  }
 }
 
 #' download data
 #' @description dl data.
 #'
 #' @keywords internal
-GNIS_dl <- function(path){ # WORKS
+GNIS_dl <- function(path) {
+  # WORKS
 
   fp <- file.path(path, 'GNIS.zip')
-  if(file.exists('GNIS.zip')){
-    message('Product `GNIS` already downloaded. Skipping.')} else{
-
-      aws.s3::save_object(
-        file = fp,
-        object = "s3://prd-tnm/StagedProducts/GeographicNames/DomesticNames/DomesticNames_AllStates_Text.zip",
-        bucket = "s3://prd-tnm/",
-        region = "us-west-2",
-        show_progress = TRUE
-      )}
+  if (file.exists('GNIS.zip')) {
+    message('Product `GNIS` already downloaded. Skipping.')
+  } else {
+    aws.s3::save_object(
+      file = fp,
+      object = "s3://prd-tnm/StagedProducts/GeographicNames/DomesticNames/DomesticNames_AllStates_Text.zip",
+      bucket = "s3://prd-tnm/",
+      region = "us-west-2",
+      show_progress = TRUE
+    )
+  }
 }
 
 #' download data
@@ -143,18 +174,20 @@ GNIS_dl <- function(path){ # WORKS
 #' do a captcha, but just download the 'Geodatabase.zip' and place it in same directory as other.
 #'
 #' @keywords internal
-PAD_dl <- function(path){ # this is the wrong path
+PAD_dl <- function(path) {
+  # this is the wrong path
 
-  if(file.exists('PAD.zip')){
-    message('Product `PAD` already downloaded. Skipping.')} else{
-
-      aws.s3::save_object(
-        file = file.path(path, 'GNIS.zip'),
-        object = "s3://prd-tnm/StagedProducts/GeographicNames/DomesticNames/DomesticNames_AllStates_Text.zip",
-        bucket = "s3://prd-tnm/",
-        region = "us-west-2",
-        show_progress = TRUE
-      )}
+  if (file.exists('PAD.zip')) {
+    message('Product `PAD` already downloaded. Skipping.')
+  } else {
+    aws.s3::save_object(
+      file = file.path(path, 'GNIS.zip'),
+      object = "s3://prd-tnm/StagedProducts/GeographicNames/DomesticNames/DomesticNames_AllStates_Text.zip",
+      bucket = "s3://prd-tnm/",
+      region = "us-west-2",
+      show_progress = TRUE
+    )
+  }
 }
 
 
@@ -179,8 +212,7 @@ PAD_dl <- function(path){ # this is the wrong path
 #' tileSelector(bound)
 #' }
 #' @keywords internal
-tileSelector <- function(bound){
-
+tileSelector <- function(bound) {
   bound.v <- bound |>
     sf::st_as_sf(coords = c('x', 'y'), crs = 4326) |>
     sf::st_bbox() |>
@@ -189,8 +221,12 @@ tileSelector <- function(bound){
 
   # create a raster where the pixels represent the tiles of the full data set.
   gr <- terra::rast(
-    nrows = 5, ncols = 12,
-    xmin = -180, xmax = 180, ymin = -90, ymax = 90,
+    nrows = 5,
+    ncols = 12,
+    xmin = -180,
+    xmax = 180,
+    ymin = -90,
+    ymax = 90,
     crs = "epsg:4326"
   )
 
@@ -199,7 +235,7 @@ tileSelector <- function(bound){
   lowerleft <- paste0(
     paste0(
       c(rep('n', 36), rep('s', 24)),
-      sprintf("%02.f",rep(abs(seq(-60, 60, by = 30)), each = 12))
+      sprintf("%02.f", rep(abs(seq(-60, 60, by = 30)), each = 12))
     ),
     paste0(
       c(rep('w', 6), rep('e', 6)),
@@ -211,17 +247,13 @@ tileSelector <- function(bound){
   gr <- terra::setValues(gr, lowerleft)
   # extract values. these are the values we need to pad with resolution and
   # file extension
-  touches <- terra::extract(gr, bound.v, touches= TRUE)$lyr.1
+  touches <- terra::extract(gr, bound.v, touches = TRUE)$lyr.1
   # returned obs will still require the prefix specififying the product type
   # e.g. 'aspect'
   fnames <- paste0('_90M_', touches, '.tar.gz')
 
   return(fnames)
-
 }
-
-
-
 
 # library(sbtools)
 # sbtools::query_sb_doi('10.5066/P96WBCHS', limit=1)
@@ -263,4 +295,3 @@ tileSelector <- function(bound){
 #   httr::GET(paste0(base, f),
 #             httr::write_disk(path = 'asp', overwrite = TRUE))
 # }
-

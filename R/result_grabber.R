@@ -4,7 +4,7 @@
 #' @param x a successful powo search query
 #' @keywords internal
 #' @export
-result_grabber <- function(x){
+result_grabber <- function(x) {
   # subset the appropriate data frame, there is one if clean data were entered,
   # and two if a synonym was entered.
   results <- x[['results']]
@@ -35,16 +35,15 @@ result_grabber <- function(x){
     infrarank <- NA
   }
 
- if(!is.na(infrarank)){
-    res <- all_authors(genus, epithet,
-                       infrarank, infraspecies)
+  if (!is.na(infrarank)) {
+    res <- all_authors(genus, epithet, infrarank, infraspecies)
     name_authority <- as.character(res[[1]])
     binom_authority <- as.character(res[[2]])
     infra_authority <- as.character(res[[3]])
- } else {
+  } else {
     name_authority = paste(full_name, binom_authority)
     infra_authority <- NA
- }
+  }
 
   taxonomic_info <- data.frame(
     family,
@@ -60,4 +59,3 @@ result_grabber <- function(x){
 
   return(taxonomic_info)
 }
-

@@ -14,12 +14,13 @@
 #' head(first50dates)
 #' @export
 date2text <- function(x) {
-
   x1 <- lubridate::mdy(x)
 
-  text <- paste0(lubridate::day(x1), # just grab day of month here
-                 ' ',
-                 lubridate::month(x1, abbr = T, label = T), # grab the abbreviation for the month here
-                 ', ',
-                 lubridate::year(x1)) # grab the year here
+  text <- paste0(
+    lubridate::day(x1), # just grab day of month here
+    ' ',
+    lubridate::month(x1, abbr = T, label = T), # grab the abbreviation for the month here
+    ', ',
+    lubridate::year(x1)
+  ) # grab the year here
 }

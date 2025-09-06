@@ -8,8 +8,7 @@
 #' @examples # see 'directions_grabber'#
 #' @keywords internal
 #' @export
-specificDirections <- function(x){
-
+specificDirections <- function(x) {
   strip_html <- function(x) {
     rvest::html_text(rvest::read_html(charToRaw(x)))
   }
@@ -20,7 +19,7 @@ specificDirections <- function(x){
     y <- gsub('onto', 'on', y)
     y <- gsub('Continue', "Con't", y)
     y <- gsub('continue', "con't", y)
-    y <- gsub( " [A-z].*Con't", " Con't", y)
+    y <- gsub(" [A-z].*Con't", " Con't", y)
     y <- gsub(' and becomes .*$', '', y)
     y <- gsub(' right ', ' R ', y)
     y <- gsub(' left ', ' L ', y)
@@ -31,7 +30,7 @@ specificDirections <- function(x){
     return(y)
   }
 
-  dirStartEnd <- function(x){
+  dirStartEnd <- function(x) {
     y <- gsub('^Continue onto ', 'Take ', x)
     y <- gsub('^Take the ramp onto ', 'Take ', y)
     y <- gsub("^Head Con't to follow", 'Follow', y)
@@ -44,20 +43,20 @@ specificDirections <- function(x){
   dist <- x[['routes']][['legs']][[1]][['steps']][[1]]$distance
   dist <- data.frame(
     distance = dist$value,
-    t_dist = sum(dist['value'] ),
+    t_dist = sum(dist['value']),
     c_dist = cumsum(dist['value']) / sum(dist['value']) * 100,
     dist_mi = round(dist$value * 0.000621371, 1)
   )
 
-  if(nrow(dist) > 5 ){
+  if (nrow(dist) > 5) {
     distances <- dist[which(dist$value > 1), ]
   } else {
     distances <- dist
   }
 
   instruct <- x[['routes']][['legs']][[1]][['steps']][[1]]$html_instructions
-  if(nrow(dist) > 5 ){
-    instruct <- instruct[which(dist$value > 1) ]
+  if (nrow(dist) > 5) {
+    instruct <- instruct[which(dist$value > 1)]
   } else {
     instruct <- instruct
   }
@@ -66,10 +65,9 @@ specificDirections <- function(x){
   instruct <- cleanFun(instruct) # need to pad destination.
 
   directionsString <- paste(instruct, distances$dist_mi, 'mi. ')
-  directionsString <- paste0(directionsString, '. ',  collapse = "")
+  directionsString <- paste0(directionsString, '. ', collapse = "")
   directionsString <- gsub('. .', '.', directionsString, fixed = TRUE)
   directionsString <- dirStartEnd(directionsString)
 
   return(directionsString)
 }
-

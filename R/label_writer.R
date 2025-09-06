@@ -11,18 +11,22 @@
 #' }
 #' @export
 label_writer <- function(x, outdir) {
+  if (missing(outdir)) {
+    outdir <- file.path(getwd(), 'Labels')
+  }
+  if (!dir.exists(outdir)) {
+    dir.create(outdir)
+  }
 
-  if(missing(outdir)){outdir <- file.path(getwd(), 'Labels') }
-  if (!dir.exists(outdir)){ dir.create(outdir) }
+  label_info <- read.csv(x) |>
+    dplyr::mutate(UNIQUEID = paste0(Primary_Collector, Collection_number))
 
-	label_info <- read.csv(x) |>
-	  dplyr::mutate(UNIQUEID = paste0(Primary_Collector, Collection_number))
-
-	for (i in 1:nrow(label_info)){
-  	rmarkdown::render(
-  	  input = "skeleton.Rmd",
-    	output_format = "pdf_document",
-    	output_file = paste0(label_info[i, 'UNIQUEID'], ".pdf"),
-    	output_dir = outdir)
-	}
+  for (i in 1:nrow(label_info)) {
+    rmarkdown::render(
+      input = "skeleton.Rmd",
+      output_format = "pdf_document",
+      output_file = paste0(label_info[i, 'UNIQUEID'], ".pdf"),
+      output_dir = outdir
+    )
+  }
 }

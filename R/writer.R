@@ -7,10 +7,18 @@
 #' writer(collection_examples[9,'Binomial_authority'] )
 #' writer(collection_examples[9, 'Infraspecies'], italics = TRUE )
 #' @export
-writer <- function(x, italics){
-  x[x==""] <- NA
-  if(missing(italics)){italics <- FALSE}
-  if (is.na(x)){""} else if(italics == FALSE){x} else (paste0('*', x, '*'))
+writer <- function(x, italics) {
+  x[x == ""] <- NA
+  if (missing(italics)) {
+    italics <- FALSE
+  }
+  if (is.na(x)) {
+    ""
+  } else if (italics == FALSE) {
+    x
+  } else {
+    (paste0('*', x, '*'))
+  }
 }
 
 #' write values and collapse NAs
@@ -24,14 +32,24 @@ writer <- function(x, italics){
 #' writer(collection_examples[9,'Binomial_authority'] )
 #' writer(collection_examples[9, 'Infraspecies'], italics = TRUE )
 #' @export
-writer2 <- function(x, italics, period){
-
-  if(missing(period)){period <- FALSE}
-  x[x==""] <- NA
-  if(missing(italics)){italics <- FALSE}
-  if(period == TRUE){x <- paste0(gsub('[.]$', '', x), '.')}
-  if(is.na(x)){""} else if(italics == FALSE){x} else (paste0('*', x, '*'))
-
+writer2 <- function(x, italics, period) {
+  if (missing(period)) {
+    period <- FALSE
+  }
+  x[x == ""] <- NA
+  if (missing(italics)) {
+    italics <- FALSE
+  }
+  if (period == TRUE) {
+    x <- paste0(gsub('[.]$', '', x), '.')
+  }
+  if (is.na(x)) {
+    ""
+  } else if (italics == FALSE) {
+    x
+  } else {
+    (paste0('*', x, '*'))
+  }
 }
 
 #' do or don't write determination information
@@ -51,13 +69,14 @@ writer2 <- function(x, italics, period){
 #'
 #' lapply(text, writer_fide)
 #' @export
-writer_fide <- function(x){
-
-  x$Fide[x$Fide==""] <- NA
+writer_fide <- function(x) {
+  x$Fide[x$Fide == ""] <- NA
 
   # if their is nothing to write, simply return an empty string to avoid emitting
   # the NA onto the label.
-  if (is.na(x$Fide)){""} else {
+  if (is.na(x$Fide)) {
+    ""
+  } else {
     # buy a little bit more real estate. abbreviate Flora.
     x$Fide <- sub(' Flora ', ' Fl. ', x$Fide)
 
@@ -66,29 +85,47 @@ writer_fide <- function(x){
     # we will run down the ELSE below.
 
     # DISPATCH 1 check for both parentheses
-    if(grepl('\\(.*\\)', x$Fide)){
-
-      fide_base <- paste0( # write everything up to the parenthesis
+    if (grepl('\\(.*\\)', x$Fide)) {
+      fide_base <- paste0(
+        # write everything up to the parenthesis
         paste0('Fide: *', gsub('\\(.*$', '', x$Fide), '*'),
         paste0('(', gsub('.*\\(|\\).*', '', x$Fide), ')')
       )
 
       # now test for words after the last parenthesis
-      if(nchar(gsub('.*\\)', '', x$Fide))>0){
-        paste0(fide_base,
-               paste0('*', gsub('.*\\)', '', x$Fide), '*'),
-               ', det.: ', x$Determined_by, ', ', x$Determined_date_text, '.')
-
-      } else { # return the string with parentheses here
-        paste0(fide_base,
-               ', det.: ', x$Determined_by, ', ', x$Determined_date_text, '.')
+      if (nchar(gsub('.*\\)', '', x$Fide)) > 0) {
+        paste0(
+          fide_base,
+          paste0('*', gsub('.*\\)', '', x$Fide), '*'),
+          ', det.: ',
+          x$Determined_by,
+          ', ',
+          x$Determined_date_text,
+          '.'
+        )
+      } else {
+        # return the string with parentheses here
+        paste0(
+          fide_base,
+          ', det.: ',
+          x$Determined_by,
+          ', ',
+          x$Determined_date_text,
+          '.'
+        )
       }
-
-      } else { # IF dispatch 1 finds no '()' return a nice simple string.
+    } else {
+      # IF dispatch 1 finds no '()' return a nice simple string.
       # return a nice uncomplicated string without parentheses
-        paste0('Fide: *',
-             sub(' Flora ', ' Fl. ', x$Fide),
-             '*, det.: ', x$Determined_by, ', ', x$Determined_date_text, '.')
+      paste0(
+        'Fide: *',
+        sub(' Flora ', ' Fl. ', x$Fide),
+        '*, det.: ',
+        x$Determined_by,
+        ', ',
+        x$Determined_date_text,
+        '.'
+      )
     }
   }
 }

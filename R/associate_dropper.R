@@ -16,13 +16,15 @@
 #'
 #' associate_dropper(ce, col = 'Associates')
 #' @export
-associate_dropper <- function(x, Binomial, col){
+associate_dropper <- function(x, Binomial, col) {
+  if (missing(Binomial)) {
+    Binomial <- 'Full_name'
+    message(crayon::yellow(
+      'Argument to `Binomial` not supplied, defaulting to `Full_name`'
+    ))
+  }
 
-  if(missing(Binomial)){Binomial <- 'Full_name' ;
-    message(crayon::yellow('Argument to `Binomial` not supplied, defaulting to `Full_name`'))}
-
-  remove <- function(x, Binomial, col){
-
+  remove <- function(x, Binomial, col) {
     x[col] <- gsub(x[Binomial], "", x[col])
     x[col] <- trimws(gsub("\\s+", " ", x[col]))
     x[col] <- gsub(",$", "", x[col])
@@ -31,6 +33,6 @@ associate_dropper <- function(x, Binomial, col){
     x[col] <- gsub(",([A-Za-z])", ", \\1", x[col])
   }
   res <- apply(X = x, FUN = remove, MARGIN = 1, Binomial, col)
-  x[,col] <- res
+  x[, col] <- res
   x
 }

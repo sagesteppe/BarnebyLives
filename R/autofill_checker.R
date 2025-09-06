@@ -13,27 +13,38 @@
 #' autofill_checker(coords) # note that all values in the column will
 #' # flagged after the occurrence (see 'Lat_AutoFill_Flag')
 #' @export
-autofill_checker <- function(x){
-
+autofill_checker <- function(x) {
   flags <- x |>
     dplyr::mutate(
       long_degrees = gsub('.*\\.', '', longitude_dd),
-      lat_degrees  = gsub('.*\\.', '', latitude_dd),
+      lat_degrees = gsub('.*\\.', '', latitude_dd),
       long_decimel = gsub('[.].*$', '', longitude_dd),
-      lat_decimel  = gsub('[.].*$', '', latitude_dd),
+      lat_decimel = gsub('[.].*$', '', latitude_dd),
     ) |>
     dplyr::group_by(long_degrees, lat_degrees) |>
     dplyr::mutate(
       long_dec_last = dplyr::lag(long_decimel),
-      lat_dec_last  = dplyr::lag(lat_decimel),
-      Long_AutoFill_Flag = dplyr::if_else(long_decimel == long_dec_last, NA, 'Flagged'),
-      Lat_AutoFill_Flag  =  dplyr::if_else(lat_decimel == lat_dec_last, NA, 'Flagged'),
+      lat_dec_last = dplyr::lag(lat_decimel),
+      Long_AutoFill_Flag = dplyr::if_else(
+        long_decimel == long_dec_last,
+        NA,
+        'Flagged'
+      ),
+      Lat_AutoFill_Flag = dplyr::if_else(
+        lat_decimel == lat_dec_last,
+        NA,
+        'Flagged'
+      ),
     ) |>
     dplyr::ungroup() |>
     dplyr::select(Long_AutoFill_Flag, Lat_AutoFill_Flag)
 
   output <- dplyr::bind_cols(x, flags) |>
-    dplyr::relocate(Long_AutoFill_Flag, Lat_AutoFill_Flag, .after = dplyr::last_col())
+    dplyr::relocate(
+      Long_AutoFill_Flag,
+      Lat_AutoFill_Flag,
+      .after = dplyr::last_col()
+    )
 
   return(output)
 }

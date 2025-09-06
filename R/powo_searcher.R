@@ -13,8 +13,7 @@
 #'    dplyr::bind_rows()
 #' head(pow_results)
 #' @export
-powo_searcher <- function(x){
-
+powo_searcher <- function(x) {
   x <- trimws(gsub("\\s+", " ", x))
   query_results <- kewr::search_powo(x)
 
@@ -22,7 +21,7 @@ powo_searcher <- function(x){
     second_try <- try_again(query_results)
 
     if (is.null(second_try[["results"]])) {
-        taxonomic_info <- data.frame(
+      taxonomic_info <- data.frame(
         family = as.character(),
         name_authority = as.character(),
         full_name = as.character(),
@@ -33,12 +32,10 @@ powo_searcher <- function(x){
         infraspecies = as.character(),
         infra_authority = as.character()
       )
-      taxonomic_info[1,] <- 'NOT FOUND'
-
+      taxonomic_info[1, ] <- 'NOT FOUND'
     } else {
       results_to_process <- second_try
     }
-
   } else {
     results_to_process <- query_results
   }
@@ -51,8 +48,7 @@ powo_searcher <- function(x){
     out_ob <- data.frame(cbind(query = x, taxonomic_info))
   }
 
-  new_names <-  paste0('POW', '_',
-    stringr::str_to_sentence( colnames(out_ob) ))
+  new_names <- paste0('POW', '_', stringr::str_to_sentence(colnames(out_ob)))
   colnames(out_ob) <- new_names
 
   return(out_ob)

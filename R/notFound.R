@@ -16,18 +16,18 @@
 #' notFound(pow_results) # little message.
 #' }
 #' @export
-notFound <- function(x){
-
-  row_no <- unlist( apply(FUN = grep, X = x, MARGIN = 2, pattern = 'NOT FOUND') )
+notFound <- function(x) {
+  row_no <- unlist(apply(FUN = grep, X = x, MARGIN = 2, pattern = 'NOT FOUND'))
   rows <- unique(row_no) # these rows had complications...
   not_found <- x[rows, 'query'] # these records were not found.
 
   recs <- cat(
     'The record: ',
-      not_found,
-      ' (row ',
-      rows, ') did not have all data retrieved.\n')
+    not_found,
+    ' (row ',
+    rows,
+    ') did not have all data retrieved.\n'
+  )
 
   message(recs)
-
 }

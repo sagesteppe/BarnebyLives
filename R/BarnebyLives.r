@@ -23,7 +23,6 @@
 "ipni_authors"
 
 
-
 #' Collection examples for a shipping manifest
 #'
 #' This is a small data frame of species information for use with the shipping/transferal notes

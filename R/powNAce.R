@@ -18,88 +18,115 @@
 #' powNAce(df)
 #' }
 #' @export
-powNAce <- function(x){
-
-   # four conditions are compared to determine which taxonomic level the authority
-   # applies to
-   infra_base <- function(x){
-
+powNAce <- function(x) {
+  # four conditions are compared to determine which taxonomic level the authority
+  # applies to
+  infra_base <- function(x) {
     x$POW_Infraspecific_authority <- NA
     x$POW_Binomial_authority <- NA
 
     y <- x
 
-    if(is.na(y$POW_Infrarank)){
+    if (is.na(y$POW_Infrarank)) {
       y$POW_Binomial_authority <- y$POW_Authority
-    } else if ( y$POW_Infraspecies == y$POW_Epithet){
-      y$POW_Binomial_authority <- y$POW_Authority} else {
-        y$POW_Infraspecific_authority <- y$POW_Authority
-      }
+    } else if (y$POW_Infraspecies == y$POW_Epithet) {
+      y$POW_Binomial_authority <- y$POW_Authority
+    } else {
+      y$POW_Infraspecific_authority <- y$POW_Authority
+    }
 
-  #  x$POW_Infraspecific_authority <- as.character(x$POW_Infraspecific_authority)
-  #  x$POW_Binomial_authority <- as.character(x$POW_Binomial_authority)
+    #  x$POW_Infraspecific_authority <- as.character(x$POW_Infraspecific_authority)
+    #  x$POW_Binomial_authority <- as.character(x$POW_Binomial_authority)
 
     return(y)
   }
 
-   # we need NA's to be explicitly treated
-   compareNA <- function(v1, v2){
-    same <- (v1 == v2)  |  (is.na(v1) & is.na(v2))
+  # we need NA's to be explicitly treated
+  compareNA <- function(v1, v2) {
+    same <- (v1 == v2) | (is.na(v1) & is.na(v2))
     same[is.na(same)] <- FALSE
     return(same)
-   } # @ BEN STACK O 16822426
+  } # @ BEN STACK O 16822426
 
-   author_spacer <- function(x){
-     trailed <- vector(mode = 'character', length = length(x))
-     trailed[grep('\\.$', x)] <- '.'
+  author_spacer <- function(x) {
+    trailed <- vector(mode = 'character', length = length(x))
+    trailed[grep('\\.$', x)] <- '.'
 
-     abbrevs_spaced <- sub('\\.$', '', x) # remove the trailing periods
-     abbrevs_notrail <- sub('\\.(?!.*\\.)', ". ", abbrevs_spaced, perl = T)
-     # identify the last period in the name, and add a space after it
+    abbrevs_spaced <- sub('\\.$', '', x) # remove the trailing periods
+    abbrevs_notrail <- sub('\\.(?!.*\\.)', ". ", abbrevs_spaced, perl = T)
+    # identify the last period in the name, and add a space after it
 
-     abbrevs <- paste0(abbrevs_notrail, trailed)
-     abbrevs <- gsub("  ", " ", abbrevs)
-     abbrevs <- gsub(" \\)", ")", abbrevs)
-     return(abbrevs)
-   }
+    abbrevs <- paste0(abbrevs_notrail, trailed)
+    abbrevs <- gsub("  ", " ", abbrevs)
+    abbrevs <- gsub(" \\)", ")", abbrevs)
+    return(abbrevs)
+  }
 
-   mycs <- c('Genus', 'POW_Genus', 'Epithet', 'POW_Epithet', 'Binomial_authority',
-             'POW_Binomial_authority', 'Infrarank', 'POW_Infrarank',
-             'Infraspecies', 'POW_Infraspecies', 'Infraspecific_authority',
-             'POW_Infraspecific_authority', 'Family', 'POW_Family')
+  mycs <- c(
+    'Genus',
+    'POW_Genus',
+    'Epithet',
+    'POW_Epithet',
+    'Binomial_authority',
+    'POW_Binomial_authority',
+    'Infrarank',
+    'POW_Infrarank',
+    'Infraspecies',
+    'POW_Infraspecies',
+    'Infraspecific_authority',
+    'POW_Infraspecific_authority',
+    'Family',
+    'POW_Family'
+  )
 
-   # identify whether the author is for the species or infra species
+  # identify whether the author is for the species or infra species
 
-   x_pow <- sf::st_drop_geometry(x) |>
-     dplyr::select(any_of(c(mycs, 'POW_Authority', 'UNIQUEID'))) |>
-     data.frame()
+  x_pow <- sf::st_drop_geometry(x) |>
+    dplyr::select(any_of(c(mycs, 'POW_Authority', 'UNIQUEID'))) |>
+    data.frame()
 
-   splits <- split(x_pow, f = rownames(x_pow))
-   x_pow <- lapply(X = splits, FUN = infra_base)
-   x_pow <- do.call(rbind, x_pow)
+  splits <- split(x_pow, f = rownames(x_pow))
+  x_pow <- lapply(X = splits, FUN = infra_base)
+  x_pow <- do.call(rbind, x_pow)
 
-   #ensure we have implemented a human readable spacing to our authors
-   x_pow$POW_Binomial_authority <- author_spacer(x_pow$POW_Binomial_authority)
-   x_pow$POW_Infraspecific_authority <- author_spacer(x_pow$POW_Infraspecific_authority)
+  #ensure we have implemented a human readable spacing to our authors
+  x_pow$POW_Binomial_authority <- author_spacer(x_pow$POW_Binomial_authority)
+  x_pow$POW_Infraspecific_authority <- author_spacer(
+    x_pow$POW_Infraspecific_authority
+  )
 
-   x_pow[compareNA(x_pow$POW_Name_authority, x_pow$Name_authority ), 'POW_Name_authority'] <- NA
-   x_pow[compareNA(x_pow$POW_Full_name, x_pow$Full_name ), 'POW_Full_name'] <- NA
-   x_pow[compareNA(x_pow$POW_Genus, x_pow$Genus ), 'POW_Genus'] <- NA
-   x_pow[compareNA(x_pow$POW_Epithet, x_pow$Epithet ), 'POW_Epithet'] <- NA
-   x_pow[compareNA(x_pow$POW_Infrarank, x_pow$Infrarank ), 'POW_Infrarank'] <- NA
-   x_pow[compareNA(x_pow$POW_Infraspecies, x_pow$Infraspecies ), 'POW_Infraspecies'] <- NA
-   x_pow[compareNA(x_pow$POW_Family, x_pow$Family ), 'POW_Family'] <- NA
-   x_pow[compareNA(x_pow$POW_Binomial_authority, x_pow$Binomial_authority ), 'POW_Binomial_authority'] <- NA
-   x_pow[compareNA(x_pow$POW_Infraspecific_authority, x_pow$Infraspecific_authority ), 'POW_Infraspecific_authority'] <- NA
+  x_pow[
+    compareNA(x_pow$POW_Name_authority, x_pow$Name_authority),
+    'POW_Name_authority'
+  ] <- NA
+  x_pow[compareNA(x_pow$POW_Full_name, x_pow$Full_name), 'POW_Full_name'] <- NA
+  x_pow[compareNA(x_pow$POW_Genus, x_pow$Genus), 'POW_Genus'] <- NA
+  x_pow[compareNA(x_pow$POW_Epithet, x_pow$Epithet), 'POW_Epithet'] <- NA
+  x_pow[compareNA(x_pow$POW_Infrarank, x_pow$Infrarank), 'POW_Infrarank'] <- NA
+  x_pow[
+    compareNA(x_pow$POW_Infraspecies, x_pow$Infraspecies),
+    'POW_Infraspecies'
+  ] <- NA
+  x_pow[compareNA(x_pow$POW_Family, x_pow$Family), 'POW_Family'] <- NA
+  x_pow[
+    compareNA(x_pow$POW_Binomial_authority, x_pow$Binomial_authority),
+    'POW_Binomial_authority'
+  ] <- NA
+  x_pow[
+    compareNA(x_pow$POW_Infraspecific_authority, x_pow$Infraspecific_authority),
+    'POW_Infraspecific_authority'
+  ] <- NA
 
-   x <- dplyr::select(x, -any_of(c(mycs, 'POW_Authority', 'POW_Name_authority', 'POW_Full_name')))
-   x <- dplyr::left_join(x, x_pow, by = 'UNIQUEID')
+  x <- dplyr::select(
+    x,
+    -any_of(c(mycs, 'POW_Authority', 'POW_Name_authority', 'POW_Full_name'))
+  )
+  x <- dplyr::left_join(x, x_pow, by = 'UNIQUEID')
 
-   x <- dplyr::relocate(x, any_of(c(mycs, 'POW_Query')),
-                   .after = 4) %>%
-     dplyr::select(-any_of(c('POW_Authority', 'POW_Name_authority', 'POW_Full_name')))
+  x <- dplyr::relocate(x, any_of(c(mycs, 'POW_Query')), .after = 4) %>%
+    dplyr::select(
+      -any_of(c('POW_Authority', 'POW_Name_authority', 'POW_Full_name'))
+    )
 
-   return(x)
-
+  return(x)
 }
-

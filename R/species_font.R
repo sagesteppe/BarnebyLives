@@ -7,12 +7,12 @@
 #' associates <- c('Eriogonum ovalifolium var. purpureum, Castilleja sp., Crepis spp.')
 #' species_font(associates)
 #' @export
-species_font <- function(x){
+species_font <- function(x) {
   # Start by italicizing everything
   x <- paste0('\\textit{', x, '}')
 
   # Check if any abbreviations are present
-  if(any(grepl(' sp\\.| spp\\.| var\\. | subsp\\. | ssp\\.', x))){
+  if (any(grepl(' sp\\.| spp\\.| var\\. | subsp\\. | ssp\\.', x))) {
     # Handle sp. in middle of string (followed by comma and space)
     x <- gsub(' sp\\., ', '} sp., \\\\textit{', x)
     # Handle sp. at end of string (remove the trailing })
@@ -39,7 +39,7 @@ species_font <- function(x){
   x <- gsub('  +', ' ', x)
 
   # Add final period if not present
-  if(!grepl('\\.$', x)){
+  if (!grepl('\\.$', x)) {
     x <- paste0(x, '.')
   }
 

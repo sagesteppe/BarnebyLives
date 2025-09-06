@@ -1,4 +1,3 @@
-
 #' Check spelling of botanical author abbreviations
 #'
 #' Determine whether the spelling of a botanical author abbreviation matches
@@ -25,15 +24,16 @@
 #' # and 'S.R. Downie' is more human readable than 'S.R.Downie' (no space)
 #' }
 #' @export
-author_check <- function(x, path){
-
-  auth_check <- function(x){
+author_check <- function(x, path) {
+  auth_check <- function(x) {
     # identify pieces which are not in the look up list.
     L <- length(x)
     matched <- vector(mode = 'logical', length = L)
-    if(all(is.na(x))){Issues = NA} else {
-      for(i in 1:L){
-        if(any(abbrevs == x[i])) {
+    if (all(is.na(x))) {
+      Issues = NA
+    } else {
+      for (i in 1:L) {
+        if (any(abbrevs == x[i])) {
           matched[i] <- TRUE
         } else {
           matched[i] <- FALSE
@@ -41,7 +41,7 @@ author_check <- function(x, path){
       }
 
       # create column 'Issues'; to flag specific names
-      if(any(matched == FALSE)) {
+      if (any(matched == FALSE)) {
         Issues <- paste(x[which(matched == FALSE)], '-? ', collapse = '')
       } else {
         Issues <- NA
@@ -55,12 +55,17 @@ author_check <- function(x, path){
 
   # identify columns containing authority information
   binom_auth <- colnames(x)[grep('binom.*author', colnames(x), ignore.case = T)]
-  infra_auth <- colnames(x)[grep('infraspecific.*author', colnames(x), ignore.case = T)]
+  infra_auth <- colnames(x)[grep(
+    'infraspecific.*author',
+    colnames(x),
+    ignore.case = T
+  )]
 
-  if( any( grepl('geometry', colnames(x)))) {
-    no_spat <- sf::st_drop_geometry(x)} else {
-      no_spat <- x
-    }
+  if (any(grepl('geometry', colnames(x)))) {
+    no_spat <- sf::st_drop_geometry(x)
+  } else {
+    no_spat <- x
+  }
 
   # there should always be at least two columns.
   auth <- dplyr::pull(no_spat, binom_auth)
@@ -81,12 +86,12 @@ author_check <- function(x, path){
 
   Issues <- dplyr::bind_cols(x, Issues)
 
-    Issues <- Issues |>
-      dplyr::relocate(dplyr::any_of(c('Binomial_authority_issues')),
-                      .after = binom_auth) |>
-      dplyr::relocate(dplyr::any_of(c('Infra_auth_issues')),
-                      .after = infra_auth)
+  Issues <- Issues |>
+    dplyr::relocate(
+      dplyr::any_of(c('Binomial_authority_issues')),
+      .after = binom_auth
+    ) |>
+    dplyr::relocate(dplyr::any_of(c('Infra_auth_issues')), .after = infra_auth)
 
   return(Issues)
 }
-

@@ -38,15 +38,35 @@
 #' rm(start_time, duration, start_time_parallel, parallel_duration, speedup)
 #' }
 #' @export
-map_maker <- function(x, path_out, path, collection_col, parallel = 0){
+map_maker <- function(x, path_out, path, collection_col, parallel = 0) {
+  political <- sf::st_read(
+    file.path(path, 'political', 'political.shp'),
+    quiet = T
+  )
+  if (sf::st_crs(x) == sf::st_crs(political)) {
+    pts <- x
+  } else {
+    pts <- sf::st_transform(x, sf::st_crs(political))
+  }
+  dir.create(
+    file.path(path_out, 'maps'),
+    recursive = TRUE,
+    showWarnings = FALSE
+  )
 
-  political <- sf::st_read(file.path(path, 'political', 'political.shp'), quiet = T)
-  if(sf::st_crs(x) == sf::st_crs(political)) { pts <- x } else {pts <- sf::st_transform(x, sf::st_crs(political))}
-  dir.create(file.path(path_out, 'maps'), recursive = TRUE, showWarnings = FALSE)
-
-  if(!inherits(x, "sf")) stop("x must be an sf object")
-  if(!collection_col %in% names(x)) stop(paste("Column", collection_col, "not found in x"))
-  if(parallel < 0 || parallel > 1) if (parallel < 0){parellel = 0} else {parallel <- 1}
+  if (!inherits(x, "sf")) {
+    stop("x must be an sf object")
+  }
+  if (!collection_col %in% names(x)) {
+    stop(paste("Column", collection_col, "not found in x"))
+  }
+  if (parallel < 0 || parallel > 1) {
+    if (parallel < 0) {
+      parellel = 0
+    } else {
+      parallel <- 1
+    }
+  }
 
   # first apply fn to all data points - and group by states.
   # split by states and write them out in batches.
@@ -55,29 +75,32 @@ map_maker <- function(x, path_out, path, collection_col, parallel = 0){
   pts$temp_state <- political$STUSPS[
     sapply(
       intersection_indices,
-      function(x) if(length(x) > 0) x[1] else NA)
-    ]
+      function(x) if (length(x) > 0) x[1] else NA
+    )
+  ]
   pts <- sf::st_as_sf(pts)
 
   # Add this check:
   missing_states <- is.na(pts$temp_state)
-  if(any(missing_states)) {
-    warning(paste(sum(missing_states), "points did not intersect any state and will be skipped"))
-    pts <- pts[!missing_states, ]  # Remove problematic points
+  if (any(missing_states)) {
+    warning(paste(
+      sum(missing_states),
+      "points did not intersect any state and will be skipped"
+    ))
+    pts <- pts[!missing_states, ] # Remove problematic points
   }
 
   # Then check if anything is left:
-  if(nrow(pts) == 0) {
+  if (nrow(pts) == 0) {
     stop("No points intersected with the political boundaries")
   }
 
   # maybe bind state for temp, and then apply rowwise !!!! after filtering tabular.
-  core_map_maker <- function(y, path_out, political, collection_col){
-
+  core_map_maker <- function(y, path_out, political, collection_col) {
     focal_state <- dplyr::filter(political, STUSPS == y$temp_state[1])
 
-  # if now intersection found return from fun.
-    if(nrow(focal_state) == 0) {
+    # if now intersection found return from fun.
+    if (nrow(focal_state) == 0) {
       warning(paste("No state found for", y$temp_state[1], "- skipping"))
       return(NULL)
     }
@@ -91,29 +114,44 @@ map_maker <- function(x, path_out, path, collection_col, parallel = 0){
 
     fname <- file.path(path_out, 'maps', paste0('map_', col_no, '.png'))
     ggplot2::ggsave(
-      filename =  fname, plot = p, device = 'png', dpi = 300,
-      width = 1, height = 1, units = 'in', bg = 'transparent'
+      filename = fname,
+      plot = p,
+      device = 'png',
+      dpi = 300,
+      width = 1,
+      height = 1,
+      units = 'in',
+      bg = 'transparent'
     )
   }
 
   pts_list <- split(pts, seq(nrow(pts)))
-  if(parallel > 0) {
+  if (parallel > 0) {
     n_cores <- max(1, round(parallel::detectCores() * parallel))
     cl <- parallel::makeCluster(n_cores)
     on.exit(parallel::stopCluster(cl))
 
     parallel::clusterEvalQ(cl, {
-      library(sf); library(ggplot2); library(dplyr)
+      library(sf)
+      library(ggplot2)
+      library(dplyr)
     })
 
     parallel::parLapply(
-      cl, pts_list, core_map_maker,
-      path_out = path_out, political = political,
-      collection_col = collection_col)
+      cl,
+      pts_list,
+      core_map_maker,
+      path_out = path_out,
+      political = political,
+      collection_col = collection_col
+    )
   } else {
     lapply(
-      pts_list, core_map_maker,
-      path_out = path_out, political = political,
-      collection_col = collection_col)
+      pts_list,
+      core_map_maker,
+      path_out = path_out,
+      political = political,
+      collection_col = collection_col
+    )
   }
 }
