@@ -32,6 +32,20 @@ library(BarnebyLives)
 ```
 
 ```{r load data}
+associates_writer <- function(x, full = FALSE){
+
+  x[x==""] <- NA ; x[x==" "] <- NA
+
+  if (is.na(x)){""} else {
+
+    if(full==FALSE){
+      gsub("..", ".", paste0('Ass.: ', species_font(x)), fixed = TRUE)
+    } else {
+      gsub("..", ".", paste0('Associates: ', species_font(x)), fixed = TRUE)
+      }
+    }
+}
+
 local <- file.path('~', 'Documents', 'assoRted', 'Barneby_Lives_dev', 'LabelStyles')
 
 record <- read.csv(file.path(local, 'SoS-ExampleCollection.csv')) |>
@@ -64,7 +78,7 @@ record[char_col_names] <- lapply(record[char_col_names], escape_latex)
 
 `r writer(record[['Habitat']])`. `r record[['physical_environ']]`  
 Vegetation: `r species_font(record[['Vegetation']])` 
-Associated species: `r associates_writer(record[['Associates']])` 
+`r associates_writer(record[['Associates']], full = TRUE)` 
 `r writer(record[['Notes']])`  
 \endgroup
  

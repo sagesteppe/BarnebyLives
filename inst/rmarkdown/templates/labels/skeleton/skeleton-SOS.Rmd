@@ -43,9 +43,10 @@ record[char_col_names] <- lapply(record[char_col_names], escape_latex)
 \normalsize
 \endgroup
 
-\vspace*{\fill}
+\vspace{\fill}
 \begingroup
 `r record[['Gen']]`. `r writer(record[['Site']])` `r record[['latitude_dd']]` `r record[['longitude_dd']]` (`r record[['Datum']]` `r writer(record[['Coordinate_Uncertainty']])`).
+
 
 `r writer(record$Habitat)`. `r record[['physical_environ']]`  
 Veg.: `r species_font(record[['Vegetation']])` `r associates_writer(record[['Associates']])`
@@ -57,7 +58,7 @@ Veg.: `r species_font(record[['Vegetation']])` `r associates_writer(record[['Ass
 \end{spacing}
 \endgroup
  
-\vspace*{\fill}
+\vspace{\fill}
 \begingroup
 `r collection_writer(record)`. `r writer_fide(record)`
 \endgroup

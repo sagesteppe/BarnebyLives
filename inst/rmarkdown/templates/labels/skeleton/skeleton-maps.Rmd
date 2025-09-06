@@ -11,6 +11,8 @@ header-includes:
   - \pagenumbering{gobble}
   - \usepackage{setspace}
   - \usepackage{wrapfig}
+  - \usepackage{fontspec}
+  - \setmainfont{UM Typewriter}
 ---
 
 ```{r setup, include=FALSE}
@@ -20,11 +22,9 @@ knitr::opts_chunk$set(message = FALSE)
 knitr::opts_chunk$set(warning = FALSE)
 ```
 
-```{r load library}
-library(BarnebyLives)
-```
-
 ```{r load data}
+library(BarnebyLives)
+
 record <- collection_examples |>
   dplyr::filter(Collection_number == params$Collection_number) |>  
   sf::st_drop_geometry()
@@ -38,6 +38,7 @@ record[char_col_names] <- lapply(record[char_col_names], escape_latex)
 imagepath <- file.path(
   params$imagepath, paste0('map_', params$Collection_number, '.png')
   )
+
 ```
 
 \begin{center}
@@ -46,12 +47,9 @@ imagepath <- file.path(
 \begin{flushright}
 \uppercase{`r record[['Family']]`}
 \end{flushright}
-
 \begingroup
 \large
 `r writer(paste(record[['Genus']], record[['Epithet']]), italics = TRUE)` `r writer(record[['Binomial_authority']])` `r writer(record[['Infrarank']])` `r writer(record[['Infraspecies']], italics = TRUE)` `r writer(record[['Infraspecific_authority']])`  
-\normalsize
-`r writer_fide(record)`
 \endgroup
 
 \begin{wrapfigure}[5]{r}[0pt]{1in}
@@ -59,17 +57,23 @@ imagepath <- file.path(
 \includegraphics[width=1in,height=1in,keepaspectratio]{`r imagepath`} 
 \end{wrapfigure}
 
-\vspace*{\fill}
+\vspace{\fill}
 
 \begingroup
-`r record[['Gen']]`. `r writer(record[['Site']])` `r record[['latitude_dd']]` `r record[['longitude_dd']]` (`r record[['Datum']]` `r writer(record[['Coordinate_uncertainty']])`).
+\small
+`r record[['Gen']]`. `r writer(record[['Site']])` `r record[['latitude_dd']]` `r record[['longitude_dd']]` (`r record[['Datum']]` `r writer(record[['Coordinate_uncertainty']])`). 
 
 `r writer(record[['Habitat']])`. `r record[['physical_environ']]` \par
-Veg.: `r species_font(record[['Vegetation']])` `r associates_writer(record[['Associates']])`
-`r writer(record[['Notes']])`  
+Veg: `r species_font(record[['Vegetation']])` `r associates_writer(record[['Associates']])` \par
+`r writer(record[['Notes']])`
 \endgroup
  
-\vspace*{\fill}
+\begin{spacing}{0.025}
+{\scriptsize `r record[['Directions_BL']]`}
+\end{spacing}
+
+\vspace{\fill}
 \begingroup
-`r collection_writer(record)`
+\small
+`r collection_writer(record)`  `r writer_fide(record)`
 \endgroup

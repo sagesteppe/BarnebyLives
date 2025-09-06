@@ -8,31 +8,43 @@
 #' species_font(associates)
 #' @export
 species_font <- function(x){
+  # Start by italicizing everything
+  x <- paste0('\\textit{', x, '}')
 
-  x <- paste0('*', x, '*')
+  # Check if any abbreviations are present
+  if(any(grepl(' sp\\.| spp\\.| var\\. | subsp\\. | ssp\\.', x))){
+    # Handle sp. in middle of string (followed by comma and space)
+    x <- gsub(' sp\\., ', '} sp., \\\\textit{', x)
+    # Handle sp. at end of string (remove the trailing })
+    x <- gsub(' sp\\.}$', '} sp.', x)
 
-  if(any(grep(' sp..| s.p[.]| var. | subsp. ', x)) == TRUE){
-    x <- gsub(' sp[.], ', '* sp., *', x)
-    x <- gsub(' sp[.]\\*$', '* sp.', x)
-    x <- gsub(' spp[.]\\*$', '* spp.', x)
-    x <- gsub(' spp[.], ', '* spp., *', x)
+    # Handle spp. in middle of string (followed by comma and space)
+    x <- gsub(' spp\\., ', '} spp., \\\\textit{', x)
+    # Handle spp. at end of string (remove the trailing })
+    x <- gsub(' spp\\.}$', '} spp.', x)
 
-    # infraspecies will always have a space before and after - WORKING
-    x <- gsub(' ssp[.] ', '* ssp. *', x)
-    x <- gsub(' ssp[.]\\*$', '* ssp.', x)
-    x <- gsub(' var[.] ', '* var. *', x)
-    x <- gsub(' subsp[.] ', '* spp. *', x)
+    # Handle subspecies abbreviations (always have space before and after, or at end)
+    x <- gsub(' ssp\\. ', '} ssp. \\\\textit{', x)
+    x <- gsub(' ssp\\.}$', '} ssp.', x)
 
-    x <- gsub('  ', ' ', x)
-    x <- paste0(x, '.')
-    x <- gsub("..", ".", x, fixed = TRUE)
-    x <- gsub(' sp.,*.', '* sp.', x, fixed = TRUE)
-    return(x)
+    # Handle variety (always has space before and after)
+    x <- gsub(' var\\. ', '} var. \\\\textit{', x)
+
+    # Handle subspecies (convert to ssp. and remove trailing })
+    x <- gsub(' subsp\\. ', '} ssp. \\\\textit{', x)
+    x <- gsub(' subsp\\.}$', '} ssp.', x)
   }
 
-  x <- gsub('  ', ' ', x)
-  x <- paste0(x, '.')
-  x <- gsub("..", ".", x, fixed = TRUE)
-  x <- gsub(' sp.,*.', '* sp.', x, fixed = TRUE)
+  # Clean up any double spaces
+  x <- gsub('  +', ' ', x)
+
+  # Add final period if not present
+  if(!grepl('\\.$', x)){
+    x <- paste0(x, '.')
+  }
+
+  # Clean up any double periods
+  x <- gsub('\\.+', '.', x)
+
   return(x)
 }
