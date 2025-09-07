@@ -1,8 +1,8 @@
 ---
-title: "Custom label logos and maps"
+title: "Research collections template"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Custom label logos and maps}
+  %\VignetteIndexEntry{Research collections template}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -34,7 +34,7 @@ local <- file.path(path.expand('~'), 'Documents', 'assoRted', 'Barneby_Lives_dev
 l.nevadense <- collection_examples |>
   filter(Collection_number == 2823) |>
   mutate(
-    Project_name = 'Custom Fonts', 
+    Project_name = 'Research Notes', 
     Coordinate_uncertainty = '+/- 5m', 
     Notes = 'Permit No.: XXXXX from Agency ZYX, Date: XX.XX.2025. Collected under NSF XXXXX, "catchy project name". DNA extracted from silica gel dried leaf tissue (additional material in ZYX biorepository) accession No.: XXXXX. Sequences available on NCBI SRA as PRJXYZYXYXY.'
     )
@@ -60,17 +60,13 @@ file.copy(
 
 
 ```{r actually render labels, echo = F, eval = F}
-local <- file.path(path.expand('~'), 'Documents', 'assoRted', 'Barneby_Lives_dev', 'LabelStyles')
-
 purrr::walk(
   .x = l.nevadense$Collection_number,
-  .f = function(x) {
-    rmarkdown::render(
-      input = file.path(local, 'skeleton-research.Rmd'),
-      output_file = file.path(local, as.character(glue::glue("research{x}.pdf"))),
-      params = list(Collection_number = {.x}) 
-    )
-  }
+  ~ rmarkdown::render(
+    input = file.path(local, 'skeleton-research.Rmd'), 
+    output_file = file.path(local, paste0('research', glue::glue("{.x}.pdf"))), 
+    params = list(Collection_number = {.x}) 
+  )
 )
 ```
 

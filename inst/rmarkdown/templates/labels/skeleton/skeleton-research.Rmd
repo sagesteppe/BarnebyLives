@@ -38,9 +38,6 @@ record[char_col_names] <- lapply(record[char_col_names], escape_latex)
 \uppercase{`r record[['Family']]`}
 \end{flushright}
 
-\noindent
-\begin{minipage}[t]{0.78\textwidth}\vspace*{0pt}
-
 \begingroup
 \large
 `r writer(paste(record[['Genus']], record[['Epithet']]), italics = TRUE)` `r writer(record[['Binomial_authority']])` `r writer(record[['Infrarank']])` `r writer(record[['Infraspecies']], italics = TRUE)` `r writer(record[['Infraspecific_authority']])`  
@@ -61,7 +58,7 @@ Veg.: `r species_font(record[['Vegetation']])` `r associates_writer(record[['Ass
 `r writer_fide(record)`
 \endgroup
 
-\small
 \begingroup
+\small
 `r writer(record[['Notes']])`  
 \endgroup

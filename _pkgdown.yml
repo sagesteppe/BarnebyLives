@@ -101,3 +101,6 @@ articles:
   - title: Custom labels with logos
     contents:
       - "custom_label_logos_maps"
+  - title: Research collections template
+    contents: 
+      - "research_collections_template"

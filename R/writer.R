@@ -88,7 +88,7 @@ writer_fide <- function(x) {
     if (grepl('\\(.*\\)', x$Fide)) {
       fide_base <- paste0(
         # write everything up to the parenthesis
-        paste0('Fide: \\\\textit{', gsub('\\(.*$', '', x$Fide), '}'),
+        paste0('Fide: \\textit{', gsub('\\(.*$', '', x$Fide), '}'),
         paste0('(', gsub('.*\\(|\\).*', '', x$Fide), ')')
       )
 
@@ -96,7 +96,7 @@ writer_fide <- function(x) {
       if (nchar(gsub('.*\\)', '', x$Fide)) > 0) {
         paste0(
           fide_base,
-          paste0(' \\\\textit{', gsub('.*\\)', '', x$Fide), '}'),
+          paste0(' \\textit{', gsub('.*\\)', '', x$Fide), '}'),
           ', det.: ',
           x$Determined_by,
           ', ',
@@ -118,7 +118,7 @@ writer_fide <- function(x) {
       # IF dispatch 1 finds no '()' return a nice simple string.
       # return a nice uncomplicated string without parentheses
       paste0(
-        'Fide: \\\\textit{',
+        'Fide: \\textit{',
         sub(' Flora ', ' Fl. ', x$Fide),
         '}, det.: ',
         x$Determined_by,
