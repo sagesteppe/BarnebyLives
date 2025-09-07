@@ -44,20 +44,24 @@ record[char_col_names] <- lapply(record[char_col_names], escape_latex)
 \begingroup
 \large
 `r writer(paste(record[['Genus']], record[['Epithet']]), italics = TRUE)` `r writer(record[['Binomial_authority']])` `r writer(record[['Infrarank']])` `r writer(record[['Infraspecies']], italics = TRUE)` `r writer(record[['Infraspecific_authority']])`  
-`r writer_fide(record)`
-\normalsize
 \endgroup
 
-\vspace*{\fill}
+\vspace{\fill}
 \begingroup
+\normalsize
 `r record[['Gen']]`. `r writer(record[['Site']])` `r record[['latitude_dd']]` `r record[['longitude_dd']]` (`r record[['Datum']]` `r writer(record[['Coordinate_Uncertainty']])`).
 
 `r writer(record[['Habitat']])`. `r record[['physical_environ']]`  
 Veg.: `r species_font(record[['Vegetation']])` `r associates_writer(record[['Associates']])`
-`r writer(record[['Notes']])`  
 \endgroup
  
-\vspace*{\fill}
+\vspace{\fill}
 \begingroup
 `r collection_writer(record)`
+`r writer_fide(record)`
+\endgroup
+
+\small
+\begingroup
+`r writer(record[['Notes']])`  
 \endgroup

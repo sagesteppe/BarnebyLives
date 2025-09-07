@@ -41,7 +41,7 @@ l.nevadense <- collection_examples |>
 write.csv(l.nevadense, file.path(local, 'SoS-ExampleCollection.csv'), row.names = F)
 ```
 
-Label templates can be copied from their original locations using the following code.  
+Label templates can be copied from their original locations to a more common directory for a user to interface with.
 
 ```{r copy a template to a local directory, eval = F}
 p2lib <- file.path(
@@ -90,16 +90,19 @@ map_maker(
 
 ```{r actually render labels, echo = F, eval = F}
 local <- file.path(path.expand('~'), 'Documents', 'assoRted', 'Barneby_Lives_dev', 'LabelStyles')
+
 purrr::walk(
   .x = l.nevadense$Collection_number,
-  ~ rmarkdown::render(
-    input = file.path(local, 'skeleton-maps.Rmd'), 
-    output_file = file.path(local, paste0('map', glue::glue("{.x}.pdf"))), 
-    params = list(
-      Collection_number = .x, 
-      imagepath = file.path(local, 'maps')
+  .f = function(x) {
+    rmarkdown::render(
+      input = file.path(local, 'skeleton-maps.Rmd'),
+      output_file = file.path(local, as.character(glue::glue("map{x}.pdf"))),
+      params = list(
+        Collection_number = x,
+        imagepath = file.path(local, 'maps')
       )
-   )
+    )
+  }
 )
 ```
 
@@ -115,7 +118,7 @@ output:
     keep_tex: true
 params:
   Collection_number: NULL
-  imagepath: NULL # new parameters
+  imagepath: NULL # new parameter 
 geometry: paperheight=4in,paperwidth=4in,margin=0.1in
 header-includes:
   - \pagenumbering{gobble}

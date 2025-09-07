@@ -48,9 +48,8 @@ record[char_col_names] <- lapply(record[char_col_names], escape_latex)
 
 \begingroup
 \large
-`r writer(paste(record[['Genus']], record[['Epithet']]), italics = TRUE)` `r writer(record[['Binomial_authority']])` `r writer(record[['Infrarank']])` `r writer(record[['Infraspecies']], italics = TRUE)` `r writer(record[['Infraspecific_authority']])`  
+`r writer(paste(record[['Genus']], record[['Epithet']]), italics = TRUE)` `r writer(record[['Binomial_authority']])` `r writer(record[['Infrarank']])` `r writer(record[['Infraspecies']], italics = TRUE)` `r writer(record[['Infraspecific_authority']])`
 \normalsize
-`r writer_fide(record)`
 \endgroup
 
 \vspace{\fill}
@@ -69,6 +68,7 @@ Veg.: `r species_font(record[['Vegetation']])` `r associates_writer(record[['Ass
 \begin{minipage}[t]{0.75\textwidth}
   \begingroup 
   `r collection_writer(record)`
+  `r writer_fide(record)`
   \endgroup
 \end{minipage}%
 \hfill

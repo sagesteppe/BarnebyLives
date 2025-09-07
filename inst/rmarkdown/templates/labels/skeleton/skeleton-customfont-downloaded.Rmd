@@ -31,7 +31,7 @@ knitr::opts_chunk$set(warning = FALSE)
 library(BarnebyLives)
 ```
 
-```{r load data}
+```{r load data, eval = T}
 local <- file.path('~', 'Documents', 'assoRted', 'Barneby_Lives_dev', 'LabelStyles')
 
 record <- read.csv(file.path(local, 'SoS-ExampleCollection.csv')) |>
