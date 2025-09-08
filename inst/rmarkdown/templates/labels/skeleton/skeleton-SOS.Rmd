@@ -45,7 +45,7 @@ record[char_col_names] <- lapply(record[char_col_names], escape_latex)
 
 \vspace{\fill}
 \begingroup
-`r record[['Gen']]`. `r writer(record[['Site']])` `r record[['latitude_dd']]` `r record[['longitude_dd']]` (`r record[['Datum']]` `r writer(record[['Coordinate_Uncertainty']])`).
+`r record[['Gen']]`. `r writer(record[['Site']])` `r record[['latitude_dd']]` `r record[['longitude_dd']]` (`r record[['Datum']]` `r writer(record[['Coordinate_uncertainty']])`).
 
 
 `r writer(record$Habitat)`. `r record[['physical_environ']]`  

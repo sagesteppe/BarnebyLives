@@ -74,6 +74,6 @@ purrr::walk(
 
 and you will then end up with 
 
-![*Map*](../man/figures/Map-2823.png)  
+![*Resarch Label*](../man/figures/research2823.png)  
 <br>
 
