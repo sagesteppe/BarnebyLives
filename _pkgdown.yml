@@ -8,7 +8,7 @@ navbar:
     right: [search, github]
   components:
     news:
-      text: "news"
+      text: "News"
       href: news.html
     data-sources:
       text: "Alternative Data Sources"
@@ -80,27 +80,23 @@ reference:
       - writer2
 
 articles:
-  - title: Setup
+  - title: "Data cleaning and pulling"
+    desc:
     contents:
-      - "setting_up_files"
-  - title: Running pipeline
-    contents:
-      - "running_pipeline"
-  - title: Printing labels and exporting data
-    contents:
-      - "creating_labels"
-  - title: Creating shipping manifests
-    contents:
-      - "rendering_shipping_manifests"
-  - title: General Label Customization
+    - setting_up_files
+    - running_pipeline
+  - title: "General label and manifest creation"
+    desc: "Creating labels from default templates"
     contents: 
-      - "custom_label_templates"
-  - title: Using custom fonts
+    - creating_labels
+    - rendering_shipping_manifests
+  - title: "Customizing labels" 
+    desc: "User specified label modifications"
     contents:
-      - "custom_label_fonts"
-  - title: Custom labels with logos
-    contents:
-      - "custom_label_logos_maps"
+    - custom_label_templates
+    - custom_label_fonts
+    - custom_label_logos_maps
   - title: Research collections template
     contents: 
-      - "research_collections_template"
+    - "research_collections_template"
+
