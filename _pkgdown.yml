@@ -96,7 +96,7 @@ articles:
     - custom_label_templates
     - custom_label_fonts
     - custom_label_logos_maps
-  - title: Built in templates
+  - title: "Built in templates"
     contents: 
-    - "built_in_templates"
+    - built_in_templates
 
