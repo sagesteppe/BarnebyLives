@@ -90,3 +90,4 @@ purrr::walk(
 ![*Modern Label*](../man/figures/modern2823.png)  
 
 ## Seeds of Success template
+
