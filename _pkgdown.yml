@@ -96,7 +96,7 @@ articles:
     - custom_label_templates
     - custom_label_fonts
     - custom_label_logos_maps
-  - title: Research collections template
+  - title: Built in templates
     contents: 
-    - "research_collections_template"
+    - "built_in_templates"
 

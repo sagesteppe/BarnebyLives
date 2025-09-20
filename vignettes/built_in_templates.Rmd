@@ -42,8 +42,6 @@ BL has six major standard templates - further details on several of them are in 
 For example 1) `maps`, 2) `logos` are treated in `Custom label logos and maps`, and customizing two additional basic skeletons is treated in 3) `custom label fonts`. 
 This is a brief overview of what the 4) `modern`, 5) `research`, 6) `SOS` templates look like. 
 
-## Modern Label
-
 ## Research Label
 
 Label templates can be copied from their original locations to a more common directory for a user to interface with.
@@ -87,3 +85,8 @@ purrr::walk(
   )
 )
 ```
+
+
+![*Modern Label*](../man/figures/modern2823.png)  
+
+## Seeds of Success template
