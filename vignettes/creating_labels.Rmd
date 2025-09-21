@@ -64,7 +64,7 @@ Before you let `purrr::walk` through the labels to make, you can copy the label 
 This following code chunk below will search for your current version of R, and then we can bring the template over from the BarnebyLives directory which holds the package. 
 As mentioned BarnebyLives is a weirdo of an r package, so we are also specifying the location within the package which holds the actual template ('skeleton') which we will populate our labels values into. 
 
-```{r Copy the label template to a more accessible location}
+```{r Copy the label template to a more accessible location 1}
 p2libs <- system.file(package = 'BarnebyLives')
 
 folds <- file.path(
