@@ -69,7 +69,7 @@ purrr::walk(
 
 ## Modern label
 
-```{r actually render labels, echo = F, eval = F}
+```{r actually render labels 2, echo = F, eval = F}
 l.nevadense <- l.nevadense |>
   mutate( Project_name = 'Modern' )
 
