@@ -33,7 +33,6 @@ p2lib <- file.path(
   system.file(package = 'BarnebyLives'),
   'rmarkdown', 'templates', 'labels', 'skeleton'
   )
-
 ```
 
 ## Overview 

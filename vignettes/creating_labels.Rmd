@@ -34,6 +34,29 @@ dir.create('HerbariumLabels/raw')
 p <- '~/Documents/HerbariumLabels/raw'
 ```
 
+
+Now we will need to copy a skeleton from the package to work with. 
+We can access skeletons from the packages installation like this. 
+```{r Copy the label template to a more accessible location}
+p2libs <- system.file(package = 'BarnebyLives')
+
+folds <- file.path(
+   'rmarkdown', 'templates', 'labels', 'skeleton', 'skeleton.Rmd')
+
+file.copy(folds, p)
+```
+
+Your directory should end up looking like this. 
+```{r, eval = F}
+~/Documents/HerbariumLabels/
+├── raw/           # intermediate single-label PDFs
+├── final/         # mosaiced sheets (optional, after combining)
+└── skeleton.Rmd   # label template (copied from BarnebyLives)
+```
+
+NOTE
+
+
 You can use a `purrr` function, `walk`, to write many labels one after another in the following fashion. Be sure to specify reasonable paths to write to!
 BL will create a temporary 'raw' file in location, which will store the intermediary labels. 
 

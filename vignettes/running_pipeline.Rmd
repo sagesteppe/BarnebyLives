@@ -1,10 +1,14 @@
 ---
 title: "BarnebyLives! Running pipeline"
 output: rmarkdown::html_vignette
+date: "`r Sys.Date()`"
 vignette: >
   %\VignetteIndexEntry{BarnebyLives! Running pipeline}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+description: >
+  How to download and configure taxonomic and geographic datasets required
+  for a working BarnebyLives instance.
 ---
 
 ```{r, echo = FALSE}
@@ -19,7 +23,7 @@ Here we will go over ensuring that values which will be printed onto herbarium l
 It is our experience that many herbaria now request digital copies of collection information in their own format. 
 This script aims to alleviate the investment in time this requires, and in doing so allow the collector more time to do less onerous tasks; such as collection and study. 
 
-While in theory all of the tasks in this script could be automated, doing so would be an unconscionable action against local taxonomic authorities. 
+While in theory all of the tasks in this script could be automated, doing so neglect the opinions of local taxonomic authorities. 
 While several database options for updating collections (and spell checking names) which are current and well curated (e.g. Kew Plants of the World) exist, we feel many proposals and combinations require interpretation by those in the regions attempting to understand the material at hand. 
 
 This script will perform the following tasks.  
@@ -47,7 +51,8 @@ This script will perform the following tasks.
 
 ### Directions  
 
-I preface this with the observation that a good deal of collectors and curators consider these data non-essential now. Regardless, if you are so inclined to gain access to a free google maps account these services are provided. 
+I preface this with the observation that a good deal of collectors and curators consider these data non-essential now. 
+Regardless, if you are so inclined to gain access to a free google maps account these services are provided. 
 
 **1)** Write directions, from a town of notable size or repute, to the closet parking spot to the collection locality.
 
@@ -130,7 +135,6 @@ dplyr::select(data, starts_with('Date')) %>%
 
 ### Conversion of Degrees Minutes Seconds (DMS) to Decimal Degrees (DD). 
 The DMS format is still used in a few applications we will convert this to the more generally utilized DD format. 
-Although DMS is certainly prettier to read, DD is just used so much more often we change everything to it. Sad. 
 We will maintain both formats in the data set, so others have them readily available for other uses aside from creating herbarium labels. 
 
 ```{r Conversion of Degrees Minutes Seconds (DMS) to Decimal Degrees (DD), eval = F}
@@ -189,11 +193,6 @@ data <- site_writer(data, path = p)
 
 BarnebyLives acquires a range of characteristics which are useful to describe the physical environment, these are: elevation (both meters and feet), slope, aspect, surficial geology, and geomorphons.  
 
-While most of BarnebyLives is dedicated towards addressing the peeves of curators with too much time on their hands, this module is for me. 
-What I generally see, if people even both to describe the site at all, is that they are laser focused on a tiny micro-environment that they collected the individual plant in - not the characteristics of the population or even the general area of the population they are seeing. 
-I don't dislike these notes, in fact I find them of the utmost value. 
-However, even those inclusions exist within a broader context, which is doing much habitat filtering in and of itself, and without this relation the obscurity of these certain habitats can be lost. 
-
 Here are some details on some of the data sets which we are using. 
 All elevation data come from [DEM90](https://www.earthenv.org/DEM), as the name implies this data set is at roughly 90 meters of roughly in the X and Y dimensions. 
 This product is then used to derive both slope (in degrees) and aspect (in degrees) information. 
@@ -202,7 +201,6 @@ An aspect of East states that water would flow downslope to the east.
 Surficial geology data are acquired from the United States Geological Survey, it works very well for characterizing major geology types in an area, although you may be on a minor inclusion within that material. 
 Geomorphons are a bit more peculiar, they may refer to several things, but here they refer to [10 standardized landform positions](https://www.sciencedirect.com/science/article/abs/pii/S0169555X12005028) [Geomorpho90m](https://portal.opentopography.org/dataspace/dataset?opentopoID=OTDS.012020.4326.1), which are useful for characterizing landform position. 
 These are useful for spatial ecology and describe where on the landscape the population was broadly located. 
-Generally 'Valleys' tend to eat up more land cover than they should, often extending up into alluvial fans, but I find them very useful for describing roughly where on the landscape the population is. 
 
 ```{r, eval = F}
 data <- physical_grabber(data, path = p)
@@ -233,28 +231,26 @@ The list which is consults *is* comprehensive, within a few years, of all taxono
 data <- author_check(data, path = p)
 ```
 
-The final process in the taxonomic step is to ensure that the spellings of any species noted in the *vegetation*, or *associates* fields are accurate. These *will not* then be submitted to Kew, as the fields could quickly overwhelm the API. 
+The final process in the taxonomic step is to ensure that the spellings of any species noted in the *vegetation*, or *associates* fields are accurate. 
+These *will not* then be submitted to Kew, as the fields could quickly overwhelm the API. 
 
 ```{r check spellings of vegetation and associated species, eval = F}
 data <- associates_spell_check(data, 'Associates', path = p) # we can run on both columns. 
 data <- associates_spell_check(data, 'Vegetation', path = p)
 ```
 
-Remove the collected species from the list of associated species. Many collectors will include the focal collection in 
-the list of associated species when performing data entry for a site. We can remove it here.
+Remove the collected species from associated species lists.
+Many collectors include the focal collection when performing data entry.
 
 ```{r drop focal species from associated species, eval = F}
 data <- associate_dropper(data, 'Full_name', col  = 'Associates')
 data <- associate_dropper(data, 'Full_name', col  = 'Vegetation')
 ```
 
-After BarnebyLives! has verified the spelling of the species it will submit it to Plants of the World Online to determine whether a more current and accepted name has been applied. 
-BL! will not automatically over-write your submitted species, and it is important that you interpret the results of query.
-Especially as it is possible that **spell_check** has mis-matched your material to another name. 
+After BarnebyLives verifies spelling, it submits names to Plants of the World Online to check for synonymy. 
+BL will not automatically overwrite your submitted species - interpretation of results is important, especially as *spell_check* may occasionally mis-match material.
 
-Searches for synonym to species
 ```{r Search for synonyms to species, eval = F}
-
 names <- sf::st_drop_geometry(data) %>% 
   pull(Full_name)
 
@@ -279,13 +275,13 @@ directions <- directions_grabber(data, api_key = SoS_gkey)
 # Export collections
 
 We will write these data to Google sheets for our examples. 
-
 ```{r write out data to googlesheets4, eval = F}
 
 # first ensure the columns are in the same order as google sheets
 
-processed <- read_sheet('1iOQBNeGqRJ3yhA-Sujas3xZ2Aw5rFkktUKv3N_e4o8M',
-                        sheet = 'Processed - Examples') %>% 
+processed <- read_sheet(
+  '1iOQBNeGqRJ3yhA-Sujas3xZ2Aw5rFkktUKv3N_e4o8M',
+  sheet = 'Processed - Examples') %>% 
   colnames() 
 
 df <- sf::st_drop_geometry(directions) %>% 
@@ -297,7 +293,6 @@ sheet_append('1iOQBNeGqRJ3yhA-Sujas3xZ2Aw5rFkktUKv3N_e4o8M',
 ```
 
 We can also export collections as either (or both!) a 'shapefile' or KML for use in GIS or GoogleEarth.
-
 ```{r write out collections in a spatial data format, eval = F}
 geodata_writer(data, path = 'someplace', 
                filename = 'Herbarium_Collections_2023',
