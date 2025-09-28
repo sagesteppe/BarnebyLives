@@ -17,7 +17,6 @@
 #'   x = c(-117, -119, -119, -117, -117)
 #' )
 #'
-#'
 #' setwd('/media/steppe/hdd/BL_sandbox/geodata_raw')
 #' data_setup(path = '.', pathOut = '../geodata', bound = bound, cleanup = FALSE)
 #' }
@@ -51,51 +50,83 @@ data_setup <- function(path, pathOut, bound, cleanup) {
     )
   )
 
-  lapply(zzzs, FUN = function(x) {
-    out <- gsub('[.]zip', '', x)
-    unzip(x, exdir = out)
+  lapply(zzzs, function(x) {
+    out <- gsub('[.]zip$', '', x)
+    if (dir.exists(out) && length(list.files(out)) > 0) {
+      message(crayon::yellow(
+        "Skipping already-unzipped archive: ",
+        basename(x)
+      ))
+    } else {
+      message(crayon::green("Extracting: ", basename(x)))
+      unzip(x, exdir = out)
+    }
   })
+
+  safe_run <- function(step_name, expr) {
+    tryCatch(
+      expr,
+      error = function(e) {
+        message(crayon::red(paste0("Error in ", step_name, ": ", e$message)))
+      }
+    )
+  }
 
   # use tiles to create many smaller rasters, rather than one really big raster.
   mt <- make_tiles(bound, bb_vals)
   tile_cells <- mt$tile_cells
   tile_cellsV <- mt$tile_cellsV
 
-  ##### now crop the data to the extents of analysis. ####
-  mason(path, pathOut, tile_cellsV)
+  success <- TRUE
+  steps <- list(
+    mason = function() mason(path, pathOut, tile_cellsV),
+    make_it_political = function() make_it_political(path, pathOut, tile_cells),
+    process_gmba = function() process_gmba(path, pathOut, tile_cells),
+    process_gnis = function() process_gnis(path, pathOut, bound),
+    process_padus = function() process_padus(path, pathOut, bound, tile_cells),
+    geological_map = function() geological_map(path, pathOut, tile_cells),
+    process_grazing_allot = function() {
+      process_grazing_allot(path, pathOut, tile_cells)
+    },
+    process_plss = function() process_plss(path, pathOut, tile_cells)
+  )
 
-  ## now combine all of the administrative data into a single vector file.
-  make_it_political(path, pathOut, tile_cells)
+  for (nm in names(steps)) {
+    message(crayon::blue("Running step: ", nm))
+    ok <- tryCatch(
+      {
+        steps[[nm]]()
+        TRUE
+      },
+      error = function(e) {
+        message(crayon::red("Error in ", nm, ": ", e$message))
+        FALSE
+      }
+    )
+    if (!ok) {
+      success <- FALSE
+      break
+    }
+  }
 
-  #### process the GMBA data
-  process_gmba(path, pathOut, tile_cells)
+  # --- Cleanup ---
+  if (success) {
+    message(crayon::green("All steps succeeded. Cleaning up unzipped data..."))
+    dirs <- list.dirs(path, recursive = FALSE)
+    lapply(dirs, unlink, recursive = TRUE)
+  } else {
+    message(crayon::yellow(
+      "Not all steps succeeded. Preserving unzipped data for debugging."
+    ))
+  }
 
-  ### crop geographic place name database to extent
-  process_gnis(path, pathOut, bound)
-
-  ## crop PADUS to domain
-  process_padus(path, pathOut, bound, tile_cells)
-
-  ## geological map
-  geological_map(path, pathOut, tile_cells)
-
-  ## Process grazing allotments
-  process_grazing_allot(path, pathOut, tile_cells)
-
-  ## Public land survey system
-  process_plss(path, pathOut, tile_cells)
-
-  # remove the extracted zip files
-  dirs <- list.dirs('geodata_raw', recursive = FALSE)
-  lapply(dirs, unlink, recursive = TRUE)
-
-  if (cleanup == TRUE) {
-    # remove original zip files.
+  if (cleanup && success) {
+    # remove original zip files too
     zzzs <- file.path(path, list.files(path = path, pattern = '*.[.]zip$'))
-    lapply(zzzs, FUN = function(x) {
-      out <- gsub('[.]zip', '', x)
-      unzip(x, exdir = out)
-    })
+    lapply(zzzs, unlink)
+    message(crayon::green(
+      "all steps succeeded. Original data downloads removed to save memory."
+    ))
   }
 }
 
@@ -148,28 +179,47 @@ make_tiles <- function(bound, bb_vals) {
 mason <- function(path, pathOut, tile_cellsV) {
   paths2rast <- file.path(
     path,
-    list.files(path, recursive = T, pattern = '[.]tar')
+    list.files(path, recursive = TRUE, pattern = '[.]tar(\\.gz)?$')
   )
 
   prods <- c('aspect', 'dem', 'geom', 'slope')
   for (i in seq_len(length(prods))) {
     outdir <- file.path(pathOut, prods[i])
     if (!dir.exists(outdir)) {
-      dir.create(outdir) # test the path works before running the big steps...
+      dir.create(outdir) # ensure output dir exists
 
       # extract all data and temporarily dump into a single directory
       message(crayon::green(
-        'Beginning extraction of raster files:',
+        "Beginning extraction of raster files:",
         prods[i],
         format(Sys.time(), "%X")
       ))
+
       f <- paths2rast[grep(prods[i], paths2rast)]
-      temp <- file.path(dirname(f[i]), prods[i])
-      sapply(X = f, FUN = untar, exdir = temp)
+      if (length(f) == 0) {
+        message(crayon::yellow(
+          "No archives found for ",
+          prods[i],
+          ". Skipping."
+        ))
+        next
+      }
+
+      temp <- file.path(dirname(f[1]), prods[i])
+      if (!dir.exists(temp)) {
+        dir.create(temp, recursive = TRUE)
+      }
+
+      invisible(lapply(f, function(x) {
+        tryCatch(
+          safe_untar(x, exdir = temp, verbose = TRUE),
+          error = function(e) {
+            message(crayon::red("Problem extracting ", x, ": ", e$message))
+          }
+        )
+      }))
 
       # now form a VRT, meaning files don't need to be read into active memory (RAM)
-      # all at once. Now crop all files to the extent of the spatial domain we are
-      # setting the program up for.
       paths <- file.path(
         temp,
         list.files(temp, pattern = '[.]tif$', recursive = TRUE)
@@ -179,11 +229,11 @@ mason <- function(path, pathOut, tile_cellsV) {
 
       # set file names
       columns <- terra::values(tile_cellsV)
-      cellname <- columns[, 'cellname']
+      cellname <- columns[, "cellname"]
 
       # write out product
       message(crayon::green(
-        'Starting to write out final raster files for:',
+        "Starting to write out final raster files for:",
         prods[i],
         format(Sys.time(), "%X")
       ))
@@ -192,19 +242,18 @@ mason <- function(path, pathOut, tile_cellsV) {
         virtualRast_sub,
         tile_cellsV,
         filename = fname,
-        na.rm = F
+        na.rm = FALSE
       )
 
-      # remove connection to the vrt
+      # clean up
       rm(virtualRast_sub)
-      # try and force garbage collection
-      # remove extracted dir.
-      unlink(file.path(dirname(f[i]), prods[i]), recursive = TRUE)
+      unlink(temp, recursive = TRUE)
       gc()
     }
   }
+
   message(crayon::green(
-    'Done with processing raster data. ',
+    "Done with processing raster data. ",
     format(Sys.time(), "%X")
   ))
 }
@@ -285,6 +334,10 @@ places_and_spaces <- function(path, pathOut, bound) {
   # this will drop location coordinates to 3 decimal places.
 
   sf::st_write(pathOut, 'places.shp', append = FALSE)
+  message(crayon::green(
+    "Done with writing `places` data set. ",
+    format(Sys.time(), "%X")
+  ))
 }
 
 
@@ -310,6 +363,11 @@ process_gmba <- function(path, pathOut, tile_cells) {
     quiet = TRUE,
     append = FALSE
   )
+
+  message(crayon::green(
+    "Done with writing `mountains` data set. ",
+    format(Sys.time(), "%X")
+  ))
 }
 
 
@@ -470,6 +528,11 @@ process_padus <- function(path, pathOut, bound, tile_cells) {
     quiet = TRUE,
     append = FALSE
   )
+
+  message(crayon::green(
+    "Done with writing `PADUS` data set. ",
+    format(Sys.time(), "%X")
+  ))
 }
 
 #' Set up the downloaded data for a BarnebyLives instance
@@ -505,28 +568,38 @@ geological_map <- function(path, pathOut, tile_cells) {
     quiet = TRUE,
     append = FALSE
   )
+
+  message(crayon::green(
+    "Done with writing `geology` data set. ",
+    format(Sys.time(), "%X")
+  ))
 }
+
 
 #' Set up the downloaded data for a BarnebyLives instance
 #'
 #' @description used within `data_setup`
 #' @keywords internal
 process_grazing_allot <- function(path, pathOut, tile_cells) {
-  p <- file.path(
-    path,
-    'BLMAllotments',
-    'BLM_Natl_Grazing_Allotment_Polygons.shp'
-  )
-  p1 <- file.path(path, 'USFSAllotments', 'S_USA.Allotment.shp')
-  blm <- sf::st_read(p, quiet = TRUE) |>
-    dplyr::select(ALLOT_NAME)
+  datasets <- c('BLMAllotments', 'USFSAllotments')
 
-  usfs <- sf::st_read(p1, quiet = TRUE) |>
-    dplyr::select(ALLOT_NAME = ALLOTMENT_)
+  paths <- vector(length = 2)
+  base <- vector(length = 2)
+  shp <- vector(mode = 'list', length = 2)
 
-  allotments <- dplyr::bind_rows(blm, usfs) |>
+  for (i in seq_along(datasets)) {
+    base[i] <- file.path(path, datasets[i])
+    paths[i] <- file.path(base[i], list.files(base[i], pattern = 'shp$'))
+
+    shp[[i]] <- st_read(paths[i], quiet = TRUE) |>
+      dplyr::select(ALLOT_NAME)
+  }
+
+  allotments <- dplyr::bind_rows(shp) |>
     sf::st_make_valid()
+
   tile_cells <- sf::st_transform(tile_cells, sf::st_crs(allotments))
+
   sf::st_agr(tile_cells) = "constant"
   sf::st_agr(allotments) = "constant"
 
@@ -545,6 +618,11 @@ process_grazing_allot <- function(path, pathOut, tile_cells) {
     append = FALSE,
     dsn = file.path(pathOut, 'allotments', 'allotments.shp')
   )
+
+  message(crayon::green(
+    "Done with writing `allotments` data set. ",
+    format(Sys.time(), "%X")
+  ))
 }
 
 #' Set up the downloaded data for a BarnebyLives instance
@@ -552,35 +630,217 @@ process_grazing_allot <- function(path, pathOut, tile_cells) {
 #' @description used within `data_setup`
 #' @keywords internal
 process_plss <- function(path, pathOut, tile_cells) {
-  p <- file.path(path, 'PLSS', 'ilmocplss.gdb')
-  township <- sf::st_read(p, layer = 'PLSSTownship', quiet = TRUE)
-  township <- township |>
-    sf::st_cast('POLYGON') |>
-    dplyr::select(TWNSHPLAB, PLSSID) |>
-    sf::st_make_valid() |>
-    sf::st_transform(4269)
+  p <- file.path(path, "PLSS", "ilmocplss.gdb")
 
-  tile_cells <- sf::st_transform(tile_cells, sf::st_crs(township))
-  township <- township[
-    sf::st_intersects(township, tile_cells) %>% lengths > 0,
-  ]
-  township <- sf::st_drop_geometry(township)
+  # --- Township layer ---
+  township <- safe_step("read township", {
+    sf::st_read(p, layer = "PLSSTownship", quiet = TRUE) |>
+      dplyr::select(TWNSHPLAB, PLSSID)
+  })
+  township_crs <- sf::st_crs(township)
 
-  section <- sf::st_read(p, layer = 'PLSSFirstDivision', quiet = TRUE)
-  section <- dplyr::right_join(
-    section,
-    township,
-    'PLSSID',
-    relationship = "many-to-many"
+  # --- Adaptive buffer calc ---
+  bbox_proj <- tile_cells |>
+    sf::st_union() |>
+    sf::st_transform(5070) |>
+    sf::st_bbox()
+
+  width_miles <- (bbox_proj["xmax"] - bbox_proj["xmin"]) / 1609.34
+  n_cells <- dplyr::case_when(
+    width_miles < 30 ~ 1,
+    width_miles < 60 ~ 2,
+    width_miles < 120 ~ 3,
+    width_miles < 180 ~ 4,
+    TRUE ~ 5
   )
 
-  trs <- section |>
-    sf::st_cast('POLYGON') |>
-    dplyr::select(FRSTDIVLAB, PLSSID, FRSTDIVID, TWNSHPLAB) |>
-    sf::st_make_valid() |>
-    dplyr::mutate(TRS = paste(TWNSHPLAB, FRSTDIVLAB)) |>
-    dplyr::select(trs = TRS, Geometry = Shape)
+  # buffer in township CRS units
+  if (tolower(township_crs$units_gdal) == "degree") {
+    buffer <- (n_cells * 6.01) / 69 # degrees
+    unit_label <- "°"
+  } else {
+    buffer <- n_cells * 6.01 * 1609.34 # meters
+    unit_label <- "m"
+  }
 
-  dir.create(file.path(pathOut, 'plss'), showWarnings = FALSE)
-  sf::st_write(trs, dsn = file.path(pathOut, 'plss', 'plss.shp'), quiet = TRUE)
+  message(crayon::silver(
+    "[process_plss] Domain ~",
+    round(width_miles, 1),
+    " mi wide → buffer = ",
+    n_cells,
+    " cells (~",
+    round(buffer, 1),
+    " ",
+    unit_label,
+    ")"
+  ))
+
+  # --- Township filter by vertex coords ---
+  tile_bbox <- tile_cells |>
+    sf::st_union() |>
+    sf::st_transform(township_crs) |>
+    sf::st_bbox()
+
+  coords <- sf::st_geometry(township) |>
+    purrr::map(~ sf::st_coordinates(.x)[1, ]) |>
+    do.call(what = rbind)
+  coords_df <- tibble::tibble(X = coords[, 1], Y = coords[, 2])
+
+  xlim <- tile_bbox[c("xmin", "xmax")] + c(-1, 1) * buffer
+  ylim <- tile_bbox[c("ymin", "ymax")] + c(-1, 1) * buffer
+  keep <- coords_df$X >= xlim[1] &
+    coords_df$X <= xlim[2] &
+    coords_df$Y >= ylim[1] &
+    coords_df$Y <= ylim[2]
+
+  message(crayon::silver(
+    "[process_plss] Kept ",
+    sum(keep),
+    "/",
+    nrow(coords_df),
+    " townships"
+  ))
+  township <- township[keep, ]
+  township <- sf::st_drop_geometry(township)
+
+  # --- Sections ---
+  section <- safe_step("read PLSSFirstDivision", {
+    sf::st_read(p, layer = "PLSSFirstDivision", quiet = TRUE)
+  })
+  section <- safe_step("join sections to townships", {
+    joined <- dplyr::right_join(
+      section,
+      township,
+      by = "PLSSID",
+      relationship = "many-to-many"
+    )
+    message(crayon::silver("[process_plss] Joined rows: ", nrow(joined)))
+    joined
+  })
+
+  # --- Clean + write ---
+  gcol <- attr(section, "sf_column")
+
+  trs <- safe_step("clean/cast/mutate", {
+    section |>
+      sf::st_zm(drop = TRUE) |>
+      sf::st_set_precision(1) |> # snap to 1 m grid
+      sf::st_make_valid() |>
+      sf::st_cast("POLYGON", warn = TRUE) |>
+      dplyr::mutate(TRS = paste(TWNSHPLAB, FRSTDIVLAB)) |>
+      dplyr::select(trs = TRS, !!gcol)
+  })
+
+  dir.create(file.path(pathOut, "plss"), showWarnings = FALSE)
+  safe_step("write shapefile", {
+    sf::st_write(
+      trs,
+      dsn = file.path(pathOut, "plss", "plss.shp"),
+      quiet = TRUE,
+      append = FALSE
+    )
+  })
+
+  message(crayon::green(
+    "Done with writing `PLSS (trs)` data set. ",
+    format(Sys.time(), "%X")
+  ))
+}
+
+
+#' Safe untar wrapper
+#'
+#' @description
+#' Internal helper around `untar()` / system tar to smooth over differences
+#' between Linux, macOS, and Windows. On macOS, prefers GNU tar (`gtar`)
+#' if available; otherwise falls back to system BSD tar and warns that
+#' hardlink issues may occur. Suggests `brew install gnu-tar` when relevant.
+#'
+#' @param archive Path to the `.tar` or `.tar.gz` file.
+#' @param exdir   Directory to extract into.
+#' @param verbose Logical; print messages about which backend is used.
+#'
+#' @keywords internal
+safe_untar <- function(archive, exdir, verbose = TRUE) {
+  os <- Sys.info()[["sysname"]]
+
+  if (os == "Darwin") {
+    if (Sys.which("gtar") != "") {
+      if (verbose) {
+        message("[safe_untar] macOS: using GNU tar (gtar).")
+      }
+      system2(
+        "gtar",
+        c("--hard-dereference", "-xf", shQuote(archive), "-C", shQuote(exdir))
+      )
+    } else {
+      if (verbose) {
+        message("[safe_untar] macOS: using BSD tar (system tar).")
+        message("[safe_untar] Install GNU tar with: brew install gnu-tar")
+      }
+      system2("tar", c("-xf", shQuote(archive), "-C", shQuote(exdir)))
+    }
+  } else {
+    if (verbose) {
+      message("[safe_untar] Using R's untar() on ", os, ".")
+    }
+    untar(archive, exdir = exdir)
+  }
+}
+
+
+#' Check whether expected output files from data_setup() exist
+#'
+#' @param pathOut Output directory used in data_setup()
+#' @return None. prints to console.
+#' @export
+#' Check and print status of data_setup outputs
+#'
+#' @param pathOut Output directory used in data_setup()
+#' @example
+#' check_data_setup_outputs(path.expand('~/Documents/BL_testing_data/geo'))
+#'
+#' @export
+check_data_setup_outputs <- function(pathOut) {
+  expected <- list(
+    political = "political/political.shp",
+    mountains = "mountains/mountains.shp",
+    places = "places/places.shp", # shared by GNIS + city points
+    gnis = "places/places.shp",
+    padus = "pad/pad.shp",
+    geology = "geology/geology.shp",
+    allotments = "allotments/allotments.shp",
+    plss = "plss/plss.shp",
+    aspect = "aspect",
+    dem = "dem",
+    geom = "geom",
+    slope = "slope"
+  )
+
+  full_paths <- file.path(pathOut, unlist(expected))
+  names(full_paths) <- names(expected)
+
+  check_result <- sapply(full_paths, function(p) {
+    if (grepl("[.]shp$", p)) {
+      file.exists(p)
+    } else {
+      dir.exists(p) &&
+        length(list.files(p, pattern = "[.]tif$", full.names = TRUE)) > 0
+    }
+  })
+
+  present <- names(check_result)[check_result]
+  missing <- names(check_result)[!check_result]
+
+  cat(crayon::green("Success:\n"))
+  for (p in present) {
+    cat(crayon::green(paste0("  - ", p)), "\n")
+  }
+  cat(crayon::silver("\n====\n\n"))
+  cat(crayon::red("Works in progress:\n"))
+  for (m in missing) {
+    cat(crayon::red(paste0("  - ", m)), "\n")
+  }
+
+  invisible(NULL)
 }

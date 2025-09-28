@@ -29,8 +29,7 @@ data_download <- function(path) {
   counties_dl(path)
   GMBA_dl(path)
   allotments_dl(path)
-  GNIS_dl(path)
-
+  GNIS_dl(path) #
   PLSS_dl(path) # a slow one !
   SGMC_dl(path) # hardly ever works
 }
@@ -99,26 +98,27 @@ PLSS_dl <- function(path) {
 allotments_dl <- function(path) {
   # works
 
-  fp <- file.path(path, 'USFSAllotments.zip')
-  if (file.exists(fp)) {
-    message('Product `USFSAllotments` already downloaded. Skipping.')
-  } else {
-    URL <- "https://data.fs.usda.gov/geodata/edw/edw_resources/shp/S_USA.Allotment.zip"
-    httr::GET(URL, httr::progress(), httr::write_disk(fp, overwrite = TRUE))
-  }
+  prod <- c('USFSAllotments', 'BLMAllotments')
+  fp <- file.path(path, paste0(prod, '.zip'))
+  mss <- paste('Product', prod, 'already downloaded. Skipping.')
+  URL <- c(
+    'https://data-usfs.hub.arcgis.com/api/download/v1/items/f8872f1c70d34376b515e0ea90a868d5/shapefile?layers=0',
+    'https://gbp-blm-egis.hub.arcgis.com/api/download/v1/items/0882acf7eada4b3bafee4dd673fbe8a0/shapefile?layers=1'
+  )
 
-  fp <- file.path(path, 'BLMAllotments.zip')
-  if (file.exists(fp)) {
-    message('Product `BLMAllotments` already downloaded. Skipping.')
-  } else {
-    URL <- "https://gbp-blm-egis.hub.arcgis.com/api/download/v1/items/0882acf7eada4b3bafee4dd673fbe8a0/shapefile?layers=1"
-    httr::GET(
-      URL,
-      httr::progress(),
-      httr::write_disk(path = fp, overwrite = TRUE)
-    )
+  for (i in seq_along(prod)) {
+    if (file.exists(fp[i])) {
+      message(mss[i])
+    } else {
+      httr::GET(
+        URL[i],
+        httr::progress(),
+        httr::write_disk(path = fp[i], overwrite = TRUE)
+      )
+    }
   }
 }
+
 
 # we can grab states by using their abbreviations...
 # 'https://mrdata.usgs.gov/geology/state/shp/IA.zip'
@@ -128,33 +128,122 @@ allotments_dl <- function(path) {
 #'
 #' @keywords internal
 SGMC_dl <- function(path) {
-  # WORKS
+  dir.create(path, showWarnings = FALSE, recursive = TRUE)
 
   fp <- file.path(path, 'SGMC.zip')
   if (file.exists(fp)) {
     message('Product `SGMC` already downloaded. Skipping.')
-  } else {
-    URL <- 'https://www.sciencebase.gov/catalog/file/get/5888bf4fe4b05ccb964bab9d?name=USGS_SGMC_Geodatabase.zip'
-    message(
-      "This website is slow, If it doesn't download.\nThen we recommend downloading the data by hand. https://mrdata.usgs.gov/geology/state/"
+    return(invisible(NULL))
+  }
+
+  url <- 'https://www.sciencebase.gov/catalog/file/get/5888bf4fe4b05ccb964bab9d?name=USGS_SGMC_Geodatabase.zip'
+
+  message(
+    crayon::cyan("Attempting to download SGMC data...\n"),
+    "This server is slow and unreliable. If this fails,\n",
+    "please download manually from:\n",
+    crayon::blue("https://mrdata.usgs.gov/geology/state/\n")
+  )
+
+  download_sgmc(dest = fp, url = url)
+}
+
+
+download_sgmc <- function(dest, url) {
+  os <- Sys.info()[["sysname"]]
+  has_wget <- nzchar(Sys.which("wget"))
+  has_curl <- nzchar(Sys.which("curl"))
+
+  # --- Git Bash fallback on Windows ---
+  if (os == "Windows" && !has_wget && !has_curl) {
+    find_git_bash_tool <- function(tool = c("wget", "curl")) {
+      tool <- match.arg(tool)
+      default_paths <- c(
+        file.path("C:/Program Files/Git/usr/bin", tool),
+        file.path("C:/Program Files (x86)/Git/usr/bin", tool)
+      )
+      found <- Filter(file.exists, default_paths)
+      if (length(found)) {
+        return(shQuote(found[[1]]))
+      }
+      return(NULL)
+    }
+    wget_path <- find_git_bash_tool("wget")
+    curl_path <- find_git_bash_tool("curl")
+    if (!has_wget && !is.null(wget_path)) {
+      has_wget <- TRUE
+      Sys.setenv(WGET_CMD = wget_path)
+    }
+    if (!has_curl && !is.null(curl_path)) {
+      has_curl <- TRUE
+      Sys.setenv(CURL_CMD = curl_path)
+    }
+  }
+
+  # --- Helper to try a CLI download ---
+  try_cli_download <- function(cmd, label = "CLI") {
+    message("Trying ", label, ": ", cmd)
+    status <- system(cmd)
+    if (status == 0) {
+      message(crayon::green(label, " download completed successfully."))
+      return(TRUE)
+    } else {
+      warning(label, " failed to download file.")
+      return(FALSE)
+    }
+  }
+
+  # --- Attempt download ---
+  if (has_wget) {
+    cmd <- sprintf(
+      "%s --continue --tries=5 --timeout=30 -O \"%s\" \"%s\"",
+      Sys.getenv("WGET_CMD", unset = "wget"),
+      dest,
+      url
     )
-    httr::GET(
-      URL,
-      httr::progress(),
-      httr::write_disk(path = fp, overwrite = TRUE)
+    if (try_cli_download(cmd, "wget")) return(invisible(dest))
+  }
+
+  if (has_curl) {
+    cmd <- sprintf(
+      "%s -L --retry 5 --retry-delay 5 -o \"%s\" \"%s\"",
+      Sys.getenv("CURL_CMD", unset = "curl"),
+      dest,
+      url
+    )
+    if (try_cli_download(cmd, "curl")) return(invisible(dest))
+  }
+
+  # --- All attempts failed ---
+  message(crayon::yellow(
+    "\nAutomated download failed or required tools are missing.\n",
+    "Please download the file manually:"
+  ))
+  message(crayon::blue(url))
+  message(crayon::yellow("Then move it to:"))
+  message(crayon::magenta(normalizePath(dest, mustWork = FALSE)))
+
+  if (os == "Windows") {
+    message("👉 Install Git for Windows: https://gitforwindows.org/")
+  } else if (os == "Darwin") {
+    message("👉 On macOS, use Homebrew: brew install wget curl")
+  } else if (os == "Linux") {
+    message(
+      "👉 On Linux:\n  sudo apt install wget curl\n  OR\n  sudo dnf install wget curl"
     )
   }
+
+  stop("Download must be completed by hand.")
 }
+
 
 #' download data
 #' @description dl data.
 #'
 #' @keywords internal
 GNIS_dl <- function(path) {
-  # WORKS
-
   fp <- file.path(path, 'GNIS.zip')
-  if (file.exists('GNIS.zip')) {
+  if (file.exists(fp)) {
     message('Product `GNIS` already downloaded. Skipping.')
   } else {
     aws.s3::save_object(
@@ -166,30 +255,6 @@ GNIS_dl <- function(path) {
     )
   }
 }
-
-#' download data
-#' @description dl data. Honestly, downloading this single object takes much
-#' more hassle than it is worth. You should just dowload from :
-#' https://www.sciencebase.gov/catalog/item/652ef930d34edd15305a9b03 you'll have to
-#' do a captcha, but just download the 'Geodatabase.zip' and place it in same directory as other.
-#'
-#' @keywords internal
-PAD_dl <- function(path) {
-  # this is the wrong path
-
-  if (file.exists('PAD.zip')) {
-    message('Product `PAD` already downloaded. Skipping.')
-  } else {
-    aws.s3::save_object(
-      file = file.path(path, 'GNIS.zip'),
-      object = "s3://prd-tnm/StagedProducts/GeographicNames/DomesticNames/DomesticNames_AllStates_Text.zip",
-      bucket = "s3://prd-tnm/",
-      region = "us-west-2",
-      show_progress = TRUE
-    )
-  }
-}
-
 
 #' Determine which raster tiles to download for topographic variables
 #'
@@ -252,46 +317,27 @@ tileSelector <- function(bound) {
   # e.g. 'aspect'
   fnames <- paste0('_90M_', touches, '.tar.gz')
 
+  cat(
+    "The variables below can be downloaded from the following webpages:\n",
+    "\n",
+    crayon::green("Aspect data: "),
+    "https://opentopography.s3.sdsc.edu/minio/dataspace/OTDS.012020.4326.1/raster/aspect/\n",
+    crayon::blue("Geomorphology data: "),
+    "https://opentopography.s3.sdsc.edu/minio/dataspace/OTDS.012020.4326.1/raster/geom/\n",
+    crayon::red('Slope data: '),
+    "https://opentopography.s3.sdsc.edu/minio/dataspace/OTDS.012020.4326.1/raster/slope/\n",
+    crayon::magenta("Elevation data: "),
+    "https://hydro.iis.u-tokyo.ac.jp/~yamadai/MERIT_DEM/\n",
+    "\n",
+    "full file name example: ",
+    crayon::green(paste0('aspect', fnames[1])),
+    '\n',
+
+    "\n",
+    "Files required:\n",
+    fnames,
+    sep = ""
+  )
+
   return(fnames)
 }
-
-# library(sbtools)
-# sbtools::query_sb_doi('10.5066/P96WBCHS', limit=1)
-# item <- sbtools::item_get('65294599d34e44db0e2ed7cf')
-# sbtools::item_file_download('https://www.sciencebase.gov/catalog/items?parentId=65294599d34e44db0e2ed7cf&format=json')
-
-# 'prod-is-usgs-sb-prod-content.s3.amazonaws.com'
-
-# aws.s3
-# aws.s3::bucket_exists(
-#   bucket = "s3://prod-is-usgs-sb-prod-content/",
-#   region = 'us-west-2'
-#   )
-
-# library(minioclient)
-#install_mc()
-# mc_alias_set("anon", "s3.amazonaws.com", access_key = "", secret_key = "")
-# mc_ls("anon/gbif-open-data-us-east-1")
-
-# mc_alias_set(
-#  alias = "minio",
-#  endpoint = Sys.getenv("opentopography", "s3.amazonaws.com"),
-#  access_key = "",
-#  secret_key = "")
-
-# mc_ls("OTDS.012020.4326.1", recursive = TRUE)
-
-# gnis_products <- aws.s3::get_bucket_df(
-#   bucket = "minio",
-#   prefix = 'opentopography.s3.sdsc.edu',
-#   region = "eu-north-1",
-#   max = 200
-# )
-
-# aspect_dl <- function(x){
-
-#   base <- 'https://opentopography.s3.sdsc.edu/minio/dataspace/OTDS.012020.4326.1/raster/aspect/'
-#   f <- 'aspect_90M_s60w180.tar.gz'
-#   httr::GET(paste0(base, f),
-#             httr::write_disk(path = 'asp', overwrite = TRUE))
-# }
