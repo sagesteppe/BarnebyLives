@@ -7,7 +7,8 @@
 data_download(path)
 }
 \arguments{
-\item{path}{The root directory to save all the data in. Please specify a location, we suggest you make a directory for this.
+\item{path}{The root directory to save all the data in. Please specify a location,
+we suggest you make a directory for this.
 If not specified will default to your working directory.}
 
 \item{PADUS}{Boolean. Defaults to FALSE. Honestly, downloading this single

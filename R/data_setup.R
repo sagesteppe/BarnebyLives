@@ -865,9 +865,9 @@ safe_untar <- function(archive, exdir, verbose = TRUE) {
 #' Check and print status of data_setup outputs
 #'
 #' @param pathOut Output directory used in data_setup()
-#' @example
+#' @examples \dontrun{
 #' check_data_setup_outputs(path.expand('~/Documents/BL_testing_data/geo'))
-#'
+#'}
 #' @export
 check_data_setup_outputs <- function(pathOut) {
   expected <- list(

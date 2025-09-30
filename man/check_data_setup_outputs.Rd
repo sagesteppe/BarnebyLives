@@ -19,5 +19,4 @@ Check whether expected output files from data_setup() exist
 \dontrun{
 check_data_setup_outputs(path.expand('~/Documents/BL_testing_data/geo'))
 }
-
 }
