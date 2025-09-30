@@ -63,6 +63,7 @@ reference:
     contents:
       - associates_writer
       - collection_writer
+      - escape_latex
       - species_font
       - writer
       - writer_fide
