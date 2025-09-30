@@ -4,10 +4,13 @@
 \alias{associates_writer}
 \title{do or don't write the associated plant species}
 \usage{
-associates_writer(x)
+associates_writer(x, full = FALSE)
 }
 \arguments{
 \item{x}{data frame holding the values}
+
+\item{full}{Boolean. If TRUE, write "Associates" if FALSE (the default), write
+"Ass.:".}
 }
 \description{
 This functions determines whether to write information on associated plant

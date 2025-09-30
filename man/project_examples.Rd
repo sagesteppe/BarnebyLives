@@ -13,9 +13,6 @@ project_examples
 \description{
 This is a small data frame of examples of collection projects
 }
-\details{
-This is a small data frame of examples of collection projects
-}
 \examples{
 head(project_examples)
 }

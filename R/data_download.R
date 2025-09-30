@@ -14,7 +14,8 @@
 #' do a captcha, but just download the 'Geodatabase.zip' and place it in same
 #' directory as other files. Rename it as 'PADUS.zip' and we are good to go.
 #'
-#' @param path The root directory to save all the data in. Please specify a location, we suggest you make a directory for this.
+#' @param path The root directory to save all the data in. Please specify a location,
+#'  we suggest you make a directory for this.
 #' If not specified will default to your working directory.
 #' @examples \dontrun{
 #' # setwd('/media/steppe/hdd/BL_sandbox/geodata_raw')

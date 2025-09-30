@@ -58,7 +58,7 @@ data_setup <- function(path, pathOut, bound, cleanup) {
         basename(x)
       ))
     } else {
-      message(crayon::green("Extracting: ", basename(x)))
+      message(crayon::blue("Extracting: ", basename(x)))
       unzip(x, exdir = out)
     }
   })
@@ -84,7 +84,7 @@ data_setup <- function(path, pathOut, bound, cleanup) {
     process_gmba = function() process_gmba(path, pathOut, tile_cells),
     process_gnis = function() process_gnis(path, pathOut, bound),
     process_padus = function() process_padus(path, pathOut, bound, tile_cells),
-    geological_map = function() geological_map(path, pathOut, tile_cells),
+    process_geology = function() process_geology(path, pathOut, tile_cells),
     process_grazing_allot = function() {
       process_grazing_allot(path, pathOut, tile_cells)
     },
@@ -111,7 +111,9 @@ data_setup <- function(path, pathOut, bound, cleanup) {
 
   # --- Cleanup ---
   if (success) {
-    message(crayon::green("All steps succeeded. Cleaning up unzipped data..."))
+    message(crayon::magenta(
+      "All steps succeeded. Cleaning up unzipped data..."
+    ))
     dirs <- list.dirs(path, recursive = FALSE)
     lapply(dirs, unlink, recursive = TRUE)
   } else {
@@ -124,7 +126,7 @@ data_setup <- function(path, pathOut, bound, cleanup) {
     # remove original zip files too
     zzzs <- file.path(path, list.files(path = path, pattern = '*.[.]zip$'))
     lapply(zzzs, unlink)
-    message(crayon::green(
+    message(crayon::magenta(
       "all steps succeeded. Original data downloads removed to save memory."
     ))
   }
@@ -231,6 +233,8 @@ mason <- function(path, pathOut, tile_cellsV) {
       columns <- terra::values(tile_cellsV)
       cellname <- columns[, "cellname"]
 
+      virtualRast_sub <- terra::as.int(round(virtualRast_sub))
+
       # write out product
       message(crayon::green(
         "Starting to write out final raster files for:",
@@ -242,7 +246,8 @@ mason <- function(path, pathOut, tile_cellsV) {
         virtualRast_sub,
         tile_cellsV,
         filename = fname,
-        na.rm = FALSE
+        na.rm = FALSE,
+        datatype = 'INT2U'
       )
 
       # clean up
@@ -253,7 +258,7 @@ mason <- function(path, pathOut, tile_cellsV) {
   }
 
   message(crayon::green(
-    "Done with processing raster data. ",
+    "Done processing raster data. ",
     format(Sys.time(), "%X")
   ))
 }
@@ -266,8 +271,10 @@ mason <- function(path, pathOut, tile_cellsV) {
 make_it_political <- function(path, pathOut, tile_cells) {
   ## now combine all of the administrative data into a single vector file.
 
+  tile_cells <- sf::st_transform(tile_cells, 4269)
+
   p <- file.path(path, 'Counties', 'tl_2020_us_county.shp')
-  counties <- sf::st_read(p, quiet = T) |>
+  counties <- sf::st_read(p, quiet = TRUE) |>
     sf::st_transform(sf::st_crs(tile_cells)) |>
     dplyr::select(STATEFP, County = NAME)
 
@@ -284,9 +291,17 @@ make_it_political <- function(path, pathOut, tile_cells) {
     dplyr::select(-STATEFP) |>
     dplyr::arrange(State)
 
+  counties <- sf::st_crop(counties, sf::st_union(tile_cells))
+  counties <- sf::st_transform(counties, 4326)
+
   dir.create(file.path(pathOut, 'political'), showWarnings = FALSE)
   p <- file.path(pathOut, 'political', 'political.shp')
   sf::st_write(counties, dsn = p, quiet = TRUE, append = FALSE)
+
+  message(crayon::green(
+    "Done writing `political` data set. ",
+    format(Sys.time(), "%X")
+  ))
 }
 
 #' Set up the downloaded data for a BarnebyLives instance
@@ -294,7 +309,9 @@ make_it_political <- function(path, pathOut, tile_cells) {
 #' @description used within `data_setup`
 #' @keywords internal
 places_and_spaces <- function(path, pathOut, bound) {
-  bb <- sf::st_as_sf(bound)
+  bb <- sf::st_as_sf(bound) |>
+    sf::st_transform(4269)
+  bb <- sf::st_agr('constant')
 
   st <- tigris::states(progress_bar = FALSE, year = 2022) |>
     sf::st_transform(4326)
@@ -329,13 +346,14 @@ places_and_spaces <- function(path, pathOut, bound) {
     ) |>
     sf::st_transform(4326)
 
+  sf::st_agr(bb) <- 'constant'
   places <- places[sf::st_intersects(places, bb) %>% lengths > 0, ]
   places <- sf::st_set_precision(places, precision = 10^3)
   # this will drop location coordinates to 3 decimal places.
 
-  sf::st_write(pathOut, 'places.shp', append = FALSE)
+  sf::st_write(pathOut, 'places.shp', append = FALSE, quiet = TRUE)
   message(crayon::green(
-    "Done with writing `places` data set. ",
+    "Done writing `places` data set. ",
     format(Sys.time(), "%X")
   ))
 }
@@ -346,15 +364,20 @@ places_and_spaces <- function(path, pathOut, bound) {
 #' @description used within `data_setup`
 #' @keywords internal
 process_gmba <- function(path, pathOut, tile_cells) {
+  tile_cells <- sf::st_transform(tile_cells, 4269)
   p <- file.path(path, 'GMBA', 'GMBA_Inventory_v2.0_standard_basic.shp')
   mtns <- sf::st_read(p, quiet = T) |>
-    sf::st_make_valid()
+    sf::st_make_valid() |>
+    sf::st_transform(4269)
+
   sf::st_agr(mtns) = "constant"
+  sf::st_agr(tile_cells) <- 'constant'
   mtns <- mtns |>
     dplyr::select(MapName) |>
     sf::st_crop(sf::st_union(tile_cells)) |>
     dplyr::rename(Mountains = MapName) |>
-    dplyr::mutate(Mountains = stringr::str_remove(Mountains, '[(]nn[])]'))
+    dplyr::mutate(Mountains = stringr::str_remove(Mountains, '[(]nn[])]')) |>
+    sf::st_transform(4326)
 
   dir.create(file.path(pathOut, 'mountains'), showWarnings = FALSE)
   sf::st_write(
@@ -365,7 +388,7 @@ process_gmba <- function(path, pathOut, tile_cells) {
   )
 
   message(crayon::green(
-    "Done with writing `mountains` data set. ",
+    "Done writing `mountains` data set. ",
     format(Sys.time(), "%X")
   ))
 }
@@ -376,13 +399,16 @@ process_gmba <- function(path, pathOut, tile_cells) {
 #' @description used within `data_setup`
 #' @keywords internal
 process_gnis <- function(path, pathOut, bound) {
-  bb <- sf::st_as_sf(bound)
-  st <- tigris::states(progress_bar = FALSE, year = 2022) |>
-    sf::st_transform(4326)
+  bb <- sf::st_as_sf(bound) |>
+    st_transform(4269)
+  st <- tigris::states(progress_bar = FALSE, year = 2022)
+
   st <- st[
     sf::st_intersects(st, bb) %>% lengths > 0,
     c('STATEFP', 'NAME', 'STUSPS')
   ]
+
+  st <- sf::st_transform(st, 4326)
 
   ### crop geographic place name database to extent
   p2dat <- file.path(path, 'GNIS', 'Text')
@@ -395,14 +421,14 @@ process_gnis <- function(path, pathOut, bound) {
   places <- lapply(files, read.csv, sep = "|") %>%
     purrr::map(., ~ .x |> dplyr::select(all_of(cols))) |>
     data.table::rbindlist() |>
-    sf::st_as_sf(coords = c('prim_long_dec', 'prim_lat_dec'), crs = 4269) |>
-    sf::st_transform(4326)
+    sf::st_as_sf(coords = c('prim_long_dec', 'prim_lat_dec'), crs = 4269)
 
   sf::st_agr(places) <- 'constant'
   places <- places[sf::st_intersects(places, bb) %>% lengths > 0, ]
   places <- places |>
     dplyr::mutate(ID = seq_len(dplyr::n())) |>
-    dplyr::rename(fetr_nm = feature_name)
+    dplyr::rename(fetr_nm = feature_name) |>
+    sf::st_transform(4326)
 
   places <- places |>
     dplyr::filter(
@@ -442,6 +468,11 @@ process_gnis <- function(path, pathOut, bound) {
     quiet = TRUE,
     append = FALSE
   )
+
+  message(crayon::green(
+    "Done writing `places` data set. ",
+    format(Sys.time(), "%X")
+  ))
 }
 
 
@@ -450,6 +481,10 @@ process_gnis <- function(path, pathOut, bound) {
 #' @description used within `data_setup`
 #' @keywords internal
 process_padus <- function(path, pathOut, bound, tile_cells) {
+  bound <- sf::st_transform(bound, 4269)
+  tile_cells
+  tile_cells <- sf::st_transform(tile_cells, 4269)
+
   states <- tigris::states(cb = TRUE, year = 2022, progress_bar = FALSE)
   states <- states[
     unlist(sf::st_intersects(
@@ -461,21 +496,51 @@ process_padus <- function(path, pathOut, bound, tile_cells) {
     sf::st_drop_geometry() |>
     dplyr::pull(STUSPS)
 
-  p <- file.path(path, 'PADUS4_0Geodatabase', 'PADUS4_0_Geodatabase.gdb')
+  p_match <- file.path(
+    path,
+    list.files(
+      path,
+      pattern = 'PADUS.*GAPStatusCode',
+      recursive = TRUE,
+      ignore.case = TRUE
+    )
+  )
+
+  vrsn <- regmatches(
+    basename(p_match),
+    regexpr("[0-9]_[0-9]", basename(p_match))
+  )
+
+  p <- file.path(
+    path,
+    paste0('PADUS', vrsn, 'Geodatabase'),
+    paste0('PADUS', vrsn, 'Geodatabase.gdb')
+  )
+
+  lyrs <- sf::st_layers(p)$name
+
   padus <- sf::st_read(
     dsn = p,
     quiet = TRUE,
-    layer = 'PADUS4_0Fee'
+    layer = sort(
+      grep('PADUS.*Fee$', lyrs, value = TRUE, ignore.case = TRUE),
+      decreasing = TRUE
+    )[1]
   ) |>
     dplyr::filter(State_Nm %in% states) |>
     dplyr::select(Mang_Name, Unit_Nm) |>
-    sf::st_cast('MULTIPOLYGON')
+    sf::st_zm(drop = TRUE) |>
+    sf::st_cast('MULTIPOLYGON') |>
+    sf::st_transform(4269)
 
   tile_cells <- sf::st_transform(tile_cells, sf::st_crs(padus))
   padus <- sf::st_make_valid(padus)
   padus <- padus[
     sf::st_intersects(padus, sf::st_union(tile_cells)) %>% lengths > 0,
   ]
+  padus <- sf::st_crop(padus, sf::st_union(tile_cells))
+  padus <- sf::st_make_valid(padus)
+
   padus <- sf::st_transform(padus, crs = 4326)
   padus <- dplyr::filter(padus, sf::st_is_valid(padus))
 
@@ -530,7 +595,7 @@ process_padus <- function(path, pathOut, bound, tile_cells) {
   )
 
   message(crayon::green(
-    "Done with writing `PADUS` data set. ",
+    "Done writing `PADUS` data set. ",
     format(Sys.time(), "%X")
   ))
 }
@@ -539,7 +604,11 @@ process_padus <- function(path, pathOut, bound, tile_cells) {
 #'
 #' @description used within `data_setup`
 #' @keywords internal
-geological_map <- function(path, pathOut, tile_cells) {
+process_geology <- function(path, pathOut, tile_cells) {
+  # Harmonize CRS to 4269
+  tile_cells <- sf::st_transform(tile_cells, 4269)
+
+  # Read and process geology layer
   geological <- sf::st_read(
     file.path(
       path,
@@ -548,19 +617,32 @@ geological_map <- function(path, pathOut, tile_cells) {
       'USGS_StateGeologicMapCompilation_ver1.1.gdb'
     ),
     layer = 'SGMC_Geology',
-    quiet = T
+    quiet = TRUE
   ) |>
-    dplyr::select(GENERALIZED_LITH, UNIT_NAME)
+    dplyr::select(GENERALIZED_LITH, UNIT_NAME) |>
+    sf::st_transform(4269) |> # Ensure CRS match
+    sf::st_make_valid() |>
+    sf::st_cast('POLYGON')
 
-  sf::st_agr(tile_cells) = "constant"
-  sf::st_agr(geological) = "constant"
-  tile_cells <- sf::st_transform(tile_cells, sf::st_crs(geological))
+  # Sanity check
+  stopifnot(sf::st_crs(tile_cells) == sf::st_crs(geological))
+
+  # Set attribute relationships
+  sf::st_agr(tile_cells) <- "constant"
+  sf::st_agr(geological) <- "constant"
+
+  # Spatial filtering
+  tile_union <- sf::st_union(tile_cells)
   geological <- geological[
-    sf::st_intersects(geological, sf::st_union(tile_cells)) %>% lengths > 0,
+    sf::st_intersects(geological, tile_union, sparse = FALSE),
   ]
-  geological <- sf::st_crop(geological, sf::st_union(tile_cells))
-  geological <- sf::st_transform(geological, 4326)
+  geological <- sf::st_intersection(geological, tile_union)
 
+  # Transform to WGS84 for output
+  geological <- sf::st_transform(geological, 4326) |>
+    sf::st_make_valid()
+
+  # Write output
   dir.create(file.path(pathOut, 'geology'), showWarnings = FALSE)
   sf::st_write(
     geological,
@@ -570,7 +652,7 @@ geological_map <- function(path, pathOut, tile_cells) {
   )
 
   message(crayon::green(
-    "Done with writing `geology` data set. ",
+    "Done writing `geology` data set. ",
     format(Sys.time(), "%X")
   ))
 }
@@ -581,36 +663,46 @@ geological_map <- function(path, pathOut, tile_cells) {
 #' @description used within `data_setup`
 #' @keywords internal
 process_grazing_allot <- function(path, pathOut, tile_cells) {
-  datasets <- c('BLMAllotments', 'USFSAllotments')
+  # Harmonize CRS to 4269
+  tile_cells <- sf::st_transform(tile_cells, 4269)
 
-  paths <- vector(length = 2)
+  datasets <- c('BLMAllotments', 'USFSAllotments')
   base <- vector(length = 2)
+  paths <- vector(length = 2)
   shp <- vector(mode = 'list', length = 2)
 
   for (i in seq_along(datasets)) {
     base[i] <- file.path(path, datasets[i])
     paths[i] <- file.path(base[i], list.files(base[i], pattern = 'shp$'))
 
-    shp[[i]] <- st_read(paths[i], quiet = TRUE) |>
-      dplyr::select(ALLOT_NAME)
+    shp[[i]] <- sf::st_read(paths[i], quiet = TRUE) |>
+      dplyr::select(ALLOT_NAME) |>
+      sf::st_transform(4269) |>
+      sf::st_make_valid()
   }
 
-  allotments <- dplyr::bind_rows(shp) |>
-    sf::st_make_valid()
+  # Combine and filter
+  allotments <- dplyr::bind_rows(shp)
 
-  tile_cells <- sf::st_transform(tile_cells, sf::st_crs(allotments))
+  # Sanity check
+  stopifnot(sf::st_crs(tile_cells) == sf::st_crs(allotments))
 
-  sf::st_agr(tile_cells) = "constant"
-  sf::st_agr(allotments) = "constant"
+  sf::st_agr(tile_cells) <- "constant"
+  sf::st_agr(allotments) <- "constant"
 
+  tile_union <- sf::st_union(tile_cells)
   allotments <- allotments[
-    sf::st_intersects(allotments, sf::st_union(tile_cells)) %>% lengths > 0,
+    sf::st_intersects(allotments, tile_union, sparse = FALSE),
   ]
-  allotments <- sf::st_crop(allotments, sf::st_union(tile_cells))
-  allotments <- sf::st_transform(allotments, 4326) |>
+  allotments <- sf::st_intersection(allotments, tile_union)
+
+  # Finalize + transform
+  allotments <- allotments |>
+    sf::st_transform(4326) |>
     dplyr::mutate(Allotment = stringr::str_to_title(ALLOT_NAME)) |>
     dplyr::select(-ALLOT_NAME)
 
+  # Write output
   dir.create(file.path(pathOut, 'allotments'), showWarnings = FALSE)
   sf::st_write(
     allotments,
@@ -620,10 +712,11 @@ process_grazing_allot <- function(path, pathOut, tile_cells) {
   )
 
   message(crayon::green(
-    "Done with writing `allotments` data set. ",
+    "Done writing `allotments` data set. ",
     format(Sys.time(), "%X")
   ))
 }
+
 
 #' Set up the downloaded data for a BarnebyLives instance
 #'
@@ -633,10 +726,8 @@ process_plss <- function(path, pathOut, tile_cells) {
   p <- file.path(path, "PLSS", "ilmocplss.gdb")
 
   # --- Township layer ---
-  township <- safe_step("read township", {
-    sf::st_read(p, layer = "PLSSTownship", quiet = TRUE) |>
-      dplyr::select(TWNSHPLAB, PLSSID)
-  })
+  township <- sf::st_read(p, layer = "PLSSTownship", quiet = TRUE) |>
+    dplyr::select(TWNSHPLAB, PLSSID)
   township_crs <- sf::st_crs(township)
 
   # --- Adaptive buffer calc ---
@@ -663,18 +754,6 @@ process_plss <- function(path, pathOut, tile_cells) {
     unit_label <- "m"
   }
 
-  message(crayon::silver(
-    "[process_plss] Domain ~",
-    round(width_miles, 1),
-    " mi wide → buffer = ",
-    n_cells,
-    " cells (~",
-    round(buffer, 1),
-    " ",
-    unit_label,
-    ")"
-  ))
-
   # --- Township filter by vertex coords ---
   tile_bbox <- tile_cells |>
     sf::st_union() |>
@@ -693,56 +772,45 @@ process_plss <- function(path, pathOut, tile_cells) {
     coords_df$Y >= ylim[1] &
     coords_df$Y <= ylim[2]
 
-  message(crayon::silver(
-    "[process_plss] Kept ",
-    sum(keep),
-    "/",
-    nrow(coords_df),
-    " townships"
-  ))
   township <- township[keep, ]
+
+  # now do actual spatial work.
+  tile_cells <- sf::st_transform(tile_cells, 4269)
+  township <- st_transform(township, 4269)
+  township <- sf::st_crop(township, sf::st_union(tile_cells))
   township <- sf::st_drop_geometry(township)
 
   # --- Sections ---
-  section <- safe_step("read PLSSFirstDivision", {
-    sf::st_read(p, layer = "PLSSFirstDivision", quiet = TRUE)
-  })
-  section <- safe_step("join sections to townships", {
-    joined <- dplyr::right_join(
-      section,
-      township,
-      by = "PLSSID",
-      relationship = "many-to-many"
-    )
-    message(crayon::silver("[process_plss] Joined rows: ", nrow(joined)))
-    joined
-  })
+  section <- sf::st_read(p, layer = "PLSSFirstDivision", quiet = TRUE)
+  section <- dplyr::right_join(
+    section,
+    township,
+    by = "PLSSID",
+    relationship = "many-to-many"
+  )
 
   # --- Clean + write ---
   gcol <- attr(section, "sf_column")
 
-  trs <- safe_step("clean/cast/mutate", {
-    section |>
-      sf::st_zm(drop = TRUE) |>
-      sf::st_set_precision(1) |> # snap to 1 m grid
-      sf::st_make_valid() |>
-      sf::st_cast("POLYGON", warn = TRUE) |>
-      dplyr::mutate(TRS = paste(TWNSHPLAB, FRSTDIVLAB)) |>
-      dplyr::select(trs = TRS, !!gcol)
-  })
+  trs <- section |>
+    sf::st_zm(drop = TRUE) |>
+    sf::st_set_precision(1) |> # snap to 1 m grid
+    sf::st_make_valid() |>
+    sf::st_cast("POLYGON", warn = TRUE) |>
+    dplyr::mutate(TRS = paste(TWNSHPLAB, FRSTDIVLAB)) |>
+    dplyr::select(trs = TRS, !!gcol) |>
+    sf::st_transform(4326)
 
   dir.create(file.path(pathOut, "plss"), showWarnings = FALSE)
-  safe_step("write shapefile", {
-    sf::st_write(
-      trs,
-      dsn = file.path(pathOut, "plss", "plss.shp"),
-      quiet = TRUE,
-      append = FALSE
-    )
-  })
+  sf::st_write(
+    trs,
+    dsn = file.path(pathOut, "plss", "plss.shp"),
+    quiet = TRUE,
+    append = FALSE
+  )
 
   message(crayon::green(
-    "Done with writing `PLSS (trs)` data set. ",
+    "Done writing `PLSS (trs)` data set. ",
     format(Sys.time(), "%X")
   ))
 }
@@ -797,9 +865,8 @@ safe_untar <- function(archive, exdir, verbose = TRUE) {
 #' Check and print status of data_setup outputs
 #'
 #' @param pathOut Output directory used in data_setup()
-#' @examples \dontrun{
+#' @example
 #' check_data_setup_outputs(path.expand('~/Documents/BL_testing_data/geo'))
-#' }
 #'
 #' @export
 check_data_setup_outputs <- function(pathOut) {
