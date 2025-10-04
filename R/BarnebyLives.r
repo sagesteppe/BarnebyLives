@@ -36,6 +36,18 @@
 #' @format data frame
 "collection_examples"
 
+#' Collection examples for a shipping manifest
+#'
+#' This is a small data frame of species information for use with with the vignette
+#'
+#'
+#' @docType data
+#' @keywords datasets
+#' @name collection_examples
+#' @usage data(collection_examples)
+#' @format data frame
+"uncleaned_collection_examples"
+
 #' This is a reproduced and slightly curated list of populated places.
 #'
 #' this sf/tibble/data.frame data set is derived from the U.S. Census Bureaus tigris::places() data set. It has only the centroid of each place rounded to

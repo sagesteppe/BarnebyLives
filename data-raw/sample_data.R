@@ -10,7 +10,9 @@ collection_examples <- read_sheet(
   '1iOQBNeGqRJ3yhA-Sujas3xZ2Aw5rFkktUKv3N_e4o8M', sheet = 'Processed - Examples')
 usethis::use_data(collection_examples, overwrite = TRUE)
 
-
+uncleaned_collection_examples <- read_sheet(
+  '1iOQBNeGqRJ3yhA-Sujas3xZ2Aw5rFkktUKv3N_e4o8M', sheet = 'Data Entry - Examples')
+usethis::use_data(uncleaned_collection_examples, overwrite = TRUE)
 
 ## database templates
 database_templates <- read.csv('Fields.csv')

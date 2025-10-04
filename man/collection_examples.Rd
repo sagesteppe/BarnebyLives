@@ -3,15 +3,22 @@
 \docType{data}
 \name{collection_examples}
 \alias{collection_examples}
+\alias{uncleaned_collection_examples}
 \title{Collection examples for a shipping manifest}
 \format{
 data frame
+
+data frame
 }
 \usage{
+data(collection_examples)
+
 data(collection_examples)
 }
 \description{
 This is a small data frame of species information for use with the shipping/transferal notes
 as well as with the label makers.
+
+This is a small data frame of species information for use with with the vignette
 }
 \keyword{datasets}
