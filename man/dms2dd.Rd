@@ -23,10 +23,18 @@ this function parses coordinates from DMS to decimal degrees
 }
 \examples{
  coords <- data.frame(
-  longitude_dd = runif(15, min = -120, max = -100),
-  latitude_dd = runif(15, min = 35, max = 48)
+  input_longitude = runif(15, min = -120, max = -100),
+  input_latitude = runif(15, min = 35, max = 48)
 )
 coords_formatted <- dms2dd( coords )
 head(coords_formatted)
 colnames(coords_formatted)
+
+rm(coords, coords_formatted)
+
+data(uncleaned_collection_examples)
+
+dms2dd(uncleaned_collection_examples) |>
+  dplyr::select(latitude_dd, longitude_dd, latitude_dms, longitude_dms)
+
 }

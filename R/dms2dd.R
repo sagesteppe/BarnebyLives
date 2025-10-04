@@ -7,51 +7,50 @@
 #' @returns data frame(/tibble) with coordinates unambiguously labeled as being in both degrees, minutes, seconds (_dms) and decimal degrees (_dd).
 #' @examples
 #'  coords <- data.frame(
-#'   longitude_dd = runif(15, min = -120, max = -100),
-#'   latitude_dd = runif(15, min = 35, max = 48)
+#'   input_longitude = runif(15, min = -120, max = -100),
+#'   input_latitude = runif(15, min = 35, max = 48)
 #' )
 #' coords_formatted <- dms2dd( coords )
 #' head(coords_formatted)
 #' colnames(coords_formatted)
+#'
+#' rm(coords, coords_formatted)
+#'
+#' data(uncleaned_collection_examples)
+#'
+#' dms2dd(uncleaned_collection_examples) |>
+#'   dplyr::select(latitude_dd, longitude_dd, latitude_dms, longitude_dms)
+#'
 #' @export
 dms2dd <- function(x, lat, long, dms) {
+
+  original_class <- class(x)[1]
+  x <- as.data.frame(x)
   # identify columns if they were not supplied
   if (missing(lat)) {
-    lat = colnames(x)[grep('lat', colnames(x), ignore.case = T)]
+    lat = colnames(x)[grep('lat', colnames(x), ignore.case = T)][1]
+    message(crayon::yellow('argument to `lat` not found. detected and using: ', lat))
   }
   if (missing(long)) {
-    long = colnames(x)[grep('long', colnames(x), ignore.case = T)]
+    long = colnames(x)[grep('long', colnames(x), ignore.case = T)][1]
+    message(crayon::yellow('argument to `long` not found. detected and using: ', long))
   }
 
+  if(length(lat)==0){stop('Error, argument for `lat` not found. Please specify.')}
+  if(length(long)==0){stop('Error, argument for `lat` not found. Please specify.')}
+
   # remove any N | E | S | W, or for that matter other alphabetical characters
-  x[, long] <- gsub('[[:alpha:]]|\\s', "", x[, long])
-  x[, lat] <- gsub('[[:alpha:]]|\\s', "", x[, lat])
+  x[, long] <- as.character(x[, long])
+  x[, lat] <- as.character(x[, lat])
+
+  x[, long] <- gsub('[[:alpha:]]|\\s', "", x[, long, drop = TRUE])
+  x[, lat] <- gsub('[[:alpha:]]|\\s', "", x[, lat, drop = TRUE])
 
   # we will need to perform this operation across every single row,
   # because some people will put dms and dd in the same column...
-
   x_spl <- split(x, f = 1:nrow(x))
 
-  dmsbyrow <- function(x, long, lat) {
-    # test for DMS format if not supplied
-
-    suppressWarnings(
-      dms <- is.na(
-        as.numeric(x[, long]) == as.numeric(parzer::parse_lon(x[, long]))
-      )
-    )
-    # convert dms to dd, or rename input columns to dd#
-    if (dms == T) {
-      x$latitude_dd = parzer::parse_lat(x[, lat])
-      x$longitude_dd = parzer::parse_lon(x[, long])
-      x <- x[, -which(names(x) %in% c(lat, long))]
-    } else {
-      colnames(x)[which(names(x) == lat)] <- 'latitude_dd'
-      colnames(x)[which(names(x) == long)] <- 'longitude_dd'
-    }
-    return(x)
-  }
-
+ # return(x_spl)
   x <- lapply(x_spl, dmsbyrow, long = long, lat = lat) |>
     data.table::rbindlist(use.names = TRUE)
 
@@ -63,7 +62,6 @@ dms2dd <- function(x, lat, long, dms) {
   x$longitude_dd <- round(abs(x$longitude_dd) * -1, 5)
 
   # now overwrite the original DMS values in our exact format
-
   x$latitude_dms = paste0(
     'N ',
     format_degree(parzer::pz_degree(x$latitude_dd)),
@@ -82,5 +80,34 @@ dms2dd <- function(x, lat, long, dms) {
 
   x$longitude_dms <- gsub('-', "", x$longitude_dms)
 
+  # return object
+  if (original_class == "tbl_df" || original_class == "tbl") {
+    x <- tibble::as_tibble(x)
+  } else if (original_class == "data.table") {
+    x <- data.table::as.data.table(x)
+  }
+
+  return(x)
+}
+
+
+dmsbyrow <- function(x, long, lat) {
+  # test for DMS format if not supplied
+
+  suppressWarnings(
+    dms <- is.na(
+      as.numeric(x[,long]) == as.numeric(parzer::parse_lon(x[,long]))
+    )
+  )
+
+  # convert dms to dd, or rename input columns to dd#
+  if (dms) {
+    x$latitude_dd = parzer::parse_lat(x[[lat]])
+    x$longitude_dd = parzer::parse_lon(x[[long]])
+    x <- x[, -which(names(x) %in% c(lat, long))]
+  } else {
+    colnames(x)[which(names(x) == lat)] <- 'latitude_dd'
+    colnames(x)[which(names(x) == long)] <- 'longitude_dd'
+  }
   return(x)
 }
