@@ -91,6 +91,7 @@ articles:
     desc: "Creating labels from default templates"
     contents: 
     - creating_labels
+    - creating_labels-v2
     - rendering_shipping_manifests
   - title: "Customizing labels" 
     desc: "User specified label modifications"

@@ -16,6 +16,7 @@
 #'
 #' rm(coords, coords_formatted)
 #'
+#' # example with tibble input
 #' data(uncleaned_collection_examples)
 #'
 #' dms2dd(uncleaned_collection_examples) |>
@@ -26,6 +27,7 @@ dms2dd <- function(x, lat, long, dms) {
 
   original_class <- class(x)[1]
   x <- as.data.frame(x)
+
   # identify columns if they were not supplied
   if (missing(lat)) {
     lat = colnames(x)[grep('lat', colnames(x), ignore.case = T)][1]
