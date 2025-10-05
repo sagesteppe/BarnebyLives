@@ -84,6 +84,21 @@ and then later mosaiced (like tiles) onto pages for printing.</p>
 <span><span class="fu"><a href="https://rdrr.io/r/base/files2.html" class="external-link">dir.create</a></span><span class="op">(</span><span class="st">'HerbariumLabels/raw'</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">p</span> <span class="op">&lt;-</span> <span class="st">'~/Documents/HerbariumLabels/raw'</span></span></code></pre></div>
+<p>Now we will need to copy a skeleton from the package to work with. We
+can access skeletons from the packages installation like this.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">p2libs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span>package <span class="op">=</span> <span class="st">'BarnebyLives'</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">folds</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span></span>
+<span>   <span class="st">'rmarkdown'</span>, <span class="st">'templates'</span>, <span class="st">'labels'</span>, <span class="st">'skeleton'</span>, <span class="st">'skeleton.Rmd'</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.copy</a></span><span class="op">(</span><span class="va">folds</span>, <span class="va">p</span><span class="op">)</span></span></code></pre></div>
+<p>Your directory should end up looking like this.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="sc">~</span><span class="er">/</span>Documents<span class="sc">/</span>HerbariumLabels<span class="sc">/</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>├── raw<span class="sc">/</span>           <span class="co"># intermediate single-label PDFs</span></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>├── final<span class="sc">/</span>         <span class="co"># mosaiced sheets (optional, after combining)</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>└── skeleton.Rmd   <span class="co"># label template (copied from BarnebyLives)</span></span></code></pre></div>
+<p>NOTE</p>
 <p>You can use a <code>purrr</code> function, <code>walk</code>, to
 write many labels one after another in the following fashion. Be sure to
 specify reasonable paths to write to! BL will create a temporary ‘raw’
@@ -96,7 +111,7 @@ BarnebyLives directory which holds the package. As mentioned
 BarnebyLives is a weirdo of an r package, so we are also specifying the
 location within the package which holds the actual template (‘skeleton’)
 which we will populate our labels values into.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">p2libs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span>package <span class="op">=</span> <span class="st">'BarnebyLives'</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">folds</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span></span>
@@ -118,7 +133,7 @@ from <code>write.csv</code> default behavior?</p>
 <p>Note that for this to work on your own data, you will need to modify
 a chunk in the label template (‘skeleton’) so that R is reading in your
 data. Something like the below will be what you need to modify:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span><span class="st">'SoS-ExampleCollection.csv'</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
 <span>    Collection_number <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">Collection_number</span><span class="op">)</span>, </span>
@@ -128,7 +143,7 @@ data. Something like the below will be what you need to modify:</p>
 get this process to work, but again, BarnebyLives is not quite the
 typical R package. Editing both files allows for some downstream
 flexibility.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">walk</a></span><span class="op">(</span></span>
 <span>  .x <span class="op">=</span> <span class="va">collection_examples</span><span class="op">$</span><span class="va">Collection_number</span>,</span>
 <span>  <span class="op">~</span> <span class="fu">rmarkdown</span><span class="fu">::</span><span class="fu"><a href="https://pkgs.rstudio.com/rmarkdown/reference/render.html" class="external-link">render</a></span><span class="op">(</span></span>
@@ -153,14 +168,14 @@ this!</p>
 <p>Using the code below we can simply copy (<code>file.copy</code>) the
 template to the current working directory (supplied as argument:
 ‘.’).</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.copy</a></span><span class="op">(</span>from <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">p2libs</span>, <span class="va">folds</span><span class="op">)</span>, to <span class="op">=</span>  <span class="st">'.'</span><span class="op">)</span></span></code></pre></div>
 <p>As mentioned we will showcase some template changes in a different
 vignette, “Custom Label Templates”, but we will just use this default
 template again for this example. Now from that location you can run the
 script again, but this time with modification to the ‘input’ argument of
 <code><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">purrr::walk</a></code>.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">walk</a></span><span class="op">(</span></span>
 <span>  .x <span class="op">=</span> <span class="va">collection_examples</span><span class="op">$</span><span class="va">Collection_number</span>,</span>
 <span>  <span class="op">~</span> <span class="fu">rmarkdown</span><span class="fu">::</span><span class="fu"><a href="https://pkgs.rstudio.com/rmarkdown/reference/render.html" class="external-link">render</a></span><span class="op">(</span></span>
@@ -187,7 +202,7 @@ ask if you want something to be supported! There is a lot of code, but
 realistically all it is doing is replacing NA values with ’’, or empty
 contents, this is the best format for people to get NULL values for
 their databases.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">database_templates</span><span class="op">$</span><span class="va">Database</span><span class="op">)</span> <span class="co"># currently supported options. </span></span>
 <span></span>
 <span><span class="va">dat_import</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/format_database_import.html">format_database_import</a></span><span class="op">(</span><span class="va">collection_examples</span>, <span class="st">'Symbiota'</span><span class="op">)</span> <span class="op">|&gt;</span> </span>

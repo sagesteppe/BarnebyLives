@@ -2,13 +2,14 @@
 <url><loc>https://sagesteppe.github.io/BarnebyLives/404.html</loc></url>
 <url><loc>https://sagesteppe.github.io/BarnebyLives/LICENSE-text.html</loc></url>
 <url><loc>https://sagesteppe.github.io/BarnebyLives/LICENSE.html</loc></url>
+<url><loc>https://sagesteppe.github.io/BarnebyLives/articles/built_in_templates.html</loc></url>
+<url><loc>https://sagesteppe.github.io/BarnebyLives/articles/creating_labels-v2.html</loc></url>
 <url><loc>https://sagesteppe.github.io/BarnebyLives/articles/creating_labels.html</loc></url>
 <url><loc>https://sagesteppe.github.io/BarnebyLives/articles/custom_label_fonts.html</loc></url>
 <url><loc>https://sagesteppe.github.io/BarnebyLives/articles/custom_label_logos_maps.html</loc></url>
 <url><loc>https://sagesteppe.github.io/BarnebyLives/articles/custom_label_templates.html</loc></url>
 <url><loc>https://sagesteppe.github.io/BarnebyLives/articles/index.html</loc></url>
 <url><loc>https://sagesteppe.github.io/BarnebyLives/articles/rendering_shipping_manifests.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/articles/research_collections_template.html</loc></url>
 <url><loc>https://sagesteppe.github.io/BarnebyLives/articles/running_pipeline.html</loc></url>
 <url><loc>https://sagesteppe.github.io/BarnebyLives/articles/setting_up_files.html</loc></url>
 <url><loc>https://sagesteppe.github.io/BarnebyLives/authors.html</loc></url>
@@ -17,7 +18,6 @@
 <url><loc>https://sagesteppe.github.io/BarnebyLives/news.html</loc></url>
 <url><loc>https://sagesteppe.github.io/BarnebyLives/reference/GMBA_dl.html</loc></url>
 <url><loc>https://sagesteppe.github.io/BarnebyLives/reference/GNIS_dl.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/reference/PAD_dl.html</loc></url>
 <url><loc>https://sagesteppe.github.io/BarnebyLives/reference/PLSS_dl.html</loc></url>
 <url><loc>https://sagesteppe.github.io/BarnebyLives/reference/SGMC_dl.html</loc></url>
 <url><loc>https://sagesteppe.github.io/BarnebyLives/reference/TaxUnpack.html</loc></url>
@@ -29,6 +29,7 @@
 <url><loc>https://sagesteppe.github.io/BarnebyLives/reference/associates_writer.html</loc></url>
 <url><loc>https://sagesteppe.github.io/BarnebyLives/reference/author_check.html</loc></url>
 <url><loc>https://sagesteppe.github.io/BarnebyLives/reference/autofill_checker.html</loc></url>
+<url><loc>https://sagesteppe.github.io/BarnebyLives/reference/check_data_setup_outputs.html</loc></url>
 <url><loc>https://sagesteppe.github.io/BarnebyLives/reference/collection_examples.html</loc></url>
 <url><loc>https://sagesteppe.github.io/BarnebyLives/reference/collection_writer.html</loc></url>
 <url><loc>https://sagesteppe.github.io/BarnebyLives/reference/coords2sf.html</loc></url>
@@ -41,11 +42,11 @@
 <url><loc>https://sagesteppe.github.io/BarnebyLives/reference/directions_grabber.html</loc></url>
 <url><loc>https://sagesteppe.github.io/BarnebyLives/reference/directions_overview.html</loc></url>
 <url><loc>https://sagesteppe.github.io/BarnebyLives/reference/dms2dd.html</loc></url>
+<url><loc>https://sagesteppe.github.io/BarnebyLives/reference/escape_latex.html</loc></url>
 <url><loc>https://sagesteppe.github.io/BarnebyLives/reference/family_spell_check.html</loc></url>
 <url><loc>https://sagesteppe.github.io/BarnebyLives/reference/format_database_import.html</loc></url>
 <url><loc>https://sagesteppe.github.io/BarnebyLives/reference/format_degree.html</loc></url>
 <url><loc>https://sagesteppe.github.io/BarnebyLives/reference/geodata_writer.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/reference/geological_map.html</loc></url>
 <url><loc>https://sagesteppe.github.io/BarnebyLives/reference/get_google_directions.html</loc></url>
 <url><loc>https://sagesteppe.github.io/BarnebyLives/reference/google_towns.html</loc></url>
 <url><loc>https://sagesteppe.github.io/BarnebyLives/reference/herbaria_info.html</loc></url>
@@ -63,6 +64,7 @@
 <url><loc>https://sagesteppe.github.io/BarnebyLives/reference/political_grabber.html</loc></url>
 <url><loc>https://sagesteppe.github.io/BarnebyLives/reference/powNAce.html</loc></url>
 <url><loc>https://sagesteppe.github.io/BarnebyLives/reference/powo_searcher.html</loc></url>
+<url><loc>https://sagesteppe.github.io/BarnebyLives/reference/process_geology.html</loc></url>
 <url><loc>https://sagesteppe.github.io/BarnebyLives/reference/process_gmba.html</loc></url>
 <url><loc>https://sagesteppe.github.io/BarnebyLives/reference/process_gnis.html</loc></url>
 <url><loc>https://sagesteppe.github.io/BarnebyLives/reference/process_grazing_allot.html</loc></url>
@@ -71,6 +73,7 @@
 <url><loc>https://sagesteppe.github.io/BarnebyLives/reference/project_examples.html</loc></url>
 <url><loc>https://sagesteppe.github.io/BarnebyLives/reference/randomNames.html</loc></url>
 <url><loc>https://sagesteppe.github.io/BarnebyLives/reference/result_grabber.html</loc></url>
+<url><loc>https://sagesteppe.github.io/BarnebyLives/reference/safe_untar.html</loc></url>
 <url><loc>https://sagesteppe.github.io/BarnebyLives/reference/shipping_examples.html</loc></url>
 <url><loc>https://sagesteppe.github.io/BarnebyLives/reference/site_writer.html</loc></url>
 <url><loc>https://sagesteppe.github.io/BarnebyLives/reference/species_font.html</loc></url>

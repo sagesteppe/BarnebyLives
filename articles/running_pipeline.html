@@ -16,6 +16,9 @@
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="BarnebyLives! Running pipeline">
+<meta name="description" content="How to download and configure taxonomic and geographic datasets required for a working BarnebyLives instance.">
+<meta property="og:description" content="How to download and configure taxonomic and geographic datasets required for a working BarnebyLives instance.">
+<meta property="og:image" content="https://sagesteppe.github.io/BarnebyLives/logo.png">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -57,6 +60,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>BarnebyLives! Running pipeline</h1>
             
+            <h4 data-toc-skip class="date">2025-10-05</h4>
       
 
       <div class="d-none name"><code>running_pipeline.Rmd</code></div>
@@ -78,12 +82,11 @@ alleviate the investment in time this requires, and in doing so allow
 the collector more time to do less onerous tasks; such as collection and
 study.</p>
 <p>While in theory all of the tasks in this script could be automated,
-doing so would be an unconscionable action against local taxonomic
-authorities. While several database options for updating collections
-(and spell checking names) which are current and well curated (e.g. Kew
-Plants of the World) exist, we feel many proposals and combinations
-require interpretation by those in the regions attempting to understand
-the material at hand.</p>
+doing so neglect the opinions of local taxonomic authorities. While
+several database options for updating collections (and spell checking
+names) which are current and well curated (e.g. Kew Plants of the World)
+exist, we feel many proposals and combinations require interpretation by
+those in the regions attempting to understand the material at hand.</p>
 <p>This script will perform the following tasks.</p>
 <div class="section level4">
 <h4 id="geographic">Geographic<a class="anchor" aria-label="anchor" href="#geographic"></a>
@@ -210,11 +213,9 @@ in multiple possible downstream software.</p>
 (DD).<a class="anchor" aria-label="anchor" href="#conversion-of-degrees-minutes-seconds-dms-to-decimal-degrees-dd-"></a>
 </h4>
 <p>The DMS format is still used in a few applications we will convert
-this to the more generally utilized DD format. Although DMS is certainly
-prettier to read, DD is just used so much more often we change
-everything to it. Sad. We will maintain both formats in the data set, so
-others have them readily available for other uses aside from creating
-herbarium labels.</p>
+this to the more generally utilized DD format. We will maintain both
+formats in the data set, so others have them readily available for other
+uses aside from creating herbarium labels.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dms2dd.html">dms2dd</a></span><span class="op">(</span><span class="va">data</span>, dms <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span>
 <span></span>
@@ -280,16 +281,6 @@ just think about it, that seems to be what people want.</p>
 <p>BarnebyLives acquires a range of characteristics which are useful to
 describe the physical environment, these are: elevation (both meters and
 feet), slope, aspect, surficial geology, and geomorphons.</p>
-<p>While most of BarnebyLives is dedicated towards addressing the peeves
-of curators with too much time on their hands, this module is for me.
-What I generally see, if people even both to describe the site at all,
-is that they are laser focused on a tiny micro-environment that they
-collected the individual plant in - not the characteristics of the
-population or even the general area of the population they are seeing. I
-don’t dislike these notes, in fact I find them of the utmost value.
-However, even those inclusions exist within a broader context, which is
-doing much habitat filtering in and of itself, and without this relation
-the obscurity of these certain habitats can be lost.</p>
 <p>Here are some details on some of the data sets which we are using.
 All elevation data come from <a href="https://www.earthenv.org/DEM" class="external-link">DEM90</a>, as the name implies this
 data set is at roughly 90 meters of roughly in the X and Y dimensions.
@@ -305,10 +296,7 @@ things, but here they refer to <a href="https://www.sciencedirect.com/science/ar
 standardized landform positions</a> <a href="https://portal.opentopography.org/dataspace/dataset?opentopoID=OTDS.012020.4326.1" class="external-link">Geomorpho90m</a>,
 which are useful for characterizing landform position. These are useful
 for spatial ecology and describe where on the landscape the population
-was broadly located. Generally ‘Valleys’ tend to eat up more land cover
-than they should, often extending up into alluvial fans, but I find them
-very useful for describing roughly where on the landscape the population
-is.</p>
+was broadly located.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/physical_grabber.html">physical_grabber</a></span><span class="op">(</span><span class="va">data</span>, path <span class="op">=</span> <span class="va">p</span><span class="op">)</span></span></code></pre></div>
 </div>
@@ -346,21 +334,16 @@ submitted to Kew, as the fields could quickly overwhelm the API.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/associates_spell_check.html">associates_spell_check</a></span><span class="op">(</span><span class="va">data</span>, <span class="st">'Associates'</span>, path <span class="op">=</span> <span class="va">p</span><span class="op">)</span> <span class="co"># we can run on both columns. </span></span>
 <span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/associates_spell_check.html">associates_spell_check</a></span><span class="op">(</span><span class="va">data</span>, <span class="st">'Vegetation'</span>, path <span class="op">=</span> <span class="va">p</span><span class="op">)</span></span></code></pre></div>
-<p>Remove the collected species from the list of associated species.
-Many collectors will include the focal collection in the list of
-associated species when performing data entry for a site. We can remove
-it here.</p>
+<p>Remove the collected species from associated species lists. Many
+collectors include the focal collection when performing data entry.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/associate_dropper.html">associate_dropper</a></span><span class="op">(</span><span class="va">data</span>, <span class="st">'Full_name'</span>, col  <span class="op">=</span> <span class="st">'Associates'</span><span class="op">)</span></span>
 <span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/associate_dropper.html">associate_dropper</a></span><span class="op">(</span><span class="va">data</span>, <span class="st">'Full_name'</span>, col  <span class="op">=</span> <span class="st">'Vegetation'</span><span class="op">)</span></span></code></pre></div>
-<p>After BarnebyLives! has verified the spelling of the species it will
-submit it to Plants of the World Online to determine whether a more
-current and accepted name has been applied. BL! will not automatically
-over-write your submitted species, and it is important that you
-interpret the results of query. Especially as it is possible that
-<strong>spell_check</strong> has mis-matched your material to another
-name.</p>
-<p>Searches for synonym to species</p>
+<p>After BarnebyLives verifies spelling, it submits names to Plants of
+the World Online to check for synonymy. BL will not automatically
+overwrite your submitted species - interpretation of results is
+important, especially as <em>spell_check</em> may occasionally mis-match
+material.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">names</span> <span class="op">&lt;-</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_drop_geometry</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html" class="external-link">pull</a></span><span class="op">(</span><span class="va">Full_name</span><span class="op">)</span></span>
@@ -390,8 +373,9 @@ This may require interactive alterations from the user.</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># first ensure the columns are in the same order as google sheets</span></span>
 <span></span>
-<span><span class="va">processed</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://googlesheets4.tidyverse.org/reference/range_read.html" class="external-link">read_sheet</a></span><span class="op">(</span><span class="st">'1iOQBNeGqRJ3yhA-Sujas3xZ2Aw5rFkktUKv3N_e4o8M'</span>,</span>
-<span>                        sheet <span class="op">=</span> <span class="st">'Processed - Examples'</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
+<span><span class="va">processed</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://googlesheets4.tidyverse.org/reference/range_read.html" class="external-link">read_sheet</a></span><span class="op">(</span></span>
+<span>  <span class="st">'1iOQBNeGqRJ3yhA-Sujas3xZ2Aw5rFkktUKv3N_e4o8M'</span>,</span>
+<span>  sheet <span class="op">=</span> <span class="st">'Processed - Examples'</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="op">)</span> </span>
 <span></span>
 <span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_drop_geometry</a></span><span class="op">(</span><span class="va">directions</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
