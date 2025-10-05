@@ -7,8 +7,7 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 description: >
-  How to download and configure taxonomic and geographic datasets required
-  for a working BarnebyLives instance.
+  Rendering herbarium labels
 ---
 
 ```{r, echo = FALSE}

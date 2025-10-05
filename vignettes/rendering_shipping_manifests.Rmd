@@ -5,6 +5,8 @@ vignette: >
   %\VignetteIndexEntry{Rendering a shipping manifest}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+description: >
+  Rendering shipping manifests and transfer letters for shipping specimens.  
 ---
 
 ```{r, echo = FALSE}
