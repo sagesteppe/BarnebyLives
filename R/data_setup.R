@@ -82,6 +82,7 @@ data_setup <- function(path, pathOut, bound, cleanup) {
     mason = function() mason(path, pathOut, tile_cellsV),
     make_it_political = function() make_it_political(path, pathOut, tile_cells),
     process_gmba = function() process_gmba(path, pathOut, tile_cells),
+    process_valleys = function() process_valleys(path, pathOut, tile_cells),
     process_gnis = function() process_gnis(path, pathOut, bound),
     process_padus = function() process_padus(path, pathOut, bound, tile_cells),
     process_geology = function() process_geology(path, pathOut, tile_cells),
@@ -389,6 +390,45 @@ process_gmba <- function(path, pathOut, tile_cells) {
 
   message(crayon::green(
     "Done writing `mountains` data set. ",
+    format(Sys.time(), "%X")
+  ))
+}
+
+
+#' Set up the downloaded data for a BarnebyLives instance
+#'
+#' @description used within `data_setup`
+#' @keywords internal
+process_valleys <- function(path, pathOut, tile_cells) {
+  tile_cells <- sf::st_transform(tile_cells, 4269)
+  p <- file.path(path,  'Named_Valleys.gpkg')
+  valleys <- sf::st_read(p, quiet = T) |>
+    sf::st_make_valid() |>
+    sf::st_transform(4269)
+
+  sf::st_agr(valleys) = "constant"
+  sf::st_agr(tile_cells) <- 'constant'
+
+  mtns <- valleys |>
+    dplyr::select(MapName = transferred_tag) |>
+    sf::st_crop(sf::st_union(tile_cells))
+    sf::st_transform(4326)
+
+  mtns_gmba <-
+    bind_rows(
+    sf::st_read(file.path(pathOut, 'mountains', 'mountains.shp')),
+    mtns
+    )
+
+  sf::st_write(
+    mtns,
+    dsn = file.path(pathOut, 'mountains', 'mountains.shp'),
+    quiet = TRUE,
+    append = FALSE
+  )
+
+  message(crayon::green(
+    "Done writing `valleys` to the `mountains` data set. ",
     format(Sys.time(), "%X")
   ))
 }

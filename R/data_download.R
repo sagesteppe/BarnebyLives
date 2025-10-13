@@ -29,12 +29,12 @@ data_download <- function(path) {
 
   counties_dl(path)
   GMBA_dl(path)
+  Valleys_dl(path)
   allotments_dl(path)
-  GNIS_dl(path) #
+  GNIS_dl(path)
   PLSS_dl(path) # a slow one !
   SGMC_dl(path) # hardly ever works
 }
-
 
 #' download data
 #' @description dl data.
@@ -56,6 +56,7 @@ counties_dl <- function(path) {
   }
 }
 
+
 #' download data
 #' @description dl data.
 #'
@@ -74,6 +75,26 @@ GMBA_dl <- function(path) {
     )
   }
 }
+
+#' download data
+#' @description dl data.
+#'
+#' @keywords internal
+Valleys_dl <- function(path) {
+  # WORKS
+  fp <- file.path(path, 'Named_Valleys.gpkg')
+  if (file.exists(fp)) {
+    message('Product `Named Valleys` already downloaded. Skipping.')
+  } else {
+    URL <- 'https://github.com/sagesteppe/BarnebyLives_data/releases/download/v1.0/Named_Valleys.gpkg'
+    httr::GET(
+      URL,
+      httr::progress(),
+      httr::write_disk(path = fp, overwrite = TRUE)
+    )
+  }
+}
+
 
 #' download data
 #' @description dl data.
@@ -225,12 +246,12 @@ download_sgmc <- function(dest, url) {
   message(crayon::magenta(normalizePath(dest, mustWork = FALSE)))
 
   if (os == "Windows") {
-    message("👉 Install Git for Windows: https://gitforwindows.org/")
+    message("Install Git for Windows: https://gitforwindows.org/")
   } else if (os == "Darwin") {
-    message("👉 On macOS, use Homebrew: brew install wget curl")
+    message("On macOS, use Homebrew: brew install wget curl")
   } else if (os == "Linux") {
     message(
-      "👉 On Linux:\n  sudo apt install wget curl\n  OR\n  sudo dnf install wget curl"
+      "On Linux:\n  sudo apt install wget curl\n  OR\n  sudo dnf install wget curl"
     )
   }
 
