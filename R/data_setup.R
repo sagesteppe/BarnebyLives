@@ -411,7 +411,7 @@ process_valleys <- function(path, pathOut, tile_cells) {
 
   mtns <- valleys |>
     dplyr::select(MapName = transferred_tag) |>
-    sf::st_crop(sf::st_union(tile_cells))
+    sf::st_crop(sf::st_union(tile_cells)) |>
     sf::st_transform(4326)
 
   mtns_gmba <-
