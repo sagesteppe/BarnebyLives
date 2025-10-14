@@ -78,49 +78,91 @@ or simply append the spell checked columns.</p></dd>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">split_scientificName</span><span class="op">(</span><span class="va">ce</span><span class="op">)</span><span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> `sciName_col` argument not supplied, using: Binomial</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Collection_number                       x...sciName_col.           Genus</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1              2858                       Scutellaria nana     Scutellaria</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2              2931 Leptosiphon nuttallii subsp. nuttallii     Leptosiphon</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3              2926                   Poa secunda J. Presl             Poa</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4              2833                   Mentzelia albicaulis       Mentzelia</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5              2900                      Micranthes aprica      Micranthes</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6              2862                Pseudoroegneria spicata Pseudoroegneria</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      Epithet      Binomial_authority          Name_authority Infraspecific_rank</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1       nana        Scutellaria nana        Scutellaria nana               &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2  nuttallii   Leptosiphon nuttallii   Leptosiphon nuttallii               &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3    secunda    Poa secunda J. Presl                J. Presl               &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 albicaulis    Mentzelia albicaulis    Mentzelia albicaulis               &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5     aprica       Micranthes aprica       Micranthes aprica               &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6    spicata Pseudoroegneria spicata Pseudoroegneria spicata               &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Infraspecies Infraspecific_authority</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1         &lt;NA&gt;                    &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2         &lt;NA&gt;                    &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3         &lt;NA&gt;                    &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4         &lt;NA&gt;                    &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5         &lt;NA&gt;                    &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6         &lt;NA&gt;                    &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Collection_number</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1              2858</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2              2932</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3              2926</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4              2833</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5              2900</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6              2862</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                              x...sciName_col.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1                                      Leptosiphon nuttallii subsp. nuttallii</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2                                                Agoseris glauca (Pursh) Raf.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3                                                        Mentzelia albicaulis</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4                                                           Micranthes aprica</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5                                                     Pseudoroegneria spicata</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 Leptosiphon nuttallii (A. Gray) J.M. Porter &amp; L.A. Johnson subsp. nuttallii</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             Genus    Epithet</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1     Leptosiphon  nuttallii</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2        Agoseris     glauca</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3       Mentzelia albicaulis</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4      Micranthes     aprica</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 Pseudoroegneria    spicata</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6     Leptosiphon  nuttallii</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                           Binomial_authority</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1                                      Leptosiphon nuttallii</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2                               Agoseris glauca (Pursh) Raf.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3                                       Mentzelia albicaulis</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4                                          Micranthes aprica</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5                                    Pseudoroegneria spicata</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 Leptosiphon nuttallii (A. Gray) J.M. Porter &amp; L.A. Johnson</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                         Name_authority Infraspecific_rank Infraspecies</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1                Leptosiphon nuttallii             subsp.    nuttallii</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2                         (Pursh) Raf.             subsp.    nuttallii</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3                 Mentzelia albicaulis             subsp.    nuttallii</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4                    Micranthes aprica             subsp.    nuttallii</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5              Pseudoroegneria spicata             subsp.    nuttallii</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 (A. Gray) J.M. Porter &amp; L.A. Johnson             subsp.    nuttallii</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Infraspecific_authority</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1                    &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2                    &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3                    &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4                    &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5                    &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6                    &lt;NA&gt;</span>
 <span class="r-in"><span><span class="fu">split_scientificName</span><span class="op">(</span><span class="va">ce</span>, sciName_col <span class="op">=</span> <span class="st">'Binomial'</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Collection_number                       x...sciName_col.           Genus</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1              2858                       Scutellaria nana     Scutellaria</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2              2931 Leptosiphon nuttallii subsp. nuttallii     Leptosiphon</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3              2926                   Poa secunda J. Presl             Poa</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4              2833                   Mentzelia albicaulis       Mentzelia</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5              2900                      Micranthes aprica      Micranthes</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6              2862                Pseudoroegneria spicata Pseudoroegneria</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      Epithet      Binomial_authority          Name_authority Infraspecific_rank</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1       nana        Scutellaria nana        Scutellaria nana               &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2  nuttallii   Leptosiphon nuttallii   Leptosiphon nuttallii               &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3    secunda    Poa secunda J. Presl                J. Presl               &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 albicaulis    Mentzelia albicaulis    Mentzelia albicaulis               &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5     aprica       Micranthes aprica       Micranthes aprica               &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6    spicata Pseudoroegneria spicata Pseudoroegneria spicata               &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Infraspecies Infraspecific_authority</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1         &lt;NA&gt;                    &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2         &lt;NA&gt;                    &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3         &lt;NA&gt;                    &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4         &lt;NA&gt;                    &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5         &lt;NA&gt;                    &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6         &lt;NA&gt;                    &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Collection_number</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1              2858</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2              2932</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3              2926</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4              2833</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5              2900</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6              2862</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                              x...sciName_col.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1                                      Leptosiphon nuttallii subsp. nuttallii</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2                                                Agoseris glauca (Pursh) Raf.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3                                                        Mentzelia albicaulis</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4                                                           Micranthes aprica</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5                                                     Pseudoroegneria spicata</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 Leptosiphon nuttallii (A. Gray) J.M. Porter &amp; L.A. Johnson subsp. nuttallii</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             Genus    Epithet</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1     Leptosiphon  nuttallii</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2        Agoseris     glauca</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3       Mentzelia albicaulis</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4      Micranthes     aprica</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 Pseudoroegneria    spicata</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6     Leptosiphon  nuttallii</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                           Binomial_authority</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1                                      Leptosiphon nuttallii</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2                               Agoseris glauca (Pursh) Raf.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3                                       Mentzelia albicaulis</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4                                          Micranthes aprica</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5                                    Pseudoroegneria spicata</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 Leptosiphon nuttallii (A. Gray) J.M. Porter &amp; L.A. Johnson</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                         Name_authority Infraspecific_rank Infraspecies</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1                Leptosiphon nuttallii             subsp.    nuttallii</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2                         (Pursh) Raf.             subsp.    nuttallii</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3                 Mentzelia albicaulis             subsp.    nuttallii</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4                    Micranthes aprica             subsp.    nuttallii</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5              Pseudoroegneria spicata             subsp.    nuttallii</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 (A. Gray) J.M. Porter &amp; L.A. Johnson             subsp.    nuttallii</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Infraspecific_authority</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1                    &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2                    &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3                    &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4                    &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5                    &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6                    &lt;NA&gt;</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
