@@ -29,8 +29,7 @@ political_grabber <- function(x, y, path) {
   feature <- sf::st_read(
     file.path(p2geo, 'mountains', 'mountains.shp'),
     quiet = T
-  ) |>
-    dplyr::rename(Feature = Mountains)
+  )
 
   allotment <- sf::st_read(
     file.path(path, 'allotments', 'allotments.shp'),
