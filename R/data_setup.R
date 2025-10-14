@@ -377,8 +377,9 @@ process_gmba <- function(path, pathOut, tile_cells) {
     dplyr::select(MapName) |>
     sf::st_crop(sf::st_union(tile_cells)) |>
     dplyr::rename(Mountains = MapName) |>
-    dplyr::mutate(Mountains = stringr::str_remove(Mountains, '[(]nn[])]')) |>
-    sf::st_transform(4326)
+    dplyr::mutate(Feature = stringr::str_remove(Mountains, '[(]nn[])]')) |>
+    sf::st_transform(4326) |>
+    dplyr::select(-Mountains)
 
   dir.create(file.path(pathOut, 'mountains'), showWarnings = FALSE)
   sf::st_write(
@@ -410,13 +411,14 @@ process_valleys <- function(path, pathOut, tile_cells) {
   sf::st_agr(tile_cells) <- 'constant'
 
   mtns <- valleys |>
-    dplyr::select(MapName = transferred_tag) |>
+    dplyr::select(Feature = transferred_tag) |>
     sf::st_crop(sf::st_union(tile_cells)) |>
-    sf::st_transform(4326)
+    sf::st_transform(4326) |>
+    sf::st_make_valid()
 
   mtns_gmba <-
     bind_rows(
-    sf::st_read(file.path(pathOut, 'mountains', 'mountains.shp')),
+    sf::st_read(file.path(pathOut, 'mountains', 'mountains.shp'), quiet = T),
     mtns
     )
 

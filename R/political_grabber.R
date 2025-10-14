@@ -26,27 +26,18 @@ political_grabber <- function(x, y, path) {
     file.path(path, 'political', 'political.shp'),
     quiet = T
   )
-  mountains <- sf::st_read(
+  feature <- sf::st_read(
     file.path(p2geo, 'mountains', 'mountains.shp'),
     quiet = T
   ) |>
     dplyr::rename(Feature = Mountains)
-  valleys <- sf::st_read(
-    file.path(p2geo, 'valleys', 'valleys_11-5.shp'),
-    quiet = T
-  ) |>
-    sf::st_transform(sf::st_crs(mountains)) |>
-    dplyr::rename(Feature = Valley) |>
-    dplyr::select(Feature)
+
   allotment <- sf::st_read(
     file.path(path, 'allotments', 'allotments.shp'),
     quiet = T
   )
   plss <- sf::st_read(file.path(path, 'plss', 'plss.shp'), quiet = T)
   ownership <- sf::st_read(file.path(path, 'pad', 'pad.shp'), quiet = T)
-
-  feature <- dplyr::bind_rows(mountains, valleys) |>
-    sf::st_make_valid()
 
   # write attributes to data set
 
