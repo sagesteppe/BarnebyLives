@@ -16,6 +16,9 @@
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Customizing label fonts">
+<meta name="description" content="Changing the default font, using multiple fonts, downloading fonts from online. ">
+<meta property="og:description" content="Changing the default font, using multiple fonts, downloading fonts from online. ">
+<meta property="og:image" content="https://sagesteppe.github.io/BarnebyLives/logo.png">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -67,12 +70,6 @@
 <div class="section level3">
 <h3 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h3>
-<p>Obviously, everyone wants to be able to customize their label
-templates! Why go through the bother of installing and running
-<code>BarnebyLives</code> if you cannot do that!</p>
-<p>Note that the labels are made using LaTeX, an awesome guide for LaTeX
-(relevant to the level you will be using it at) is <a href="https://www.overleaf.com/learn/latex/Learn_LaTeX_in_30_minutes" class="external-link">Overleaf.org</a>,
-and check the links in the side bar too!</p>
 <p>In this vignette we will replace the default LaTeX fonts with add-on
 fonts using the <code>fontspec</code> <a href="https://ctan.org/pkg/fontspec?lang=en" class="external-link">package</a>, an illustrated
 guide of it’s fonts is available <a href="https://www.overleaf.com/latex/templates/fontspec-all-the-fonts/hjrpnxhrrtxc" class="external-link">here</a>.<br>
@@ -134,8 +131,8 @@ line reads something like</p>
 <span>  <span class="va">l.nevadense</span>, </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">local</span>, <span class="st">'SoS-ExampleCollection.csv'</span><span class="op">)</span>,</span>
 <span>  row.names <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span></code></pre></div>
-<p>All of the labels can be copied from their original locations using
-the following code.</p>
+<p>Be sure that you have copied the relevant skeleton to a local
+directory for use.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">p2lib</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span>package <span class="op">=</span> <span class="st">'BarnebyLives'</span><span class="op">)</span>,</span>
@@ -176,8 +173,8 @@ header-includes:
 <code>- \setmainfont{Georgia}</code> are required to use a custom
 font.</p>
 <p>Note that the last line in the preamble is: this is the command
-<code>setmainfont</code> and we specifying that our mainfont should be
-changed to ‘Georgia’.</p>
+<code>setmainfont</code> and we are specifying that our mainfont should
+be changed to ‘Georgia’.</p>
 </div>
 <div class="section level3">
 <h3 id="examples-with-common-fonts">Examples with Common Fonts<a class="anchor" aria-label="anchor" href="#examples-with-common-fonts"></a>
@@ -201,7 +198,8 @@ header-includes:
   - \newfontfamily\couriernew{Courier New}</code></pre>
 <p>Once you have the loaded the font via specification in the YAML
 header, you can specify where it is used using the
-<code>\textcouriernew{...}</code> command.</p>
+<code>\textcouriernew{...}</code> command anywhere in the labels
+skeleton.</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>...</span>
 <span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>\textcouriernew{<span class="st">`</span><span class="at">r writer(data[['Habitat']])</span><span class="st">`</span>. <span class="st">`</span><span class="at">r data[['physical_environ']]</span><span class="st">`</span>}</span>
 <span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>Veg.<span class="sc">:</span> <span class="st">`</span><span class="at">r species_font(record[['Vegetation']])</span><span class="st">`</span> <span class="st">`</span><span class="at">r associates_writer(record[['Associates']])</span><span class="st">`</span></span>
@@ -259,6 +257,13 @@ into the downloaded font directory and include a trailing ‘/’.</p>
 <embed src="../man/figures/custom-font-downloaded2823.pdf"></embed><div class="figcaption"><em>A downloaded font</em></div>
 </div>
 <p><br></p>
+<div class="section level3">
+<h3 id="thats-it-">that’s it.<a class="anchor" aria-label="anchor" href="#thats-it-"></a>
+</h3>
+<p>have fun folks, the number of fonts out there ar epretty much
+limitless and you can play with different weights etc. to get something
+you really like.</p>
+</div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
