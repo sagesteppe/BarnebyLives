@@ -60,7 +60,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>BarnebyLives! Running pipeline</h1>
             
-            <h4 data-toc-skip class="date">2025-10-14</h4>
+            <h4 data-toc-skip class="date">2025-10-19</h4>
       
 
       <div class="d-none name"><code>running_pipeline.Rmd</code></div>
@@ -153,8 +153,8 @@ in multiple possible downstream software.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/date_parser.html">date_parser</a></span><span class="op">(</span><span class="va">df</span>, coll_date <span class="op">=</span> <span class="st">'Date_digital'</span>, det_date <span class="op">=</span> <span class="st">'Determined_date'</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">data</span>, <span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with</a></span><span class="op">(</span><span class="st">'Date'</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu">utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">data</span>, <span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with</a></span><span class="op">(</span><span class="st">'Date'</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <div class="section level4">
 <h4 id="conversion-of-degrees-minutes-seconds-dms-to-decimal-degrees-dd-">Conversion of Degrees Minutes Seconds (DMS) to Decimal Degrees
 (DD).<a class="anchor" aria-label="anchor" href="#conversion-of-degrees-minutes-seconds-dms-to-decimal-degrees-dd-"></a>
@@ -174,7 +174,6 @@ default. We try to identify that issue here.</p>
 <code class="sourceCode R"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/autofill_checker.html">autofill_checker</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">data</span>, <span class="va">Long_AutoFill_Flag</span>, <span class="va">Lat_AutoFill_Flag</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/drop_na.html" class="external-link">drop_na</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>For internal usage and data acquisition we will make data set
 explicitly spatial, rather than just holding coordinates in a column.
@@ -182,7 +181,10 @@ This is also required to write out data in a format readable by Google
 Earth or another Geographic Information System.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/coords2sf.html">coords2sf</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span> <span class="co"># now we can see that it is an sf object</span></span></code></pre></div>
+<span></span>
+<span><span class="va">data</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">Collection_number</span>, <span class="va">geometry</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># now we can see that it is an sf object</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level3">
@@ -293,7 +295,7 @@ important, especially as <em>spell_check</em> may occasionally mis-match
 material.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">names</span> <span class="op">&lt;-</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_drop_geometry</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html" class="external-link">pull</a></span><span class="op">(</span><span class="va">Full_name</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html" class="external-link">pull</a></span><span class="op">(</span><span class="va">Full_name</span><span class="op">)</span> <span class="co"># should be a vector fo searching</span></span>
 <span></span>
 <span><span class="va">pow_res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">names</span>,</span>
 <span>      <span class="va">powo_searcher</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
@@ -316,9 +318,22 @@ This may require interactive alterations from the user.</p>
 <div class="section level2">
 <h2 id="export-collections">Export collections<a class="anchor" aria-label="anchor" href="#export-collections"></a>
 </h2>
+<p>Write out the data for use in label generation, and as a master copy
+for exporting data for mass upload to a database.</p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">## Export Collections </span></span>
+<span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_drop_geometry</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>Coordinate_uncertainty <span class="op">=</span> <span class="st">"+/- 5m"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">## mac can be weird with this file. </span></span>
+<span><span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/write_delim.html" class="external-link">write_excel_csv</a></span><span class="op">(</span></span>
+<span>  <span class="va">data</span>, </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="st">'..'</span>, <span class="st">'labels'</span>, <span class="st">'cleaned_collection_data.csv'</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
 <p>We can also export collections as either (or both!) a ‘shapefile’ or
 KML for use in GIS or GoogleEarth.</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/geodata_writer.html">geodata_writer</a></span><span class="op">(</span><span class="va">data</span>, path <span class="op">=</span> <span class="st">'someplace'</span>, </span>
 <span>               filename <span class="op">=</span> <span class="st">'Herbarium_Collections_2023'</span>,</span>
 <span>               filetype <span class="op">=</span> <span class="st">'kml'</span><span class="op">)</span></span></code></pre></div>

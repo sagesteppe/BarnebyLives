@@ -60,7 +60,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Preparing to use BarnebyLives!</h1>
             
-            <h4 data-toc-skip class="date">2025-10-14</h4>
+            <h4 data-toc-skip class="date">2025-10-19</h4>
       
 
       <div class="d-none name"><code>setting_up_files.Rmd</code></div>
@@ -72,15 +72,18 @@
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
 <p>This vignette walks you through five steps:<br>
-- 1) Download taxonomic data (5-15 minutes, ~500MiB)<br>
+- 1) Download taxonomic data (2-10 minutes, ~500MiB)<br>
 - 2) Download geographic data (a couple hours depending on extent)<br>
-- 3) Set up the instance (30-45 minutes processing) - 4) Verify
+- 3) Set up the instance (15-45 minutes processing) - 4) Verify
 success</p>
 <p>System requirements: - Stable internet connection for downloads -
-4-20 GB available disk space (varies by geographic extent) - R version ≥
-4.0.0</p>
+4-20 GB available disk space (varies by geographic extent) - however the
+temporary objects, i.e. after downloading but before running
+<code>data_setup</code> will require significantly more memory. - R
+version ≥ 4.0.0</p>
 <p>You only need to do this once before using the package for analyses
-or label printing.</p>
+or label printing. Aside from the taxonomy module, none of this has to
+be re-ran.</p>
 </div>
 <div class="section level2">
 <h2 id="decide-where-to-store-data">Decide where to store data<a class="anchor" aria-label="anchor" href="#decide-where-to-store-data"></a>
@@ -103,13 +106,14 @@ requirements vary by geographic scope:</p>
 <p>It’s important that you decide where BarnebyLives will be installed
 on your computer. Below, I will be downloading and copying some of the
 data to an external drive mounted to my system, where I have a directory
-named ‘Barneby_Lives-dev’.</p>
+named ‘BL_sandbox’.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Example directory (adjust for your system)</span></span>
 <span><span class="va">bl_dir</span> <span class="op">&lt;-</span> <span class="st">"/media/steppe/hdd/BL_sandbox"</span></span></code></pre></div>
-<p>Note: All file paths in analytical functions can be specified
-independently, allowing you to relocate data after setup without
-breaking functionality.</p>
+<p>Note: All file paths in the pipeline can be specified independently,
+allowing you to relocate data after setup without breaking
+functionality. So don’t worry if you start an install somewhere you
+don’t want the data to end up.</p>
 <div class="section level3">
 <h3 id="taxonomic-data">Taxonomic Data<a class="anchor" aria-label="anchor" href="#taxonomic-data"></a>
 </h3>
@@ -123,7 +127,10 @@ data, creating three lookup tables:</p>
 <p>Complete species catalog Infraspecific taxa (varieties and
 subspecies) Genus-level taxonomy</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">bl_dir</span>, <span class="st">'taxdata-MI'</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="co">## download and process the taxonomic data</span></span>
+<span><span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">bl_dir</span>, <span class="st">'taxdata'</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/wcvp_update.html">wcvp_update</a></span><span class="op">(</span><span class="va">p2</span><span class="op">)</span> </span>
 <span><span class="fu"><a href="../reference/TaxUnpack.html">TaxUnpack</a></span><span class="op">(</span>path <span class="op">=</span> <span class="va">p2</span>, bound <span class="op">=</span> <span class="va">bound</span><span class="op">)</span></span></code></pre></div>
 <div class="section level4">
 <h4 id="ipni">IPNI<a class="anchor" aria-label="anchor" href="#ipni"></a>
@@ -143,12 +150,12 @@ labels.</p>
 <h4 id="automated-downloads">Automated downloads<a class="anchor" aria-label="anchor" href="#automated-downloads"></a>
 </h4>
 <p>The <code>data_download</code> function retrieves most geographic
-datasets automatically.</p>
+data sets automatically.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># I am using R markdown so want to be really sure save data to the correct location</span></span>
 <span><span class="co"># so I will use an absolute path</span></span>
-<span><span class="fu"><a href="../reference/data_download.html">data_download</a></span><span class="op">(</span>path <span class="op">=</span> <span class="va">bl_dir</span><span class="op">)</span> </span>
-<span><span class="co"># if you are using an interactive R script. (file.R) you should be able to do something</span></span>
+<span><span class="fu"><a href="../reference/data_download.html">data_download</a></span><span class="op">(</span>path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">bl_dir</span>, <span class="st">'raw'</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co"># if you are using an interactive R script. (fileR) you should be able to do something</span></span>
 <span><span class="co"># similar or even just cd into the directory where you want to save everything and </span></span>
 <span><span class="co"># run the function ala `download-data()`</span></span></code></pre></div>
 </div>
@@ -159,7 +166,8 @@ datasets automatically.</p>
 <p>Geographic data are organized in tiles following standard
 conventions. Define your study area as a bounding box using decimal
 degrees (WGS84/EPSG:4326 - default systems in most cartography software
-are close enough).</p>
+are close enough). Google Maps will work fine for this, just go a few
+miles outside of your extent to be sure.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">bound</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
 <span>   y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span> <span class="fl">48</span>,  <span class="fl">48</span>,  <span class="fl">41</span>,  <span class="fl">41</span>,  <span class="fl">48</span><span class="op">)</span>,</span>
@@ -204,8 +212,8 @@ am 100% certain that all downloads are good, which means running data
 through the pipeline and printing labels a couple times.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/data_setup.html">data_setup</a></span><span class="op">(</span> <span class="co"># this one will take maybe 30 minutes or so </span></span>
-<span>  path <span class="op">=</span> <span class="va">bl_dir</span>, </span>
-<span>  pathOut <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">bl_dir</span>, <span class="st">'geodata-MI'</span><span class="op">)</span>,</span>
+<span>  path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">bl_dir</span>, <span class="st">'raw'</span><span class="op">)</span>, </span>
+<span>  pathOut <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">bl_dir</span>, <span class="st">'geo'</span><span class="op">)</span>,</span>
 <span>  bound <span class="op">=</span> <span class="va">bound</span>, cleanup <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
 </div>
@@ -213,10 +221,21 @@ through the pipeline and printing labels a couple times.</p>
 <div class="section level2">
 <h2 id="finishing-up-">Finishing up.<a class="anchor" aria-label="anchor" href="#finishing-up-"></a>
 </h2>
+<p>You can check that all files are in place by running `` and you
+should be good to go forward</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># and you can check that everything has been set up using this. </span></span>
+<span><span class="fu"><a href="../reference/check_data_setup_outputs.html">check_data_setup_outputs</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">bl_dir</span>, <span class="st">'geo'</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>And that’s it! After a few runs of the system feel free to delete the
 raw data, you can do that by hand, or by initializing the instance using
 the <code>data_setup</code> function again. But that kind of seems like
 overkill!</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/data_setup.html">data_setup</a></span><span class="op">(</span> <span class="co"># this one will take maybe 30 minutes or so </span></span>
+<span>  path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">bl_dir</span>, <span class="st">'raw'</span><span class="op">)</span>, </span>
+<span>  pathOut <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">bl_dir</span>, <span class="st">'geo'</span><span class="op">)</span>,</span>
+<span>  bound <span class="op">=</span> <span class="va">bound</span>, cleanup <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="next-steps">Next Steps<a class="anchor" aria-label="anchor" href="#next-steps"></a>
 </h3>

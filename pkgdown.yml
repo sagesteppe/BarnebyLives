@@ -3,7 +3,6 @@ pkgdown: 2.1.3
 pkgdown_sha: ~
 articles:
   built_in_templates: built_in_templates.html
-  creating_labels-v2: creating_labels-v2.html
   creating_labels: creating_labels.html
   custom_label_fonts: custom_label_fonts.html
   custom_label_logos_maps: custom_label_logos_maps.html
@@ -11,7 +10,7 @@ articles:
   rendering_shipping_manifests: rendering_shipping_manifests.html
   running_pipeline: running_pipeline.html
   setting_up_files: setting_up_files.html
-last_built: 2025-10-14T01:32Z
+last_built: 2025-10-19T18:04Z
 urls:
   reference: https://sagesteppe.github.io/BarnebyLives/reference
   article: https://sagesteppe.github.io/BarnebyLives/articles
