@@ -181,7 +181,7 @@ Veg.: `r species_font(data$Vegetation)` `r associates_writer(data$Associates)`
 
 And below is the skeleton with the line inserted. 
 
-```{r add a space do it, eval = F}
+```{r add a space to it, eval = F}
 \begingroup
 `r data$Gen`. `r writer(data$Site)` `r data$latitude_dd` `r data$longitude_dd` (`r data$Datum` `r writer(data$Coordinate_Uncertainty)`).
 
@@ -284,5 +284,5 @@ Using my initials after my full name makes sense, in this context, who the hell 
 
 ## In summary 
 
-Just bear in mind you can make big changes to labels with small steps (maybe too small?)!
+Just bear in mind you can make big changes to labels with small steps!
 The overleaf guide has https://www.overleaf.com/learn everything you need, and you'll probably realize this pales in comparison.

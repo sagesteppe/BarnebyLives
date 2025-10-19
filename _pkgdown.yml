@@ -100,6 +100,6 @@ articles:
   - title: "Creating customized labels" 
     desc: "User specified label modifications"
     contents:
-    - "Customizing a label template"
+    - customizing_a_label_template
     - custom_label_fonts
 

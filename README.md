@@ -15,11 +15,8 @@ abilities to search for taxonomic synonyms, check spelling of family,
 genus, and species names, as well as author abbreviations.
 
 BarnebyLives! serves the entirety of the flora of the western
-conterminous US, which coincides with the Mississippi River. It also
-includes the entirety of the state of Illinois, and portions of Indiana.
-However, the area is bounded on it’s North by Canada and South by
-Mexico, essentially it covers the western portion of the Conterminous
-United States (which excludes Alaska). While it covers this range, most
+conterminous US. 
+While it covers this range, most
 variables are focused on supporting botanists working West of the Rocky
 Mountain Front Range, especially those operating on Bureau of Land
 Management and Forest Service administered lands.
@@ -56,7 +53,7 @@ species
 this implies the location can be driven to in the first place.
 
 **Other features include**  
-- Date parsing, e.g. convert date into congruent museum formats (month
+- Date parsing, e.g. convert date into congruent museum formats (month
 in European style)  
 - Conversion of Degrees Minutes Seconds (DMS) to Decimal Degrees (DD)  
 - Exporting collection data as a ‘shapefile’ or KML for use in a GIS or
@@ -73,7 +70,7 @@ and Consortium of Pacific Northwest Herbaria.
 Currently BarnebyLives! Is being run on a juiced up computer either in
 Rogers Park Chicago or Reno. The amount of data which it queries is very
 large. Please let me know if you have a query and I will run it for you.
-If you only collect from a smaller portion of the West, e.g. a certain
+If you only collect from a smaller portion of the West, e.g. a certain
 state, or FS/BLM Unit/Field Office, you should be able to set up a local
 instance. Although, the documentation for such an endeavor is nascent
 the endeavor is simple, see “crop2boundary” for the workflow.
