@@ -5,6 +5,8 @@ vignette: >
   %\VignetteIndexEntry{Customizing label fonts}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+description: >
+  Changing the default font, using multiple fonts, downloading fonts from online. 
 ---
 
 ```{r setup, include=FALSE}
@@ -14,10 +16,6 @@ knitr::opts_chunk$set(warning = FALSE)
 ```
 
 ## Overview 
-Obviously, everyone wants to be able to customize their label templates! 
-Why go through the bother of installing and running `BarnebyLives` if you cannot do that!  
-
-Note that the labels are made using LaTeX, an awesome guide for LaTeX (relevant to the level you will be using it at) is [Overleaf.org](https://www.overleaf.com/learn/latex/Learn_LaTeX_in_30_minutes), and check the links in the side bar too! 
 
 In this vignette we will replace the default LaTeX fonts with add-on fonts using the `fontspec` [package](https://ctan.org/pkg/fontspec?lang=en), an illustrated guide of it's fonts is available [here](https://www.overleaf.com/latex/templates/fontspec-all-the-fonts/hjrpnxhrrtxc).  
 Also note that previously you *may* have been able to scrape by using any old LaTeX installation, at this point you will definitely need to make sure you have either XelaTex for lualatext installed. 
@@ -89,9 +87,9 @@ write.csv(
   row.names = F)
 ```
 
-All of the labels can be copied from their original locations using the following code.  
+Be sure that you have copied the relevant skeleton to a local directory for use.   
 
-```{r copy a template to a local directory, eval = F}
+```{r copy a template to a local directory, eval = F,}
 p2lib <- file.path(
   system.file(package = 'BarnebyLives'),
   'rmarkdown', 'templates', 'labels', 'skeleton'
@@ -161,7 +159,7 @@ header-includes:
 
 Notice that the last two lines in this *excerpt* of the header `- \usepackage{fontspec}` and `- \setmainfont{Georgia}` are required to use a custom font. 
 
-Note that the last line in the preamble is: \setmainfont{Georgia} this is the command `setmainfont` and we specifying that our mainfont should be changed to 'Georgia'.  
+Note that the last line in the preamble is: \setmainfont{Georgia} this is the command `setmainfont` and we are specifying that our mainfont should be changed to 'Georgia'.  
 
 ## Examples with Common Fonts
 
@@ -182,7 +180,7 @@ header-includes:
   - \newfontfamily\couriernew{Courier New}
 ```
 
-Once you have the loaded the font via specification in the YAML header, you can specify where it is used using the `\textcouriernew{...}` command. 
+Once you have the loaded the font via specification in the YAML header, you can specify where it is used using the `\textcouriernew{...}` command anywhere in the labels skeleton.
 
 ```{r multiple fonts 1, eval = F}
 ...
@@ -243,3 +241,7 @@ Which gets us the following.
 ![*A downloaded font*](../man/figures/custom-font-downloaded2823.pdf)  
 
 <br>
+
+## that's it. 
+
+have fun folks, the number of fonts out there ar epretty much limitless and you can play with different weights etc. to get something you really like. 

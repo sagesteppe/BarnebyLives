@@ -92,12 +92,12 @@ articles:
     contents: 
     - creating_labels
     - rendering_shipping_manifests
-  - title: "Built in templates"
+  - title: "Built in herbarium label templates"
     desc: "Visual examples of some built in templates"
     contents: 
     - built_in_templates
     - labels_with_graphics
-  - title: "Creating customized labels" 
+  - title: "Customizing and altering herbarium label templates" 
     desc: "User specified label modifications"
     contents:
     - customizing_a_label_template

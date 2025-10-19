@@ -5,6 +5,8 @@ vignette: >
   %\VignetteIndexEntry{Built in templates}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+description: >
+  All of the built in herbarium label templates. 
 ---
 
 ```{r setup, include=FALSE}
