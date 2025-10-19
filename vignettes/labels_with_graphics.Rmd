@@ -1,10 +1,12 @@
 ---
-title: "Custom label logos and maps"
+title: "Labels with graphics"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Custom label logos and maps}
+  %\VignetteIndexEntry{Labels with graphics}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+description: >
+  Using the label templates which allow you to embed, grphics, such as maps or logos onto them.  
 ---
 
 ```{r setup, include=FALSE}
@@ -14,14 +16,12 @@ knitr::opts_chunk$set(warning = FALSE)
 ```
 
 ## Overview 
-Obviously, everyone wants to be able to customize their label templates! 
-Why go through the bother of installing and running `BarnebyLives` if you cannot do that!  
 
 This section is on embedding maps or logos onto labels. 
 
 Note that the labels are made using LaTeX, an awesome guide for LaTeX (relevant to the level you will be using it at) is [Overleaf.org](https://www.overleaf.com/learn/latex/Learn_LaTeX_in_30_minutes), and check the links in the side bar too! 
 
-This vignette assumes you were able to get through `Custom Label Templates`. 
+Going through `Customizing a label template` before this vignette may be useful. 
 
 ## Prepare workspace
 
@@ -67,7 +67,7 @@ file.copy(
 ```
 
 We will also make a map to embed on a label. 
-To do this we use the map_maker function. 
+To do this we use the `map_maker` function. 
 Like many things in the package it is an homage to older styles, while aiming to be minimalist and looking good for time to come. 
 
 ```{r create map, eval = F}

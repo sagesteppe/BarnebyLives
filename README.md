@@ -101,7 +101,7 @@ sudo apt-get install pdftk -y
 ```
 
 We hope to collaborate with others to treat CONUS and to create
-multiformat data e.g. Darwincore, CPNWH, etc., and push this product
+multiformat data e.g. Darwincore, CPNWH, etc., and push this product
 onto CRAN as well as publish a short piece in APPS! It is on the
 backburner, but still simmering! Stay tuned in but dropped out!
 
@@ -242,11 +242,10 @@ the start of an argument…
 
     chmod +x render_labels.sh
     path2file/render_labels.sh collector='Dwight'
+    
 
-Also a reminder that you can check your paths via `$PATH`, and can
-install to somewhere on your path! e.g. ‘/usr/local/bin’, after that you
-can simply call it… But I’m not sure if it will find the dir you are
-looking for.
+But if you are in the current working directory you can omit the `bash` 
+part of the call if you have chmod`d the file. 
 
     render_labels.sh collector='Dwight'
 

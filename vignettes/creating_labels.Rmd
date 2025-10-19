@@ -72,15 +72,15 @@ The package provides a handful of templates, which can be further customized.
 We have to modify the skeletons so that they know where to load the data from. 
 Within the skeleton you just copied from the R package repository, you will need to modify where it loads data from. 
 
-A default template will have some code that looks like this:
+A default template (e.g. `skeleton-research.Rmd`) will have some code that looks like this in the first block. 
 ```{r, eval = F}
 record <- collection_examples |>
   dplyr::filter(Collection_number == params$Collection_number) |>  
   sf::st_drop_geometry()
 ```
 
-A modified template will look like the following. 
-(**note: we'll put this spreadsheet in the directory soon**). 
+A modified template will look like the following, and specify a real location to read data from. 
+Note that in both scenarios the filter line is essential so sync up the driving script and the labels to receive data. 
 
 ```{r, eval = F}
 data <- read.csv("ExampleCollection.csv") |>
@@ -92,7 +92,7 @@ data <- read.csv("ExampleCollection.csv") |>
 
 ## creating a driver script to feed the skeleton data
 
-Now we have the skeleton ready to receive data, but we will need to create another R script, which will be able to launch as many instances of `r`markdown::render` as we have labels we want to create. 
+Now we have the skeleton ready to receive data, but we will need to create another R script, which will be able to launch as many instances of `rmarkdown::render` as we have labels we want to create. 
 We'll call this script a 'driver' script. 
 We will use `purrr::walk()` to map `Rmarkdown::render` across each row of the data set we wish to create labels of. 
 The core of this script will be the call to `purrr`. 
@@ -113,27 +113,6 @@ Every iteration of this loop spins up a new R session, loads the skeleton, filte
 However, earlier in this driver script we will need to load identify which records we want to render. 
 Note that purrr will render the labels in the vector being feed to `.x`, which should always be `Collection_number`. 
 You can create a dummy ID for this if collectors collect without number. 
-
-For example first we may subset our collections from a run of the BL pipeline 
-
-and write these to be the data source which our skeleton will access
-
-```{r example of modifying skeleton}
-
-data('collection_examples')
-
-data <- collection_examples |>
-  #filter(Collection_number <= & Collection_number >= )
-  dplyr::mutate(Coordinate_Uncertainty = '+/- 5m') 
-
-write.csv(data, 'ExampleCollection.csv') # so accessible to our skeleton
-```
-
-next we will use the collection numbers to feed our chunk above. 
-```{r}
-
-```
-
 
 ## combining labels
 
@@ -158,7 +137,7 @@ The script lives at the installed BarnebyLives location...
 ```{r}
 print(p2libs)
 ```
-and is named `render_labels.sh`
+And is named `render_labels.sh`
 
 It can be copied to your label generation directory using bash, or R.
 
@@ -201,7 +180,7 @@ system2(command =
 This is normally the time when I also make a digital copy of the data for direct accessioning at the herbarium side. 
 
 Currently BL supports writing out data for mass upload in a few formats for herbaria (e.g. Symbiota, Jepson), but we are always eager to add more, so *PLEASE* do not hesitate to ask if you want something to be supported!
-There is a lot of code, but realistically all it is doing is replacing NA values with '', or empty contents, this is the best format for people to get NULL values for their databases. 
+There is a lot of code below, but realistically all it is doing is replacing NA values with '', or empty contents, this is the best format for people to get NULL values for their databases. 
 
 ```{r write out data for an herbarium database, eval = F}
 unique(database_templates$Database) # currently supported options. 

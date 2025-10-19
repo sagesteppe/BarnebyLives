@@ -82,23 +82,24 @@ reference:
       - writer2
 
 articles:
-  - title: "Data cleaning and pulling"
-    desc:
+  - title: "Setting up an instance, and cleaning collection data with it"
+    desc: 
     contents:
     - setting_up_files
     - running_pipeline
   - title: "General label and manifest creation"
-    desc: "Creating labels from default templates"
+    desc: "Creating labels"
     contents: 
     - creating_labels
     - rendering_shipping_manifests
-  - title: "Customizing labels" 
-    desc: "User specified label modifications"
-    contents:
-    - custom_label_templates
-    - custom_label_fonts
-    - custom_label_logos_maps
   - title: "Built in templates"
+    desc: "Visual examples of some built in templates"
     contents: 
     - built_in_templates
+    - labels_with_graphics
+  - title: "Creating customized labels" 
+    desc: "User specified label modifications"
+    contents:
+    - Customizing_a_label_template
+    - custom_label_fonts
 

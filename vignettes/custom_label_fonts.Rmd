@@ -1,8 +1,8 @@
 ---
-title: "Custom Label Fonts"
+title: "Customizing label fonts"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Custom Label Fonts}
+  %\VignetteIndexEntry{Customizing label fonts}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
