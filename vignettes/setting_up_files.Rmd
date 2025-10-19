@@ -26,17 +26,20 @@ library(terra)
 ```
 
 This vignette walks you through five steps:  
-  - 1) Download taxonomic data (5-15 minutes, ~500MiB)  
+  - 1) Download taxonomic data (2-10 minutes, ~500MiB)  
   - 2) Download geographic data (a couple hours depending on extent)  
-  - 3) Set up the instance (30-45 minutes processing) 
+  - 3) Set up the instance (15-45 minutes processing) 
   - 4) Verify success
 
 System requirements:
   - Stable internet connection for downloads
   - 4-20 GB available disk space (varies by geographic extent)
+    - however the temporary objects, i.e. after downloading but before running
+      `data_setup` will require significantly more memory. 
   - R version ≥ 4.0.0
 
-You only need to do this once before using the package for analyses or label printing.
+You only need to do this once before using the package for analyses or label printing. 
+Aside from the taxonomy module, none of this has to be re-ran. 
 
 #  Decide where to store data
 
@@ -54,14 +57,15 @@ The data persistence approach offers several advantages:
   - Offline capability for field work
 
 It's important that you decide where BarnebyLives will be installed on your computer. 
-Below, I will be downloading and copying some of the data to an external drive mounted to my system, where I have a directory named 'Barneby_Lives-dev'. 
+Below, I will be downloading and copying some of the data to an external drive mounted to my system, where I have a directory named 'BL_sandbox'. 
 
 ```{r}
 # Example directory (adjust for your system)
 bl_dir <- "/media/steppe/hdd/BL_sandbox"
 ```
 
-Note: All file paths in analytical functions can be specified independently, allowing you to relocate data after setup without breaking functionality.
+Note: All file paths in the pipeline can be specified independently, allowing you to relocate data after setup without breaking functionality.
+So don't worry if you start an install somewhere you don't want the data to end up. 
 
 ## Taxonomic Data
 
@@ -75,7 +79,10 @@ Infraspecific taxa (varieties and subspecies)
 Genus-level taxonomy
 
 ```{r read in WCVP data, eval = F}
-p2 <- file.path(bl_dir, 'taxdata-MI')
+## download and process the taxonomic data
+p2 <- file.path(bl_dir, 'taxdata')
+
+wcvp_update(p2) 
 TaxUnpack(path = p2, bound = bound)
 ```
 
@@ -92,13 +99,13 @@ write.csv(ipni_authors, file.path(p2, 'ipni_author_abbreviations.csv'))
 
 ### Automated downloads 
 
-The `data_download` function retrieves most geographic datasets automatically. 
+The `data_download` function retrieves most geographic data sets automatically. 
 
 ```{r data download geographic data, eval = F}
 # I am using R markdown so want to be really sure save data to the correct location
 # so I will use an absolute path
-data_download(path = bl_dir) 
-# if you are using an interactive R script. (file.R) you should be able to do something
+data_download(path = file.path(bl_dir, 'raw'))
+# if you are using an interactive R script. (fileR) you should be able to do something
 # similar or even just cd into the directory where you want to save everything and 
 # run the function ala `download-data()`
 ```
@@ -106,6 +113,7 @@ data_download(path = bl_dir)
 ## Manual downloads
 Geographic data are organized in tiles following standard conventions. 
 Define your study area as a bounding box using decimal degrees (WGS84/EPSG:4326 - default systems in most cartography software are close enough). 
+Google Maps will work fine for this, just go a few miles outside of your extent to be sure. 
 
 ```{r determine tiles to download, eval = F}
 bound <- data.frame(
@@ -143,17 +151,30 @@ I set `cleanup = FALSE`, until I am 100% certain that all downloads are good, wh
 
 ```{r, eval = F}
 data_setup( # this one will take maybe 30 minutes or so 
-  path = bl_dir, 
-  pathOut = file.path(bl_dir, 'geodata-MI'),
+  path = file.path(bl_dir, 'raw'), 
+  pathOut = file.path(bl_dir, 'geo'),
   bound = bound, cleanup = FALSE
   )
 ```
 
 # Finishing up. 
 
+You can check that all files are in place by running `` and you should be good to go forward
+```{r}
+# and you can check that everything has been set up using this. 
+check_data_setup_outputs(file.path(bl_dir, 'geo'))
+```
+
 And that's it!
 After a few runs of the system feel free to delete the raw data, you can do that by hand, or by initializing the instance using the `data_setup` function again. But that kind of seems like overkill!
 
+```{r, eval = F}
+data_setup( # this one will take maybe 30 minutes or so 
+  path = file.path(bl_dir, 'raw'), 
+  pathOut = file.path(bl_dir, 'geo'),
+  bound = bound, cleanup = TRUE
+  )
+```
 
 ## Next Steps
 With your BarnebyLives instance successfully configured, you can now:
