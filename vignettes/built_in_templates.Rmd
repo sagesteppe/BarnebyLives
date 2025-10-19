@@ -38,8 +38,7 @@ p2lib <- file.path(
 ## Overview 
 
 BL has six major standard templates - further details on several of them are in other vignettes. 
-For example 1) `maps`, 2) `logos` are treated in `Custom label logos and maps`, and customizing two additional basic skeletons is treated in 3) `custom label fonts`. 
-This is a brief overview of what the 4) `modern`, 5) `research`, 6) `SOS` templates look like. 
+For example 1) `maps`, 2) `logos` are treated in `Labels with graphics`, and customizing two additional basic skeletons is treated in 3) `custom label fonts`. 
 
 ## Research Label
 
@@ -47,7 +46,6 @@ Label templates can be copied from their original locations to a more common dir
 
 ```{r copy templates to local directory, eval = F, message=F}
 f <- c('skeleton-research.Rmd', 'skeleton-modern.Rmd')
-
 Map(file.copy, from = file.path(p2lib, f), to = file.path(local, f))
 
 rm(f)
@@ -66,6 +64,14 @@ purrr::walk(
 
 ![*Resarch Label*](../man/figures/research2823.png)  
 <br>
+
+## Seeds of Success label
+
+The SOS label was actually the original label, and is clearly closely related to the Scientific label. 
+
+![*Seeds of Success *](../man/figures/default-SOS-2823-1.png)  
+
+default-SOS-2823-1.png
 
 ## Modern label
 
@@ -88,5 +94,16 @@ purrr::walk(
 
 ![*Modern Label*](../man/figures/modern2823.png)  
 
-## Seeds of Success template
+## Custom fonts
 
+![*Map*](../man/figures/custom-font-downloaded2823.png)  
+
+# Labels with graphics 
+
+## Maps
+
+![*Map*](../man/figures/Map-2823.png)  
+
+## Logos
+
+![*Logo*](../man/figures/logo-2823.png)    
