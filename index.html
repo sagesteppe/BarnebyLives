@@ -58,7 +58,7 @@
 <h2 id="overview-">Overview <img src="reference/figures/logo.png" align="right" height="138"><a class="anchor" aria-label="anchor" href="#overview-"></a>
 </h2>
 <p>BarnebyLives! is an R program which serves to help botanical collectors in Western North America. BarnebyLives! runs multiple types of queries to acquire political and administrative, geographic, and taxonomic data for recently collected herbarium specimens. It also has limited abilities to search for taxonomic synonyms, check spelling of family, genus, and species names, as well as author abbreviations.</p>
-<p>BarnebyLives! serves the entirety of the flora of the western conterminous US, which coincides with the Mississippi River. It also includes the entirety of the state of Illinois, and portions of Indiana. However, the area is bounded on it’s North by Canada and South by Mexico, essentially it covers the western portion of the Conterminous United States (which excludes Alaska). While it covers this range, most variables are focused on supporting botanists working West of the Rocky Mountain Front Range, especially those operating on Bureau of Land Management and Forest Service administered lands.</p>
+<p>BarnebyLives! serves the entirety of the flora of the western conterminous US. While it covers this range, most variables are focused on supporting botanists working West of the Rocky Mountain Front Range, especially those operating on Bureau of Land Management and Forest Service administered lands.</p>
 <p>BarnebyLives! Is meant to <em>supplement</em>, not supplant, collectors field note endeavors. Variables which BarnebyLives! may produce, automatically, for each collection includes:</p>
 <p><strong>Political</strong><br>
 - State<br>
@@ -337,7 +337,7 @@ Suggested Workflow
 <p>reminder, you only need to chmod +x a file if you don’t call ‘bash’ at the start of an argument…</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>chmod <span class="sc">+</span>x render_labels.sh</span>
 <span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>path2file<span class="sc">/</span>render_labels.sh collector<span class="ot">=</span><span class="st">'Dwight'</span></span></code></pre></div>
-<p>Also a reminder that you can check your paths via <code>$PATH</code>, and can install to somewhere on your path! e.g. ‘/usr/local/bin’, after that you can simply call it… But I’m not sure if it will find the dir you are looking for.</p>
+<p>But if you are in the current working directory you can omit the <code>bash</code> part of the call if you have chmod`d the file.</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>render_labels.sh collector<span class="ot">=</span><span class="st">'Dwight'</span></span></code></pre></div>
 <p>In all instances the script is meant for you to call it from the following location:</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>├── HerbariumLabels</span>

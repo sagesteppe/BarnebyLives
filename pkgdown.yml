@@ -5,12 +5,12 @@ articles:
   built_in_templates: built_in_templates.html
   creating_labels: creating_labels.html
   custom_label_fonts: custom_label_fonts.html
-  custom_label_logos_maps: custom_label_logos_maps.html
-  custom_label_templates: custom_label_templates.html
+  customizing_a_label_template: customizing_a_label_template.html
+  labels_with_graphics: labels_with_graphics.html
   rendering_shipping_manifests: rendering_shipping_manifests.html
   running_pipeline: running_pipeline.html
   setting_up_files: setting_up_files.html
-last_built: 2025-10-19T18:04Z
+last_built: 2025-10-19T21:12Z
 urls:
   reference: https://sagesteppe.github.io/BarnebyLives/reference
   article: https://sagesteppe.github.io/BarnebyLives/articles

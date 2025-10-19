@@ -120,13 +120,16 @@ provides a handful of templates, which can be further customized.</p>
 <p>We have to modify the skeletons so that they know where to load the
 data from. Within the skeleton you just copied from the R package
 repository, you will need to modify where it loads data from.</p>
-<p>A default template will have some code that looks like this:</p>
+<p>A default template (e.g. <code>skeleton-research.Rmd</code>) will
+have some code that looks like this in the first block.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">record</span> <span class="op">&lt;-</span> <span class="va">collection_examples</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">Collection_number</span> <span class="op">==</span> <span class="va">params</span><span class="op">$</span><span class="va">Collection_number</span><span class="op">)</span> <span class="op">|&gt;</span>  </span>
 <span>  <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_drop_geometry</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p>A modified template will look like the following. (<strong>note:
-we’ll put this spreadsheet in the directory soon</strong>).</p>
+<p>A modified template will look like the following, and specify a real
+location to read data from. Note that in both scenarios the filter line
+is essential so sync up the driving script and the labels to receive
+data.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span><span class="st">"ExampleCollection.csv"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
@@ -139,8 +142,11 @@ we’ll put this spreadsheet in the directory soon</strong>).</p>
 </h2>
 <p>Now we have the skeleton ready to receive data, but we will need to
 create another R script, which will be able to launch as many instances
-of
-<code>r</code>markdown::render<code>as we have labels we want to create.  We'll call this script a 'driver' script.  We will use</code>purrr::walk()<code>to map</code>Rmarkdown::render<code>across each row of the data set we wish to create labels of.  The core of this script will be the call to</code>purrr`.</p>
+of <code><a href="https://pkgs.rstudio.com/rmarkdown/reference/render.html" class="external-link">rmarkdown::render</a></code> as we have labels we want to create.
+We’ll call this script a ‘driver’ script. We will use
+<code><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">purrr::walk()</a></code> to map <code>Rmarkdown::render</code> across
+each row of the data set we wish to create labels of. The core of this
+script will be the call to <code>purrr</code>.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">walk</a></span><span class="op">(</span></span>
 <span>  .x <span class="op">=</span> <span class="va">collection_examples</span><span class="op">$</span><span class="va">Collection_number</span>,</span>
@@ -158,19 +164,6 @@ which records we want to render. Note that purrr will render the labels
 in the vector being feed to <code>.x</code>, which should always be
 <code>Collection_number</code>. You can create a dummy ID for this if
 collectors collect without number.</p>
-<p>For example first we may subset our collections from a run of the BL
-pipeline</p>
-<p>and write these to be the data source which our skeleton will
-access</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">'collection_examples'</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">data</span> <span class="op">&lt;-</span> <span class="va">collection_examples</span> <span class="op">|&gt;</span></span>
-<span>  <span class="co">#filter(Collection_number &lt;= &amp; Collection_number &gt;= )</span></span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>Coordinate_Uncertainty <span class="op">=</span> <span class="st">'+/- 5m'</span><span class="op">)</span> </span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html" class="external-link">write.csv</a></span><span class="op">(</span><span class="va">data</span>, <span class="st">'ExampleCollection.csv'</span><span class="op">)</span> <span class="co"># so accessible to our skeleton</span></span></code></pre></div>
-<p>next we will use the collection numbers to feed our chunk above.</p>
 </div>
 <div class="section level2">
 <h2 id="combining-labels">combining labels<a class="anchor" aria-label="anchor" href="#combining-labels"></a>
@@ -188,18 +181,18 @@ populated.</p>
 8.5x11 sheet of paper.</p>
 <p>First copy the bash script into our directory.</p>
 <p>The script lives at the installed BarnebyLives location…</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">p2libs</span><span class="op">)</span></span></code></pre></div>
-<p>and is named <code>render_labels.sh</code></p>
+<p>And is named <code>render_labels.sh</code></p>
 <p>It can be copied to your label generation directory using bash, or
 R.</p>
 <p>Using bash.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="bu">cd</span> ~/Documents/HerbariumLabels/ <span class="co"># first go to destination for file. </span></span>
-<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="fu">cp</span> /home/sagesteppe/R/x86_64-pc-linux-gnu-library/4.5/BarnebyLives/render_labels.sh .</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="bu">cd</span> ~/Documents/HerbariumLabels/ <span class="co"># first go to destination for file. </span></span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a><span class="fu">cp</span> /home/sagesteppe/R/x86_64-pc-linux-gnu-library/4.5/BarnebyLives/render_labels.sh .</span></code></pre></div>
 <p>Note the <code>cp</code> command copies a file <code>from</code> to a
 <code>destination</code>, in this case the current directory.</p>
 <p>Using R - about the same as before.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.copy</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">p2libs</span>, <span class="st">'render_labels.sh'</span><span class="op">)</span>,</span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span></span>
@@ -208,7 +201,7 @@ R.</p>
 <p>the script can then be called from it’s current location, and will
 populate the <code>processed</code> and <code>final</code> directory
 with the combined labels for printing</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="fu">bash</span> render_labels.sh collector=<span class="st">'name'</span></span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="fu">bash</span> render_labels.sh collector=<span class="st">'name'</span></span></code></pre></div>
 <p>you can also try and run it from R</p>
 <pre class="render"><code><span><span class="fu"><a href="https://rdrr.io/r/base/system2.html" class="external-link">system2</a></span><span class="op">(</span>command <span class="op">=</span></span>
 <span>          <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span></span>
@@ -226,10 +219,11 @@ for direct accessioning at the herbarium side.</p>
 <p>Currently BL supports writing out data for mass upload in a few
 formats for herbaria (e.g. Symbiota, Jepson), but we are always eager to
 add more, so <em>PLEASE</em> do not hesitate to ask if you want
-something to be supported! There is a lot of code, but realistically all
-it is doing is replacing NA values with ’’, or empty contents, this is
-the best format for people to get NULL values for their databases.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+something to be supported! There is a lot of code below, but
+realistically all it is doing is replacing NA values with ’’, or empty
+contents, this is the best format for people to get NULL values for
+their databases.</p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">database_templates</span><span class="op">$</span><span class="va">Database</span><span class="op">)</span> <span class="co"># currently supported options. </span></span>
 <span></span>
 <span><span class="va">dat_import</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/format_database_import.html">format_database_import</a></span><span class="op">(</span><span class="va">collection_examples</span>, <span class="st">'Symbiota'</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
