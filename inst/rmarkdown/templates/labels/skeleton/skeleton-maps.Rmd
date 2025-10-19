@@ -22,23 +22,22 @@ knitr::opts_chunk$set(message = FALSE)
 knitr::opts_chunk$set(warning = FALSE)
 ```
 
-```{r load data}
+```{r load data, echo = F}
 library(BarnebyLives)
+
+imagepath <- file.path( # shouldnt't need changed.  
+  params$imagepath, paste0('map_', params$Collection_number, '.png')
+  )
 
 record <- collection_examples |>
   dplyr::filter(Collection_number == params$Collection_number) |>  
-  sf::st_drop_geometry()
+  sf::st_drop_geometry() # always remember no SF!!!
 
 # escape character columns to ensure characters which interfere with latex
 # rendering are escaped. 
 char_cols <- sapply(record, is.character)
 char_col_names <- names(record)[char_cols]
 record[char_col_names] <- lapply(record[char_col_names], escape_latex)
-
-imagepath <- file.path(
-  params$imagepath, paste0('map_', params$Collection_number, '.png')
-  )
-
 ```
 
 \begin{center}

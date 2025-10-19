@@ -20,18 +20,12 @@ knitr::opts_chunk$set(message = FALSE)
 knitr::opts_chunk$set(warning = FALSE)
 ```
 
-```{r load library}
+```{r load data, eval = T, echo= F}
 library(BarnebyLives)
-```
-
-```{r load data, eval = T}
-
-local <- file.path('~', 'Documents', 'assoRted', 'Barneby_Lives_dev', 'LabelStyles')
 
 record <- collection_examples |>
-  sf::st_drop_geometry() |>
-  data.frame() |>
-  dplyr::filter(Collection_number == params$Collection_number) 
+  dplyr::filter(Collection_number == params$Collection_number) |>  
+  sf::st_drop_geometry() # always remember no SF!!!
 
 # escape character columns to ensure characters which interfere with latex
 # rendering are escaped. 

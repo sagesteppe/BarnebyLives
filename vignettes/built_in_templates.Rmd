@@ -13,6 +13,7 @@ description: >
 knitr::opts_chunk$set(eval = FALSE)
 knitr::opts_chunk$set(message = FALSE)
 knitr::opts_chunk$set(warning = FALSE)
+knitr::opts_chunk$set(comment = "")
 ```
 
 ```{r load libraries and find labels, eval =F, echo = F}
@@ -30,27 +31,62 @@ l.nevadense <- collection_examples |>
     )
 
 write.csv(l.nevadense, file.path(local, 'SoS-ExampleCollection.csv'), row.names = F)
-
-p2lib <- file.path(
-  system.file(package = 'BarnebyLives'),
-  'rmarkdown', 'templates', 'labels', 'skeleton'
-  )
 ```
 
 ## Overview 
 
 BL has six major standard templates - further details on several of them are in other vignettes. 
-For example 1) `maps`, 2) `logos` are treated in `Labels with graphics`, and customizing two additional basic skeletons is treated in 3) `custom label fonts`. 
 
-## Research Label
+1) skeleton-research.Rmd  
+  + [code](https://github.com/sagesteppe/BarnebyLives/blob/main/inst/rmarkdown/templates/labels/skeleton/skeleton-research.Rmd) 
+  + Useful for herbarium collections which will serve as vouchers for systematics projects. 
+  + Detail heavy 
+2) skeleton-SOS.Rmd  
+  + [code](https://github.com/sagesteppe/BarnebyLives/blob/main/inst/rmarkdown/templates/labels/skeleton/skeleton-SOS.Rmd)
+  + Designed for use with a specific U.S. government program, similar to research skeletons. 
+  + detail heavy 
+3) skeleton-modern.Rmd     
+  + [code](https://github.com/sagesteppe/BarnebyLives/blob/main/inst/rmarkdown/templates/labels/skeleton/skeleton-modern.Rmd)
+  + A mid-century look
+  + Balances details and aesthetics. 
+4) skeleton-customfont.Rmd (& skeleton-customfont-downloaded.Rmd) 
+  + [code](https://github.com/sagesteppe/BarnebyLives/blob/main/inst/rmarkdown/templates/labels/skeleton/skeleton-customfont.Rmd)
+  + [code](https://github.com/sagesteppe/BarnebyLives/blob/main/inst/rmarkdown/templates/labels/skeleton/skeleton-customfont-downloaded.Rmd)
+  + Both based on the research/SOS templates, modified YAML headers to make using specific fonts easier. 
+5) skeleton-maps.Rmd 
+  + [code](https://github.com/sagesteppe/BarnebyLives/blob/main/inst/rmarkdown/templates/labels/skeleton/skeleton-maps.Rmd)
+  + Banger of a mid-century classic, BL also has the functions to create the maps. 
+6) skeleton-logo.Rmd     
+  + [code](https://github.com/sagesteppe/BarnebyLives/blob/main/inst/rmarkdown/templates/labels/skeleton/skeleton-logo.Rmd)
+  + *caveat emptor* I've always preferred stamped on institution logos, but to each their own.  
 
-Label templates can be copied from their original locations to a more common directory for a user to interface with.
 
+Several of these templates (which I interchangeably call 'skeletons', especially in code) are included in vignettes. 
+The `SOS template` is used as an example for basic label customization in [Customizing a label template](https://sagesteppe.github.io/BarnebyLives/articles/customizing_a_label_template.html). 
+Details and notes on using both the `custom fonts` skeletons are in [Customizing label fonts](https://sagesteppe.github.io/BarnebyLives/articles/custom_label_fonts.html). 
+And `maps`, and `logos` are both treated in [Labels with graphics](https://sagesteppe.github.io/BarnebyLives/articles/labels_with_graphics.html)
+
+## Label templates need to copied from the r package to a local location on the users computer. 
+
+You can copy all at once, as shown below, or copy them one at a time as shown in other vignettes. 
 ```{r copy templates to local directory, eval = F, message=F}
-f <- c('skeleton-research.Rmd', 'skeleton-modern.Rmd')
-Map(file.copy, from = file.path(p2lib, f), to = file.path(local, f))
+p2lib <- file.path(
+  system.file(package = 'BarnebyLives'),
+  'rmarkdown', 'templates', 'labels', 'skeleton'
+  )
+templates <- list.files(p2lib)
+templates
+```
 
-rm(f)
+Use map to copy all of the skeletons.  
+
+```{r show template names, eval = F, message=F}
+Map(file.copy, 
+    from = file.path(p2lib, templates), 
+    to = file.path(local, templates)
+    )
+
+rm(templates)
 ```
 
 ```{r actually render labels, echo = F, eval = F}
@@ -64,18 +100,26 @@ purrr::walk(
 )
 ```
 
-![*Resarch Label*](../man/figures/research2823.png)  
+## Research 
+
+skeleton-research.Rmd
+
+![*Resarch*](../man/figures/research2823.png)  
 <br>
 
-## Seeds of Success label
+## Seeds of Success 
 
-The SOS label was actually the original label, and is clearly closely related to the Scientific label. 
+skeleton-SOS.Rmd
 
-![*Seeds of Success *](../man/figures/default-SOS-2823-1.png)  
+The SOS label was the original template, and is clearly closely related to the Scientific label. 
 
-default-SOS-2823-1.png
+![*Seeds of Success*](../man/figures/default-SOS-2823-1.png)  
 
-## Modern label
+<br>
+
+## Modern 
+
+skeleton-modern.Rmd
 
 ```{r actually render labels 2, echo = F, eval = F}
 l.nevadense <- l.nevadense |>
@@ -94,18 +138,28 @@ purrr::walk(
 ```
 
 
-![*Modern Label*](../man/figures/modern2823.png)  
+![*Modern*](../man/figures/modern2823.png)  
+
+<br>
 
 ## Custom fonts
 
+skeleton-customfont.Rmd
+
 ![*Map*](../man/figures/custom-font-downloaded2823.png)  
 
-# Labels with graphics 
+<br>
 
 ## Maps
 
+skeleton-maps.Rmd
+
 ![*Map*](../man/figures/Map-2823.png)  
 
+<br>
+
 ## Logos
+
+skeleton-logo.Rmd
 
 ![*Logo*](../man/figures/logo-2823.png)    

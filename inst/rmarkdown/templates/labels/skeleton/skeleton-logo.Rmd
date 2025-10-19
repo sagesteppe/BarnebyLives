@@ -19,18 +19,14 @@ knitr::opts_chunk$set(message = FALSE)
 knitr::opts_chunk$set(warning = FALSE)
 ```
 
-```{r load library}
+```{r load data, echo = F}
 library(BarnebyLives)
-```
 
-```{r load data, eval = T}
 logopath <- file.path('~/Documents/assoRted/BarnebyLives/man/figures/logo.png') # default change. 
 
-record <- collection_examples |> # default feed in the path to your csv. 
-#  dplyr::filter(Collection_number == 2826) |>  
+record <- collection_examples |>
   dplyr::filter(Collection_number == params$Collection_number) |>  
-  sf::st_drop_geometry() |>
-  dplyr::mutate(Coordinate_uncertainty = '+/- 5m')
+  sf::st_drop_geometry() # always remember no SF!!!
 
 # escape character columns to ensure characters which interfere with latex
 # rendering are escaped. 

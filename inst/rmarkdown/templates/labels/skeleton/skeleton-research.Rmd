@@ -15,14 +15,12 @@ knitr::opts_chunk$set(message = FALSE)
 knitr::opts_chunk$set(warning = FALSE)
 ```
 
-```{r load library}
+```{r load data, eval = T, echo= F}
 library(BarnebyLives)
-```
 
-```{r load data, eval = T}
 record <- collection_examples |>
   dplyr::filter(Collection_number == params$Collection_number) |>  
-  sf::st_drop_geometry()
+  sf::st_drop_geometry() # always remember no SF!!!
 
 # escape character columns to ensure characters which interfere with latex
 # rendering are escaped. 
