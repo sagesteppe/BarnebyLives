@@ -9,8 +9,8 @@ header-includes:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
 knitr::opts_chunk$set(dpi = 300) 
+knitr::opts_chunk$set(echo = FALSE)
 knitr::opts_chunk$set(message = FALSE)
 knitr::opts_chunk$set(warning = FALSE)
 ```
@@ -55,7 +55,10 @@ Vegetation: `r species_font(record[['Vegetation']])`
  
 \vspace{\fill}
 \begingroup
-`r collection_writer(record)`
+`r collection_writer(record, date=FALSE)`
+\begin{flushright}
+`r record[['Date_digital_text']]`
+\end{flushright}
 \endgroup
 
 \begingroup

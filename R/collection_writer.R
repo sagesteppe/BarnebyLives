@@ -4,29 +4,38 @@
 #' @param x dataframe holding the values
 #' @examples
 #' data('collection_examples')
-#' ce <- collection_examples[14,]
+#' ce <- collection_examples[12,]
 #' collection_writer(ce)
+#' collection_writer(ce, date = FALSE)
+#' collection_writer(collection_examples[106,])
 #' @export
-collection_writer <- function(x) {
-  x$Associated_Collectors[x$Associated_Collectors == ""] <- NA
+collection_writer <- function(x, date = TRUE) {
 
-  if (is.na(x$Associated_Collectors)) {
-    paste0(
-      x$Primary_Collector,
-      " ",
-      x$Collection_number,
-      '; ',
-      x$Date_digital_text
+  x[["Associated_Collectors"]] <- replace(
+    x[["Associated_Collectors"]],
+    x[["Associated_Collectors"]] == "",
+    NA
     )
+
+  primary_info <-
+    paste0(
+      x[['Primary_Collector']],
+      " ",
+      x[['Collection_number']]
+    )
+
+  collectors_info <- if (anyNA(x[["Associated_Collectors"]])) {
+    ""
   } else {
-    paste0(
-      x$Primary_Collector,
-      " ",
-      x$Collection_number,
-      ', ',
-      x$Associated_Collectors,
-      '; ',
-      x$Date_digital_text
-    )
+    paste0(", ", x[["Associated_Collectors"]])
   }
+
+  date_info <- if (date) {
+    paste0("; ", x[["Date_digital_text"]])
+  } else {
+    ""
+  }
+
+  paste0(primary_info, collectors_info, date_info)
+
 }

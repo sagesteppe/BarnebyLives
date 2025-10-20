@@ -8,7 +8,8 @@ googledrive::drive_auth("reedbenkendorf27@gmail.com")
 # read in data from the sheet to process
 collection_examples <- read_sheet(
   '1iOQBNeGqRJ3yhA-Sujas3xZ2Aw5rFkktUKv3N_e4o8M', sheet = 'Processed - Examples') |>
-  tidyr::drop_na(Full_name)
+  tidyr::drop_na(Full_name) |>
+  dplyr::filter(Collection_number != 2832)
 usethis::use_data(collection_examples, overwrite = TRUE)
 
 uncleaned_collection_examples <- read_sheet(
