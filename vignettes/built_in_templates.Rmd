@@ -35,32 +35,7 @@ write.csv(l.nevadense, file.path(local, 'SoS-ExampleCollection.csv'), row.names 
 
 ## Overview 
 
-BL has six major standard templates - further details on several of them are in other vignettes. 
-
-1) skeleton-research.Rmd
-  + [code](https://github.com/sagesteppe/BarnebyLives/blob/main/inst/rmarkdown/templates/labels/skeleton/skeleton-research.Rmd) 
-  + Useful for herbarium collections which will serve as vouchers for systematics projects. 
-  + Detail heavy 
-2) skeleton-SOS.Rmd
-  + [code](https://github.com/sagesteppe/BarnebyLives/blob/main/inst/rmarkdown/templates/labels/skeleton/skeleton-SOS.Rmd)
-  + Designed for use with a specific U.S. government program, similar to research skeletons. 
-  + Detail heavy 
-3) skeleton-modern.Rmd
-  + [code](https://github.com/sagesteppe/BarnebyLives/blob/main/inst/rmarkdown/templates/labels/skeleton/skeleton-modern.Rmd)
-  + A mid-century look
-  + Balances details and aesthetics. 
-4) skeleton-customfont.Rmd (& skeleton-customfont-downloaded.Rmd)
-  + [code](https://github.com/sagesteppe/BarnebyLives/blob/main/inst/rmarkdown/templates/labels/skeleton/skeleton-customfont.Rmd)
-  + [code](https://github.com/sagesteppe/BarnebyLives/blob/main/inst/rmarkdown/templates/labels/skeleton/skeleton-customfont-downloaded.Rmd)
-  + Both based on the research/SOS templates, modified YAML headers to make using specific fonts easier. 
-5) skeleton-maps.Rmd
-  + [code](https://github.com/sagesteppe/BarnebyLives/blob/main/inst/rmarkdown/templates/labels/skeleton/skeleton-maps.Rmd)
-  + Banger of a mid-century classic, BL also has the functions to create the maps. 
-6) skeleton-logo.Rmd
-  + [code](https://github.com/sagesteppe/BarnebyLives/blob/main/inst/rmarkdown/templates/labels/skeleton/skeleton-logo.Rmd)
-  + *caveat emptor* I've always preferred stamped on institution logos, but to each their own.  
-  + Detail light
-
+BL has seven standard templates - further details on several of them are in other vignettes. 
 
 Several of these templates (which I interchangeably call 'skeletons', especially in code) are included in vignettes. 
 The `SOS template` is used as an example for basic label customization in [Customizing a label template](https://sagesteppe.github.io/BarnebyLives/articles/customizing_a_label_template.html). 
@@ -101,6 +76,22 @@ purrr::walk(
 )
 ```
 
+
+## Default
+
+skeleton-default.Rmd
+
+![*Resarch*](../man/figures/default2823.png)  
+
+<br> 
+
+1) skeleton-default.Rmd
+  + [code](https://github.com/sagesteppe/BarnebyLives/blob/main/inst/rmarkdown/templates/labels/skeleton/skeleton-default.Rmd) 
+  + Useful for most collections 
+  + Detail light 
+  
+<br> 
+
 ## Research 
 
 skeleton-research.Rmd
@@ -108,15 +99,29 @@ skeleton-research.Rmd
 ![*Resarch*](../man/figures/research2823.png)  
 <br>
 
+2) skeleton-research.Rmd
+  + [code](https://github.com/sagesteppe/BarnebyLives/blob/main/inst/rmarkdown/templates/labels/skeleton/skeleton-research.Rmd) 
+  + Useful for herbarium collections which will serve as vouchers for systematics projects. 
+  + Detail heavy 
+
+<br> 
+
 ## Seeds of Success 
 
 skeleton-SOS.Rmd
 
 The SOS label was the original template, and is clearly closely related to the Scientific label. 
 
-![*Seeds of Success*](../man/figures/default-SOS-2823-1.png)  
+![*Seeds of Success*](../man/figures/default-SOS-2823.png)  
 
 <br>
+
+3) skeleton-SOS.Rmd
+  + [code](https://github.com/sagesteppe/BarnebyLives/blob/main/inst/rmarkdown/templates/labels/skeleton/skeleton-SOS.Rmd)
+  + Designed for use with a specific U.S. government program, similar to research skeletons. 
+  + Detail heavy 
+  
+<br> 
 
 ## Modern 
 
@@ -143,13 +148,27 @@ purrr::walk(
 
 <br>
 
+4) skeleton-modern.Rmd
+  + [code](https://github.com/sagesteppe/BarnebyLives/blob/main/inst/rmarkdown/templates/labels/skeleton/skeleton-modern.Rmd)
+  + A mid-century look
+  + Balances details and aesthetics. 
+  
+<br> 
+
 ## Custom fonts
 
 skeleton-customfont.Rmd
 
 ![*Map*](../man/figures/custom-font-downloaded2823.png)  
 
-<br>
+<br
+
+5) skeleton-customfont.Rmd (& skeleton-customfont-downloaded.Rmd)
+  + [code](https://github.com/sagesteppe/BarnebyLives/blob/main/inst/rmarkdown/templates/labels/skeleton/skeleton-customfont.Rmd)
+  + [code](https://github.com/sagesteppe/BarnebyLives/blob/main/inst/rmarkdown/templates/labels/skeleton/skeleton-customfont-downloaded.Rmd)
+  + Both based on the research/SOS templates, modified YAML headers to make using specific fonts easier. 
+
+<br> 
 
 ## Maps
 
@@ -159,8 +178,21 @@ skeleton-maps.Rmd
 
 <br>
 
+6) skeleton-maps.Rmd
+  + [code](https://github.com/sagesteppe/BarnebyLives/blob/main/inst/rmarkdown/templates/labels/skeleton/skeleton-maps.Rmd)
+  + Banger of a mid-century classic, BL also has the functions to create the maps. 
+  
+<br> 
+
 ## Logos
 
 skeleton-logo.Rmd
 
 ![*Logo*](../man/figures/logo-2823.png)    
+
+7) skeleton-logo.Rmd
+  + [code](https://github.com/sagesteppe/BarnebyLives/blob/main/inst/rmarkdown/templates/labels/skeleton/skeleton-logo.Rmd)
+  + *caveat emptor* I've always preferred stamped on institution logos, but to each their own.  
+  + Detail light
+  
+<br> 

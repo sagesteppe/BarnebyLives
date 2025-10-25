@@ -139,7 +139,7 @@ It is hard for me illustrate these in the examples, but I'll try and do my best 
 
 For this example we will focus on the final default template, which is a pretty middle of the road design. 
 
-![*Default SOS template results*](../man/figures/default-SOS-2823-1.png)  
+![*Default SOS template results*](../man/figures/default-SOS-2823.png)  
 
 <br>
 
@@ -159,7 +159,7 @@ Delete this!
 
 <br> 
 
-![*No directions*](../man/figures/noDir-SOS-2823-1.png)  
+![*No directions*](../man/figures/noDir-SOS-2823.png)  
 
 <br>
 
@@ -192,7 +192,7 @@ Veg.: `r species_font(data$Vegetation)` `r associates_writer(data$Associates)`
 \endgroup
 ```
 
-![*Space between habitat and vegetation*](../man/figures/Spaced-SOS-2823-1.png)  
+![*Space between habitat and vegetation*](../man/figures/Spaced-SOS-2823.png)  
 
 <br> 
 Which results in the label above, with a new space 
@@ -214,7 +214,7 @@ Here we will be making the font size smaller by shifting from the `LARGE` to the
 \textbf{\large `r writer(data$Project_Name)`} 
 ```
 
-![*Smaller project name*](../man/figures/large-SOS-2823-1.png)  
+![*Smaller project name*](../man/figures/large-SOS-2823.png)  
 
 <br>
 
@@ -246,7 +246,7 @@ If you remove the `flushright` commands this part of you skeleton will look this
 
 The image below shows a label where the family name has been moved from right to left alignment. 
 
-![*Family to the left*](../man/figures/familyLeft-SOS-2823-1.png)  
+![*Family to the left*](../man/figures/familyLeft-SOS-2823.png)  
 
 <br>
 
@@ -275,7 +275,7 @@ We will also make the text smaller.
 ```
 
 
-![*Determination at top of label*](../man/figures/Det-SOS-2823-1.png)  
+![*Determination at top of label*](../man/figures/Det-SOS-2823.png)  
 
 <br>
 
