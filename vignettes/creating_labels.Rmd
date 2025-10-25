@@ -101,7 +101,7 @@ The core of this script will be the call to `purrr`.
 purrr::walk(
   .x = collection_examples$Collection_number,
   ~ rmarkdown::render(
-    input = "skeleton.Rmd",                      # template to populate
+    input = "skeleton-default.Rmd",                      # template to populate
     output_file = file.path(p, glue("{.x}.pdf")),# write one PDF per record
     params = list(Collection_number = {.x})      # pass record to skeleton
   )

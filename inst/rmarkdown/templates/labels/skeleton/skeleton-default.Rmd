@@ -64,5 +64,5 @@ Vegetation: `r species_font(record[['Vegetation']])`
 \endgroup
 \begingroup
 \small
-`r writer(record[['Notes']])`\
+`r writer(record[['Notes']])`
 \endgroup
