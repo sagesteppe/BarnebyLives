@@ -32,37 +32,42 @@ record[char_col_names] <- lapply(record[char_col_names], escape_latex)
 ```
 
 \begin{center}
-\textbf{\LARGE Seeds of Success}
+\textbf{\large `r record[['Project_name']]`}
 \end{center}
+\vspace{-\baselineskip} 
 \begin{flushright}
 \uppercase{`r record[['Family']]`}
 \end{flushright}
+\vspace{-\baselineskip} 
 \begingroup
 \large
 `r writer(paste(record[['Genus']], record[['Epithet']]), italics = TRUE)` `r writer(record[['Binomial_authority']])` `r writer(record[['Infrarank']])` `r writer(record[['Infraspecies']], italics = TRUE)` `r writer(record[['Infraspecific_authority']])`  
-\normalsize
 \endgroup
 
 \vspace{\fill}
 \begingroup
+\small
 `r record[['Gen']]`. `r writer(record[['Site']])` `r record[['latitude_dd']]` `r record[['longitude_dd']]` (`r record[['Datum']]` `r writer(record[['Coordinate_uncertainty']])`).
 
 
 `r writer(record$Habitat)`. `r record[['physical_environ']]`  
 Veg.: `r species_font(record[['Vegetation']])` `r associates_writer(record[['Associates']])`
-`r writer(data[[Notes]])`  
+`r writer(record[['Notes']])`  
 \endgroup
 \begingroup
-\begin{spacing}{0.1}
+\begin{spacing}{0.02}
 {\scriptsize `r record[['Directions_BL']]`}
 \end{spacing}
 \endgroup
  
-\vspace{\fill}
+\par\vspace{\fill}
+
 \begingroup
+\small
 `r collection_writer(record)`. `r writer_fide(record)`
 \endgroup
 
+\vspace{-\baselineskip} 
 \begin{center}
 {\footnotesize Collected under the auspices of the Bureau of Land Management}
 \end{center}

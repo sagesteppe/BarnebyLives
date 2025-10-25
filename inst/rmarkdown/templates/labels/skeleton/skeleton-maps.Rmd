@@ -46,6 +46,7 @@ record[char_col_names] <- lapply(record[char_col_names], escape_latex)
 \begin{flushright}
 \uppercase{`r record[['Family']]`}
 \end{flushright}
+\vspace{-\baselineskip} 
 \begingroup
 \large
 `r writer(paste(record[['Genus']], record[['Epithet']]), italics = TRUE)` `r writer(record[['Binomial_authority']])` `r writer(record[['Infrarank']])` `r writer(record[['Infraspecies']], italics = TRUE)` `r writer(record[['Infraspecific_authority']])`  
