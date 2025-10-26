@@ -19,23 +19,30 @@ jobs:
         if: runner.os == 'Linux'
         run: |
           sudo apt-get update
-          sudo apt-get install -y pdftk texlive-latex-base texlive-extra-utils
+          sudo apt-get install -y pdftk
+          Rscript -e "install.packages('tinytex')"
+          Rscript -e "tinytex::install_tinytex()"
+          Rscript -e "tinytex::tlmgr_install(c('pdfpages', 'pdfjam'))"
       
       - name: Install PDF tools (macOS)
         if: runner.os == 'macOS'
         run: |
           brew install pdftk-java
-          brew install --cask basictex
-          eval "$(/usr/libexec/path_helper)"
-          sudo tlmgr update --self
-          sudo tlmgr install pdfpages pdfjam
+          Rscript -e "install.packages('tinytex')"
+          Rscript -e "tinytex::install_tinytex()"
+          Rscript -e "tinytex::tlmgr_install(c('pdfpages', 'pdfjam'))"
       
       - name: Install PDF tools (Windows/WSL)
         if: runner.os == 'Windows'
         run: |
+          # WSL setup for pdftk
           wsl --install -d Ubuntu
           wsl sudo apt-get update
-          wsl sudo apt-get install -y pdftk texlive-latex-base texlive-extra-utils
+          wsl sudo apt-get install -y pdftk
+          # TinyTeX in Windows
+          Rscript -e "install.packages('tinytex')"
+          Rscript -e "tinytex::install_tinytex()"
+          Rscript -e "tinytex::tlmgr_install(c('pdfpages', 'pdfjam'))"
       
       - name: Verify PDF tools
         shell: bash
