@@ -22,19 +22,6 @@ So here are a couple examples of tweaking around with one of the default skeleto
 
 Note that the labels are made using LaTeX, an awesome guide for LaTeX (relevant to the level you will be using it at) is [Overleaf.org](https://www.overleaf.com/learn/latex/Learn_LaTeX_in_30_minutes), and check the links in the side bar too! 
 
-## Examples 
-
-As a reminder, the standard template (`skeleton.Rmd`) looks like this. 
-
-![]()
-
-Another included template, for the Seeds of Success program (`skeletonSOS.Rmd`), looks like this. 
-Seeds of Success is a program with the goal of increasing the availability of native seeds for restoration projects, and seed-banking our flora. 
-
-![]()
-
-These are two very similar labels, as both types of collections are for immediate research of conservation planning usage.
-
 ## Modifications
 
 ```{r, eval =F}
@@ -149,8 +136,8 @@ Around line 50 in the skeleton we can just remove the following details.
 
 ```{r remove directions, eval = F}
 \begingroup
-\begin{spacing}{0.1}
-{\scriptsize `r data$Directions_BL`}
+\begin{spacing}{0.02}
+{\scriptsize `r record[['Directions_BL']]`}
 \end{spacing}
 \endgroup
 ```
@@ -170,11 +157,12 @@ Below is a reprodcution of the document as it looks.
 
 ```{r add a space, eval = F}
 \begingroup
-`r data$Gen`. `r writer(data$Site)` `r data$latitude_dd` `r data$longitude_dd` (`r data$Datum` `r writer(data$Coordinate_Uncertainty)`).
+\small
+`r record[['Gen']]`. `r writer(record[['Site']])` `r record[['latitude_dd']]` `r record[['longitude_dd']]` (`r record[['Datum']]` `r writer(record[['Coordinate_uncertainty']])`).
 
-`r writer(data$Habitat)`. `r data$physical_environ`  
-Veg.: `r species_font(data$Vegetation)` `r associates_writer(data$Associates)`
-`r writer(data$Notes)`  
+`r writer(record$Habitat)`. `r record[['physical_environ']]`  
+Veg.: `r species_font(record[['Vegetation']])` `r associates_writer(record[['Associates']])`
+`r writer(record[['Notes']])`  
 \endgroup
 ```
 
@@ -183,12 +171,14 @@ And below is the skeleton with the line inserted.
 
 ```{r add a space to it, eval = F}
 \begingroup
-`r data$Gen`. `r writer(data$Site)` `r data$latitude_dd` `r data$longitude_dd` (`r data$Datum` `r writer(data$Coordinate_Uncertainty)`).
+\small
+`r record[['Gen']]`. `r writer(record[['Site']])` `r record[['latitude_dd']]` `r record[['longitude_dd']]` (`r record[['Datum']]` `r writer(record[['Coordinate_uncertainty']])`).
 
-`r writer(data$Habitat)`. `r data$physical_environ`  
 
-Veg.: `r species_font(data$Vegetation)` `r associates_writer(data$Associates)`
-`r writer(data$Notes)`  
+`r writer(record$Habitat)`. `r record[['physical_environ']]`  
+## line is here
+Veg.: `r species_font(record[['Vegetation']])` `r associates_writer(record[['Associates']])`
+`r writer(record[['Notes']])`  
 \endgroup
 ```
 
@@ -207,11 +197,11 @@ Now let's change the line that controls the size of the font for the project nam
 Here we will be making the font size smaller by shifting from the `LARGE` to the `large` TeX arguments.   
 
 ```{r upper case project, eval = F}
-\textbf{\LARGE `r writer(data$Project_Name)`}  
+\textbf{\LARGE `r record[['Project_name']]`}
 ```
 
 ```{r title case project, eval = F}
-\textbf{\large `r writer(data$Project_Name)`} 
+\textbf{\large `r record[['Project_name']]`}
 ```
 
 ![*Smaller project name*](../man/figures/large-SOS-2823.png)  
@@ -221,27 +211,27 @@ Here we will be making the font size smaller by shifting from the `LARGE` to the
 Now let's change the location of the family on the label (which is currently right aligned), to a left alignment.  
 
 ```{r family at right, eval = F}
-\begin{flushright} 
-\uppercase{`r data$Family`}
-\end{flushright}
-
+\begin{center}
+\textbf{\LARGE `r record[['Project_name']]`}
+\end{center}
+\vspace{-\baselineskip} 
+\begin{flushright} # gonna change this. 
+\uppercase{`r record[['Family']]`}
+\end{flushright} # and this
+\vspace{-\baselineskip} 
 \begingroup
-\large
-`r writer(paste(data$Genus, data$Epithet), italics = TRUE)` ...
-\endgroup
-\normalsize
 ```
 
 If you remove the `flushright` commands this part of you skeleton will look this this: 
 
 ```{r family at left, eval = F}
-\large
-\uppercase{`r data$Family`}  
-
+\begin{center}
+\textbf{\LARGE `r record[['Project_name']]`}
+\end{center}
+\vspace{-\baselineskip} 
+\uppercase{`r record[['Family']]`}
+\vspace{-\baselineskip} 
 \begingroup
-`r writer(paste(data$Genus, data$Epithet), italics = TRUE)` ...  
-\endgroup
-\normalsize
 ```
 
 The image below shows a label where the family name has been moved from right to left alignment. 
@@ -258,7 +248,8 @@ So copy the `writer_fide(data)` from down near the bottom of the skeleton:
 
 ```{r determination, eval=F}
 \begingroup
-`r collection_writer(data)`. `r writer_fide(data)`
+\small
+`r collection_writer(record)`. `r writer_fide(record)`
 \endgroup
 ```
 
@@ -268,9 +259,9 @@ We will also make the text smaller.
 ```{r remove fide, eval=F}
 \begingroup
 \large
-`r writer(paste(data$Genus, data$Epithet), italics = TRUE)` `r writer(data$Binomial_authority)` `r writer(data$Infrarank)` `r  writer(data$Infraspecies, italics = TRUE)` `r writer(data$Infraspecific_authority)`  
-\normalsize # adding in the writer_fider
-`r writer_fide(data)` # here it is!
+`r writer(paste(record[['Genus']], record[['Epithet']]), italics = TRUE)` ...
+\normalsize 
+`r writer_fide(record)`
 \endgroup
 ```
 
