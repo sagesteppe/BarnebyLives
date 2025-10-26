@@ -37,7 +37,9 @@ jobs:
           wsl sudo apt-get update
           wsl sudo apt-get install -y pdftk texlive-latex-base texlive-extra-utils
       
-      - name: Run your bash script test
+      - name: Verify PDF tools
+        shell: bash
         run: |
-          # however you call your integration test
-          Rscript -e "yourpackage::test_pdf_integration()"
+          pdfjam --version
+          pdftk --version
+          echo "✓ All PDF tools available"
