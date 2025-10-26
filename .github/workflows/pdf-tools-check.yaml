@@ -31,6 +31,7 @@ jobs:
           Rscript -e "install.packages('tinytex')"
           Rscript -e "tinytex::install_tinytex()"
           Rscript -e "tinytex::tlmgr_install(c('pdfpages', 'pdfjam'))"
+          echo "$HOME/.TinyTeX/bin/x86_64-linux" >> $GITHUB_PATH
       
       - name: Install PDF tools (Windows/WSL)
         if: runner.os == 'Windows'
