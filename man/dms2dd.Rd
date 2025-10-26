@@ -32,6 +32,7 @@ colnames(coords_formatted)
 
 rm(coords, coords_formatted)
 
+# example with tibble input
 data(uncleaned_collection_examples)
 
 dms2dd(uncleaned_collection_examples) |>

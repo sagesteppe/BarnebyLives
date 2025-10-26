@@ -1,0 +1,43 @@
+name: CLI Integration Tests
+
+on: [push, pull_request]
+
+jobs:
+  test-pdf-tools:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Install R
+        uses: r-lib/actions/setup-r@v2
+      
+      - name: Install PDF tools (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y pdftk texlive-latex-base texlive-extra-utils
+      
+      - name: Install PDF tools (macOS)
+        if: runner.os == 'macOS'
+        run: |
+          brew install pdftk-java
+          brew install --cask basictex
+          eval "$(/usr/libexec/path_helper)"
+          sudo tlmgr update --self
+          sudo tlmgr install pdfpages pdfjam
+      
+      - name: Install PDF tools (Windows/WSL)
+        if: runner.os == 'Windows'
+        run: |
+          wsl --install -d Ubuntu
+          wsl sudo apt-get update
+          wsl sudo apt-get install -y pdftk texlive-latex-base texlive-extra-utils
+      
+      - name: Run your bash script test
+        run: |
+          # however you call your integration test
+          Rscript -e "yourpackage::test_pdf_integration()"
