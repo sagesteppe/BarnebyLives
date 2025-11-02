@@ -39,7 +39,7 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">collection_writer</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">collection_writer</span><span class="op">(</span><span class="va">x</span>, date <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -54,9 +54,13 @@
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">'collection_examples'</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">ce</span> <span class="op">&lt;-</span> <span class="va">collection_examples</span><span class="op">[</span><span class="fl">14</span>,<span class="op">]</span></span></span>
+<span class="r-in"><span><span class="va">ce</span> <span class="op">&lt;-</span> <span class="va">collection_examples</span><span class="op">[</span><span class="fl">12</span>,<span class="op">]</span></span></span>
 <span class="r-in"><span><span class="fu">collection_writer</span><span class="op">(</span><span class="va">ce</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Reed Clark Benkendorf 2833, Linda Martin, Payton Lott; 8 Jun, 2023"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Reed Clark Benkendorf 2830; 15 May, 2023"</span>
+<span class="r-in"><span><span class="fu">collection_writer</span><span class="op">(</span><span class="va">ce</span>, date <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Reed Clark Benkendorf 2830"</span>
+<span class="r-in"><span><span class="fu">collection_writer</span><span class="op">(</span><span class="va">collection_examples</span><span class="op">[</span><span class="fl">106</span>,<span class="op">]</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Reed Clark Benkendorf 2925, H. Sermersheim, G. Rytting; 1 Aug, 2023"</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
