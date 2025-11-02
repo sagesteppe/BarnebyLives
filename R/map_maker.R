@@ -7,7 +7,8 @@
 #' @param path_out a directory to store the map images in before merging
 #' @param path a path to the directory holding the BarnebyLivesGeodata
 #' @param collection_col column specify the collection number or other UNIQUE id for the collection
-#' @param parallel Whether to use parallel to write out the maps in parallel, defaults to 0 (for false), 1 uses all threads, 0.5 for half, 0.25 for a quarter etc.
+#' @param parallel Whether to use parallel to write out the maps in parallel,
+#'  defaults to 0 (for false), 1 uses all threads, 0.5 for half, 0.25 for a quarter etc.
 #' @examples \dontrun{
 #' ce <- collection_examples[ sample(1:nrow(collection_examples), size = 20), ] |>
 #'   sf::st_as_sf(coords = c('longitude_dd', 'latitude_dd'), crs = 4326)
@@ -30,9 +31,11 @@
 #' # but speed up gains unlikely. if pct is % loading cores took longer than single threading.
 #' speedup <- as.numeric(duration) / as.numeric(parallel_duration)
 #' if(speedup > 1) {
-#'  cat("Parallel was", round((1 - as.numeric(parallel_duration)/as.numeric(duration)) * 100, 1), "% faster\n")
+#'  cat("Parallel was", round(
+#'  (1 - as.numeric(parallel_duration)/as.numeric(duration)) * 100, 1), "% faster\n")
 #' } else {
-#'   cat("Single-threaded was", round((1 - speedup) * 100, 1), "% faster (parallel overhead exceeded benefits)\n")
+#'   cat("Single-threaded was",
+#'   round((1 - speedup) * 100, 1), "% faster (parallel overhead exceeded benefits)\n")
 #' }
 #'
 #' rm(start_time, duration, start_time_parallel, parallel_duration, speedup)

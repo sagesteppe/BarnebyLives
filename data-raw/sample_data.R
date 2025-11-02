@@ -23,8 +23,6 @@ usethis::use_data(database_templates, overwrite = TRUE)
 
 
 
-
-
 # prepare material for authorship table.
 setwd('/media/steppe/hdd/BarnebyLives/data-raw')
 abbrevs <- read.csv('ipni_author_abbreviations.csv')

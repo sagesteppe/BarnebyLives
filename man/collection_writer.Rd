@@ -4,7 +4,7 @@
 \alias{collection_writer}
 \title{format collector info and codes}
 \usage{
-collection_writer(x)
+collection_writer(x, date = TRUE)
 }
 \arguments{
 \item{x}{dataframe holding the values}
@@ -14,6 +14,8 @@ Format these data to have commas or periods as appropriate
 }
 \examples{
 data('collection_examples')
-ce <- collection_examples[14,]
+ce <- collection_examples[12,]
 collection_writer(ce)
+collection_writer(ce, date = FALSE)
+collection_writer(collection_examples[106,])
 }

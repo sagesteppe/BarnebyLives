@@ -1,0 +1,54 @@
+name: CLI Integration Tests
+
+on: [push, pull_request]
+
+jobs:
+  test-pdf-tools:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Install R
+        uses: r-lib/actions/setup-r@v2
+      
+      - name: Install PDF tools (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y pdftk
+          Rscript -e "install.packages('tinytex')"
+          Rscript -e "tinytex::install_tinytex()"
+          Rscript -e "tinytex::tlmgr_install(c('pdfpages', 'pdfjam'))"
+          echo "$HOME/.TinyTeX/bin/x86_64-linux" >> $GITHUB_PATH
+      
+      - name: Install PDF tools (macOS)
+        if: runner.os == 'macOS'
+        run: |
+          brew install pdftk-java
+          Rscript -e "install.packages('tinytex')"
+          Rscript -e "tinytex::install_tinytex()"
+          Rscript -e "tinytex::tlmgr_install(c('pdfpages', 'pdfjam'))"
+          echo "$HOME/.TinyTeX/bin/x86_64-linux" >> $GITHUB_PATH
+      
+      - name: Install PDF tools (Windows/WSL)
+        if: runner.os == 'Windows'
+        run: |
+          # WSL setup for pdftk
+          wsl --install -d Ubuntu
+          wsl sudo apt-get update
+          wsl sudo apt-get install -y pdftk
+          # TinyTeX in Windows
+          Rscript -e "install.packages('tinytex')"
+          Rscript -e "tinytex::install_tinytex()"
+          Rscript -e "tinytex::tlmgr_install(c('pdfpages', 'pdfjam'))"
+      
+      - name: Verify PDF tools
+        shell: bash
+        run: |
+          pdfjam --version
+          pdftk --version
+          echo "✓ All PDF tools available"
