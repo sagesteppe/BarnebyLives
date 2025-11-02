@@ -41,8 +41,11 @@ TaxUnpack <- function(path, bound) {
   # download the current data version
   WCVP_dl(path = path)
 
+  zip_file <- file.path(path, 'WCVP.zip')
+  con <- unz(zip_file, 'wcvp_distribution.csv')
+
   distributions <- read.table(
-    unz(file.path(path, 'WCVP.zip'), 'wcvp_distribution.csv'),
+    con,
     sep = "|",
     header = TRUE,
     quote = "",
@@ -60,14 +63,25 @@ TaxUnpack <- function(path, bound) {
     )
   )
 
+  # file names changed at one point. forward/backward compatible
+  zip_contents <- unzip(zip_file, list = TRUE)$Name
+
+  taxon_filename <- if('wcvp_taxon.csv' %in% zip_contents) {
+    'wcvp_taxon.csv'
+  } else {
+    'wcvp_names.csv'
+  }
+  con <- unz(zip_file, taxon_filename)
+
   wcvp_names <- read.table(
-    unz(file.path(path, 'WCVP.zip'), 'wcvp_taxon.csv'),
+    con,
     sep = "|",
     header = TRUE,
     quote = "",
     fill = TRUE,
     encoding = "UTF-8"
   )
+
   wcvp_names <- wcvp_names[
     wcvp_names$taxonid %in% distributions,
     c(
