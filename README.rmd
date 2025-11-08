@@ -65,67 +65,163 @@ Currently BarnebyLives! Is being run on a juiced up computer either in Rogers Pa
 
 ## Installation
 
-BarnebyLives! is stable, and can currently be installed as 0.3.0 from github. 
-```r
+BarnebyLives! is in beta testing, and can currently only be installed as
+0.1.0 from github.
+
+``` r
 devtools::install_github('sagesteppe/BarnebyLives')
 ```
 
-### Further packages external to R are required for creating labels
+## Linux 
 
-#### Linux
+The generation of labels will requires that Rmarkdown is succesfully set
+up to render to PDF via a LaTeX distribution such as pdflatex, lualatex,
+xelatex.
 
-To generate labels, ensure that R Markdown is configured to render PDFs using a LaTeX distribution (e.g., pdflatex, lualatex, xelatex).
-Additionally, you'll need two external programs: pdfjam and pdftk. 
-These can be installed on Debian flavors of Linux as so: 
-```sh
+Labels will further require two programs, pdfjam and pdftk. These can be
+installed on Debian flavors of Linux as so:
+
+``` sh
 sudo apt-get update
-sudo apt-get install pdfjam pdftk -y
+sudo apt-get install pdfjam -y
+sudo apt-get install pdftk -y
 ```
 
-#### Mac
-On macOS, you can install the required tools using Homebrew:
-```sh
-brew install pdftk-java pdfjam
+## MacOS 
+<details>
+<summary> MacOS Installation </summary>
+
+We recommend using the small package tinytex (pronounced Tiny-Tech) which comes with only a core set of utilities which can be supplemented as required. 
+TinyTex can be installed directly in R using:
+
+``` r
+install.packages("tinytex')
+tinytex::install_tinytex()
 ```
 
-#### Windows
-To set up the necessary tools on Windows, you'll need the Windows Subsystem for Linux (WSL). 
-If WSL is not already installed, you can use the script provided within the BarnebyLives R package to install it, note you will need this script to install two pdf handling utilities anyways - so use it. 
-If WSL is detected the script will simply skip a re-install. 
-
-##### Step 1: Locate the Installation Script
-
-First to find the script in BarnebyLives R package directory, enter the following into the powershell as an administrator
-```
-$installScript = & Rscript -e "cat(system.file('windowsInstall_pdf_tools.ps1', package='BarnebyLives'))"
-
-if (!(Test-Path $installScript)) {
-  Write-Error "Could not find install script in BarnebyLives package."
-  exit 1
-}
-
-Write-Host "Found installer script at: $installScript"
-```
-
-##### Step 2: Add Script Directory to PATH
-```
-$scriptDir = [System.IO.Path]::GetDirectoryName($installScript)
-
-# Add to user PATH
-$env:Path += ";$scriptDir"
-```
-
-##### Step 3: Install WSL
-
-Run the installation script
+Now from a command terminal run the following to use TexLives package manager to add a few additional required tools.
 
 ```
-Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force & "windowsInstall_pdf_tools.ps1"
+tlmgr install eso-pic grfext grffile oberdiek pdfjam pdfjam.universal-darwin pdflscape pdfpages setspace tlgpg tlgpg.universal-darwin
 ```
 
-After the script completes, restart your computer as prompted. 
-Then, run the script again to complete the installation process for the pdf utilities.
+To verify the installs worked check, from the command line. 
 
+``` sh
+pdfjam --version
+pdflatex --version
+```
+
+</details>
+
+## Windows
+<details>
+<summary> Windows Installation </summary>
+
+
+1) install git for windows 
+
+See [here](https://gitforwindows.org/) for details on install.
+
+2) to render individual labels 
+
+after installing BarnebyLives, tinytex will need to install a minimal tex version. 
+Run the following in R.
+
+``` r
+install.packages('tinytex')
+tinytex::install_tinytex()
+```
+
+3) to combine the labels for printing. 
+
+You will need a few more tools. 
+First you will need `choco`, which is a package manager for windows (like brew for Mac, or apt or yum for Linux). 
+These details are reproduced from [chocolatey.org](https://community.chocolatey.org/courses/installation/installing?method=installing-chocolatey#powershell)
+
+from a POWERSHELL run as administrator
+
+``` 
+Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+```
+
+If that doesn't work you will need to swap your permissions (see the linked guide above). 
+
+You can verify that `choco` is installed by running, from the powershell
+
+```
+choco
+```
+
+And now use choco to install `pdftk`. 
+Open a git bash shell as an administrator and
+```
+choco install pdftk -y
+```
+
+4) install pdfjam 
+
+Download the most recent release of pdfjam (4.2.zip) from the github [repo](https://github.com/pdfjam/pdfjam/releases)
+
+using the git bash terminal copy if to a location on $PATH
+
+```
+unzip pdfjam-4.2.zip 
+mv ~/Downloads/pdfjam-4.2 ~/pdfjam
+```
+
+make it executable
+```
+chmod +x ~/pdfjam/bin/pdfjam
+```
+
+add to your $PATH
+```
+export PATH="$HOME/pdfjam/bin:$PATH"
+```
+
+and verify the installation with 
+```
+which pdfjam
+```
+
+if that works add it your path for good
+
+```
+echo 'export PATH="$HOME/pdfjam/bin:$PATH"' >> ~/.bashrc
+```
+
+5) install required latex packages to supplement tinytex
+
+You will need the tinytex package manager for this. 
+Check if it is accessible via 
+
+```
+which tlmgr
+
+```
+
+if is not found, and you installed via R. try adding it to path as in the below.
+
+note *USERNAME* is a placeholder. 
+
+```
+echo 'export PATH="/c/Users/USERNAME/AppData/Roaming/TinyTeX/bin/windows:$PATH"' >> ~/.bashrc
+```
+
+and you are probably going to need to update tlmgr right off the bat. 
+
+```
+tlmgr --update self
+
+```
+
+now you can install the other required packages
+```
+tlmgr.bat install pdfpages eso-pic grfext grffile oberdiek pdflscape pdfpages setspace tlgpg
+```
+
+</details>
 ## Input Data Column Names
 
 The columns in the top table are **required** to run the all the functions in BarnebyLives. The columns in the middle table are suggested to increase the quality of the collections.  The columns in the lower table are optional, to be blunt, BarnebyLives will generate all of these values. Ficticious examples are provided here, while links to real examples (~100) are contained [here](https://docs.google.com/spreadsheets/d/e/2PACX-1vR8I-JBcgA7P9RYjJqbTebzNFLS1bLz1sYVW1vPlU5Bq6WXCwKS4zkeGTCmlo9BcznCKNbdz6gtK9pV/pubhtml) and in the vignettes.
