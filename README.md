@@ -84,6 +84,8 @@ BarnebyLives! is in beta testing, and can currently only be installed as
 devtools::install_github('sagesteppe/BarnebyLives')
 ```
 
+## Linux 
+
 The generation of labels will requires that Rmarkdown is succesfully set
 up to render to PDF via a LaTeX distribution such as pdflatex, lualatex,
 xelatex.
@@ -97,10 +99,139 @@ sudo apt-get install pdfjam -y
 sudo apt-get install pdftk -y
 ```
 
-We hope to collaborate with others to treat CONUS and to create
-multiformat data e.g. Darwincore, CPNWH, etc., and push this product
-onto CRAN as well as publish a short piece in APPS! It is on the
-backburner, but still simmering! Stay tuned in but dropped out!
+<details>
+<summary>### MacOS</summary>
+
+We recommend using the small package tinytex (pronounced Tiny-Tech) which comes with only a core set of utilities which can be supplemented as required. 
+TinyTex can be installed directly in R using:
+
+``` r
+install.packages("tinytex')
+tinytex::install_tinytex()
+```
+
+Now from a command terminal run the following to use TexLives package manager to add a few additional required tools.
+
+```
+tlmgr install eso-pic grfext grffile oberdiek pdfjam pdfjam.universal-darwin pdflscape pdfpages setspace tlgpg tlgpg.universal-darwin
+```
+
+To verify the installs worked check, from the command line. 
+
+``` sh
+pdfjam --version
+pdflatex --version
+```
+
+</details>
+
+<details>
+<summary>### Windows</summary>
+
+
+1) install git for windows 
+
+See [here](https://gitforwindows.org/) for details on install.
+
+2) to render individual labels 
+
+after installing BarnebyLives, tinytex will need to install a minimal tex version. 
+Run the following in R.
+
+``` r
+install.packages('tinytex')
+tinytex::install_tinytex()
+```
+
+3) to combine the labels for printing. 
+
+You will need a few more tools. 
+First you will need `choco`, which is a package manager for windows (like brew for Mac, or apt or yum for Linux). 
+These details are reproduced from [chocolatey.org](https://community.chocolatey.org/courses/installation/installing?method=installing-chocolatey#powershell)
+
+from a POWERSHELL run as administrator
+
+``` 
+Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+```
+
+If that doesn't work you will need to swap your permissions (see the linked guide above). 
+
+You can verify that `choco` is installed by running, from the powershell
+
+```
+choco
+```
+
+And now use choco to install `pdftk`. 
+Open a git bash shell as an administrator and
+```
+choco install pdftk -y
+```
+
+4) install pdfjam 
+
+Download the most recent release of pdfjam (4.2.zip) from the github [repo](https://github.com/pdfjam/pdfjam/releases)
+
+using the git bash terminal copy if to a location on $PATH
+
+```
+unzip pdfjam-4.2.zip 
+mv ~/Downloads/pdfjam-4.2 ~/pdfjam
+```
+
+make it executable
+```
+chmod +x ~/pdfjam/bin/pdfjam
+```
+
+add to your $PATH
+```
+export PATH="$HOME/pdfjam/bin:$PATH"
+```
+
+and verify the installation with 
+```
+which pdfjam
+```
+
+if that works add it your path for good
+
+```
+echo 'export PATH="$HOME/pdfjam/bin:$PATH"' >> ~/.bashrc
+```
+
+5) install required latex packages to supplement tinytex
+
+You will need the tinytex package manager for this. 
+Check if it is accessible via 
+
+```
+which tlmgr
+
+```
+
+if is not found, and you installed via R. try adding it to path as in the below.
+
+note *USERNAME* is a placeholder. 
+
+```
+echo 'export PATH="/c/Users/USERNAME/AppData/Roaming/TinyTeX/bin/windows:$PATH"' >> ~/.bashrc
+```
+
+and you are probably going to need to update tlmgr right off the bat. 
+
+```
+tlmgr --update self
+
+```
+
+now you can install the other required packages
+```
+tlmgr.bat install pdfpages eso-pic grfext grffile oberdiek pdflscape pdfpages setspace tlgpg
+```
+
+</details>
 
 ## Input Data Column Names
 
@@ -275,5 +406,5 @@ Has worked for me.
 | *‘Portrait of Rupert Barneby’* Dwight Ripley (1955) |
 
 *BarnebyLives(!) Was named after Rupert Charles Barneby, botanist
-extraordinaire, artist, socialite, and kind hearted human being. He is
-the hero the West needs not Hayduke. Hence, BarnebyLives!*
+extraordinaire, artist, socialite, and kind hearted human being. 
+He is the hero the West needs not Hayduke. Hence, BarnebyLives!*
