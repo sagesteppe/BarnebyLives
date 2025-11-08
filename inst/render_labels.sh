@@ -5,19 +5,52 @@ for arg in "$@"; do
    esac
 done
 
-mkdir ${collector}-processed
+mkdir -p "${collector}-processed"
 files=($(ls ${collector}-raw/* | sort -Vt / -k2,2))
-for (( i=0; i<${#files[*]}; i+=4 ));
-do
-  filename="${files[i]##*/}"
-  pdfjam "${files[@]:$i:4}" --nup 2x2 --landscape --outfile ${collector}-processed/$filename --noautoscale true --quiet
-done
 
-mkdir ../final
-files=($(ls ${collector}-processed/* | sort -Vt / -k2,2))
-pdftk ${files[*]} output ../final/${collector}-labels.pdf
+if command -v pdfjam >/dev/null 2>&1; then
+   echo 
+   for (( i=0; i<${#files[*]}; i+=4 )); do
+      filename="${files[i]##*/}"
+      pdfjam "${files[@]:$i:4}" \
+         --nup 2x2 \
+         --landscape \
+         --outfile "${collector}-processed/$filename" \
+         --noautoscale true \
+         --quiet
+   done
+else
+   echo "pdfjam not detected — using ImageMagick (rasterizing)"
+   if ! command -v convert >/dev/null 2>&1; then
+      echo "Error: neither pdfjam nor ImageMagick found."
+      exit 1
+   fi
+   for (( i=0; i<${#files[*]}; i+=4 )); do
+      filename="${files[i]##*/}"
+      montage -density 400 "${files[@]:$i:4}" \
+         -tile 2x2 -geometry +0+0 \
+         "${collector}-processed/$filename"
+   done
+fi
 
-echo "final labels are located at: final/${collector}-labels.pdf"
+# Combine all processed PDFs into final
+mkdir -p ../final
+files=($(ls "${collector}-processed"/* | sort -V))
 
-rm ${collector}-raw -r
-rm ${collector}-processed -r
+if command -v pdftk >/dev/null 2>&1; then
+   pdftk "${files[@]}" cat output "../final/${collector}-labels.pdf"
+else
+   echo "pdftk not found — using ImageMagick to combine (rasterized)"
+   convert "${files[@]}" "../final/${collector}-labels.pdf"
+fi
+
+echo "Final labels located at: ../final/${collector}-labels.pdf"
+
+# Cleanup - only if final PDF was successfully created
+pdf_count=$(ls -1 ../final/*.pdf 2>/dev/null | wc -l)
+if [ "$pdf_count" -ge 1 ]; then
+   echo "Cleanup: removing intermediate files"
+   rm -rf "${collector}-raw" "${collector}-processed"
+else
+   echo "Warning: No PDF found in ../final/ - keeping intermediate files for re-runs"
+fi
