@@ -31,7 +31,7 @@ jobs:
           brew install pdftk-java
           Rscript -e "install.packages('tinytex')"
           Rscript -e "tinytex::install_tinytex()"
-          Rscript -e "tinytex::tlmgr_install(c('pdfpages', 'pdfjam'
+          Rscript -e "tinytex::tlmgr_install(c('pdfpages', 'pdfjam',
           'eso-pic', 'grfext', 'grffile', 'oberdiek', 'pdfjam.universal-darwin', 'pdflscape', 'pdfpages',
            'setspace', 'tlgpg', 'tlgpg.universal-darwin'))"
           echo "$HOME/.TinyTeX/bin/x86_64-linux" >> $GITHUB_PATH
