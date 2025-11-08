@@ -418,7 +418,8 @@ process_valleys <- function(path, pathOut, tile_cells) {
 
   mtns_gmba <-
     bind_rows(
-    sf::st_read(file.path(pathOut, 'mountains', 'mountains.shp'), quiet = T),
+    sf::st_read(file.path(pathOut, 'mountains', 'mountains.shp'), quiet = T) |>
+      dplyr::rename(Feature = Mountains),
     mtns
     )
 
