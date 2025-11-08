@@ -1,0 +1,212 @@
+# Printing herbarium labels and exporting a digital copy of data
+
+This vignette shows how to create herbarium labels using BarnebyLives.
+The workflow has several steps:
+
+1.  set up a working directory and copy in a label skeleton
+2.  modify the skeleton so it can read the data
+3.  use an R script to generate the labels
+4.  review the directory populated with outputs
+5.  perform a mock run and optionally export a digital copy of the
+    collection data
+
+``` r
+# remotes::install_github('sagesteppe/BarnebyLives') 
+# OR devtools::install_github('sagesteppe/BarnebyLives')
+library(BarnebyLives)
+
+library(purrr)
+library(dplyr)
+library(glue)
+data('collection_examples')
+```
+
+## setting up a directory to work in
+
+A dedicated directory keeps raw labels, final sheets, and skeletons
+organized.
+
+``` r
+setwd('~/Documents')
+dir.create('HerbariumLabels')
+dir.create('HerbariumLabels/raw')
+
+p <- '~/Documents/HerbariumLabels/raw'
+```
+
+Now we will need to copy a skeleton from the package to work with. We
+can access skeletons from the packages installation like this.
+
+``` r
+p2libs <- system.file(package = 'BarnebyLives')
+folds <- file.path(p2libs, 'rmarkdown', 'templates', 'labels', 'skeleton', 'skeleton.Rmd')
+
+file.copy(from = file.path(p2libs, folds), to =  '.')
+```
+
+Your directory should now look like this.
+
+    ~/Documents/HerbariumLabels/
+    ├── raw/           # intermediate single-label PDFs
+    ├── final/         # mosaiced sheets (optional, after combining)
+    └── skeleton.Rmd   # label template (copied from BarnebyLives)
+
+## modifying skeleton to receive data
+
+Labels in BarnebyLives are rendered via skeletons. In other words,
+skeletons convert the data in spreadsheets onto labels. The package
+provides a handful of templates, which can be further customized.
+
+We have to modify the skeletons so that they know where to load the data
+from. Within the skeleton you just copied from the R package repository,
+you will need to modify where it loads data from.
+
+A default template (e.g. `skeleton-research.Rmd`) will have some code
+that looks like this in the first block.
+
+``` r
+record <- collection_examples |>
+  dplyr::filter(Collection_number == params$Collection_number) |>  
+  sf::st_drop_geometry()
+```
+
+A modified template will look like the following, and specify a real
+location to read data from. Note that in both scenarios the filter line
+is essential so sync up the driving script and the labels to receive
+data.
+
+``` r
+data <- read.csv("ExampleCollection.csv") |>
+  dplyr::mutate(
+    Coordinate_Uncertainty = "+/- 5m"
+  ) |>
+  dplyr::filter(Collection_number == params$Collection_number)
+```
+
+## creating a driver script to feed the skeleton data
+
+Now we have the skeleton ready to receive data, but we will need to
+create another R script, which will be able to launch as many instances
+of
+[`rmarkdown::render`](https://pkgs.rstudio.com/rmarkdown/reference/render.html)
+as we have labels we want to create. We’ll call this script a ‘driver’
+script. We will use
+[`purrr::walk()`](https://purrr.tidyverse.org/reference/map.html) to map
+`Rmarkdown::render` across each row of the data set we wish to create
+labels of. The core of this script will be the call to `purrr`.
+
+``` r
+purrr::walk(
+  .x = collection_examples$Collection_number,
+  ~ rmarkdown::render(
+    input = "skeleton-default.Rmd",                      # template to populate
+    output_file = file.path(p, glue("{.x}.pdf")),# write one PDF per record
+    params = list(Collection_number = {.x})      # pass record to skeleton
+  )
+)
+```
+
+Every iteration of this loop spins up a new R session, loads the
+skeleton, filters to the current collection number, and outputs a
+single-label PDF in the raw/ folder.
+
+However, earlier in this driver script we will need to load identify
+which records we want to render. Note that purrr will render the labels
+in the vector being feed to `.x`, which should always be
+`Collection_number`. You can create a dummy ID for this if collectors
+collect without number.
+
+## combining labels
+
+After running the driver script, the ‘raw’ directory should be
+populated.
+
+    ~/Documents/HerbariumLabels/
+    ├── raw/
+    │   ├── 101.pdf
+    │   ├── 102.pdf
+    │   ├── 103.pdf
+    │   └── ...
+    └── skeleton.Rmd
+
+A bash script will combine all of these raw labels onto a standard
+8.5x11 sheet of paper.
+
+First copy the bash script into our directory.
+
+The script lives at the installed BarnebyLives location…
+
+``` r
+print(p2libs)
+```
+
+And is named `render_labels.sh`
+
+It can be copied to your label generation directory using bash, or R.
+
+Using bash.
+
+``` sh
+cd ~/Documents/HerbariumLabels/ # first go to destination for file. 
+cp /home/sagesteppe/R/x86_64-pc-linux-gnu-library/4.5/BarnebyLives/render_labels.sh .
+```
+
+Note the `cp` command copies a file `from` to a `destination`, in this
+case the current directory.
+
+Using R - about the same as before.
+
+``` r
+file.copy(
+  file.path(p2libs, 'render_labels.sh'),
+  file.path(
+    path.expand('~'), 'Documents', 'HerbariumLabels')
+)
+```
+
+the script can then be called from it’s current location, and will
+populate the `processed` and `final` directory with the combined labels
+for printing
+
+``` sh
+bash render_labels.sh collector='name'
+```
+
+you can also try and run it from R
+
+``` render
+system2(command =
+          file.path(
+            path.expand('~'), 
+            'Documents', 'HerbariumLabels', 'render_labels.sh'),
+        args = c(""), # Arguments as a character vector
+        stdout = TRUE, # Capture standard output
+        stderr = TRUE)
+```
+
+## Exporting a digital copy of the data
+
+This is normally the time when I also make a digital copy of the data
+for direct accessioning at the herbarium side.
+
+Currently BL supports writing out data for mass upload in a few formats
+for herbaria (e.g. Symbiota, Jepson), but we are always eager to add
+more, so *PLEASE* do not hesitate to ask if you want something to be
+supported! There is a lot of code below, but realistically all it is
+doing is replacing NA values with ’’, or empty contents, this is the
+best format for people to get NULL values for their databases.
+
+``` r
+unique(database_templates$Database) # currently supported options. 
+
+dat_import <- format_database_import(collection_examples, 'Symbiota') |> 
+  dplyr::mutate( 
+    dplyr::across( 
+      dplyr::everything(), ~ as.character(.)), 
+    dplyr::across(
+      dplyr::everything(), ~ tidyr::replace_na(., '')
+      )
+    )  
+
+write.csv(dat_import, 'Symbiota_format_collections_2024.csv', row.names = F)
+```

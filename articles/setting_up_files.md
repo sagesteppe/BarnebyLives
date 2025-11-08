@@ -1,0 +1,191 @@
+# Preparing to use BarnebyLives!
+
+## Introduction
+
+This vignette walks you through five steps:  
+- 1) Download taxonomic data (2-10 minutes, ~500MiB)  
+- 2) Download geographic data (a couple hours depending on extent)  
+- 3) Set up the instance (15-45 minutes processing) - 4) Verify success
+
+System requirements: - Stable internet connection for downloads - 4-20
+GB available disk space (varies by geographic extent) - however the
+temporary objects, i.e. after downloading but before running
+`data_setup` will require significantly more memory. - R version ≥ 4.0.0
+
+You only need to do this once before using the package for analyses or
+label printing. Aside from the taxonomy module, none of this has to be
+re-ran.
+
+## Decide where to store data
+
+BarnebyLives relies on local copies of several large datasets to
+minimize API calls and ensure consistent performance. Storage
+requirements vary by geographic scope:
+
+- Regional collections (single state/province): 4-8 GB
+- Multi-state collections (e.g., Great Plains): 8-12 GB
+- Continental collections (e.g., Michigan to California): 16+ GB
+
+The data persistence approach offers several advantages:
+
+- Reduced dependency on internet connectivity during analyses
+- Consistent data versions across analyses
+- Faster processing compared to repeated API calls
+- Offline capability for field work
+
+It’s important that you decide where BarnebyLives will be installed on
+your computer. Below, I will be downloading and copying some of the data
+to an external drive mounted to my system, where I have a directory
+named ‘BL_sandbox’.
+
+``` r
+# Example directory (adjust for your system)
+bl_dir <- "/media/steppe/hdd/BL_sandbox"
+```
+
+Note: All file paths in the pipeline can be specified independently,
+allowing you to relocate data after setup without breaking
+functionality. So don’t worry if you start an install somewhere you
+don’t want the data to end up.
+
+### Taxonomic Data
+
+BarnebyLives uses the *World Checklist of Vascular Plants* as its
+primary taxonomic backbone. This continuously updated resource from Kew
+Gardens provides standardized nomenclature for global plant diversity
+and serves as the foundation for *Plants of the World Online (POWO)*.
+
+The `TaxUnpack` function downloads and processes WCVP data, creating
+three lookup tables:
+
+Complete species catalog Infraspecific taxa (varieties and subspecies)
+Genus-level taxonomy
+
+``` r
+## download and process the taxonomic data
+p2 <- file.path(bl_dir, 'taxdata')
+
+wcvp_update(p2) 
+TaxUnpack(path = p2, bound = bound)
+```
+
+#### IPNI
+
+Standard botanical author abbreviations from the International Plant
+Names Index (IPNI) ensure consistent citation formatting on specimen
+labels.
+
+``` r
+data('ipni_authors', package='BarnebyLives')
+write.csv(ipni_authors, file.path(p2, 'ipni_author_abbreviations.csv'))
+```
+
+### Download all geographic data
+
+#### Automated downloads
+
+The `data_download` function retrieves most geographic data sets
+automatically.
+
+``` r
+# I am using R markdown so want to be really sure save data to the correct location
+# so I will use an absolute path
+data_download(path = file.path(bl_dir, 'raw'))
+# if you are using an interactive R script. (fileR) you should be able to do something
+# similar or even just cd into the directory where you want to save everything and 
+# run the function ala `download-data()`
+```
+
+### Manual downloads
+
+Geographic data are organized in tiles following standard conventions.
+Define your study area as a bounding box using decimal degrees
+(WGS84/EPSG:4326 - default systems in most cartography software are
+close enough). Google Maps will work fine for this, just go a few miles
+outside of your extent to be sure.
+
+``` r
+bound <- data.frame(
+   y = c( 48,  48,  41,  41,  48),
+   x = c(-91, -82, -82, -91, -91)
+ ) # note that the 5th pair of coordinates is the same
+# as the first pair (48, -91), this is required to 'close'
+# the square. 
+
+tileSelector(bound)
+```
+
+`tile_selector` will help you determine which files you need to
+download. We will define a geographic extent that covers the area of
+interest. It will be a simple square, and grabbing coordinates from Open
+Street/Google/Apple Maps etc., or a GIS, will suffice.
+
+#### manual
+
+We will download a couple attributes from Geomorpho90m from a
+[Minio](https://opentopography.s3.sdsc.edu/minio/dataspace/OTDS.012020.4326.1/raster/)
+page. We need both ‘*aspect*’ (NOT ‘sine’ or ‘cosine’) and ‘*geom*’ from
+here, you should be able to control find (‘ctrl+’f’) these in their
+respective directories and manually download them.  
+Once the files are downloaded copy them to the same location as you had
+`data_download` save files.
+
+Now we also need to manually download data on elevation from
+[MERIT-DEM](https://hydro.iis.u-tokyo.ac.jp/~yamadai/MERIT_DEM/). Yes
+you technically need to register here, but you will automatically get a
+log in password to any email you enter, and it works!
+
+These tiles follow the same naming convention as the previous data set -
+in fact Geomorpho90m is derived from MERIT-DEM one. Also save these
+files to the location you have `data_download` save files.
+
+### set up an instance for use
+
+You are now ready to set up an instance of BL for analysis.
+
+Specify where the downloaded data are `path`, where to save the date
+`pathOut`, the square (or bounding box) around your study area `bound`,
+and whether to remove the raw downloaded files ‘cleanup’. I set
+`cleanup = FALSE`, until I am 100% certain that all downloads are good,
+which means running data through the pipeline and printing labels a
+couple times.
+
+``` r
+data_setup( # this one will take maybe 30 minutes or so 
+  path = file.path(bl_dir, 'raw'), 
+  pathOut = file.path(bl_dir, 'geo'),
+  bound = bound, cleanup = FALSE
+  )
+```
+
+## Finishing up.
+
+You can check that all files are in place by running \`\` and you should
+be good to go forward
+
+``` r
+# and you can check that everything has been set up using this. 
+check_data_setup_outputs(file.path(bl_dir, 'geo'))
+```
+
+And that’s it! After a few runs of the system feel free to delete the
+raw data, you can do that by hand, or by initializing the instance using
+the `data_setup` function again. But that kind of seems like overkill!
+
+``` r
+data_setup( # this one will take maybe 30 minutes or so 
+  path = file.path(bl_dir, 'raw'), 
+  pathOut = file.path(bl_dir, 'geo'),
+  bound = bound, cleanup = TRUE
+  )
+```
+
+### Next Steps
+
+With your BarnebyLives instance successfully configured, you can now:
+
+- Validate taxonomic names against WCVP standards
+- Extract environmental data for specimen localities
+
+Consult the additional BarnebyLives vignettes for analysis workflows and
+advanced usage examples.

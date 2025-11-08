@@ -1,0 +1,586 @@
+## Overview ![](reference/figures/logo.png)
+
+BarnebyLives! is an R program which serves to help botanical collectors
+in Western North America. BarnebyLives! runs multiple types of queries
+to acquire political and administrative, geographic, and taxonomic data
+for recently collected herbarium specimens. It also has limited
+abilities to search for taxonomic synonyms, check spelling of family,
+genus, and species names, as well as author abbreviations.
+
+BarnebyLives! serves the entirety of the flora of the western
+conterminous US. While it covers this range, most variables are focused
+on supporting botanists working West of the Rocky Mountain Front Range,
+especially those operating on Bureau of Land Management and Forest
+Service administered lands.
+
+BarnebyLives! Is meant to *supplement*, not supplant, collectors field
+note endeavors. Variables which BarnebyLives! may produce,
+automatically, for each collection includes:
+
+**Political**  
+- State  
+- County  
+- Township  
+- Public Land Survey System (township, range, section)
+
+**Geographic** - Mountain Range (if relevant)  
+- Nearest Geographic Names Information System (GNIS) place name, and
+distance and azimuth from it
+
+**Site characteristics**  
+- Elevation (both meters and feet)  
+- Slope  
+- Aspect  
+- Surficial geology  
+- Geomorphon (major landform elements)
+
+**Taxonomic**  
+- Spell check for Family, Genus, and specific epithet - Searches for
+synonym to species  
+- Spell checks taxonomic authorities - Spell check for associated
+species
+
+**Directions**  
+- directions to a parking spot can be acquired from Google Maps; however
+this implies the location can be driven to in the first place.
+
+**Other features include**  
+- Date parsing, e.g. convert date into congruent museum formats (month
+in European style)  
+- Conversion of Degrees Minutes Seconds (DMS) to Decimal Degrees (DD)  
+- Exporting collection data as a ‘shapefile’ or KML for use in a GIS or
+GoogleEarth
+
+**Label and shipping manifest generation** - Herbarium Labels which
+autopopulate from the script output - Manifests which autopopulate from
+the script outputs - Herbarium labels with retro dot municipality maps
+
+**Electronic data for mass digital specimen upload** - Puts out data in
+formats congruent with Symbiota, Darwincore, Rocky Moutain Herbarium,
+and Consortium of Pacific Northwest Herbaria.
+
+Currently BarnebyLives! Is being run on a juiced up computer either in
+Rogers Park Chicago or Reno. The amount of data which it queries is very
+large. Please let me know if you have a query and I will run it for you.
+If you only collect from a smaller portion of the West, e.g. a certain
+state, or FS/BLM Unit/Field Office, you should be able to set up a local
+instance. Although, the documentation for such an endeavor is nascent
+the endeavor is simple, see “crop2boundary” for the workflow.
+
+## Installation
+
+BarnebyLives! is in beta testing, and can currently only be installed as
+0.1.0 from github.
+
+``` r
+devtools::install_github('sagesteppe/BarnebyLives')
+```
+
+## Linux
+
+The generation of labels will requires that Rmarkdown is succesfully set
+up to render to PDF via a LaTeX distribution such as pdflatex, lualatex,
+xelatex.
+
+Labels will further require two programs, pdfjam and pdftk. These can be
+installed on Debian flavors of Linux as so:
+
+``` sh
+sudo apt-get update
+sudo apt-get install pdfjam -y
+sudo apt-get install pdftk -y
+```
+
+\### MacOS
+
+We recommend using the small package tinytex (pronounced Tiny-Tech)
+which comes with only a core set of utilities which can be supplemented
+as required. TinyTex can be installed directly in R using:
+
+``` r
+install.packages("tinytex')
+tinytex::install_tinytex()
+```
+
+Now from a command terminal run the following to use TexLives package
+manager to add a few additional required tools.
+
+    tlmgr install eso-pic grfext grffile oberdiek pdfjam pdfjam.universal-darwin pdflscape pdfpages setspace tlgpg tlgpg.universal-darwin
+
+To verify the installs worked check, from the command line.
+
+``` sh
+pdfjam --version
+pdflatex --version
+```
+
+\### Windows
+
+1.  install git for windows
+
+See [here](https://gitforwindows.org/) for details on install.
+
+2.  to render individual labels
+
+after installing BarnebyLives, tinytex will need to install a minimal
+tex version. Run the following in R.
+
+``` r
+install.packages('tinytex')
+tinytex::install_tinytex()
+```
+
+3.  to combine the labels for printing.
+
+You will need a few more tools. First you will need `choco`, which is a
+package manager for windows (like brew for Mac, or apt or yum for
+Linux). These details are reproduced from
+[chocolatey.org](https://community.chocolatey.org/courses/installation/installing?method=installing-chocolatey#powershell)
+
+from a POWERSHELL run as administrator
+
+    Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+
+If that doesn’t work you will need to swap your permissions (see the
+linked guide above).
+
+You can verify that `choco` is installed by running, from the powershell
+
+    choco
+
+And now use choco to install `pdftk`. Open a git bash shell as an
+administrator and
+
+    choco install pdftk -y
+
+4.  install pdfjam
+
+Download the most recent release of pdfjam (4.2.zip) from the github
+[repo](https://github.com/pdfjam/pdfjam/releases)
+
+using the git bash terminal copy if to a location on \$PATH
+
+    unzip pdfjam-4.2.zip
+    mv ~/Downloads/pdfjam-4.2 ~/pdfjam
+
+make it executable
+
+    chmod +x ~/pdfjam/bin/pdfjam
+
+add to your \$PATH \`\`\` export PATH="\$HOME/pdfjam/bin:\$PATH”
+
+    and verify the installation with 
+
+which pdfjam
+
+    if that works add it your path for good
+
+echo ‘export PATH=“$HOME/pdfjam/bin:$PATH”’ \>\> ~/.bashrc
+
+    5) install required latex packages to supplement tinytex
+
+    You will need the tinytex package manager for this.
+    Check if it is accessible via
+
+which tlmgr
+
+    if is not found, and you installed via R. try adding it to path as in the below.
+
+    note *USERNAME* is a placeholder.
+
+echo ‘export
+PATH=“/c/Users/USERNAME/AppData/Roaming/TinyTeX/bin/windows:\$PATH”’
+\>\> ~/.bashrc
+
+    and you are probably going to need to update tlmgr right off the bat.
+
+tlmgr –update self
+
+    now you can install the other required packages
+
+tlmgr.bat install pdfpages eso-pic grfext grffile oberdiek pdflscape
+pdfpages setspace tlgpg \`\`\`
+
+## Input Data Column Names
+
+The columns in the top table are **required** to run the all the
+functions in BarnebyLives. The columns in the middle table are suggested
+to increase the quality of the collections. The columns in the lower
+table are optional, to be blunt, BarnebyLives will generate all of these
+values. Ficticious examples are provided here, while links to real
+examples (~100) are contained
+[here](https://docs.google.com/spreadsheets/d/e/2PACX-1vR8I-JBcgA7P9RYjJqbTebzNFLS1bLz1sYVW1vPlU5Bq6WXCwKS4zkeGTCmlo9BcznCKNbdz6gtK9pV/pubhtml)
+and in the vignettes.
+
+| Column name           | Description                                                                                                                                                                                                                            | Example                             |
+|-----------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------|
+| Collection_number     | The collection number for the primary botanist. This number should unambiguously identify the collection, and be inclusive of all replicates (multiple herbaria sheets). We recommend using a number agnostic of projects and seasons. | 6359                                |
+| Primary_Collector     | The botanist who assumes primary responsibility for collecting, processing, and coordinating the accessioning of the collection with herbaria.                                                                                         | Rupert Barneby                      |
+| Associated_Collectors | Other collectors who were present at the time of collection, and contributed to the process.                                                                                                                                           | Dwight Ripley                       |
+| Full_name             | The full scientific name of the taxonomic entity, by neccessity including the Genus and Epithet which form a binomial, and information on infraspecies.                                                                                | Astragalus tephrodes var. eurylobus |
+| Latitude              | The decimal degrees (dd) or degrees minutes seconds (dms) perpendicular to the equator which the collection was made at.                                                                                                               | 37.6415                             |
+| Longitude             | The decimal degrees (dd) or degrees minutes seconds (dms) along the equator which the collection was made at.                                                                                                                          | -114.4985                           |
+| Date_digital          | The date which the collection was made in American format, ‘mm.dd.yyyy’ for example, ‘01.02.2023’ is January 2nd.                                                                                                                      | 06.18.1944                          |
+| Vegetation            | Plant species which are present with high amounts of biomass, or which are postulated to be keystone species etc.                                                                                                                      | Artemisia nova, Pleuraphis jamesii  |
+| Associates            | Other plant species growing in the area which do not compose the dominant amounts of biomass.                                                                                                                                          | Brickellia longifolia               |
+| Habtiat               | Notes on the abiotic (landform, soil texture, etc.) and biotic (landcover type ‘forest’, ‘riparian’ etc.) setting which the collection was growing in.                                                                                 | Ridges of barren alkaline hills     |
+| Notes                 | Any notes, especially relevant are those describing growth form, floral colour, scents, or textures.                                                                                                                                   | petals pink purple                  |
+
+Suggested columns!
+
+| Column name        | Description                                                                                                  | Example             |
+|--------------------|--------------------------------------------------------------------------------------------------------------|---------------------|
+| Fide               | The most authoritative Flora, or monograph, used to identify the collections.                                | Intermountain Flora |
+| Determined_by      | A botanist who verified the identity of the collection.                                                      | Rupert Barneby      |
+| Determined_date    | The date the botanist determined the specimen. This beginning a chain of annotations for the distant future. | 06.18.1944          |
+| Tissue_collections | Number of individual plants from which tissue collections were made.                                         | 0                   |
+| Project_name       | The endeavor which this collection was made for, or which field work may be associated with.                 | Flora Nevadensis    |
+| Site_name          | A user defined name for the locality from which collections were made.                                       | Caliente            |
+
+Unnecessary columns!
+
+| Column name             | Description                                                                                                                                                          |
+|-------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Genus                   | The Genus which the species is a component of                                                                                                                        |
+| Species                 | The Species which the population from which the collection was made is a component of.                                                                               |
+| Name_authority          | The full scientific name of the taxonomic entity, by neccessity including the Genus and Epithet which form a binomial, and information on infraspecies and authors   |
+| Binomial_authority      | The scientific authors who conceptualized the species, and described it, and if relevant the authors whom have transferred the species to it’s current genus.        |
+| Infrarank               | The taxonomic level nested within Species which this population is a component of, generally one of either ‘var.’ or ‘ssp.’ for variety of subspecies respectively.  |
+| Infraspecies            | The taxonomic entity which this population is a component of within the hierarchy of species.                                                                        |
+| Infraspecific_Authority | The scientific authors who conceptualized the species, and described it, and relevant authors whom have transferred the species to within a species.                 |
+| Family                  | A Family which the Genus which this species is apart of is considered to be a component of.                                                                          |
+| Datum                   | A smoothed model of the earths surface and reference locations on the surface to measure from (~i.e. meridians). Typical geodetic datums include ‘WGS 84’, ‘NAD 83’. |
+| Aspect                  | The measured or in-field estimated cardinal direction which the population faced.                                                                                    |
+| Slope                   | The measured or in-field estimated slope which the population faced.                                                                                                 |
+
+## General Workflow
+
+![Suggested Workflow](reference/figures/workflow.png)
+
+Suggested Workflow
+
+## Geodata directory structure
+
+For those that are setting up a local instance the directory structure
+for the geodata is flat.
+
+``` R
+$ tree -d
+geodata
+├── allotments
+├── aspect
+├── elevation
+├── geology
+├── geomorphons
+├── mountains
+├── pad
+├── places
+├── plss
+├── political
+└── slope
+```
+
+Several of these sub-directories are quite large. In total my local
+instance takes up around 16gb of data.
+
+``` R
+$ du -h
+708M    ./geology
+73M ./political
+3.8M    ./mountains
+136M    ./allotments
+435M    ./pad
+4.6G    ./slope
+81M ./places
+816M    ./plss
+4.2G    ./elevation
+4.1G    ./aspect
+455M    ./geomorphons
+16G .
+```
+
+As you can see the data regarding site physical characteristics take up
+most of space. Because of this you can download data to a directory
+which you find suitable. Personally, I slap all of them on an hdd.
+
+## Rendering Labels
+
+BL provides three template labels, each of which are distributed from
+within the package and copied to their final location using the
+following commands in R.
+
+``` R
+p2libs <- system.file(package = 'BarnebyLives')
+folds <- file.path('rmarkdown', 'templates', 'labels', 'skeleton', 'SoS-skeleton.Rmd') 
+
+file.copy(from = file.path(p2libs, folds), 
+          to = '.') # change for wherever you want the label to go. 
+```
+
+You will need to print you labels for the sheets. We use a `purrr`
+`walk` to create 4x4in individuals labels as pdf’s using Rmarkdown. Then
+we combine all of them using bash. A bash script, `render_labels.sh` is
+distributed with the package to accomplish this.
+
+We can copy it to a location, from R, like this.
+
+``` R
+p2libs <- system.file(package = 'BarnebyLives')
+folds <- file.path('rmarkdown', 'render_labels.sh') 
+
+file.copy(from = file.path(p2libs, folds), 
+          to = '/media/steppe/hdd/Barneby_Lives-dev/manuscript/labels/raw')
+```
+
+And once here, we can run it like this (from a shell!)
+
+``` R
+bash render_labels.sh collector='Dwight'
+```
+
+Note that, we’ve had difficulty calling this script from it’s default
+install location :/, but it can easily be copied elsewhere and ran from
+that location.
+
+reminder, you only need to chmod +x a file if you don’t call ‘bash’ at
+the start of an argument…
+
+``` R
+chmod +x render_labels.sh
+path2file/render_labels.sh collector='Dwight'
+```
+
+But if you are in the current working directory you can omit the `bash`
+part of the call if you have chmod\`d the file.
+
+``` R
+render_labels.sh collector='Dwight'
+```
+
+In all instances the script is meant for you to call it from the
+following location:
+
+``` R
+├── HerbariumLabels
+│  ├── final ## <- products will go in here!!! 
+│  └── raw ## <- call render_labels.sh from here!!!
+│       └── Dwight-raw
+```
+
+The labels will end up in ‘final’ and the subfolder within raw
+(‘Dwight-raw’) will be deleted. If you want to re-render you’ll need to
+run the [`purrr::walk`](https://purrr.tidyverse.org/reference/map.html)
+again.
+
+Note that the ‘collector’ will need to match (..exactly…) the output of
+the [`purrr::walk`](https://purrr.tidyverse.org/reference/map.html)
+files collector name.
+
+## Trouble printing?
+
+Some printers (maybe not updating drivers enough?) have trouble printing
+LaTeX (in general, not related to this package).
+
+``` R
+ps2pdf labels_in.pdf labels_out-ps2pdf.pdf
+```
+
+Has worked for me.
+
+| ![Portrait of Rupert Barneby by Dwight Ripley 1955](reference/figures/Portrait_of_Rupert_Barneby.png) |
+|:-----------------------------------------------------------------------------------------------------:|
+|                          *‘Portrait of Rupert Barneby’* Dwight Ripley (1955)                          |
+
+*BarnebyLives(!) Was named after Rupert Charles Barneby, botanist
+extraordinaire, artist, socialite, and kind hearted human being. He is
+the hero the West needs not Hayduke. Hence, BarnebyLives!*
+
+# Package index
+
+## Workflow functions
+
+User facing functions for carrying out the BL workflow
+
+- [`associate_dropper()`](https://sagesteppe.github.io/BarnebyLives/reference/associate_dropper.md)
+  : remove collection from associated species
+- [`associates_spell_check()`](https://sagesteppe.github.io/BarnebyLives/reference/associates_spell_check.md)
+  : Format associated species, and spell check them internally
+- [`author_check()`](https://sagesteppe.github.io/BarnebyLives/reference/author_check.md)
+  : Check spelling of botanical author abbreviations
+- [`autofill_checker()`](https://sagesteppe.github.io/BarnebyLives/reference/autofill_checker.md)
+  : Search for accidental auto-increments from spreadsheet autofills
+- [`coords2sf()`](https://sagesteppe.github.io/BarnebyLives/reference/coords2sf.md)
+  : create an sf object row by row to reflect different datum
+- [`date2text()`](https://sagesteppe.github.io/BarnebyLives/reference/date2text.md)
+  : take mdy format date and make it written herbarium label format
+- [`date_parser()`](https://sagesteppe.github.io/BarnebyLives/reference/date_parser.md)
+  : create herbarium format dates for specimens
+- [`directions_grabber()`](https://sagesteppe.github.io/BarnebyLives/reference/directions_grabber.md)
+  : Have Google maps help you write directions to a site
+- [`dms2dd()`](https://sagesteppe.github.io/BarnebyLives/reference/dms2dd.md)
+  : this function parses coordinates from DMS to decimal degrees
+- [`family_spell_check()`](https://sagesteppe.github.io/BarnebyLives/reference/family_spell_check.md)
+  : check that family is spelledcorrectly.
+- [`format_database_import()`](https://sagesteppe.github.io/BarnebyLives/reference/format_database_import.md)
+  : Export a spreadsheet for mass upload to an herbariums database
+- [`geodata_writer()`](https://sagesteppe.github.io/BarnebyLives/reference/geodata_writer.md)
+  : write out spatial data for collections to Google Earth or QGIS
+- [`label_writer()`](https://sagesteppe.github.io/BarnebyLives/reference/label_writer.md)
+  : write herbarium labels to pdf
+- [`map_maker()`](https://sagesteppe.github.io/BarnebyLives/reference/map_maker.md)
+  : Make a quick county dot map to display the location of the
+  collection
+- [`physical_grabber()`](https://sagesteppe.github.io/BarnebyLives/reference/physical_grabber.md)
+  : gather physical characteristics of the site
+- [`political_grabber()`](https://sagesteppe.github.io/BarnebyLives/reference/political_grabber.md)
+  : gather political site information
+- [`powNAce()`](https://sagesteppe.github.io/BarnebyLives/reference/powNAce.md)
+  : Easily compare POW column to input columns
+- [`powo_searcher()`](https://sagesteppe.github.io/BarnebyLives/reference/powo_searcher.md)
+  : query plants of the world online for taxonomic information
+- [`site_writer()`](https://sagesteppe.github.io/BarnebyLives/reference/site_writer.md)
+  : gather distance and azimuth from site to center of town
+- [`spell_check()`](https://sagesteppe.github.io/BarnebyLives/reference/spell_check.md)
+  : check that genera and specific epithets are spelled (almost)
+  correctly
+- [`split_scientificName()`](https://sagesteppe.github.io/BarnebyLives/reference/split_scientificName.md)
+  : split out a scientific input column to pieces
+
+## Preparing data to run BL
+
+Data prep functions
+
+- [`data_download()`](https://sagesteppe.github.io/BarnebyLives/reference/data_download.md)
+  : Download the data required to establish a BL instance
+- [`data_setup()`](https://sagesteppe.github.io/BarnebyLives/reference/data_setup.md)
+  : Set up the downloaded data for a BarnebyLives instance
+- [`TaxUnpack()`](https://sagesteppe.github.io/BarnebyLives/reference/TaxUnpack.md)
+  : a function to subset the WCVP data set to an area of focus
+- [`check_data_setup_outputs()`](https://sagesteppe.github.io/BarnebyLives/reference/check_data_setup_outputs.md)
+  : Check whether expected output files from data_setup() exist
+
+## Data
+
+- [`collection_examples`](https://sagesteppe.github.io/BarnebyLives/reference/collection_examples.md)
+  : Collection examples for a shipping manifest
+- [`database_templates`](https://sagesteppe.github.io/BarnebyLives/reference/database_templates.md)
+  : database_templates
+- [`google_towns`](https://sagesteppe.github.io/BarnebyLives/reference/google_towns.md)
+  : This is a reproduced and slightly curated list of populated places.
+- [`herbaria_info`](https://sagesteppe.github.io/BarnebyLives/reference/herbaria_info.md)
+  : herbaria_info
+- [`ipni_authors`](https://sagesteppe.github.io/BarnebyLives/reference/ipni_authors.md)
+  : IPNI author abbreviations
+- [`project_examples`](https://sagesteppe.github.io/BarnebyLives/reference/project_examples.md)
+  : project_examples
+- [`shipping_examples`](https://sagesteppe.github.io/BarnebyLives/reference/shipping_examples.md)
+  : shipping_examples
+- [`names_vec`](https://sagesteppe.github.io/BarnebyLives/reference/randomNames.md)
+  : 10 random plant names from taxize
+- [`wcvp_update()`](https://sagesteppe.github.io/BarnebyLives/reference/wcvp_update.md)
+  : install or update World Vascular Plants Checklist
+
+## Label formatting functions
+
+functions used while labels are being generated
+
+- [`associates_writer()`](https://sagesteppe.github.io/BarnebyLives/reference/associates_writer.md)
+  : do or don't write the associated plant species
+- [`collection_writer()`](https://sagesteppe.github.io/BarnebyLives/reference/collection_writer.md)
+  : format collector info and codes
+- [`escape_latex()`](https://sagesteppe.github.io/BarnebyLives/reference/escape_latex.md)
+  : escape characters for use with latex rendering
+- [`species_font()`](https://sagesteppe.github.io/BarnebyLives/reference/species_font.md)
+  : ensure proper italicization of a associated species
+- [`writer()`](https://sagesteppe.github.io/BarnebyLives/reference/writer.md)
+  : write values and collapse NAs
+- [`writer_fide()`](https://sagesteppe.github.io/BarnebyLives/reference/writer_fide.md)
+  : do or don't write determination information
+
+## Some internals
+
+functions used internally
+
+- [`all_authors()`](https://sagesteppe.github.io/BarnebyLives/reference/all_authors.md)
+  : retrieve author results for autonyms
+- [`directions_overview()`](https://sagesteppe.github.io/BarnebyLives/reference/directions_overview.md)
+  : return a quick route summary from googleway::google_directions
+- [`format_degree()`](https://sagesteppe.github.io/BarnebyLives/reference/format_degree.md)
+  : ASCII compliant degree symbol
+- [`get_google_directions()`](https://sagesteppe.github.io/BarnebyLives/reference/get_google_directions.md)
+  : identify a populated place near a collection and get directions from
+  there
+- [`notFound()`](https://sagesteppe.github.io/BarnebyLives/reference/notFound.md)
+  : notify user if an entry had any results not found in POWO
+- [`mason()`](https://sagesteppe.github.io/BarnebyLives/reference/mason.md)
+  : a wrapper around terra::makeTiles for setting the domain of a
+  project
+- [`result_grabber()`](https://sagesteppe.github.io/BarnebyLives/reference/result_grabber.md)
+  : collect the results of a successful powo search
+- [`specificDirections()`](https://sagesteppe.github.io/BarnebyLives/reference/specificDirections.md)
+  : Import Google directions to a site
+- [`try_again()`](https://sagesteppe.github.io/BarnebyLives/reference/try_again.md)
+  : try to download from Kew again, with just the binomial
+- [`writer2()`](https://sagesteppe.github.io/BarnebyLives/reference/writer2.md)
+  : write values and collapse NAs
+
+# Articles
+
+### Setting up an instance, and cleaning collection data with it
+
+- [Preparing to use
+  BarnebyLives!](https://sagesteppe.github.io/BarnebyLives/articles/setting_up_files.md):
+
+  How to download and configure taxonomic and geographic datasets
+  required for a working BarnebyLives instance.
+
+- [BarnebyLives! Running
+  pipeline](https://sagesteppe.github.io/BarnebyLives/articles/running_pipeline.md):
+
+  Core functionality. Cleaning and processing data.
+
+### General label and manifest creation
+
+Creating labels
+
+- [Printing herbarium labels and exporting a digital copy of
+  data](https://sagesteppe.github.io/BarnebyLives/articles/creating_labels.md):
+
+  Rendering herbarium labels
+
+- [Rendering a shipping
+  manifest](https://sagesteppe.github.io/BarnebyLives/articles/rendering_shipping_manifests.md):
+
+  Rendering shipping manifests and transfer letters for shipping
+  specimens.
+
+### Built in herbarium label templates
+
+Examples of some built in templates
+
+- [Built in
+  templates](https://sagesteppe.github.io/BarnebyLives/articles/built_in_templates.md):
+
+  All of the built in herbarium label templates.
+
+- [Labels with
+  graphics](https://sagesteppe.github.io/BarnebyLives/articles/labels_with_graphics.md):
+
+  Using label templates which allow you to embed, graphics, such as maps
+  or logos onto them.
+
+### Customizing and altering herbarium label templates
+
+User specified label modifications
+
+- [Customizing a label
+  template](https://sagesteppe.github.io/BarnebyLives/articles/customizing_a_label_template.md):
+
+  Simple modifications to an existing label template, such as moving
+  elements around or changing font size.
+
+- [Customizing label
+  fonts](https://sagesteppe.github.io/BarnebyLives/articles/custom_label_fonts.md):
+
+  Changing the default font, using multiple fonts, downloading fonts
+  from online.
