@@ -148,7 +148,6 @@ TaxUnpack <- function(path, bound) {
 #'
 #' @keywords internal
 WCVP_dl <- function(path) {
-  #  WORKS
 
   fp <- file.path(path, 'WCVP.zip')
   if (file.exists(fp)) {
