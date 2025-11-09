@@ -781,7 +781,7 @@ process_plss <- function(path, pathOut, tile_cells) {
   # buffer in township CRS units
   if (tolower(township_crs$units_gdal) == "degree") {
     buffer <- (n_cells * 6.01) / 69 # degrees
-    unit_label <- "°"
+    unit_label <- "\u00B0"
   } else {
     buffer <- n_cells * 6.01 * 1609.34 # meters
     unit_label <- "m"
@@ -892,12 +892,11 @@ safe_untar <- function(archive, exdir, verbose = TRUE) {
 
 #' Check whether expected output files from data_setup() exist
 #'
-#' @param pathOut Output directory used in data_setup()
-#' @return None. prints to console.
-#' @export
-#' Check and print status of data_setup outputs
+#' @description Check and print status of data_setup outputs
 #'
 #' @param pathOut Output directory used in data_setup()
+#' @return None. prints to console.
+#'
 #' @examples \dontrun{
 #' check_data_setup_outputs(path.expand('~/Documents/BL_testing_data/geo'))
 #'}

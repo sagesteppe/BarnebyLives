@@ -6,6 +6,9 @@
 \usage{
 escape_latex(x)
 }
+\arguments{
+\item{x}{input.}
+}
 \description{
 escape characters for use with latex rendering
 }

@@ -1,5 +1,5 @@
 #' escape characters for use with latex rendering
-
+#' @param x input.
 escape_latex <- function(x) {
   if (is.null(x)) {
     return("")

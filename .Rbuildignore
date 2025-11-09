@@ -6,3 +6,7 @@
 ^docs$
 ^pkgdown$
 ^\.github$
+^Makefile$
+^TODO\.txt$
+^data-sources\.md$
+^README\.Rmd$
