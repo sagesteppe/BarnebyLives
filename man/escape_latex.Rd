@@ -2,7 +2,7 @@
 % Please edit documentation in R/escape_latex.R
 \name{escape_latex}
 \alias{escape_latex}
-\title{escape characters for use with latex rendering}
+\title{escape characters for use with LaTeX rendering}
 \usage{
 escape_latex(x)
 }
@@ -10,5 +10,5 @@ escape_latex(x)
 \item{x}{input.}
 }
 \description{
-escape characters for use with latex rendering
+Allows broader LaTeX funtionality.
 }
