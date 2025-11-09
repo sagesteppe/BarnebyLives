@@ -134,14 +134,14 @@ TaxUnpack <- function(path, bound) {
   httr::GET(
     URL,
     httr::progress(),
-    httr::write_disk(path = path, overwrite = TRUE)
+    httr::write_disk(
+      path = file.path(path, 'ipni_author_abbreviations.csv'), overwrite = TRUE)
   )
 
   message(crayon::green(
     'New taxonomy backbone set up.'
   ))
 }
-
 
 #' download data
 #' @description dl data.
