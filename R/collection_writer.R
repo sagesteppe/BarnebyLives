@@ -2,6 +2,7 @@
 #'
 #' Format these data to have commas or periods as appropriate
 #' @param x dataframe holding the values
+#' @param date Boolean, default TRUE. Whether to write the collection date.
 #' @examples
 #' data('collection_examples')
 #' ce <- collection_examples[12,]

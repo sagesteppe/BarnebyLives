@@ -7,7 +7,7 @@
 dms2dd(x, lat, long, dms)
 }
 \arguments{
-\item{x}{an input data frame to apply operations too}
+\item{x}{an input data frame to apply operations to}
 
 \item{lat}{a name of the column holding the latitude values}
 

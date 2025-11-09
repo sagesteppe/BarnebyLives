@@ -20,6 +20,7 @@
 #' }
 #' @export
 TaxUnpack <- function(path, bound) {
+
   bound <- bound |>
     sf::st_as_sf(coords = c('x', 'y'), crs = 4326) |>
     sf::st_bbox() |>
@@ -41,11 +42,8 @@ TaxUnpack <- function(path, bound) {
   # download the current data version
   WCVP_dl(path = path)
 
-  zip_file <- file.path(path, 'WCVP.zip')
-  con <- unz(zip_file, 'wcvp_distribution.csv')
-
   distributions <- read.table(
-    con,
+    unz(file.path(path, 'WCVP.zip'), 'wcvp_distribution.csv'),
     sep = "|",
     header = TRUE,
     quote = "",
@@ -57,24 +55,14 @@ TaxUnpack <- function(path, bound) {
   distributions <- distributions[distributions$locality %in% sts, 'coreid']
 
   message(
-    crayon::green(
+    crayon::yellow(
       length(distributions),
       'names (mostly synonyms...) found in this spatial domain.\nSit tight while we process them.'
     )
   )
 
-  # file names changed at one point. forward/backward compatible
-  zip_contents <- unzip(zip_file, list = TRUE)$Name
-
-  taxon_filename <- if('wcvp_taxon.csv' %in% zip_contents) {
-    'wcvp_taxon.csv'
-  } else {
-    'wcvp_names.csv'
-  }
-  con <- unz(zip_file, taxon_filename)
-
   wcvp_names <- read.table(
-    con,
+    unz(file.path(path, 'WCVP.zip'), 'wcvp_taxon.csv'),
     sep = "|",
     header = TRUE,
     quote = "",
@@ -94,12 +82,12 @@ TaxUnpack <- function(path, bound) {
       'scientfiicname',
       'acceptednameusageid',
       'parentnameusageid',
-      'taxonomicstatus',
-      'scientfiicnameauthorship'
+      'taxonomicstatus'
     )
   ]
 
   lkp <- c(
+    plant_name_id = 'taxonid',
     taxon_name = 'scientfiicname',
     genus = 'genus',
     species = 'specificepithet',
@@ -142,11 +130,12 @@ TaxUnpack <- function(path, bound) {
   )
 
   # now add in the author abbreviations.
-  data('ipni_authors', package = 'BarnebyLives')
-  write.csv(
-    ipni_authors,
-    file.path(path, 'ipni_author_abbreviations.csv'),
-    row.names = FALSE
+  URL <- 'https://github.com/sagesteppe/BarnebyLives_data/releases/download/v1.0/ipni_author_abbreviations.csv'
+  httr::GET(
+    URL,
+    httr::progress(),
+    httr::write_disk(
+      path = file.path(path, 'ipni_author_abbreviations.csv'), overwrite = TRUE)
   )
 
   message(crayon::green(
@@ -154,13 +143,11 @@ TaxUnpack <- function(path, bound) {
   ))
 }
 
-
 #' download data
 #' @description dl data.
 #'
 #' @keywords internal
 WCVP_dl <- function(path) {
-  #  WORKS
 
   fp <- file.path(path, 'WCVP.zip')
   if (file.exists(fp)) {

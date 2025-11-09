@@ -8,8 +8,7 @@
 #' and require a free and automatically approved account to download.
 #' Download from the second set of data, under the 'GeoTiff format' header
 #'
-#' @param PADUS Boolean. Defaults to FALSE. Honestly, downloading this single
-#'  object takes much more hassle than it is worth. You should just download from :
+#' PADUS downloading this single  object takes much more hassle than it is worth. You should just download from :
 #' https://www.sciencebase.gov/catalog/item/652ef930d34edd15305a9b03 you'll have to
 #' do a captcha, but just download the 'Geodatabase.zip' and place it in same
 #' directory as other files. Rename it as 'PADUS.zip' and we are good to go.
@@ -193,7 +192,11 @@ SGMC_dl <- function(path) {
   download_sgmc(dest = fp, url = url)
 }
 
-
+#' use to try and download sgmc data
+#' @param dest location to save data to
+#' @param url location to try download from
+#'
+#' @keywords internal
 download_sgmc <- function(dest, url) {
   os <- Sys.info()[["sysname"]]
   has_wget <- nzchar(Sys.which("wget"))
