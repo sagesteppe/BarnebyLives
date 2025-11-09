@@ -206,9 +206,9 @@ mason <- function(path, pathOut, tile_cellsV) {
       f <- paths2rast[grep(prods[i], paths2rast)]
       if (length(f) == 0) {
         message(crayon::yellow(
-          "No archives found for ",
+          "No archives found for",
           prods[i],
-          ". Skipping."
+          "- skipping."
         ))
         next
       }
