@@ -82,7 +82,6 @@ data_setup <- function(path, pathOut, bound, cleanup) {
     mason = function() mason(path, pathOut, tile_cellsV),
     make_it_political = function() make_it_political(path, pathOut, tile_cells),
     process_gmba = function() process_gmba(path, pathOut, tile_cells),
-    process_valleys = function() process_valleys(path, pathOut, tile_cells),
     process_gnis = function() process_gnis(path, pathOut, bound),
     process_padus = function() process_padus(path, pathOut, bound, tile_cells),
     process_geology = function() process_geology(path, pathOut, tile_cells),
@@ -91,6 +90,8 @@ data_setup <- function(path, pathOut, bound, cleanup) {
     },
     process_plss = function() process_plss(path, pathOut, tile_cells)
   )
+
+  failed_steps <- character(0)
 
   for (nm in names(steps)) {
     message(crayon::blue("Running step: ", nm))
@@ -105,21 +106,25 @@ data_setup <- function(path, pathOut, bound, cleanup) {
       }
     )
     if (!ok) {
-      success <- FALSE
-      break
+      failed_steps <- c(failed_steps, nm)
     }
   }
+
+  success <- length(failed_steps) == 0
 
   # --- Cleanup ---
   if (success) {
     message(crayon::magenta(
-      "All steps succeeded. Cleaning up unzipped data..."
+      "All steps succeeded. Cleaning up unzipped data...
+      After verifying the input works consider running this function with
+      `cleanup == TRUE`, to remove the source data."
     ))
     dirs <- list.dirs(path, recursive = FALSE)
     lapply(dirs, unlink, recursive = TRUE)
   } else {
-    message(crayon::yellow(
-      "Not all steps succeeded. Preserving unzipped data for debugging."
+    message(crayon::red(
+      "The following steps failed: \n",
+      paste('-', failed_steps, collapse = "\n")
     ))
   }
 
@@ -316,6 +321,8 @@ places_and_spaces <- function(path, pathOut, bound) {
 
   st <- tigris::states(progress_bar = FALSE, year = 2022) |>
     sf::st_transform(4326)
+  st <- sf::st_agr('constant')
+
   st <- st[
     sf::st_intersects(st, bb) %>% lengths > 0,
     c('STATEFP', 'NAME', 'STUSPS')
@@ -365,75 +372,54 @@ places_and_spaces <- function(path, pathOut, bound) {
 #' @description used within `data_setup`
 #' @keywords internal
 process_gmba <- function(path, pathOut, tile_cells) {
+
   tile_cells <- sf::st_transform(tile_cells, 4269)
   p <- file.path(path, 'GMBA', 'GMBA_Inventory_v2.0_standard_basic.shp')
   mtns <- sf::st_read(p, quiet = T) |>
     sf::st_make_valid() |>
     sf::st_transform(4269)
 
-  sf::st_agr(mtns) = "constant"
-  sf::st_agr(tile_cells) <- 'constant'
-  mtns <- mtns |>
-    dplyr::select(MapName) |>
-    sf::st_crop(sf::st_union(tile_cells)) |>
-    dplyr::rename(Mountains = MapName) |>
-    dplyr::mutate(Feature = stringr::str_remove(Mountains, '[(]nn[])]')) |>
-    sf::st_transform(4326) |>
-    dplyr::select(-Mountains)
-
-  dir.create(file.path(pathOut, 'mountains'), showWarnings = FALSE)
-  sf::st_write(
-    mtns,
-    dsn = file.path(pathOut, 'mountains', 'mountains.shp'),
-    quiet = TRUE,
-    append = FALSE
-  )
-
-  message(crayon::green(
-    "Done writing `mountains` data set. ",
-    format(Sys.time(), "%X")
-  ))
-}
-
-
-#' Set up the downloaded data for a BarnebyLives instance
-#'
-#' @description used within `data_setup`
-#' @keywords internal
-process_valleys <- function(path, pathOut, tile_cells) {
-  tile_cells <- sf::st_transform(tile_cells, 4269)
-  p <- file.path(path,  'Named_Valleys.gpkg')
-  valleys <- sf::st_read(p, quiet = T) |>
+  valleys <- sf::st_read(
+      file.path(path, 'Named_Valleys.gpkg'),
+      quiet = T) |>
     sf::st_make_valid() |>
     sf::st_transform(4269)
 
+  sf::st_agr(mtns) = "constant"
   sf::st_agr(valleys) = "constant"
   sf::st_agr(tile_cells) <- 'constant'
 
-  mtns <- valleys |>
+  mtns <- mtns |>
+    sf::st_crop(sf::st_union(tile_cells)) |>
+    dplyr::mutate(Feature = stringr::str_remove(MapName, '[(]nn[])]')) |>
+    sf::st_transform(4326) |>
+    dplyr::select(Feature)
+
+  valleys <- valleys |>
     dplyr::select(Feature = transferred_tag) |>
     sf::st_crop(sf::st_union(tile_cells)) |>
     sf::st_transform(4326) |>
     sf::st_make_valid()
 
-  mtns_gmba <-
-    bind_rows(
-    sf::st_read(file.path(pathOut, 'mountains', 'mountains.shp'), quiet = T) |>
-      dplyr::rename(Feature = Mountains),
-    mtns
+  mtns_gmba <- dplyr::bind_rows(
+      mtns,
+      valleys
     )
 
+  dir.create(file.path(pathOut, 'mountains'), showWarnings = FALSE)
+
   sf::st_write(
-    mtns,
+    mtns_gmba,
     dsn = file.path(pathOut, 'mountains', 'mountains.shp'),
     quiet = TRUE,
     append = FALSE
   )
 
   message(crayon::green(
-    "Done writing `valleys` to the `mountains` data set. ",
+    "Done writing `mountains (& valleys)` data set. ",
     format(Sys.time(), "%X")
   ))
+
 }
 
 
@@ -442,9 +428,13 @@ process_valleys <- function(path, pathOut, tile_cells) {
 #' @description used within `data_setup`
 #' @keywords internal
 process_gnis <- function(path, pathOut, bound) {
+
   bb <- sf::st_as_sf(bound) |>
     st_transform(4269)
   st <- tigris::states(progress_bar = FALSE, year = 2022)
+
+  sf::st_agr(st) = "constant"
+  sf::st_agr(bb) = "constant"
 
   st <- st[
     sf::st_intersects(st, bb) %>% lengths > 0,
@@ -529,6 +519,9 @@ process_padus <- function(path, pathOut, bound, tile_cells) {
   tile_cells <- sf::st_transform(tile_cells, 4269)
 
   states <- tigris::states(cb = TRUE, year = 2022, progress_bar = FALSE)
+  sf::st_agr(states) = "constant"
+  sf::st_agr(tile_cells) = "constant"
+
   states <- states[
     unlist(sf::st_intersects(
       sf::st_transform(bound, sf::st_crs(states)),
@@ -713,22 +706,20 @@ process_grazing_allot <- function(path, pathOut, tile_cells) {
   base <- vector(length = 2)
   paths <- vector(length = 2)
   shp <- vector(mode = 'list', length = 2)
+  col2grab <- c('ALLOT_NAME', 'ALLOTMENT_')
 
   for (i in seq_along(datasets)) {
     base[i] <- file.path(path, datasets[i])
     paths[i] <- file.path(base[i], list.files(base[i], pattern = 'shp$'))
 
     shp[[i]] <- sf::st_read(paths[i], quiet = TRUE) |>
-      dplyr::select(ALLOT_NAME) |>
+      dplyr::select(Allotment = col2grab[i]) |>
       sf::st_transform(4269) |>
       sf::st_make_valid()
   }
 
   # Combine and filter
   allotments <- dplyr::bind_rows(shp)
-
-  # Sanity check
-  stopifnot(sf::st_crs(tile_cells) == sf::st_crs(allotments))
 
   sf::st_agr(tile_cells) <- "constant"
   sf::st_agr(allotments) <- "constant"
@@ -742,8 +733,7 @@ process_grazing_allot <- function(path, pathOut, tile_cells) {
   # Finalize + transform
   allotments <- allotments |>
     sf::st_transform(4326) |>
-    dplyr::mutate(Allotment = stringr::str_to_title(ALLOT_NAME)) |>
-    dplyr::select(-ALLOT_NAME)
+    dplyr::mutate(Allotment = stringr::str_to_title(Allotment))
 
   # Write output
   dir.create(file.path(pathOut, 'allotments'), showWarnings = FALSE)

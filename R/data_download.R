@@ -27,14 +27,37 @@ data_download <- function(path) {
     path <- '.'
   }
 
-  counties_dl(path)
-  GMBA_dl(path)
-  Valleys_dl(path)
-  allotments_dl(path)
-  GNIS_dl(path)
-  PLSS_dl(path) # a slow one !
-  SGMC_dl(path) # hardly ever works
+  success <- TRUE
+  steps <- list(
+    counties_dl   = function() counties_dl(path),
+    GMBA_dl       = function() GMBA_dl(path),
+    Valleys_dl    = function() Valleys_dl(path),
+    allotments_dl = function() allotments_dl(path),
+    GNIS_dl       = function() GNIS_dl(path),
+    PLSS_dl       = function() PLSS_dl(path),
+    SGMC_dl       = function() SGMC_dl(path)
+  )
+
+  for (nm in names(steps)) {
+    message(crayon::blue("Downloading: ", nm))
+    ok <- tryCatch(
+      {
+        steps[[nm]]()
+        TRUE
+      },
+      error = function(e) {
+        message(crayon::red("Error in ", nm, ": ", e$message))
+        FALSE
+      }
+    )
+    if (!ok) {
+      success <- FALSE
+      break
+    }
+  }
+
 }
+
 
 #' download data
 #' @description dl data.
@@ -45,7 +68,7 @@ counties_dl <- function(path) {
   fp <- file.path(path, 'Counties.zip')
 
   if (file.exists(fp)) {
-    message('Product `Counties` already downloaded. Skipping.')
+    message(crayon::green('Product `Counties` already downloaded. Skipping.'))
   } else {
     URL <- 'https://www2.census.gov/geo/tiger/TIGER2020/COUNTY/tl_2020_us_county.zip'
     httr::GET(
@@ -65,7 +88,7 @@ GMBA_dl <- function(path) {
   # WORKS
   fp <- file.path(path, 'GMBA.zip')
   if (file.exists(fp)) {
-    message('Product `GMBA` already downloaded. Skipping.')
+    message(crayon::green('Product `GMBA` already downloaded. Skipping.'))
   } else {
     URL <- 'https://data.earthenv.org/mountains/standard/GMBA_Inventory_v2.0_standard_basic.zip'
     httr::GET(
@@ -84,7 +107,7 @@ Valleys_dl <- function(path) {
   # WORKS
   fp <- file.path(path, 'Named_Valleys.gpkg')
   if (file.exists(fp)) {
-    message('Product `Named Valleys` already downloaded. Skipping.')
+    message(crayon::green('Product `Named Valleys` already downloaded. Skipping.'))
   } else {
     URL <- 'https://github.com/sagesteppe/BarnebyLives_data/releases/download/v1.0/Named_Valleys.gpkg'
     httr::GET(
@@ -105,7 +128,7 @@ PLSS_dl <- function(path) {
 
   fp <- file.path(path, 'PLSS.zip')
   if (file.exists(fp)) {
-    message('Product `PLSS` already downloaded. Skipping.')
+    message(crayon::green('Product `PLSS` already downloaded. Skipping.'))
   } else {
     URL <- 'https://blm-egis.maps.arcgis.com/sharing/rest/content/items/283939812bc34c11bad695a1c8152faf/data'
     message("PLSS - this one will take a minute (3.6 GB)")
@@ -122,7 +145,7 @@ allotments_dl <- function(path) {
 
   prod <- c('USFSAllotments', 'BLMAllotments')
   fp <- file.path(path, paste0(prod, '.zip'))
-  mss <- paste('Product', prod, 'already downloaded. Skipping.')
+  mss <- paste0('Product `', prod, '` already downloaded. Skipping.')
   URL <- c(
     'https://data-usfs.hub.arcgis.com/api/download/v1/items/f8872f1c70d34376b515e0ea90a868d5/shapefile?layers=0',
     'https://gbp-blm-egis.hub.arcgis.com/api/download/v1/items/0882acf7eada4b3bafee4dd673fbe8a0/shapefile?layers=1'
@@ -130,7 +153,7 @@ allotments_dl <- function(path) {
 
   for (i in seq_along(prod)) {
     if (file.exists(fp[i])) {
-      message(mss[i])
+      message(crayon::green(mss[i]))
     } else {
       httr::GET(
         URL[i],
@@ -154,7 +177,7 @@ SGMC_dl <- function(path) {
 
   fp <- file.path(path, 'SGMC.zip')
   if (file.exists(fp)) {
-    message('Product `SGMC` already downloaded. Skipping.')
+    message(crayon::green('Product `SGMC` already downloaded. Skipping.'))
     return(invisible(NULL))
   }
 
@@ -245,16 +268,6 @@ download_sgmc <- function(dest, url) {
   message(crayon::yellow("Then move it to:"))
   message(crayon::magenta(normalizePath(dest, mustWork = FALSE)))
 
-  if (os == "Windows") {
-    message("Install Git for Windows: https://gitforwindows.org/")
-  } else if (os == "Darwin") {
-    message("On macOS, use Homebrew: brew install wget curl")
-  } else if (os == "Linux") {
-    message(
-      "On Linux:\n  sudo apt install wget curl\n  OR\n  sudo dnf install wget curl"
-    )
-  }
-
   stop("Download must be completed by hand.")
 }
 
@@ -266,11 +279,12 @@ download_sgmc <- function(dest, url) {
 GNIS_dl <- function(path) {
   fp <- file.path(path, 'GNIS.zip')
   if (file.exists(fp)) {
-    message('Product `GNIS` already downloaded. Skipping.')
+    message(crayon::green('Product `GNIS` already downloaded. Skipping.'))
   } else {
     aws.s3::save_object(
       file = fp,
-      object = "s3://prd-tnm/StagedProducts/GeographicNames/DomesticNames/DomesticNames_AllStates_Text.zip",
+      object =
+        "s3://prd-tnm/StagedProducts/GeographicNames/DomesticNames/DomesticNames_AllStates_Text.zip",
       bucket = "s3://prd-tnm/",
       region = "us-west-2",
       show_progress = TRUE
