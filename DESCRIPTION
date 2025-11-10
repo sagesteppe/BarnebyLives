@@ -24,6 +24,7 @@ Imports:
     stringr,
     terra,
     sf,
+    magrittr,
     dplyr,
     crayon,
     geosphere,
@@ -32,11 +33,12 @@ Imports:
     httr,
     tidyr,
     readxl,
-    stringdist
+    stringdist,
+    tibble
 Remotes: 
 	barnabywalker/kewr, 
 	cran/parzer@0.4.3
-Suggests: WorldFlora, data.table, testthat (>= 3.0.0), tidyverse, knitr, tigris, googlesheets4, kableExtra, ggplot2, parallel
+Suggests: data.table, testthat (>= 3.0.0), tidyverse, knitr, tigris, googlesheets4, kableExtra, ggplot2, parallel
 VignetteBuilder: knitr
 Config/testthat/edition: 3
 Roxygen: list(markdown = TRUE)

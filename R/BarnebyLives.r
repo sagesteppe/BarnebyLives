@@ -10,18 +10,6 @@
 #' @format A character vector
 "names_vec"
 
-#' IPNI author abbreviations
-#'
-#' A vector from ipni of all standard author abbreviations
-#'
-#'
-#' @docType data
-#' @keywords datasets
-#' @name ipni_authors
-#' @usage data(ipni_authors)
-#' @format A character vector
-"ipni_authors"
-
 
 #' Collection examples for a shipping manifest
 #'

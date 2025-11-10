@@ -1,5 +1,10 @@
-#' escape characters for use with latex rendering
-
+#' escape characters for use with LaTeX rendering
+#'
+#' @description
+#' Allows broader LaTeX funtionality.
+#'
+#' @param x input.
+#' @export
 escape_latex <- function(x) {
   if (is.null(x)) {
     return("")

@@ -1,6 +1,6 @@
 #' this function parses coordinates from DMS to decimal degrees
 #'
-#' @param x an input data frame to apply operations too
+#' @param x an input data frame to apply operations to
 #' @param lat a name of the column holding the latitude values
 #' @param long a name of the colymn holding the longitude values
 #' @param dms are coordinates in degrees minutes seconds? TRUE for yes, FALSE for decimal degrees
@@ -92,7 +92,12 @@ dms2dd <- function(x, lat, long, dms) {
   return(x)
 }
 
-
+#' will operate row-wise in case of mixed coordinate system
+#'
+#' @param x an input data frame to apply operations to
+#' @param long column holding longitude values
+#' @param lat column holding latitude values.
+#' @keywords internal
 dmsbyrow <- function(x, long, lat) {
   # test for DMS format if not supplied
 

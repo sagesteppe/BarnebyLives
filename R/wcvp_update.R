@@ -76,9 +76,9 @@ wcvp_update <- function(tax_dat_p) {
     options(timeout = max(orig_TO, getOption("timeout"))) # revert to original settings
 
     cat(crayon::green(
-      'WCVP checklist downloaded to: ',
+      'WCVP checklist downloaded to:\n',
       tax_dat_p,
-      '\nuse the functionn `BarnebyLives::TaxUnpack` to initialize a new taxonomy backbone.'
+      '\nUse the function `BarnebyLives::TaxUnpack` to initialize a new taxonomy backbone.'
     ))
 
     rm(orig_TO)

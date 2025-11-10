@@ -13,7 +13,7 @@ check_data_setup_outputs(pathOut)
 None. prints to console.
 }
 \description{
-Check whether expected output files from data_setup() exist
+Check and print status of data_setup outputs
 }
 \examples{
 \dontrun{

@@ -8,6 +8,8 @@ collection_writer(x, date = TRUE)
 }
 \arguments{
 \item{x}{dataframe holding the values}
+
+\item{date}{Boolean, default TRUE. Whether to write the collection date.}
 }
 \description{
 Format these data to have commas or periods as appropriate

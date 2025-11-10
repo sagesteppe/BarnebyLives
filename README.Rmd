@@ -5,8 +5,6 @@ output:
 html_preview: false
 ---
 
-<!-- README.md is generated from README.Rmd. Please edit that file -->
-
 ```{r, echo = FALSE, results='asis'}
 cat(
 	badger::badge_codefactor('sagesteppe/eSTZwritR'), 
