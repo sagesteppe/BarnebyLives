@@ -72,8 +72,6 @@ Data prep functions
   : This is a reproduced and slightly curated list of populated places.
 - [`herbaria_info`](https://sagesteppe.github.io/BarnebyLives/reference/herbaria_info.md)
   : herbaria_info
-- [`ipni_authors`](https://sagesteppe.github.io/BarnebyLives/reference/ipni_authors.md)
-  : IPNI author abbreviations
 - [`project_examples`](https://sagesteppe.github.io/BarnebyLives/reference/project_examples.md)
   : project_examples
 - [`shipping_examples`](https://sagesteppe.github.io/BarnebyLives/reference/shipping_examples.md)
@@ -92,7 +90,7 @@ functions used while labels are being generated
 - [`collection_writer()`](https://sagesteppe.github.io/BarnebyLives/reference/collection_writer.md)
   : format collector info and codes
 - [`escape_latex()`](https://sagesteppe.github.io/BarnebyLives/reference/escape_latex.md)
-  : escape characters for use with latex rendering
+  : escape characters for use with LaTeX rendering
 - [`species_font()`](https://sagesteppe.github.io/BarnebyLives/reference/species_font.md)
   : ensure proper italicization of a associated species
 - [`writer()`](https://sagesteppe.github.io/BarnebyLives/reference/writer.md)

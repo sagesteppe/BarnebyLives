@@ -1,9 +1,15 @@
-# escape characters for use with latex rendering
+# escape characters for use with LaTeX rendering
 
-escape characters for use with latex rendering
+Allows broader LaTeX funtionality.
 
 ## Usage
 
 ``` r
 escape_latex(x)
 ```
+
+## Arguments
+
+- x:
+
+  input.

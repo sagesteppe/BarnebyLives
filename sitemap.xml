@@ -14,7 +14,7 @@
 <url><loc>https://sagesteppe.github.io/BarnebyLives/authors.html</loc></url>
 <url><loc>https://sagesteppe.github.io/BarnebyLives/data-sources.html</loc></url>
 <url><loc>https://sagesteppe.github.io/BarnebyLives/index.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/news.html</loc></url>
+<url><loc>https://sagesteppe.github.io/BarnebyLives/news/index.html</loc></url>
 <url><loc>https://sagesteppe.github.io/BarnebyLives/reference/GMBA_dl.html</loc></url>
 <url><loc>https://sagesteppe.github.io/BarnebyLives/reference/GNIS_dl.html</loc></url>
 <url><loc>https://sagesteppe.github.io/BarnebyLives/reference/PLSS_dl.html</loc></url>
@@ -42,6 +42,8 @@
 <url><loc>https://sagesteppe.github.io/BarnebyLives/reference/directions_grabber.html</loc></url>
 <url><loc>https://sagesteppe.github.io/BarnebyLives/reference/directions_overview.html</loc></url>
 <url><loc>https://sagesteppe.github.io/BarnebyLives/reference/dms2dd.html</loc></url>
+<url><loc>https://sagesteppe.github.io/BarnebyLives/reference/dmsbyrow.html</loc></url>
+<url><loc>https://sagesteppe.github.io/BarnebyLives/reference/download_sgmc.html</loc></url>
 <url><loc>https://sagesteppe.github.io/BarnebyLives/reference/escape_latex.html</loc></url>
 <url><loc>https://sagesteppe.github.io/BarnebyLives/reference/family_spell_check.html</loc></url>
 <url><loc>https://sagesteppe.github.io/BarnebyLives/reference/format_database_import.html</loc></url>
@@ -51,7 +53,6 @@
 <url><loc>https://sagesteppe.github.io/BarnebyLives/reference/google_towns.html</loc></url>
 <url><loc>https://sagesteppe.github.io/BarnebyLives/reference/herbaria_info.html</loc></url>
 <url><loc>https://sagesteppe.github.io/BarnebyLives/reference/index.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/reference/ipni_authors.html</loc></url>
 <url><loc>https://sagesteppe.github.io/BarnebyLives/reference/label_writer.html</loc></url>
 <url><loc>https://sagesteppe.github.io/BarnebyLives/reference/make_it_political.html</loc></url>
 <url><loc>https://sagesteppe.github.io/BarnebyLives/reference/make_tiles.html</loc></url>
@@ -70,7 +71,6 @@
 <url><loc>https://sagesteppe.github.io/BarnebyLives/reference/process_grazing_allot.html</loc></url>
 <url><loc>https://sagesteppe.github.io/BarnebyLives/reference/process_padus.html</loc></url>
 <url><loc>https://sagesteppe.github.io/BarnebyLives/reference/process_plss.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/reference/process_valleys.html</loc></url>
 <url><loc>https://sagesteppe.github.io/BarnebyLives/reference/project_examples.html</loc></url>
 <url><loc>https://sagesteppe.github.io/BarnebyLives/reference/randomNames.html</loc></url>
 <url><loc>https://sagesteppe.github.io/BarnebyLives/reference/result_grabber.html</loc></url>

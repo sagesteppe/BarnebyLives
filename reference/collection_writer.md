@@ -14,6 +14,10 @@ collection_writer(x, date = TRUE)
 
   dataframe holding the values
 
+- date:
+
+  Boolean, default TRUE. Whether to write the collection date.
+
 ## Examples
 
 ``` r

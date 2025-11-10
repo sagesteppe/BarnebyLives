@@ -12,7 +12,7 @@ dms2dd(x, lat, long, dms)
 
 - x:
 
-  an input data frame to apply operations too
+  an input data frame to apply operations to
 
 - lat:
 

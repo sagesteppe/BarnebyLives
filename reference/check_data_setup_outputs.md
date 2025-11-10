@@ -1,6 +1,6 @@
 # Check whether expected output files from data_setup() exist
 
-Check whether expected output files from data_setup() exist
+Check and print status of data_setup outputs
 
 ## Usage
 
