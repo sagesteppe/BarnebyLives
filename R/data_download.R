@@ -315,7 +315,7 @@ GNIS_dl <- function(path) {
 #'
 #' tileSelector(bound)
 #' }
-#' @keywords internal
+#' @export
 tileSelector <- function(bound) {
   bound.v <- bound |>
     sf::st_as_sf(coords = c('x', 'y'), crs = 4326) |>

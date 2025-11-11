@@ -46,6 +46,7 @@ reference:
       - data_setup
       - TaxUnpack
       - check_data_setup_outputs
+      - tileSelector
   - title: Data
     desc: 
     contents: 

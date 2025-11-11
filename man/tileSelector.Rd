@@ -28,4 +28,3 @@ bound <- data.frame(
 tileSelector(bound)
 }
 }
-\keyword{internal}

@@ -220,6 +220,7 @@ tlmgr.bat install pdfpages eso-pic grfext grffile oberdiek pdflscape pdfpages se
 ```
 
 </details>
+
 ## Input Data Column Names
 
 The columns in the top table are **required** to run the all the functions in BarnebyLives. The columns in the middle table are suggested to increase the quality of the collections.  The columns in the lower table are optional, to be blunt, BarnebyLives will generate all of these values. Ficticious examples are provided here, while links to real examples (~100) are contained [here](https://docs.google.com/spreadsheets/d/e/2PACX-1vR8I-JBcgA7P9RYjJqbTebzNFLS1bLz1sYVW1vPlU5Bq6WXCwKS4zkeGTCmlo9BcznCKNbdz6gtK9pV/pubhtml) and in the vignettes.
