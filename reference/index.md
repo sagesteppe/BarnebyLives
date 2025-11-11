@@ -61,6 +61,8 @@ Data prep functions
   : a function to subset the WCVP data set to an area of focus
 - [`check_data_setup_outputs()`](https://sagesteppe.github.io/BarnebyLives/reference/check_data_setup_outputs.md)
   : Check whether expected output files from data_setup() exist
+- [`tileSelector()`](https://sagesteppe.github.io/BarnebyLives/reference/tileSelector.md)
+  : Determine which raster tiles to download for topographic variables
 
 ## Data
 
