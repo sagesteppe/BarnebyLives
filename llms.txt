@@ -80,7 +80,7 @@ BarnebyLives! is in beta testing, and can currently only be installed as
 devtools::install_github('sagesteppe/BarnebyLives')
 ```
 
-## Linux
+### Linux
 
 The generation of labels will requires that Rmarkdown is succesfully set
 up to render to PDF via a LaTeX distribution such as pdflatex, lualatex,
@@ -95,7 +95,7 @@ sudo apt-get install pdfjam -y
 sudo apt-get install pdftk -y
 ```
 
-## MacOS
+### MacOS
 
 MacOS Installation
 
@@ -122,7 +122,7 @@ pdfjam --version
 pdflatex --version
 ```
 
-## Windows
+### Windows
 
 Windows Installation
 
@@ -174,7 +174,7 @@ choco install pdftk -y
 Download the most recent release of pdfjam (4.2.zip) from the github
 [repo](https://github.com/pdfjam/pdfjam/releases)
 
-using the git bash terminal copy if to a location on \$PATH
+using the git bash terminal copy if to a location on PATH
 
 ``` R
 unzip pdfjam-4.2.zip 
@@ -187,192 +187,241 @@ make it executable
 chmod +x ~/pdfjam/bin/pdfjam
 ```
 
-add to your \$PATH \`\`\` export PATH="\$HOME/pdfjam/bin:\$PATH”
+add to your PATH
 
 ``` R
-and verify the installation with 
+export PATH="$HOME/pdfjam/bin:$PATH"
 ```
 
+and verify the installation with
+
+``` R
 which pdfjam
+```
 
-``` R
 if that works add it your path for good
-```
-
-echo ‘export PATH=“$HOME/pdfjam/bin:$PATH”’ \>\> ~/.bashrc
 
 ``` R
-5) install required latex packages to supplement tinytex
-
-You will need the tinytex package manager for this. 
-Check if it is accessible via 
+echo 'export PATH="$HOME/pdfjam/bin:$PATH"' >> ~/.bashrc
 ```
 
+5.  install required latex packages to supplement tinytex
+
+You will need the tinytex package manager for this. Check if it is
+accessible via
+
+``` R
 which tlmgr
-
-``` R
-if is not found, and you installed via R. try adding it to path as in the below.
-
-note *USERNAME* is a placeholder. 
 ```
 
-echo ‘export
-PATH=“/c/Users/USERNAME/AppData/Roaming/TinyTeX/bin/windows:\$PATH”’
-\>\> ~/.bashrc
+if is not found, and you installed via R. try adding it to path as in
+the below.
+
+note *USERNAME* is a placeholder.
 
 ``` R
-and you are probably going to need to update tlmgr right off the bat. 
+echo 'export PATH="/c/Users/USERNAME/AppData/Roaming/TinyTeX/bin/windows:$PATH"' >> ~/.bashrc
 ```
 
-tlmgr –update self
+and you are probably going to need to update tlmgr right off the bat.
 
 ``` R
+tlmgr --update self
+```
+
 now you can install the other required packages
-```
-
-tlmgr.bat install pdfpages eso-pic grfext grffile oberdiek pdflscape
-pdfpages setspace tlgpg
 
 ``` R
-</details>
+tlmgr.bat install pdfpages eso-pic grfext grffile oberdiek pdflscape pdfpages setspace tlgpg
+```
 
 ## Input Data Column Names
 
-The columns in the top table are **required** to run the all the functions in BarnebyLives. The columns in the middle table are suggested to increase the quality of the collections.  The columns in the lower table are optional, to be blunt, BarnebyLives will generate all of these values. Ficticious examples are provided here, while links to real examples (~100) are contained [here](https://docs.google.com/spreadsheets/d/e/2PACX-1vR8I-JBcgA7P9RYjJqbTebzNFLS1bLz1sYVW1vPlU5Bq6WXCwKS4zkeGTCmlo9BcznCKNbdz6gtK9pV/pubhtml) and in the vignettes.
+The columns in the top table are **required** to run the all the
+functions in BarnebyLives. The columns in the middle table are suggested
+to increase the quality of the collections. The columns in the lower
+table are optional, to be blunt, BarnebyLives will generate all of these
+values. Ficticious examples are provided here, while links to real
+examples (~100) are contained
+[here](https://docs.google.com/spreadsheets/d/e/2PACX-1vR8I-JBcgA7P9RYjJqbTebzNFLS1bLz1sYVW1vPlU5Bq6WXCwKS4zkeGTCmlo9BcznCKNbdz6gtK9pV/pubhtml)
+and in the vignettes.
 
-|     Column name        |  Description  |   Example   |
-|   -----------------    | ------------- |  ---------- |
-|    Collection_number   | The collection number for the primary botanist. This number should unambiguously identify the collection, and be inclusive of all replicates (multiple herbaria sheets). We recommend using a number agnostic of projects and seasons. | 6359 |
-|    Primary_Collector    | The botanist who assumes primary responsibility for collecting, processing, and coordinating the accessioning of the collection with herbaria. | Rupert Barneby | 
-|   Associated_Collectors | Other collectors who were present at the time of collection, and contributed to the process. | Dwight Ripley | 
-|        Full_name        | The full scientific name of the taxonomic entity, by neccessity including the Genus and Epithet which form a binomial, and information on infraspecies. | Astragalus tephrodes var. eurylobus |
-|        Latitude         | The decimal degrees (dd) or degrees minutes seconds (dms) perpendicular to the equator which the collection was made at. | 37.6415 |
-|        Longitude        |  The decimal degrees (dd) or degrees minutes seconds (dms) along the equator which the collection was made at. | -114.4985 |
-|       Date_digital      |  The date which the collection was made in American format, 'mm.dd.yyyy' for example, '01.02.2023' is January 2nd. | 06.18.1944 |
-|        Vegetation       | Plant species which are present with high amounts of biomass, or which are postulated to be keystone species etc. |  Artemisia nova, Pleuraphis jamesii |
-|        Associates       | Other plant species growing in the area which do not compose the dominant amounts of biomass. | Brickellia longifolia  |
-|         Habtiat         | Notes on the abiotic  (landform, soil texture, etc.) and biotic (landcover type 'forest', 'riparian' etc.) setting which the collection was growing in. | Ridges of barren alkaline hills  |
-|          Notes          | Any notes, especially relevant are those describing growth form, floral colour, scents, or textures. | petals pink purple  |
+| Column name           | Description                                                                                                                                                                                                                            | Example                             |
+|-----------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------|
+| Collection_number     | The collection number for the primary botanist. This number should unambiguously identify the collection, and be inclusive of all replicates (multiple herbaria sheets). We recommend using a number agnostic of projects and seasons. | 6359                                |
+| Primary_Collector     | The botanist who assumes primary responsibility for collecting, processing, and coordinating the accessioning of the collection with herbaria.                                                                                         | Rupert Barneby                      |
+| Associated_Collectors | Other collectors who were present at the time of collection, and contributed to the process.                                                                                                                                           | Dwight Ripley                       |
+| Full_name             | The full scientific name of the taxonomic entity, by neccessity including the Genus and Epithet which form a binomial, and information on infraspecies.                                                                                | Astragalus tephrodes var. eurylobus |
+| Latitude              | The decimal degrees (dd) or degrees minutes seconds (dms) perpendicular to the equator which the collection was made at.                                                                                                               | 37.6415                             |
+| Longitude             | The decimal degrees (dd) or degrees minutes seconds (dms) along the equator which the collection was made at.                                                                                                                          | -114.4985                           |
+| Date_digital          | The date which the collection was made in American format, ‘mm.dd.yyyy’ for example, ‘01.02.2023’ is January 2nd.                                                                                                                      | 06.18.1944                          |
+| Vegetation            | Plant species which are present with high amounts of biomass, or which are postulated to be keystone species etc.                                                                                                                      | Artemisia nova, Pleuraphis jamesii  |
+| Associates            | Other plant species growing in the area which do not compose the dominant amounts of biomass.                                                                                                                                          | Brickellia longifolia               |
+| Habtiat               | Notes on the abiotic (landform, soil texture, etc.) and biotic (landcover type ‘forest’, ‘riparian’ etc.) setting which the collection was growing in.                                                                                 | Ridges of barren alkaline hills     |
+| Notes                 | Any notes, especially relevant are those describing growth form, floral colour, scents, or textures.                                                                                                                                   | petals pink purple                  |
 
-Suggested columns! 
+Suggested columns!
 
-|     Column name        |  Description  |    Example   |
-|   -----------------    | ------------- |  ----------  |
-|          Fide           | The most authoritative Flora, or monograph, used to identify the collections. | Intermountain Flora |
-|       Determined_by     | A botanist who verified the identity of the collection. |  Rupert Barneby   |
-|     Determined_date     | The date the botanist determined the specimen. This beginning a chain of annotations for the distant future. |   06.18.1944 |
-|    Tissue_collections   |  Number of individual plants from which tissue collections were made. |  0  |
-|       Project_name      | The endeavor which this collection was made for, or which field work may be associated with. | Flora Nevadensis |
-|        Site_name        |  A user defined name for the locality from which collections were made.  | Caliente |
+| Column name        | Description                                                                                                  | Example             |
+|--------------------|--------------------------------------------------------------------------------------------------------------|---------------------|
+| Fide               | The most authoritative Flora, or monograph, used to identify the collections.                                | Intermountain Flora |
+| Determined_by      | A botanist who verified the identity of the collection.                                                      | Rupert Barneby      |
+| Determined_date    | The date the botanist determined the specimen. This beginning a chain of annotations for the distant future. | 06.18.1944          |
+| Tissue_collections | Number of individual plants from which tissue collections were made.                                         | 0                   |
+| Project_name       | The endeavor which this collection was made for, or which field work may be associated with.                 | Flora Nevadensis    |
+| Site_name          | A user defined name for the locality from which collections were made.                                       | Caliente            |
 
 Unnecessary columns!
 
-|     Column name        |  Description  |
-|   -----------------    | ------------- |
-|          Genus          | The Genus which the species is a component of |  Astragalus |
-|         Species         | The Species which the population from which the collection was made is a component of. |  tephrodes  |
-|       Name_authority    | The full scientific name of the taxonomic entity, by neccessity including the Genus and Epithet which form a binomial, and information on infraspecies and authors |  A. Gray  |
-|     Binomial_authority  | The scientific authors who conceptualized the species, and described it, and if relevant  the authors whom have transferred the species to it's current genus. | 
-|         Infrarank       | The taxonomic level nested within Species which this population is a component of, generally one of either 'var.'  or 'ssp.' for variety of subspecies respectively. |
-|        Infraspecies     | The taxonomic entity which this population is a component of within the hierarchy of species.  |
-| Infraspecific_Authority | The scientific authors who conceptualized the species, and described it, and relevant authors whom have transferred the species to within a species. |
-|          Family         | A Family which the Genus which this species is apart of is considered to be a component of. |
-|          Datum          |  A smoothed model of the earths surface and reference locations on the surface to measure from (~i.e. meridians). Typical geodetic datums include 'WGS 84', 'NAD 83'. |
-|          Aspect         | The measured or in-field estimated cardinal direction which the population faced. |
-|          Slope          | The measured or in-field estimated slope which the population faced. |
+| Column name             | Description                                                                                                                                                          |
+|-------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Genus                   | The Genus which the species is a component of                                                                                                                        |
+| Species                 | The Species which the population from which the collection was made is a component of.                                                                               |
+| Name_authority          | The full scientific name of the taxonomic entity, by neccessity including the Genus and Epithet which form a binomial, and information on infraspecies and authors   |
+| Binomial_authority      | The scientific authors who conceptualized the species, and described it, and if relevant the authors whom have transferred the species to it’s current genus.        |
+| Infrarank               | The taxonomic level nested within Species which this population is a component of, generally one of either ‘var.’ or ‘ssp.’ for variety of subspecies respectively.  |
+| Infraspecies            | The taxonomic entity which this population is a component of within the hierarchy of species.                                                                        |
+| Infraspecific_Authority | The scientific authors who conceptualized the species, and described it, and relevant authors whom have transferred the species to within a species.                 |
+| Family                  | A Family which the Genus which this species is apart of is considered to be a component of.                                                                          |
+| Datum                   | A smoothed model of the earths surface and reference locations on the surface to measure from (~i.e. meridians). Typical geodetic datums include ‘WGS 84’, ‘NAD 83’. |
+| Aspect                  | The measured or in-field estimated cardinal direction which the population faced.                                                                                    |
+| Slope                   | The measured or in-field estimated slope which the population faced.                                                                                                 |
 
+## General Workflow
 
-## General Workflow 
+![Suggested Workflow](reference/figures/workflow.png)
 
-![Suggested Workflow](man/figures/workflow.png) 
+Suggested Workflow
 
 ## Geodata directory structure
-For those that are setting up a local instance the directory structure for the geodata is flat. 
-```
 
-\$ tree -d geodata ├── allotments ├── aspect ├── elevation ├── geology
-├── geomorphons ├── mountains ├── pad ├── places ├── plss ├── political
+For those that are setting up a local instance the directory structure
+for the geodata is flat.
+
+``` R
+$ tree -d
+geodata
+├── allotments
+├── aspect
+├── elevation
+├── geology
+├── geomorphons
+├── mountains
+├── pad
+├── places
+├── plss
+├── political
 └── slope
-
-``` R
-Several of these sub-directories are quite large. In total my local instance takes up around 16gb of data.
 ```
 
-\$ du -h 708M ./geology 73M ./political 3.8M ./mountains 136M
-./allotments 435M ./pad 4.6G ./slope 81M ./places 816M ./plss 4.2G
-./elevation 4.1G ./aspect 455M ./geomorphons 16G .
+Several of these sub-directories are quite large. In total my local
+instance takes up around 16gb of data.
 
 ``` R
-As you can see the data regarding site physical characteristics take up most of space. 
-Because of this you can download data to a directory which you find suitable.
-Personally, I slap all of them on an hdd.
+$ du -h
+708M    ./geology
+73M ./political
+3.8M    ./mountains
+136M    ./allotments
+435M    ./pad
+4.6G    ./slope
+81M ./places
+816M    ./plss
+4.2G    ./elevation
+4.1G    ./aspect
+455M    ./geomorphons
+16G .
+```
+
+As you can see the data regarding site physical characteristics take up
+most of space. Because of this you can download data to a directory
+which you find suitable. Personally, I slap all of them on an hdd.
 
 ## Rendering Labels
 
-BL provides three template labels, each of which are distributed from within the package and copied to their final location using the following commands in R. 
-```
-
-p2libs \<- system.file(package = ‘BarnebyLives’) folds \<-
-file.path(‘rmarkdown’, ‘templates’, ‘labels’, ‘skeleton’,
-‘SoS-skeleton.Rmd’)
-
-file.copy(from = file.path(p2libs, folds), to = ‘.’) \# change for
-wherever you want the label to go.
+BL provides three template labels, each of which are distributed from
+within the package and copied to their final location using the
+following commands in R.
 
 ``` R
-You will need to print you labels for the sheets. 
-We use a `purrr` `walk`  to create 4x4in individuals labels as pdf's using Rmarkdown. 
-Then we combine all of them using bash. 
-A bash script, `render_labels.sh` is distributed with the package to accomplish this. 
+p2libs <- system.file(package = 'BarnebyLives')
+folds <- file.path('rmarkdown', 'templates', 'labels', 'skeleton', 'SoS-skeleton.Rmd') 
 
-We can copy it to a location, from R, like this. 
+file.copy(from = file.path(p2libs, folds), 
+          to = '.') # change for wherever you want the label to go. 
 ```
 
-p2libs \<- system.file(package = ‘BarnebyLives’) folds \<-
-file.path(‘rmarkdown’, ‘render_labels.sh’)
+You will need to print you labels for the sheets. We use a `purrr`
+`walk` to create 4x4in individuals labels as pdf’s using Rmarkdown. Then
+we combine all of them using bash. A bash script, `render_labels.sh` is
+distributed with the package to accomplish this.
 
-file.copy(from = file.path(p2libs, folds), to =
-‘/media/steppe/hdd/Barneby_Lives-dev/manuscript/labels/raw’)
+We can copy it to a location, from R, like this.
 
 ``` R
+p2libs <- system.file(package = 'BarnebyLives')
+folds <- file.path('rmarkdown', 'render_labels.sh') 
+
+file.copy(from = file.path(p2libs, folds), 
+          to = '/media/steppe/hdd/Barneby_Lives-dev/manuscript/labels/raw')
+```
+
 And once here, we can run it like this (from a shell!)
-```
-
-bash render_labels.sh collector=‘Dwight’
 
 ``` R
-Note that, we've had difficulty calling this script from it's default install location :/, but it can easily be copied elsewhere and ran from that location. 
-
-reminder, you only need to chmod +x a file if you don't call 'bash' at the start of an argument...
+bash render_labels.sh collector='Dwight'
 ```
 
-chmod +x render_labels.sh path2file/render_labels.sh collector=‘Dwight’
+Note that, we’ve had difficulty calling this script from it’s default
+install location :/, but it can easily be copied elsewhere and ran from
+that location.
+
+reminder, you only need to chmod +x a file if you don’t call ‘bash’ at
+the start of an argument…
 
 ``` R
-Also a reminder that you can check your paths via `$PATH`, and can install to somewhere on your path! e.g. '/usr/local/bin', after that you can simply call it... But I'm not sure if it will find the dir you are looking for. 
+chmod +x render_labels.sh
+path2file/render_labels.sh collector='Dwight'
 ```
 
-render_labels.sh collector=‘Dwight’
+Also a reminder that you can check your paths via `$PATH`, and can
+install to somewhere on your path! e.g. ‘/usr/local/bin’, after that you
+can simply call it… But I’m not sure if it will find the dir you are
+looking for.
 
 ``` R
-In all instances the script is meant for you to call it from the following location:
+render_labels.sh collector='Dwight'
 ```
 
-├── HerbariumLabels │ ├── final \## \<- products will go in here!!! │
-└── raw \## \<- call render_labels.sh from here!!! │ └── Dwight-raw
+In all instances the script is meant for you to call it from the
+following location:
 
 ``` R
-The labels will end up in 'final' and the subfolder within raw ('Dwight-raw') will be deleted.
-If you want to re-render you'll need to run the `purrr::walk` again. 
-
-Note that the 'collector' will need to match (..exactly...) the output of the `purrr::walk` files collector name. 
-
-## Trouble printing? 
-
-Some printers (maybe not updating drivers enough?) have trouble printing LaTeX (in general, not related to this package). 
+├── HerbariumLabels
+│  ├── final ## <- products will go in here!!! 
+│  └── raw ## <- call render_labels.sh from here!!!
+│       └── Dwight-raw
 ```
 
-ps2pdf labels_in.pdf labels_out-ps2pdf.pdf \`\`\` Has worked for me.
+The labels will end up in ‘final’ and the subfolder within raw
+(‘Dwight-raw’) will be deleted. If you want to re-render you’ll need to
+run the [`purrr::walk`](https://purrr.tidyverse.org/reference/map.html)
+again.
+
+Note that the ‘collector’ will need to match (..exactly…) the output of
+the [`purrr::walk`](https://purrr.tidyverse.org/reference/map.html)
+files collector name.
+
+## Trouble printing?
+
+Some printers (maybe not updating drivers enough?) have trouble printing
+LaTeX (in general, not related to this package).
+
+``` R
+ps2pdf labels_in.pdf labels_out-ps2pdf.pdf
+```
+
+Has worked for me.
 
 | ![Portrait of Rupert Barneby by Dwight Ripley 1955](reference/figures/Portrait_of_Rupert_Barneby.png) |
 |:-----------------------------------------------------------------------------------------------------:|
