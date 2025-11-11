@@ -70,7 +70,7 @@ BarnebyLives! is in beta testing, and can currently only be installed as
 devtools::install_github('sagesteppe/BarnebyLives')
 ```
 
-## Linux 
+### Linux 
 
 The generation of labels will requires that Rmarkdown is succesfully set
 up to render to PDF via a LaTeX distribution such as pdflatex, lualatex,
@@ -85,7 +85,7 @@ sudo apt-get install pdfjam -y
 sudo apt-get install pdftk -y
 ```
 
-## MacOS 
+### MacOS 
 <details>
 <summary> MacOS Installation </summary>
 
@@ -112,7 +112,8 @@ pdflatex --version
 
 </details>
 
-## Windows
+
+### Windows
 <details>
 <summary> Windows Installation </summary>
 
@@ -161,7 +162,7 @@ choco install pdftk -y
 
 Download the most recent release of pdfjam (4.2.zip) from the github [repo](https://github.com/pdfjam/pdfjam/releases)
 
-using the git bash terminal copy if to a location on $PATH
+using the git bash terminal copy if to a location on PATH
 
 ```
 unzip pdfjam-4.2.zip 
@@ -173,7 +174,7 @@ make it executable
 chmod +x ~/pdfjam/bin/pdfjam
 ```
 
-add to your $PATH
+add to your PATH
 ```
 export PATH="$HOME/pdfjam/bin:$PATH"
 ```
@@ -196,7 +197,6 @@ Check if it is accessible via
 
 ```
 which tlmgr
-
 ```
 
 if is not found, and you installed via R. try adding it to path as in the below.
@@ -211,15 +211,16 @@ and you are probably going to need to update tlmgr right off the bat.
 
 ```
 tlmgr --update self
-
 ```
 
 now you can install the other required packages
+
 ```
 tlmgr.bat install pdfpages eso-pic grfext grffile oberdiek pdflscape pdfpages setspace tlgpg
 ```
 
 </details>
+
 
 ## Input Data Column Names
 
