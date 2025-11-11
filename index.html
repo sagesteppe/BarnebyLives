@@ -54,7 +54,231 @@
 </nav><div class="container template-home">
 <div class="row">
   <main id="main" class="col-md-9">
-BarnebyLives! is an R program which serves to help botanical collectors in Western North America. BarnebyLives! runs multiple types of queries to acquire political and administrative, geographic, and taxononomic data for recently collected herbarium specimens. It also has limited abilities to search for taxonomic synonyms, check spelling of family, genus, and species names, as well as author abbreviations.
+<div class="section level2">
+<h2 id="overview-">Overview <img src="reference/figures/logo.png" align="right" height="138"><a class="anchor" aria-label="anchor" href="#overview-"></a>
+</h2>
+<p>BarnebyLives! is an R program which serves to help botanical collectors in Western North America. BarnebyLives! runs multiple types of queries to acquire political and administrative, geographic, and taxonomic data for recently collected herbarium specimens. It also has limited abilities to search for taxonomic synonyms, check spelling of family, genus, and species names, as well as author abbreviations.</p>
+<p>BarnebyLives! serves the entirety of the flora of the western conterminous US, which coincides with the Mississippi River. It also includes the entirety of the state of Illinois, and portions of Indiana. However, the area is bounded on it’s North by Canada and South by Mexico, essentially it covers the western portion of the Conterminous United States (which excludes Alaska). While it covers this range, most variables are focused on supporting botanists working West of the Rocky Mountain Front Range, especially those operating on Bureau of Land Management and Forest Service administered lands.</p>
+<p>BarnebyLives! Is meant to <em>supplement</em>, not supplant, collectors field note endeavors. Variables which BarnebyLives! may produce, automatically, for each collection includes:</p>
+<p><strong>Political</strong><br>
+- State<br>
+- County<br>
+- Township<br>
+- Public Land Survey System (township, range, section)</p>
+<p><strong>Geographic</strong> - Mountain Range (if relevant)<br>
+- Nearest Geographic Names Information System (GNIS) place name, and distance and azimuth from it</p>
+<p><strong>Site characteristics</strong><br>
+- Elevation (both meters and feet)<br>
+- Slope<br>
+- Aspect<br>
+- Surficial geology<br>
+- Geomorphon (major landform elements)</p>
+<p><strong>Taxonomic</strong><br>
+- Spell check for Family, Genus, and specific epithet - Searches for synonym to species<br>
+- Spell checks taxonomic authorities - Spell check for associated species</p>
+<p><strong>Directions</strong><br>
+- directions to a parking spot can be acquired from Google Maps; however this implies the location can be driven to in the first place.</p>
+<p><strong>Other features include</strong><br>
+- Date parsing, e.g. convert date into congruent museum formats (month in European style)<br>
+- Conversion of Degrees Minutes Seconds (DMS) to Decimal Degrees (DD)<br>
+- Exporting collection data as a ‘shapefile’ or KML for use in a GIS or GoogleEarth</p>
+<p><strong>Label and shipping manifest generation</strong> - Herbarium Labels which autopopulate from the script output - Manifests which autopopulate from the script outputs - Herbarium labels with retro dot municipality maps</p>
+<p><strong>Electronic data for mass digital specimen upload</strong> - Puts out data in formats congruent with Symbiota, Darwincore, Rocky Moutain Herbarium, and Consortium of Pacific Northwest Herbaria.</p>
+<p>Currently BarnebyLives! Is being run on a juiced up computer either in Rogers Park Chicago or Reno. The amount of data which it queries is very large. Please let me know if you have a query and I will run it for you. If you only collect from a smaller portion of the West, e.g. a certain state, or FS/BLM Unit/Field Office, you should be able to set up a local instance. Although, the documentation for such an endeavor is nascent the endeavor is simple, see “crop2boundary” for the workflow.</p>
+</div>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
+<p>BarnebyLives! is in beta testing, and can currently only be installed as 0.1.0 from github.</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">'sagesteppe/BarnebyLives'</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="linux">Linux<a class="anchor" aria-label="anchor" href="#linux"></a>
+</h2>
+<p>The generation of labels will requires that Rmarkdown is succesfully set up to render to PDF via a LaTeX distribution such as pdflatex, lualatex, xelatex.</p>
+<p>Labels will further require two programs, pdfjam and pdftk. These can be installed on Debian flavors of Linux as so:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">sudo</span> apt-get update</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">sudo</span> apt-get install pdfjam <span class="at">-y</span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="fu">sudo</span> apt-get install pdftk <span class="at">-y</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="macos">MacOS<a class="anchor" aria-label="anchor" href="#macos"></a>
+</h2>
+<details><summary>
+MacOS Installation
+</summary><p>We recommend using the small package tinytex (pronounced Tiny-Tech) which comes with only a core set of utilities which can be supplemented as required. TinyTex can be installed directly in R using:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"tinytex')</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="st">tinytex::install_tinytex()</span></span></code></pre></div>
+<p>Now from a command terminal run the following to use TexLives package manager to add a few additional required tools.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>tlmgr install eso<span class="sc">-</span>pic grfext grffile oberdiek pdfjam pdfjam.universal<span class="sc">-</span>darwin pdflscape pdfpages setspace tlgpg tlgpg.universal<span class="sc">-</span>darwin</span></code></pre></div>
+<p>To verify the installs worked check, from the command line.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="ex">pdfjam</span> <span class="at">--version</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="ex">pdflatex</span> <span class="at">--version</span></span></code></pre></div>
+</details>
+</div>
+<div class="section level2">
+<h2 id="windows">Windows<a class="anchor" aria-label="anchor" href="#windows"></a>
+</h2>
+<details><summary>
+Windows Installation
+</summary><ol style="list-style-type: decimal">
+<li>install git for windows</li>
+</ol>
+<p>See <a href="https://gitforwindows.org/" class="external-link">here</a> for details on install.</p>
+<ol start="2" style="list-style-type: decimal">
+<li>to render individual labels</li>
+</ol>
+<p>after installing BarnebyLives, tinytex will need to install a minimal tex version. Run the following in R.</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">'tinytex'</span><span class="op">)</span></span>
+<span><span class="fu">tinytex</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/tinytex/man/install_tinytex.html" class="external-link">install_tinytex</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<ol start="3" style="list-style-type: decimal">
+<li>to combine the labels for printing.</li>
+</ol>
+<p>You will need a few more tools. First you will need <code>choco</code>, which is a package manager for windows (like brew for Mac, or apt or yum for Linux). These details are reproduced from <a href="https://community.chocolatey.org/courses/installation/installing?method=installing-chocolatey#powershell" class="external-link">chocolatey.org</a></p>
+<p>from a POWERSHELL run as administrator</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>Set<span class="sc">-</span>ExecutionPolicy Bypass <span class="sc">-</span>Scope Process <span class="sc">-</span>Force; <span class="fu">iex</span> ((New<span class="sc">-</span>Object System.Net.WebClient)<span class="fu">.DownloadString</span>(<span class="st">'https://community.chocolatey.org/install.ps1'</span>))</span></code></pre></div>
+<p>If that doesn’t work you will need to swap your permissions (see the linked guide above).</p>
+<p>You can verify that <code>choco</code> is installed by running, from the powershell</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>choco</span></code></pre></div>
+<p>And now use choco to install <code>pdftk</code>. Open a git bash shell as an administrator and</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>choco install pdftk <span class="sc">-</span>y</span></code></pre></div>
+<ol start="4" style="list-style-type: decimal">
+<li>install pdfjam</li>
+</ol>
+<p>Download the most recent release of pdfjam (4.2.zip) from the github <a href="https://github.com/pdfjam/pdfjam/releases" class="external-link">repo</a></p>
+<p>using the git bash terminal copy if to a location on $PATH</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>unzip pdfjam<span class="dv">-4</span>.<span class="fl">2.</span>zip </span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>mv <span class="sc">~</span><span class="er">/</span>Downloads<span class="sc">/</span>pdfjam<span class="fl">-4.2</span> <span class="sc">~</span><span class="er">/</span>pdfjam</span></code></pre></div>
+<p>make it executable</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>chmod <span class="sc">+</span>x <span class="sc">~</span><span class="er">/</span>pdfjam<span class="sc">/</span>bin<span class="sc">/</span>pdfjam</span></code></pre></div>
+<p>add to your <span class="math inline">$PATH
+```
+export PATH="$</span>HOME/pdfjam/bin:$PATH”</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a>and verify the installation with </span></code></pre></div>
+<p>which pdfjam</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="cf">if</span> that works add it your path <span class="cf">for</span> good</span></code></pre></div>
+<p>echo ‘export PATH=“<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>H</mi><mi>O</mi><mi>M</mi><mi>E</mi><mi>/</mi><mi>p</mi><mi>d</mi><mi>f</mi><mi>j</mi><mi>a</mi><mi>m</mi><mi>/</mi><mi>b</mi><mi>i</mi><mi>n</mi><mo>:</mo></mrow><annotation encoding="application/x-tex">HOME/pdfjam/bin:</annotation></semantics></math>PATH”’ &gt;&gt; ~/.bashrc</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="dv">5</span><span class="er">)</span> install required latex packages to supplement tinytex</span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a>You will need the tinytex package manager <span class="cf">for</span> this. </span>
+<span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a>Check <span class="cf">if</span> it is accessible via </span></code></pre></div>
+<p>which tlmgr</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="cf">if</span> is not found, and you installed via R. try adding it to path as <span class="cf">in</span> the below.</span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a>note <span class="sc">*</span>USERNAME<span class="sc">*</span> is a placeholder. </span></code></pre></div>
+<p>echo ‘export PATH=“/c/Users/USERNAME/AppData/Roaming/TinyTeX/bin/windows:$PATH”’ &gt;&gt; ~/.bashrc</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a>and you are probably going to need to update tlmgr right off the bat. </span></code></pre></div>
+<p>tlmgr –update self</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a>now you can install the other required packages</span></code></pre></div>
+<p>tlmgr.bat install pdfpages eso-pic grfext grffile oberdiek pdflscape pdfpages setspace tlgpg</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="sc">&lt;</span><span class="er">/</span>details<span class="sc">&gt;</span></span>
+<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a><span class="do">## Input Data Column Names</span></span>
+<span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="#cb18-4" tabindex="-1"></a>The columns <span class="cf">in</span> the top table are <span class="sc">**</span>required<span class="sc">**</span> to run the all the functions <span class="cf">in</span> BarnebyLives. The columns <span class="cf">in</span> the middle table are suggested to increase the quality of the collections.  The columns <span class="cf">in</span> the lower table are optional, to be blunt, BarnebyLives will generate all of these values. Ficticious examples are provided here, <span class="cf">while</span> links to real <span class="fu">examples</span> (<span class="sc">~</span><span class="dv">100</span>) are contained [here](https<span class="sc">:</span><span class="er">//</span>docs.google.com<span class="sc">/</span>spreadsheets<span class="sc">/</span>d<span class="sc">/</span>e<span class="sc">/</span><span class="dv">2</span>PACX<span class="dv">-1</span>vR8I<span class="sc">-</span>JBcgA7P9RYjJqbTebzNFLS1bLz1sYVW1vPlU5Bq6WXCwKS4zkeGTCmlo9BcznCKNbdz6gtK9pV<span class="sc">/</span>pubhtml) and <span class="cf">in</span> the vignettes.</span>
+<span id="cb18-5"><a href="#cb18-5" tabindex="-1"></a></span>
+<span id="cb18-6"><a href="#cb18-6" tabindex="-1"></a><span class="sc">|</span>     Column name        <span class="sc">|</span>  Description  <span class="sc">|</span>   Example   <span class="sc">|</span></span>
+<span id="cb18-7"><a href="#cb18-7" tabindex="-1"></a><span class="er">|</span>   <span class="sc">-----------------</span>    <span class="er">|</span> <span class="sc">-------------</span> <span class="er">|</span>  <span class="sc">----------</span> <span class="er">|</span></span>
+<span id="cb18-8"><a href="#cb18-8" tabindex="-1"></a><span class="er">|</span>    Collection_number   <span class="sc">|</span> The collection number <span class="cf">for</span> the primary botanist. This number should unambiguously identify the collection, and be inclusive of all <span class="fu">replicates</span> (multiple herbaria sheets). We recommend using a number agnostic of projects and seasons. <span class="sc">|</span> <span class="dv">6359</span> <span class="sc">|</span></span>
+<span id="cb18-9"><a href="#cb18-9" tabindex="-1"></a><span class="er">|</span>    Primary_Collector    <span class="sc">|</span> The botanist who assumes primary responsibility <span class="cf">for</span> collecting, processing, and coordinating the accessioning of the collection with herbaria. <span class="sc">|</span> Rupert Barneby <span class="sc">|</span> </span>
+<span id="cb18-10"><a href="#cb18-10" tabindex="-1"></a><span class="er">|</span>   Associated_Collectors <span class="sc">|</span> Other collectors who were present at the time of collection, and contributed to the process. <span class="sc">|</span> Dwight Ripley <span class="sc">|</span> </span>
+<span id="cb18-11"><a href="#cb18-11" tabindex="-1"></a><span class="er">|</span>        Full_name        <span class="sc">|</span> The full scientific name of the taxonomic entity, by neccessity including the Genus and Epithet which form a binomial, and information on infraspecies. <span class="sc">|</span> Astragalus tephrodes var. eurylobus <span class="sc">|</span></span>
+<span id="cb18-12"><a href="#cb18-12" tabindex="-1"></a><span class="er">|</span>        Latitude         <span class="sc">|</span> The decimal <span class="fu">degrees</span> (dd) or degrees minutes <span class="fu">seconds</span> (dms) perpendicular to the equator which the collection was made at. <span class="sc">|</span> <span class="fl">37.6415</span> <span class="sc">|</span></span>
+<span id="cb18-13"><a href="#cb18-13" tabindex="-1"></a><span class="er">|</span>        Longitude        <span class="sc">|</span>  The decimal <span class="fu">degrees</span> (dd) or degrees minutes <span class="fu">seconds</span> (dms) along the equator which the collection was made at. <span class="sc">|</span> <span class="sc">-</span><span class="fl">114.4985</span> <span class="sc">|</span></span>
+<span id="cb18-14"><a href="#cb18-14" tabindex="-1"></a><span class="er">|</span>       Date_digital      <span class="sc">|</span>  The date which the collection was made <span class="cf">in</span> American format, <span class="st">'mm.dd.yyyy'</span> <span class="cf">for</span> example, <span class="st">'01.02.2023'</span> is January <span class="dv">2</span>nd. <span class="sc">|</span> <span class="dv">06</span>.<span class="fl">18.1944</span> <span class="sc">|</span></span>
+<span id="cb18-15"><a href="#cb18-15" tabindex="-1"></a><span class="er">|</span>        Vegetation       <span class="sc">|</span> Plant species which are present with high amounts of biomass, or which are postulated to be keystone species etc. <span class="sc">|</span>  Artemisia nova, Pleuraphis jamesii <span class="sc">|</span></span>
+<span id="cb18-16"><a href="#cb18-16" tabindex="-1"></a><span class="er">|</span>        Associates       <span class="sc">|</span> Other plant species growing <span class="cf">in</span> the area which do not compose the dominant amounts of biomass. <span class="sc">|</span> Brickellia longifolia  <span class="sc">|</span></span>
+<span id="cb18-17"><a href="#cb18-17" tabindex="-1"></a><span class="er">|</span>         Habtiat         <span class="sc">|</span> Notes on the <span class="fu">abiotic</span>  (landform, soil texture, etc.) and <span class="fu">biotic</span> (landcover type <span class="st">'forest'</span>, <span class="st">'riparian'</span> etc.) setting which the collection was growing in. <span class="sc">|</span> Ridges of barren alkaline hills  <span class="sc">|</span></span>
+<span id="cb18-18"><a href="#cb18-18" tabindex="-1"></a><span class="er">|</span>          Notes          <span class="sc">|</span> Any notes, especially relevant are those describing growth form, floral colour, scents, or textures. <span class="sc">|</span> petals pink purple  <span class="sc">|</span></span>
+<span id="cb18-19"><a href="#cb18-19" tabindex="-1"></a></span>
+<span id="cb18-20"><a href="#cb18-20" tabindex="-1"></a>Suggested columns<span class="sc">!</span> </span>
+<span id="cb18-21"><a href="#cb18-21" tabindex="-1"></a></span>
+<span id="cb18-22"><a href="#cb18-22" tabindex="-1"></a><span class="er">|</span>     Column name        <span class="sc">|</span>  Description  <span class="sc">|</span>    Example   <span class="sc">|</span></span>
+<span id="cb18-23"><a href="#cb18-23" tabindex="-1"></a><span class="er">|</span>   <span class="sc">-----------------</span>    <span class="er">|</span> <span class="sc">-------------</span> <span class="er">|</span>  <span class="sc">----------</span>  <span class="er">|</span></span>
+<span id="cb18-24"><a href="#cb18-24" tabindex="-1"></a><span class="er">|</span>          Fide           <span class="sc">|</span> The most authoritative Flora, or monograph, used to identify the collections. <span class="sc">|</span> Intermountain Flora <span class="sc">|</span></span>
+<span id="cb18-25"><a href="#cb18-25" tabindex="-1"></a><span class="er">|</span>       Determined_by     <span class="sc">|</span> A botanist who verified the identity of the collection. <span class="sc">|</span>  Rupert Barneby   <span class="sc">|</span></span>
+<span id="cb18-26"><a href="#cb18-26" tabindex="-1"></a><span class="er">|</span>     Determined_date     <span class="sc">|</span> The date the botanist determined the specimen. This beginning a chain of annotations <span class="cf">for</span> the distant future. <span class="sc">|</span>   <span class="dv">06</span>.<span class="fl">18.1944</span> <span class="sc">|</span></span>
+<span id="cb18-27"><a href="#cb18-27" tabindex="-1"></a><span class="er">|</span>    Tissue_collections   <span class="sc">|</span>  Number of individual plants from which tissue collections were made. <span class="sc">|</span>  <span class="dv">0</span>  <span class="sc">|</span></span>
+<span id="cb18-28"><a href="#cb18-28" tabindex="-1"></a><span class="er">|</span>       Project_name      <span class="sc">|</span> The endeavor which this collection was made <span class="cf">for</span>, or which field work may be associated with. <span class="sc">|</span> Flora Nevadensis <span class="sc">|</span></span>
+<span id="cb18-29"><a href="#cb18-29" tabindex="-1"></a><span class="er">|</span>        Site_name        <span class="sc">|</span>  A user defined name <span class="cf">for</span> the locality from which collections were made.  <span class="sc">|</span> Caliente <span class="sc">|</span></span>
+<span id="cb18-30"><a href="#cb18-30" tabindex="-1"></a></span>
+<span id="cb18-31"><a href="#cb18-31" tabindex="-1"></a>Unnecessary columns<span class="sc">!</span></span>
+<span id="cb18-32"><a href="#cb18-32" tabindex="-1"></a></span>
+<span id="cb18-33"><a href="#cb18-33" tabindex="-1"></a><span class="er">|</span>     Column name        <span class="sc">|</span>  Description  <span class="sc">|</span></span>
+<span id="cb18-34"><a href="#cb18-34" tabindex="-1"></a><span class="er">|</span>   <span class="sc">-----------------</span>    <span class="er">|</span> <span class="sc">-------------</span> <span class="er">|</span></span>
+<span id="cb18-35"><a href="#cb18-35" tabindex="-1"></a><span class="er">|</span>          Genus          <span class="sc">|</span> The Genus which the species is a component of <span class="sc">|</span>  Astragalus <span class="sc">|</span></span>
+<span id="cb18-36"><a href="#cb18-36" tabindex="-1"></a><span class="er">|</span>         Species         <span class="sc">|</span> The Species which the population from which the collection was made is a component of. <span class="sc">|</span>  tephrodes  <span class="sc">|</span></span>
+<span id="cb18-37"><a href="#cb18-37" tabindex="-1"></a><span class="er">|</span>       Name_authority    <span class="sc">|</span> The full scientific name of the taxonomic entity, by neccessity including the Genus and Epithet which form a binomial, and information on infraspecies and authors <span class="sc">|</span>  A. Gray  <span class="sc">|</span></span>
+<span id="cb18-38"><a href="#cb18-38" tabindex="-1"></a><span class="er">|</span>     Binomial_authority  <span class="sc">|</span> The scientific authors who conceptualized the species, and described it, and <span class="cf">if</span> relevant  the authors whom have transferred the species to it<span class="st">'s current genus. | </span></span>
+<span id="cb18-39"><a href="#cb18-39" tabindex="-1"></a><span class="st">|         Infrarank       | The taxonomic level nested within Species which this population is a component of, generally one of either '</span>var.<span class="st">'  or '</span>ssp.<span class="st">' for variety of subspecies respectively. |</span></span>
+<span id="cb18-40"><a href="#cb18-40" tabindex="-1"></a><span class="st">|        Infraspecies     | The taxonomic entity which this population is a component of within the hierarchy of species.  |</span></span>
+<span id="cb18-41"><a href="#cb18-41" tabindex="-1"></a><span class="st">| Infraspecific_Authority | The scientific authors who conceptualized the species, and described it, and relevant authors whom have transferred the species to within a species. |</span></span>
+<span id="cb18-42"><a href="#cb18-42" tabindex="-1"></a><span class="st">|          Family         | A Family which the Genus which this species is apart of is considered to be a component of. |</span></span>
+<span id="cb18-43"><a href="#cb18-43" tabindex="-1"></a><span class="st">|          Datum          |  A smoothed model of the earths surface and reference locations on the surface to measure from (~i.e. meridians). Typical geodetic datums include '</span>WGS <span class="dv">84</span><span class="st">', '</span>NAD <span class="dv">83</span><span class="st">'. |</span></span>
+<span id="cb18-44"><a href="#cb18-44" tabindex="-1"></a><span class="st">|          Aspect         | The measured or in-field estimated cardinal direction which the population faced. |</span></span>
+<span id="cb18-45"><a href="#cb18-45" tabindex="-1"></a><span class="st">|          Slope          | The measured or in-field estimated slope which the population faced. |</span></span>
+<span id="cb18-46"><a href="#cb18-46" tabindex="-1"></a></span>
+<span id="cb18-47"><a href="#cb18-47" tabindex="-1"></a></span>
+<span id="cb18-48"><a href="#cb18-48" tabindex="-1"></a><span class="st">## General Workflow </span></span>
+<span id="cb18-49"><a href="#cb18-49" tabindex="-1"></a></span>
+<span id="cb18-50"><a href="#cb18-50" tabindex="-1"></a><span class="st">![Suggested Workflow](man/figures/workflow.png) </span></span>
+<span id="cb18-51"><a href="#cb18-51" tabindex="-1"></a></span>
+<span id="cb18-52"><a href="#cb18-52" tabindex="-1"></a><span class="st">## Geodata directory structure</span></span>
+<span id="cb18-53"><a href="#cb18-53" tabindex="-1"></a><span class="st">For those that are setting up a local instance the directory structure for the geodata is flat. </span></span></code></pre></div>
+<p>$ tree -d geodata ├── allotments ├── aspect ├── elevation ├── geology ├── geomorphons ├── mountains ├── pad ├── places ├── plss ├── political └── slope</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a>Several of these sub<span class="sc">-</span>directories are quite large. In total my local instance takes up around <span class="dv">16</span>gb of data.</span></code></pre></div>
+<p>$ du -h 708M ./geology 73M ./political 3.8M ./mountains 136M ./allotments 435M ./pad 4.6G ./slope 81M ./places 816M ./plss 4.2G ./elevation 4.1G ./aspect 455M ./geomorphons 16G .</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a>As you can see the data regarding site physical characteristics take up most of space. </span>
+<span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a>Because of this you can download data to a directory which you find suitable.</span>
+<span id="cb20-3"><a href="#cb20-3" tabindex="-1"></a>Personally, I slap all of them on an hdd.</span>
+<span id="cb20-4"><a href="#cb20-4" tabindex="-1"></a></span>
+<span id="cb20-5"><a href="#cb20-5" tabindex="-1"></a><span class="do">## Rendering Labels</span></span>
+<span id="cb20-6"><a href="#cb20-6" tabindex="-1"></a></span>
+<span id="cb20-7"><a href="#cb20-7" tabindex="-1"></a>BL provides three template labels, each of which are distributed from within the package and copied to their final location using the following commands <span class="cf">in</span> R. </span></code></pre></div>
+<p>p2libs &lt;- system.file(package = ‘BarnebyLives’) folds &lt;- file.path(‘rmarkdown’, ‘templates’, ‘labels’, ‘skeleton’, ‘SoS-skeleton.Rmd’)</p>
+<p>file.copy(from = file.path(p2libs, folds), to = ‘.’) # change for wherever you want the label to go.</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a>You will need to print you labels <span class="cf">for</span> the sheets. </span>
+<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a>We use a <span class="st">`</span><span class="at">purrr</span><span class="st">`</span> <span class="st">`</span><span class="at">walk</span><span class="st">`</span>  to create <span class="dv">4</span>x4in individuals labels as pdf<span class="st">'s using Rmarkdown. </span></span>
+<span id="cb21-3"><a href="#cb21-3" tabindex="-1"></a><span class="st">Then we combine all of them using bash. </span></span>
+<span id="cb21-4"><a href="#cb21-4" tabindex="-1"></a><span class="st">A bash script, `render_labels.sh` is distributed with the package to accomplish this. </span></span>
+<span id="cb21-5"><a href="#cb21-5" tabindex="-1"></a></span>
+<span id="cb21-6"><a href="#cb21-6" tabindex="-1"></a><span class="st">We can copy it to a location, from R, like this. </span></span></code></pre></div>
+<p>p2libs &lt;- system.file(package = ‘BarnebyLives’) folds &lt;- file.path(‘rmarkdown’, ‘render_labels.sh’)</p>
+<p>file.copy(from = file.path(p2libs, folds), to = ‘/media/steppe/hdd/Barneby_Lives-dev/manuscript/labels/raw’)</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a>And once here, we can run it like <span class="fu">this</span> (from a shell<span class="sc">!</span>)</span></code></pre></div>
+<p>bash render_labels.sh collector=‘Dwight’</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a>Note that, we<span class="st">'ve had difficulty calling this script from it'</span>s default install location <span class="sc">:</span><span class="er">/</span>, but it can easily be copied elsewhere and ran from that location. </span>
+<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a></span>
+<span id="cb23-3"><a href="#cb23-3" tabindex="-1"></a>reminder, you only need to chmod <span class="sc">+</span>x a file <span class="cf">if</span> you don<span class="st">'t call '</span>bash<span class="st">' at the start of an argument...</span></span></code></pre></div>
+<p>chmod +x render_labels.sh path2file/render_labels.sh collector=‘Dwight’</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a>Also a reminder that you can check your paths via <span class="st">`</span><span class="at">$PATH</span><span class="st">`</span>, and can install to somewhere on your path<span class="sc">!</span> e.g. <span class="st">'/usr/local/bin'</span>, after that you can simply call it... But I<span class="st">'m not sure if it will find the dir you are looking for. </span></span></code></pre></div>
+<p>render_labels.sh collector=‘Dwight’</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a>In all instances the script is meant <span class="cf">for</span> you to call it from the following location<span class="sc">:</span></span></code></pre></div>
+<p>├── HerbariumLabels │ ├── final ## &lt;- products will go in here!!! │ └── raw ## &lt;- call render_labels.sh from here!!! │ └── Dwight-raw</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a>The labels will end up <span class="cf">in</span> <span class="st">'final'</span> and the subfolder within <span class="fu">raw</span> (<span class="st">'Dwight-raw'</span>) will be deleted.</span>
+<span id="cb26-2"><a href="#cb26-2" tabindex="-1"></a>If you want to re<span class="sc">-</span>render you<span class="st">'ll need to run the `purrr::walk` again. </span></span>
+<span id="cb26-3"><a href="#cb26-3" tabindex="-1"></a></span>
+<span id="cb26-4"><a href="#cb26-4" tabindex="-1"></a><span class="st">Note that the '</span>collector<span class="st">' will need to match (..exactly...) the output of the `purrr::walk` files collector name. </span></span>
+<span id="cb26-5"><a href="#cb26-5" tabindex="-1"></a></span>
+<span id="cb26-6"><a href="#cb26-6" tabindex="-1"></a><span class="st">## Trouble printing? </span></span>
+<span id="cb26-7"><a href="#cb26-7" tabindex="-1"></a></span>
+<span id="cb26-8"><a href="#cb26-8" tabindex="-1"></a><span class="st">Some printers (maybe not updating drivers enough?) have trouble printing LaTeX (in general, not related to this package). </span></span></code></pre></div>
+<p>ps2pdf labels_in.pdf labels_out-ps2pdf.pdf ``` Has worked for me.</p>
+<table class="table">
+<colgroup><col width="100%"></colgroup>
+<thead><tr class="header">
+<th align="center"><img src="reference/figures/Portrait_of_Rupert_Barneby.png" alt="Portrait of Rupert Barneby by Dwight Ripley 1955"></th>
+</tr></thead>
+<tbody><tr class="odd">
+<td align="center">
+<em>‘Portrait of Rupert Barneby’</em> Dwight Ripley (1955)</td>
+</tr></tbody>
+</table>
+<p><em>BarnebyLives(!) Was named after Rupert Charles Barneby, botanist extraordinaire, artist, socialite, and kind hearted human being. He is the hero the West needs not Hayduke. Hence, BarnebyLives!</em></p>
+</details>
+</div>
+
   </main><aside class="col-md-3"><div class="license">
 <h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
@@ -78,7 +302,13 @@ BarnebyLives! is an R program which serves to help botanical collectors in Weste
 </ul>
 </div>
 
-
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://www.codefactor.io/repository/github/sagesteppe/eSTZwritR" class="external-link"><img src="https://www.codefactor.io/repository/github/sagesteppe/eSTZwritR/badge" alt="CodeFactor"></a></li>
+<li><a href="https://www.repostatus.org/#active" class="external-link"><img src="https://www.repostatus.org/badges/latest/active.svg" alt="Project Status: Active - The project has reached a stable, usable state and is being actively developed."></a></li>
+</ul>
+</div>
 
   </aside>
 </div>
