@@ -7,8 +7,9 @@ html_preview: false
 
 ```{r, echo = FALSE, results='asis'}
 cat(
-	badger::badge_codefactor('sagesteppe/eSTZwritR'), 
-	badger::badge_repostatus("Active")
+	badger::badge_codefactor('sagesteppe/eSTZwritR'),  "\n",
+	badger::badge_repostatus("Active"),  "\n",
+  badger::badge_github_actions("R-CMD-check", "sagesteppe/eSTZwritR")
 )
 ```
 
@@ -16,7 +17,9 @@ cat(
 
 BarnebyLives! is an R program which serves to help botanical collectors in Western North America. BarnebyLives! runs multiple types of queries to acquire political and administrative, geographic, and taxonomic data for recently collected herbarium specimens. It also has limited abilities to search for taxonomic synonyms, check spelling of family, genus, and species names, as well as author abbreviations.  
 
-BarnebyLives! serves the entirety of the flora of the western conterminous US, which coincides with the Mississippi River. It also includes the entirety of the state of Illinois, and portions of Indiana. However, the area is bounded on it's North by Canada and South by Mexico, essentially it covers the western portion of the Conterminous United States (which excludes Alaska). While it covers this range, most variables are focused on supporting botanists working West of the Rocky Mountain Front Range, especially those operating on Bureau of Land Management and Forest Service administered lands.
+BarnebyLives! is designed to cover the entirety of the flora of the western conterminous US, which coincides with the Mississippi River. 
+It also includes the entirety of the state of Illinois, and portions of Indiana. However, the area is bounded on it's North by Canada and South by Mexico, essentially it covers the western portion of the Conterminous United States (which excludes Alaska).
+While it covers this range, most variables are focused on supporting botanists working West of the Rocky Mountain Front Range, especially those operating on Bureau of Land Management and Forest Service administered lands.
 
 BarnebyLives! Is meant to *supplement*, not supplant, collectors field note endeavors. Variables which BarnebyLives! may produce, automatically, for each collection includes:
 
@@ -59,12 +62,9 @@ BarnebyLives! Is meant to *supplement*, not supplant, collectors field note ende
 **Electronic data for mass digital specimen upload**
 - Puts out data in formats congruent with Symbiota, Darwincore, Rocky Moutain Herbarium, and Consortium of Pacific Northwest Herbaria. 
 
-Currently BarnebyLives! Is being run on a juiced up computer either in Rogers Park Chicago or Reno. The amount of data which it queries is very large. Please let me know if you have a query and I will run it for you. If you only collect from a smaller portion of the West, e.g. a certain state, or FS/BLM Unit/Field Office, you should be able to set up a local instance. Although, the documentation for such an endeavor is nascent the endeavor is simple, see "crop2boundary" for the workflow. 
-
 ## Installation
 
-BarnebyLives! is in beta testing, and can currently only be installed as
-0.1.0 from github.
+BarnebyLives! Can be installed from github.
 
 ``` r
 devtools::install_github('sagesteppe/BarnebyLives')
@@ -116,7 +116,6 @@ pdflatex --version
 ### Windows
 <details>
 <summary> Windows Installation </summary>
-
 
 1) install git for windows 
 
