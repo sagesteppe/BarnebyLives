@@ -11,7 +11,7 @@ political_grabber <- function(x, y, path) {
 
   x <- dplyr::select(
     x,
-    -any_of(c(
+    -dplyr::any_of(c(
       'Country',
       'State',
       'County',
@@ -48,12 +48,12 @@ political_grabber <- function(x, y, path) {
   x_plss <- sf::st_transform(x, sf::st_crs(plss))
   x_plss <- sf::st_join(x_plss, plss) |>
     sf::st_drop_geometry() |>
-    dplyr::select(any_of(c(y, 'trs')))
+    dplyr::select(dplyr::any_of(c(y, 'trs')))
 
   x_vars <- dplyr::left_join(x, x_plss, by = y) |>
     dplyr::mutate(Country = 'U.S.A.') |>
     dplyr::relocate(
-      any_of(
+      dplyr::any_of(
         c(
           'Country',
           'State',

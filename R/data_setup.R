@@ -430,7 +430,7 @@ process_gmba <- function(path, pathOut, tile_cells) {
 process_gnis <- function(path, pathOut, bound) {
 
   bb <- sf::st_as_sf(bound) |>
-    st_transform(4269)
+    sf::st_transform(4269)
   st <- tigris::states(progress_bar = FALSE, year = 2022)
 
   sf::st_agr(st) = "constant"
@@ -809,7 +809,7 @@ process_plss <- function(path, pathOut, tile_cells) {
 
   # now do actual spatial work.
   tile_cells <- sf::st_transform(tile_cells, 4269)
-  township <- st_transform(township, 4269)
+  township <- sf::st_transform(township, 4269)
   township <- sf::st_crop(township, sf::st_union(tile_cells))
   township <- sf::st_drop_geometry(township)
 

@@ -111,8 +111,8 @@ spell_check <- function(data, column, path) {
 
   rn <- c(SpellCk_Infraspecific_rank = 'SpellCk.verbatimTaxonRank')
   sc_res <- data.table::rbindlist(sc_res, fill = TRUE) |>
-    dplyr::select(-any_of(c('SpellCk.gGrp', 'SpellCk.Taxon.Rank'))) |>
-    dplyr::rename(any_of(rn))
+    dplyr::select(-dplyr::any_of(c('SpellCk.gGrp', 'SpellCk.Taxon.Rank'))) |>
+    dplyr::rename(dplyr::any_of(rn))
 
   if (any(class(data) == 'sf')) {
     sc_res <- dplyr::bind_cols(sc_res, geometry_col)

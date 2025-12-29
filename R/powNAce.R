@@ -82,7 +82,7 @@ powNAce <- function(x) {
   # identify whether the author is for the species or infra species
 
   x_pow <- sf::st_drop_geometry(x) |>
-    dplyr::select(any_of(c(mycs, 'POW_Authority', 'UNIQUEID'))) |>
+    dplyr::select(dplyr::any_of(c(mycs, 'POW_Authority', 'UNIQUEID'))) |>
     data.frame()
 
   splits <- split(x_pow, f = rownames(x_pow))
@@ -119,13 +119,13 @@ powNAce <- function(x) {
 
   x <- dplyr::select(
     x,
-    -any_of(c(mycs, 'POW_Authority', 'POW_Name_authority', 'POW_Full_name'))
+    -dplyr::any_of(c(mycs, 'POW_Authority', 'POW_Name_authority', 'POW_Full_name'))
   )
   x <- dplyr::left_join(x, x_pow, by = 'UNIQUEID')
 
-  x <- dplyr::relocate(x, any_of(c(mycs, 'POW_Query')), .after = 4) %>%
+  x <- dplyr::relocate(x, dplyr::any_of(c(mycs, 'POW_Query')), .after = 4) %>%
     dplyr::select(
-      -any_of(c('POW_Authority', 'POW_Name_authority', 'POW_Full_name'))
+      -dplyr::any_of(c('POW_Authority', 'POW_Name_authority', 'POW_Full_name'))
     )
 
   return(x)
