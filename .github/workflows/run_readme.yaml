@@ -1,0 +1,16 @@
+name: Update README
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'README.md'  # Only trigger when README.md changes
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      
+      - name: Verify README exists
+        run: ls -la README.md

@@ -100,7 +100,7 @@ physical_grabber <- function(x, path) {
 
   object <- dplyr::bind_cols(x, values) |>
     dplyr::select(-ID) |>
-    dplyr::relocate(tidyselect::all_of(cols), .before = geometry) |>
+    dplyr::relocate(dplyr::all_of(cols), .before = geometry) |>
     dplyr::mutate(
       physical_environ = paste0(
         'At ',

@@ -18,9 +18,7 @@ Imports:
     googleway,
     lubridate,
     kewr,
-    rlang,
     rvest,
-    tidyselect,
     stringr,
     terra,
     sf,
@@ -33,8 +31,7 @@ Imports:
     httr,
     tidyr,
     readxl,
-    stringdist,
-    tibble
+    stringdist
 Remotes: 
 	barnabywalker/kewr, 
 	cran/parzer@0.4.3

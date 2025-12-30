@@ -7,7 +7,6 @@
 #' @examples # see the package vignette
 #' @export
 political_grabber <- function(x, y, path) {
-  y_quo <- rlang::enquo(y)
 
   x <- dplyr::select(
     x,

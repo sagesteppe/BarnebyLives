@@ -4,7 +4,7 @@
 \alias{date_parser}
 \title{create herbarium format dates for specimens}
 \usage{
-date_parser(x, coll_date, det_date)
+date_parser(x, coll_date, det_date = NULL)
 }
 \arguments{
 \item{x}{an (sf/tibble/) data frame with both the collection date

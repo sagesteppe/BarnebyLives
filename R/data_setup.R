@@ -796,7 +796,7 @@ process_plss <- function(path, pathOut, tile_cells) {
   coords <- sf::st_geometry(township) |>
     purrr::map(~ sf::st_coordinates(.x)[1, ]) |>
     do.call(what = rbind)
-  coords_df <- tibble::tibble(X = coords[, 1], Y = coords[, 2])
+  coords_df <- as.data.frame(X = coords[, 1], Y = coords[, 2])
 
   xlim <- tile_bbox[c("xmin", "xmax")] + c(-1, 1) * buffer
   ylim <- tile_bbox[c("ymin", "ymax")] + c(-1, 1) * buffer

@@ -83,10 +83,10 @@ dms2dd <- function(x, lat, long, dms) {
   x$longitude_dms <- gsub('-', "", x$longitude_dms)
 
   # return object
-  if (original_class == "tbl_df" || original_class == "tbl") {
-    x <- tibble::as_tibble(x)
-  } else if (original_class == "data.table") {
+  if (original_class == "data.table") {
     x <- data.table::as.data.table(x)
+  } else {
+    x <- as.data.frame(x)
   }
 
   return(x)

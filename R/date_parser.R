@@ -15,12 +15,10 @@
 #' dates <- date_parser(first50dates, coll_date = 'collection_date')
 #' head(dates)
 #' @export
-date_parser <- function(x, coll_date, det_date) {
-  coll_date_q <- rlang::enquo(coll_date)
-  det_date_q <- rlang::enquo(det_date)
-
+date_parser <- function(x, coll_date, det_date = NULL) {
+  # column name vectors for later relocation
   names_v <- c('_ymd', '_day', '_mo', '_yr', '_text')
-  if (missing(det_date)) {
+  if (is.null(det_date)) {
     column_names <- c(coll_date, paste0(coll_date, names_v))
   } else {
     column_names <- c(
@@ -31,46 +29,52 @@ date_parser <- function(x, coll_date, det_date) {
     )
   }
 
+  # convert collection and determination dates to lubridate
   x_dmy <- x |>
-    dplyr::mutate(dplyr::across(
-      .cols = c(!!coll_date_q, !!det_date_q),
-      lubridate::mdy,
-      .names = "{.col}_ymd"
-    )) |>
     dplyr::mutate(
       dplyr::across(
-        dplyr::ends_with('_ymd'),
+        .cols = dplyr::all_of(c(coll_date, det_date)),
+        ~ lubridate::mdy(.x),
+        .names = "{.col}_ymd"
+      )
+    ) |>
+    dplyr::mutate(
+      dplyr::across(
+        .cols = dplyr::ends_with('_ymd'),
         ~ lubridate::month(.),
         .names = "{.col}_mo"
       ),
       dplyr::across(
-        dplyr::ends_with('_ymd'),
+        .cols = dplyr::ends_with('_ymd'),
         ~ lubridate::day(.),
         .names = "{.col}_day"
       ),
       dplyr::across(
-        dplyr::ends_with('_ymd'),
+        .cols = dplyr::ends_with('_ymd'),
         ~ lubridate::year(.),
         .names = "{.col}_yr"
       )
     ) |>
-    dplyr::mutate(dplyr::across(
-      .cols = c(!!coll_date_q, !!det_date_q),
-      date2text,
-      .names = '{.col}_text'
-    ))
+    dplyr::mutate(
+      dplyr::across(
+        .cols = dplyr::all_of(c(coll_date, det_date)),
+        date2text,
+        .names = '{.col}_text'
+      )
+    )
 
-  if (any(grep('sf', class(x_dmy)))) {
+  # handle sf objects separately
+  if ("sf" %in% class(x_dmy)) {
     x_dmy_geo <- x_dmy |>
       dplyr::select(geometry)
 
     x_dmy_no_geo <- x_dmy |>
-      sf::st_drop_geometry(x_dmy) |>
+      sf::st_drop_geometry() |>
       dplyr::rename_with(
         ~ stringr::str_remove(., '_ymd'),
         dplyr::matches('_ymd_.*$')
       ) |>
-      dplyr::relocate(dplyr::any_of(column_names), .before = dplyr::last_col())
+      dplyr::relocate(dplyr::all_of(column_names), .before = dplyr::last_col())
 
     x_dmy <- dplyr::bind_cols(x_dmy_no_geo, x_dmy_geo) |>
       sf::st_as_sf(crs = sf::st_crs(x_dmy_geo))
@@ -80,7 +84,7 @@ date_parser <- function(x, coll_date, det_date) {
         ~ stringr::str_remove(., '_ymd'),
         dplyr::matches('_ymd_.*$')
       ) |>
-      dplyr::relocate(dplyr::any_of(column_names), .before = dplyr::last_col())
+      dplyr::relocate(dplyr::all_of(column_names), .before = dplyr::last_col())
   }
 
   return(x_dmy)
