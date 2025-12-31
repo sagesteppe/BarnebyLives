@@ -1,7 +1,18 @@
-[![CodeFactor](https://www.codefactor.io/repository/github/sagesteppe/eSTZwritR/badge)](https://www.codefactor.io/repository/github/sagesteppe/eSTZwritR)
+---
+title: "BarnebyLives: Herbarium Data Collection for Western North America"
+description: "R package providing automated tools for botanical collectors to gather political, geographic, and taxonomic data for herbarium specimens"
+---
+
+[![CodeFactor](https://www.codefactor.io/repository/github/sagesteppe/BarnebyLives/badge)](https://www.codefactor.io/repository/github/sagesteppe/BarnebyLives)
 [![Project Status: Active - The project has reached a stable, usable
 state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
+
+# BarnebyLives
+
+<div class="lead">
+Tools for collecting digital data on herbarium specimens across Western North America
+</div>
 
 ## Overview <img src="man/figures/logo.png" align="right" height="138" />
 

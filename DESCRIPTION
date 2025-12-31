@@ -7,7 +7,6 @@ Authors@R:
            email = "reedbenkendorf2021@u.northwestern.edu",
            role = c("aut", "cre"),
            comment = c(ORCID = "0000-0001-9178-3087"))
-
 Description: Provides comprehensive tools for botanical collectors working in 
     Western North America. Automates collection of political boundaries (state, 
     county, PLSS), geographic features (mountain ranges, GNIS places), site 
