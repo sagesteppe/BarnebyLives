@@ -1,8 +1,8 @@
 ---
-title: "BarnebyLives: Herbarium Data Collection for Western North America"
+title: "BarnebyLives: Herbarium Data Collection"
 description: "R package providing automated tools for botanical collectors to gather political, geographic, and taxonomic data for herbarium specimens"
 ---
-
+[![R-CMD-check](https://github.com/sagesteppe/flyer/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/sagesteppe/BarnebyLives/actions/workflows/R-CMD-check.yaml)
 [![CodeFactor](https://www.codefactor.io/repository/github/sagesteppe/BarnebyLives/badge)](https://www.codefactor.io/repository/github/sagesteppe/BarnebyLives)
 [![Project Status: Active - The project has reached a stable, usable
 state and is being actively
@@ -14,7 +14,7 @@ developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.re
 Tools for collecting digital data on herbarium specimens across Western North America
 </div>
 
-## Overview <img src="man/figures/logo.png" align="right" height="138" />
+## Overview <img src="man/figures/logo.png" align="right" height="138" role="presentation"/>
 
 BarnebyLives! is an R program which serves to help botanical collectors
 in Western North America. BarnebyLives! runs multiple types of queries
