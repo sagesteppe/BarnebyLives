@@ -24,7 +24,7 @@
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
-    <nav class="navbar navbar-expand-lg fixed-top bg-light" data-bs-theme="light" aria-label="Site navigation"><div class="container">
+    <nav class="navbar navbar-expand-lg fixed-top bg-primary" data-bs-theme="dark" aria-label="Site navigation"><div class="container">
 
     <a class="navbar-brand me-2" href="../index.html">BarnebyLives</a>
 
@@ -37,15 +37,21 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
-<li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
-<li class="active nav-item"><a class="nav-link" href="../articles/index.html">Articles</a></li>
-<li class="nav-item"><a class="nav-link" href="../news.html">News</a></li>
-<li class="nav-item"><a class="nav-link" href="../data-sources.html">Alternative Data Sources</a></li>
+<li class="nav-item"><a class="nav-link" href="../reference/index.html">Function Reference</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-documentation" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Documentation</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-documentation">
+<li><a class="dropdown-item" href="../articles/getting-started.html">Getting Started</a></li>
+    <li><a class="dropdown-item" href="../data-sources.html">Data Sources</a></li>
+  </ul>
+</li>
+<li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul>
 <ul class="navbar-nav">
 <li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json">
 </form></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/sagesteppe/BarnebyLives" aria-label="GitHub repository"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul>
 </div>
 
@@ -60,8 +66,9 @@
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Built in templates</h1>
             
+            <h4 data-toc-skip class="date">2025-12-31</h4>
       
-
+      <small class="dont-index">Source: <a href="https://github.com/sagesteppe/BarnebyLives/blob/main/vignettes/built_in_templates.Rmd" class="external-link"><code>vignettes/built_in_templates.Rmd</code></a></small>
       <div class="d-none name"><code>built_in_templates.Rmd</code></div>
     </div>
 
@@ -254,7 +261,19 @@ logos, but to each their own.<br>
 
 
 
-
-
-  </body>
+  <!-- Sitemap notification -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "url": "https://sagesteppe.github.io/BarnebyLives/",
+  "name": "BarnebyLives Documentation",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://sagesteppe.github.io/BarnebyLives/search.html?q={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+</body>
 </html>

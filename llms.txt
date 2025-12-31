@@ -1,3 +1,8 @@
+# BarnebyLives
+
+Tools for collecting digital data on herbarium specimens across Western
+North America
+
 ## Overview ![](reference/figures/logo.png)
 
 BarnebyLives! is an R program which serves to help botanical collectors

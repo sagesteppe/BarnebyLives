@@ -7,7 +7,7 @@ this function will return up to two additional columns with x.
 ## Usage
 
 ``` r
-date_parser(x, coll_date, det_date)
+date_parser(x, coll_date, det_date = NULL)
 ```
 
 ## Arguments

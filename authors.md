@@ -2,9 +2,13 @@
 
 ## Authors
 
-- **Reed Clark Benkendorf**. Maintainer, author.
+- **Reed Clark Benkendorf**. Author, maintainer.
+  [](https://orcid.org/0000-0001-9178-3087)
 
 ## Citation
+
+Source:
+[`DESCRIPTION`](https://github.com/sagesteppe/BarnebyLives/blob/main/DESCRIPTION)
 
 Benkendorf R (2025). *BarnebyLives: Tools for collecting digital data on
 herbarium specimens*. R package version 0.3.0,
