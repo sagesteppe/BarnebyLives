@@ -269,7 +269,7 @@ Unnecessary columns!
 
 ## General Workflow 
 
-![Suggested Workflow](man/figures/workflow.png) 
+![Flowchart showing BarnebyLives workflow: Input field data → Query functions → Generate labels → Export to herbarium formats](reference/figures/workflow.png)
 
 ## Geodata directory structure
 For those that are setting up a local instance the directory structure for the geodata is flat. 
@@ -372,7 +372,7 @@ ps2pdf labels_in.pdf labels_out-ps2pdf.pdf
 ```
 Has worked for me. 
 
-| ![Portrait of Rupert Barneby by Dwight Ripley 1955](man/figures/Portrait_of_Rupert_Barneby.png) | 
+| ![Portrait painting of Rupert Barneby by Dwight Ripley from 1955, showing the botanist in contemplative pose](man/figures/barneby-portrait.jpg) | 
 |:--:| 
 | *'Portrait of Rupert Barneby'* Dwight Ripley (1955) |
 

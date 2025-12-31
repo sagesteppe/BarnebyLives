@@ -1,18 +1,107 @@
 url: https://sagesteppe.github.io/BarnebyLives/
+
+home:
+  title: "BarnebyLives - Herbarium Data Collection Tools for Western North America"
+  description: >
+    R package for botanical collectors in Western North America. Automates 
+    collection of political, geographic, and taxonomic data for herbarium 
+    specimens. Named after botanist Rupert Charles Barneby.
+
 template:
   bootstrap: 5
-  
+  bootswatch: flatly
+  includes:
+    after_body: |
+      <!-- Sitemap notification -->
+      <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "url": "https://sagesteppe.github.io/BarnebyLives/",
+        "name": "BarnebyLives Documentation",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://sagesteppe.github.io/BarnebyLives/search.html?q={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      }
+      </script>
+
+opengraph:
+  image:
+    src: man/figures/logo.png
+    alt: "BarnebyLives package logo featuring botanical illustration"
+  twitter:
+    creator: "@sagesteppe"
+    card: summary_large_image
+
+includes:
+  in_header: |
+    <!-- JSON-LD Structured Data for AI Crawlers -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "BarnebyLives",
+      "applicationCategory": "Scientific Software",
+      "operatingSystem": "Windows, macOS, Linux",
+      "softwareVersion": "0.3.0",
+      "description": "R package providing tools for botanical collectors in Western North America to collect digital data on herbarium specimens, including political, geographic, and taxonomic information.",
+      "url": "https://sagesteppe.github.io/BarnebyLives/",
+      "downloadUrl": "https://github.com/sagesteppe/BarnebyLives",
+      "author": {
+        "@type": "Person",
+        "name": "Reed Clark Benkendorf",
+        "url": "https://github.com/sagesteppe"
+      },
+      "programmingLanguage": "R",
+      "keywords": [
+        "herbarium",
+        "botanical data collection",
+        "Western North America flora",
+        "taxonomic data",
+        "R package",
+        "specimen data",
+        "GNIS",
+        "BLM",
+        "Forest Service",
+        "plant taxonomy",
+        "field botany"
+      ],
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
+    
+    <!-- Additional SEO Meta Tags -->
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <meta name="keywords" content="R package, herbarium, botanical data, Western North America, specimen collection, taxonomic data, field botany, GNIS, BLM, Forest Service">
+    <meta name="author" content="Reed Clark Benkendorf">
+    <link rel="canonical" href="https://sagesteppe.github.io/BarnebyLives/">
+
 navbar:
   structure:
-    left: [home, reference, articles, news, data-sources]
+    left: [intro, reference, articles, tutorials, news]
     right: [search, github]
   components:
-    news:
-      text: "News"
-      href: news.html
-    data-sources:
-      text: "Alternative Data Sources"
-      href: data-sources.html
+    home: ~
+    reference:
+      text: "Function Reference"
+      href: reference/index.html
+    articles:
+      text: "Documentation"
+      menu:
+      - text: "Getting Started"
+        href: articles/getting-started.html
+      - text: "Data Sources"
+        href: data-sources.html
+    github:
+      icon: fab fa-github fa-lg
+      href: https://github.com/sagesteppe/BarnebyLives
+      aria-label: "GitHub repository"
       
 reference:
   - title: Workflow functions

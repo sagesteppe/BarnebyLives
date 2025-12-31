@@ -1,6 +1,7 @@
 ---
 title: "Built in templates"
 output: rmarkdown::html_vignette
+date: "`r Sys.Date()`"
 vignette: >
   %\VignetteIndexEntry{Built in templates}
   %\VignetteEngine{knitr::rmarkdown}

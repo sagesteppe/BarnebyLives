@@ -1,0 +1,19 @@
+User-agent: *
+Allow: /
+Sitemap: https://sagesteppe.github.io/BarnebyLives/sitemap.xml
+
+# AI Crawler specific directives
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
