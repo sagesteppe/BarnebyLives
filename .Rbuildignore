@@ -12,3 +12,7 @@
 ^README\.Rmd$
 ^robots.txt
 ^static
+^docs/sitemap\.xml$
+^docs/robots\.txt$
+update_sitemap.R
+^update_readme.sh
