@@ -6,6 +6,7 @@ home:
     R package for botanical collectors in Western North America. Automates 
     collection of political, geographic, and taxonomic data for herbarium 
     specimens. Named after botanist Rupert Charles Barneby.
+  lang: en
 
 template:
   bootstrap: 5
@@ -102,7 +103,10 @@ navbar:
     github:
       icon: fab fa-github fa-lg
       href: https://github.com/sagesteppe/BarnebyLives
-      aria-label: "GitHub repository"
+      aria-label: "View source code on GitHub"
+    search:
+      icon: fas fa-search
+      aria-label: "Search site"
       
 reference:
   - title: Workflow functions

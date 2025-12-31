@@ -3,17 +3,26 @@ output:
   md_document:
     variant: gfm
 html_preview: false
+title: "BarnebyLives: Herbarium Data Collection for W North America"
+description: "R package providing automated tools for botanical collectors to gather political, geographic, and taxonomic data for herbarium specimens"
 ---
 
 ```{r, echo = FALSE, results='asis'}
 cat(
-	badger::badge_codefactor('sagesteppe/eSTZwritR'),  "\n",
+  badger::badge_github_actions("lint", "sagesteppe/BarnebyLives"),  "\n",
+	badger::badge_codefactor('sagesteppe/BarnebyLives'),  "\n",
 	badger::badge_repostatus("Active"),  "\n",
-  badger::badge_github_actions("R-CMD-check", "sagesteppe/eSTZwritR")
+  badger::badge_github_actions("R-CMD-check", "sagesteppe/BarnebyLives")
 )
 ```
 
-## Overview <img src="man/figures/logo.png" align="right" height="138" />
+# BarnebyLives
+
+<div class="lead">
+Tools for collecting digital data on herbarium specimens across Western North America
+</div>
+
+## Overview <img src="man/figures/logo.png" align="right" height="138", role='presentation />
 
 BarnebyLives! is an R program which serves to help botanical collectors in Western North America. BarnebyLives! runs multiple types of queries to acquire political and administrative, geographic, and taxonomic data for recently collected herbarium specimens. It also has limited abilities to search for taxonomic synonyms, check spelling of family, genus, and species names, as well as author abbreviations.  
 
@@ -269,7 +278,7 @@ Unnecessary columns!
 
 ## General Workflow 
 
-![Flowchart showing BarnebyLives workflow: Input field data → Query functions → Generate labels → Export to herbarium formats](reference/figures/workflow.png)
+![Flowchart showing BarnebyLives workflow from field data collection through label generation and herbarium export. Steps include: input specimen data, run query functions, generate political/geographic/taxonomic metadata, create labels, and export to multiple herbarium formats](reference/figures/workflow.png)
 
 ## Geodata directory structure
 For those that are setting up a local instance the directory structure for the geodata is flat. 
@@ -372,7 +381,7 @@ ps2pdf labels_in.pdf labels_out-ps2pdf.pdf
 ```
 Has worked for me. 
 
-| ![Portrait painting of Rupert Barneby by Dwight Ripley from 1955, showing the botanist in contemplative pose](man/figures/barneby-portrait.jpg) | 
+| ![Oil portrait of botanist Rupert Charles Barneby painted by Dwight Ripley in 1955, showing Barneby in contemplative pose against a warm background](man/figures/barneby-portrait.jpg) | 
 |:--:| 
 | *'Portrait of Rupert Barneby'* Dwight Ripley (1955) |
 
