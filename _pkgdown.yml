@@ -104,9 +104,6 @@ navbar:
       icon: fab fa-github fa-lg
       href: https://github.com/sagesteppe/BarnebyLives
       aria-label: "View source code on GitHub"
-    search:
-      icon: fas fa-search
-      aria-label: "Search site"
       
 reference:
   - title: Workflow functions
