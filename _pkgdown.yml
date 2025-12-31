@@ -101,7 +101,7 @@ navbar:
       - text: "Getting Started"
         href: articles/getting-started.html
       - text: "Data Sources"
-        href: data-sources.html
+        href: articles/data-sources.html
     github:
       icon: fab fa-github fa-lg
       href: https://github.com/sagesteppe/BarnebyLives
