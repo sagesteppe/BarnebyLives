@@ -4,7 +4,7 @@ on:
     branches:
       - main
     paths:
-      - 'README.md'  # Only trigger when README.md changes
+      - 'README.Rmd'  # Only trigger when README.md changes
 jobs:
   build:
     runs-on: ubuntu-latest
