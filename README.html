@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.36">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="description" content="R package providing automated tools for botanical collectors to gather political, geographic, and taxonomic data for herbarium specimens">
+
+<title>BarnebyLives: Herbarium Data Collection for W North America</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="README_files/libs/clipboard/clipboard.min.js"></script>
+<script src="README_files/libs/quarto-html/quarto.js"></script>
+<script src="README_files/libs/quarto-html/popper.min.js"></script>
+<script src="README_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="README_files/libs/quarto-html/anchor.min.js"></script>
+<link href="README_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="README_files/libs/quarto-html/quarto-syntax-highlighting-01c78b5cd655e4cd89133cf59d535862.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="README_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="README_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="README_files/libs/bootstrap/bootstrap-abd341879a89d1f9b1903c44ebba7eff.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">BarnebyLives: Herbarium Data Collection for W North America</h1>
+</div>
+
+<div>
+  <div class="description">
+    R package providing automated tools for botanical collectors to gather political, geographic, and taxonomic data for herbarium specimens
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p><a href="https://github.com/lint/actions"><img src="https://github.com/lint/workflows/sagesteppe/BarnebyLives/badge.svg" class="img-fluid" alt="R build status"></a> <a href="https://www.codefactor.io/repository/github/sagesteppe/BarnebyLives"><img src="https://www.codefactor.io/repository/github/sagesteppe/BarnebyLives/badge.png" class="img-fluid" alt="CodeFactor"></a> <a href="https://www.repostatus.org/#active"><img src="https://www.repostatus.org/badges/latest/active.svg" class="img-fluid" alt="Project Status: Active - The project has reached a stable, usable state and is being actively developed."></a> <a href="https://github.com/R-CMD-check/actions"><img src="https://github.com/R-CMD-check/workflows/sagesteppe/BarnebyLives/badge.svg" class="img-fluid" alt="R build status"></a></p>
+<section id="barnebylives" class="level1">
+<h1>BarnebyLives</h1>
+<div class="lead">
+<p>Tools for collecting digital data on herbarium specimens across Western North America</p>
+</div>
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview">Overview</h2>
+<p><img src="man/figures/logo.png" align="right" height="138" role="presentation"></p>
+<p>BarnebyLives! is an R program which serves to help botanical collectors in Western North America. BarnebyLives! runs multiple types of queries to acquire political and administrative, geographic, and taxonomic data for recently collected herbarium specimens. It also has limited abilities to search for taxonomic synonyms, check spelling of family, genus, and species names, as well as author abbreviations.</p>
+<p>BarnebyLives! is designed to cover the entirety of the flora of the western conterminous US, which coincides with the Mississippi River. It also includes the entirety of the state of Illinois, and portions of Indiana. However, the area is bounded on it’s North by Canada and South by Mexico, essentially it covers the western portion of the Conterminous United States (which excludes Alaska). While it covers this range, most variables are focused on supporting botanists working West of the Rocky Mountain Front Range, especially those operating on Bureau of Land Management and Forest Service administered lands.</p>
+<p>BarnebyLives! Is meant to <em>supplement</em>, not supplant, collectors field note endeavors. Variables which BarnebyLives! may produce, automatically, for each collection includes:</p>
+<p><strong>Political</strong><br>
+- State<br>
+- County<br>
+- Township<br>
+- Public Land Survey System (township, range, section)</p>
+<p><strong>Geographic</strong> - Mountain Range (if relevant)<br>
+- Nearest Geographic Names Information System (GNIS) place name, and distance and azimuth from it</p>
+<p><strong>Site characteristics</strong><br>
+- Elevation (both meters and feet)<br>
+- Slope<br>
+- Aspect<br>
+- Surficial geology<br>
+- Geomorphon (major landform elements)</p>
+<p><strong>Taxonomic</strong><br>
+- Spell check for Family, Genus, and specific epithet - Searches for synonym to species<br>
+- Spell checks taxonomic authorities - Spell check for associated species</p>
+<p><strong>Directions</strong><br>
+- directions to a parking spot can be acquired from Google Maps; however this implies the location can be driven to in the first place.</p>
+<p><strong>Other features include</strong><br>
+- Date parsing, e.g.&nbsp;convert date into congruent museum formats (month in European style)<br>
+- Conversion of Degrees Minutes Seconds (DMS) to Decimal Degrees (DD)<br>
+- Exporting collection data as a ‘shapefile’ or KML for use in a GIS or GoogleEarth</p>
+<p><strong>Label and shipping manifest generation</strong> - Herbarium Labels which autopopulate from the script output - Manifests which autopopulate from the script outputs - Herbarium labels with retro dot municipality maps</p>
+<p><strong>Electronic data for mass digital specimen upload</strong> - Puts out data in formats congruent with Symbiota, Darwincore, Rocky Moutain Herbarium, and Consortium of Pacific Northwest Herbaria.</p>
+</section>
+<section id="installation" class="level2">
+<h2 class="anchored" data-anchor-id="installation">Installation</h2>
+<p>BarnebyLives! Can be installed from github.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">'sagesteppe/BarnebyLives'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="linux" class="level3">
+<h3 class="anchored" data-anchor-id="linux">Linux</h3>
+<p>The generation of labels will requires that Rmarkdown is succesfully set up to render to PDF via a LaTeX distribution such as pdflatex, lualatex, xelatex.</p>
+<p>Labels will further require two programs, pdfjam and pdftk. These can be installed on Debian flavors of Linux as so:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt-get update</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt-get install pdfjam <span class="at">-y</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt-get install pdftk <span class="at">-y</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="macos" class="level3">
+<h3 class="anchored" data-anchor-id="macos">MacOS</h3>
+<details>
+<summary>
+MacOS Installation
+</summary>
+<p>We recommend using the small package tinytex (pronounced Tiny-Tech) which comes with only a core set of utilities which can be supplemented as required. TinyTex can be installed directly in R using:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"tinytex')</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="st">tinytex::install_tinytex()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Now from a command terminal run the following to use TexLives package manager to add a few additional required tools.</p>
+<pre><code>tlmgr install eso-pic grfext grffile oberdiek pdfjam pdfjam.universal-darwin pdflscape pdfpages setspace tlgpg tlgpg.universal-darwin</code></pre>
+<p>To verify the installs worked check, from the command line.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pdfjam</span> <span class="at">--version</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="ex">pdflatex</span> <span class="at">--version</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</section>
+<section id="windows" class="level3">
+<h3 class="anchored" data-anchor-id="windows">Windows</h3>
+<details>
+<summary>
+Windows Installation
+</summary>
+<ol type="1">
+<li>install git for windows</li>
+</ol>
+<p>See <a href="https://gitforwindows.org/">here</a> for details on install.</p>
+<ol start="2" type="1">
+<li>to render individual labels</li>
+</ol>
+<p>after installing BarnebyLives, tinytex will need to install a minimal tex version. Run the following in R.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">'tinytex'</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>tinytex<span class="sc">::</span><span class="fu">install_tinytex</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="3" type="1">
+<li>to combine the labels for printing.</li>
+</ol>
+<p>You will need a few more tools. First you will need <code>choco</code>, which is a package manager for windows (like brew for Mac, or apt or yum for Linux). These details are reproduced from <a href="https://community.chocolatey.org/courses/installation/installing?method=installing-chocolatey#powershell">chocolatey.org</a></p>
+<p>from a POWERSHELL run as administrator</p>
+<pre><code>Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))</code></pre>
+<p>If that doesn’t work you will need to swap your permissions (see the linked guide above).</p>
+<p>You can verify that <code>choco</code> is installed by running, from the powershell</p>
+<pre><code>choco</code></pre>
+<p>And now use choco to install <code>pdftk</code>. Open a git bash shell as an administrator and</p>
+<pre><code>choco install pdftk -y</code></pre>
+<ol start="4" type="1">
+<li>install pdfjam</li>
+</ol>
+<p>Download the most recent release of pdfjam (4.2.zip) from the github <a href="https://github.com/pdfjam/pdfjam/releases">repo</a></p>
+<p>using the git bash terminal copy if to a location on PATH</p>
+<pre><code>unzip pdfjam-4.2.zip 
+mv ~/Downloads/pdfjam-4.2 ~/pdfjam</code></pre>
+<p>make it executable</p>
+<pre><code>chmod +x ~/pdfjam/bin/pdfjam</code></pre>
+<p>add to your PATH</p>
+<pre><code>export PATH="$HOME/pdfjam/bin:$PATH"</code></pre>
+<p>and verify the installation with</p>
+<pre><code>which pdfjam</code></pre>
+<p>if that works add it your path for good</p>
+<pre><code>echo 'export PATH="$HOME/pdfjam/bin:$PATH"' &gt;&gt; ~/.bashrc</code></pre>
+<ol start="5" type="1">
+<li>install required latex packages to supplement tinytex</li>
+</ol>
+<p>You will need the tinytex package manager for this. Check if it is accessible via</p>
+<pre><code>which tlmgr</code></pre>
+<p>if is not found, and you installed via R. try adding it to path as in the below.</p>
+<p>note <em>USERNAME</em> is a placeholder.</p>
+<pre><code>echo 'export PATH="/c/Users/USERNAME/AppData/Roaming/TinyTeX/bin/windows:$PATH"' &gt;&gt; ~/.bashrc</code></pre>
+<p>and you are probably going to need to update tlmgr right off the bat.</p>
+<pre><code>tlmgr --update self</code></pre>
+<p>now you can install the other required packages</p>
+<pre><code>tlmgr.bat install pdfpages eso-pic grfext grffile oberdiek pdflscape pdfpages setspace tlgpg</code></pre>
+</details>
+</section>
+</section>
+<section id="input-data-column-names" class="level2">
+<h2 class="anchored" data-anchor-id="input-data-column-names">Input Data Column Names</h2>
+<p>The columns in the top table are <strong>required</strong> to run the all the functions in BarnebyLives. The columns in the middle table are suggested to increase the quality of the collections. The columns in the lower table are optional, to be blunt, BarnebyLives will generate all of these values. Ficticious examples are provided here, while links to real examples (~100) are contained <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vR8I-JBcgA7P9RYjJqbTebzNFLS1bLz1sYVW1vPlU5Bq6WXCwKS4zkeGTCmlo9BcznCKNbdz6gtK9pV/pubhtml">here</a> and in the vignettes.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 42%">
+<col style="width: 32%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Column name</th>
+<th>Description</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Collection_number</td>
+<td>The collection number for the primary botanist. This number should unambiguously identify the collection, and be inclusive of all replicates (multiple herbaria sheets). We recommend using a number agnostic of projects and seasons.</td>
+<td>6359</td>
+</tr>
+<tr class="even">
+<td>Primary_Collector</td>
+<td>The botanist who assumes primary responsibility for collecting, processing, and coordinating the accessioning of the collection with herbaria.</td>
+<td>Rupert Barneby</td>
+</tr>
+<tr class="odd">
+<td>Associated_Collectors</td>
+<td>Other collectors who were present at the time of collection, and contributed to the process.</td>
+<td>Dwight Ripley</td>
+</tr>
+<tr class="even">
+<td>Full_name</td>
+<td>The full scientific name of the taxonomic entity, by neccessity including the Genus and Epithet which form a binomial, and information on infraspecies.</td>
+<td>Astragalus tephrodes var. eurylobus</td>
+</tr>
+<tr class="odd">
+<td>Latitude</td>
+<td>The decimal degrees (dd) or degrees minutes seconds (dms) perpendicular to the equator which the collection was made at.</td>
+<td>37.6415</td>
+</tr>
+<tr class="even">
+<td>Longitude</td>
+<td>The decimal degrees (dd) or degrees minutes seconds (dms) along the equator which the collection was made at.</td>
+<td>-114.4985</td>
+</tr>
+<tr class="odd">
+<td>Date_digital</td>
+<td>The date which the collection was made in American format, ‘mm.dd.yyyy’ for example, ‘01.02.2023’ is January 2nd.</td>
+<td>06.18.1944</td>
+</tr>
+<tr class="even">
+<td>Vegetation</td>
+<td>Plant species which are present with high amounts of biomass, or which are postulated to be keystone species etc.</td>
+<td>Artemisia nova, Pleuraphis jamesii</td>
+</tr>
+<tr class="odd">
+<td>Associates</td>
+<td>Other plant species growing in the area which do not compose the dominant amounts of biomass.</td>
+<td>Brickellia longifolia</td>
+</tr>
+<tr class="even">
+<td>Habtiat</td>
+<td>Notes on the abiotic (landform, soil texture, etc.) and biotic (landcover type ‘forest’, ‘riparian’ etc.) setting which the collection was growing in.</td>
+<td>Ridges of barren alkaline hills</td>
+</tr>
+<tr class="odd">
+<td>Notes</td>
+<td>Any notes, especially relevant are those describing growth form, floral colour, scents, or textures.</td>
+<td>petals pink purple</td>
+</tr>
+</tbody>
+</table>
+<p>Suggested columns!</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 42%">
+<col style="width: 32%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Column name</th>
+<th>Description</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Fide</td>
+<td>The most authoritative Flora, or monograph, used to identify the collections.</td>
+<td>Intermountain Flora</td>
+</tr>
+<tr class="even">
+<td>Determined_by</td>
+<td>A botanist who verified the identity of the collection.</td>
+<td>Rupert Barneby</td>
+</tr>
+<tr class="odd">
+<td>Determined_date</td>
+<td>The date the botanist determined the specimen. This beginning a chain of annotations for the distant future.</td>
+<td>06.18.1944</td>
+</tr>
+<tr class="even">
+<td>Tissue_collections</td>
+<td>Number of individual plants from which tissue collections were made.</td>
+<td>0</td>
+</tr>
+<tr class="odd">
+<td>Project_name</td>
+<td>The endeavor which this collection was made for, or which field work may be associated with.</td>
+<td>Flora Nevadensis</td>
+</tr>
+<tr class="even">
+<td>Site_name</td>
+<td>A user defined name for the locality from which collections were made.</td>
+<td>Caliente</td>
+</tr>
+</tbody>
+</table>
+<p>Unnecessary columns!</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 56%">
+<col style="width: 43%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Column name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Genus</td>
+<td>The Genus which the species is a component of</td>
+</tr>
+<tr class="even">
+<td>Species</td>
+<td>The Species which the population from which the collection was made is a component of.</td>
+</tr>
+<tr class="odd">
+<td>Name_authority</td>
+<td>The full scientific name of the taxonomic entity, by neccessity including the Genus and Epithet which form a binomial, and information on infraspecies and authors</td>
+</tr>
+<tr class="even">
+<td>Binomial_authority</td>
+<td>The scientific authors who conceptualized the species, and described it, and if relevant the authors whom have transferred the species to it’s current genus.</td>
+</tr>
+<tr class="odd">
+<td>Infrarank</td>
+<td>The taxonomic level nested within Species which this population is a component of, generally one of either ‘var.’ or ‘ssp.’ for variety of subspecies respectively.</td>
+</tr>
+<tr class="even">
+<td>Infraspecies</td>
+<td>The taxonomic entity which this population is a component of within the hierarchy of species.</td>
+</tr>
+<tr class="odd">
+<td>Infraspecific_Authority</td>
+<td>The scientific authors who conceptualized the species, and described it, and relevant authors whom have transferred the species to within a species.</td>
+</tr>
+<tr class="even">
+<td>Family</td>
+<td>A Family which the Genus which this species is apart of is considered to be a component of.</td>
+</tr>
+<tr class="odd">
+<td>Datum</td>
+<td>A smoothed model of the earths surface and reference locations on the surface to measure from (~i.e.&nbsp;meridians). Typical geodetic datums include ‘WGS 84’, ‘NAD 83’.</td>
+</tr>
+<tr class="even">
+<td>Aspect</td>
+<td>The measured or in-field estimated cardinal direction which the population faced.</td>
+</tr>
+<tr class="odd">
+<td>Slope</td>
+<td>The measured or in-field estimated slope which the population faced.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="general-workflow" class="level2">
+<h2 class="anchored" data-anchor-id="general-workflow">General Workflow</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="reference/figures/workflow.png" class="img-fluid figure-img"></p>
+<figcaption>Flowchart showing BarnebyLives workflow from field data collection through label generation and herbarium export. Steps include: input specimen data, run query functions, generate political/geographic/taxonomic metadata, create labels, and export to multiple herbarium formats</figcaption>
+</figure>
+</div>
+</section>
+<section id="geodata-directory-structure" class="level2">
+<h2 class="anchored" data-anchor-id="geodata-directory-structure">Geodata directory structure</h2>
+<p>For those that are setting up a local instance the directory structure for the geodata is flat.</p>
+<pre><code>$ tree -d
+geodata
+├── allotments
+├── aspect
+├── elevation
+├── geology
+├── geomorphons
+├── mountains
+├── pad
+├── places
+├── plss
+├── political
+└── slope</code></pre>
+<p>Several of these sub-directories are quite large. In total my local instance takes up around 16gb of data.</p>
+<pre><code>$ du -h
+708M    ./geology
+73M ./political
+3.8M    ./mountains
+136M    ./allotments
+435M    ./pad
+4.6G    ./slope
+81M ./places
+816M    ./plss
+4.2G    ./elevation
+4.1G    ./aspect
+455M    ./geomorphons
+16G .</code></pre>
+<p>As you can see the data regarding site physical characteristics take up most of space. Because of this you can download data to a directory which you find suitable. Personally, I slap all of them on an hdd.</p>
+</section>
+<section id="rendering-labels" class="level2">
+<h2 class="anchored" data-anchor-id="rendering-labels">Rendering Labels</h2>
+<p>BL provides three template labels, each of which are distributed from within the package and copied to their final location using the following commands in R.</p>
+<pre><code>p2libs &lt;- system.file(package = 'BarnebyLives')
+folds &lt;- file.path('rmarkdown', 'templates', 'labels', 'skeleton', 'SoS-skeleton.Rmd') 
+
+file.copy(from = file.path(p2libs, folds), 
+          to = '.') # change for wherever you want the label to go. </code></pre>
+<p>You will need to print you labels for the sheets. We use a <code>purrr</code> <code>walk</code> to create 4x4in individuals labels as pdf’s using Rmarkdown. Then we combine all of them using bash. A bash script, <code>render_labels.sh</code> is distributed with the package to accomplish this.</p>
+<p>We can copy it to a location, from R, like this.</p>
+<pre><code>p2libs &lt;- system.file(package = 'BarnebyLives')
+folds &lt;- file.path('rmarkdown', 'render_labels.sh') 
+
+file.copy(from = file.path(p2libs, folds), 
+          to = '/media/steppe/hdd/Barneby_Lives-dev/manuscript/labels/raw')</code></pre>
+<p>And once here, we can run it like this (from a shell!)</p>
+<pre><code>bash render_labels.sh collector='Dwight'</code></pre>
+<p>Note that, we’ve had difficulty calling this script from it’s default install location :/, but it can easily be copied elsewhere and ran from that location.</p>
+<p>reminder, you only need to chmod +x a file if you don’t call ‘bash’ at the start of an argument…</p>
+<pre><code>chmod +x render_labels.sh
+path2file/render_labels.sh collector='Dwight'</code></pre>
+<p>Also a reminder that you can check your paths via <code>$PATH</code>, and can install to somewhere on your path! e.g.&nbsp;‘/usr/local/bin’, after that you can simply call it… But I’m not sure if it will find the dir you are looking for.</p>
+<pre><code>render_labels.sh collector='Dwight'</code></pre>
+<p>In all instances the script is meant for you to call it from the following location:</p>
+<pre><code>├── HerbariumLabels
+│  ├── final ## &lt;- products will go in here!!! 
+│  └── raw ## &lt;- call render_labels.sh from here!!!
+│       └── Dwight-raw</code></pre>
+<p>The labels will end up in ‘final’ and the subfolder within raw (‘Dwight-raw’) will be deleted. If you want to re-render you’ll need to run the <code>purrr::walk</code> again.</p>
+<p>Note that the ‘collector’ will need to match (..exactly…) the output of the <code>purrr::walk</code> files collector name.</p>
+</section>
+<section id="trouble-printing" class="level2">
+<h2 class="anchored" data-anchor-id="trouble-printing">Trouble printing?</h2>
+<p>Some printers (maybe not updating drivers enough?) have trouble printing LaTeX (in general, not related to this package).</p>
+<pre><code>ps2pdf labels_in.pdf labels_out-ps2pdf.pdf</code></pre>
+<p>Has worked for me.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 100%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;"><img src="man/figures/barneby-portrait.jpg" class="img-fluid" alt="Oil portrait of botanist Rupert Charles Barneby painted by Dwight Ripley in 1955, showing Barneby in contemplative pose against a warm background"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><em>‘Portrait of Rupert Barneby’</em> Dwight Ripley (1955)</td>
+</tr>
+</tbody>
+</table>
+<p><em>BarnebyLives(!) Was named after Rupert Charles Barneby, botanist extraordinaire, artist, socialite, and kind hearted human being. He is the hero the West needs not Hayduke. Hence, BarnebyLives!</em></p>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

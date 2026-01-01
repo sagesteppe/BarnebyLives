@@ -7,7 +7,7 @@ title: "BarnebyLives: Herbarium Data Collection for W North America"
 description: "R package providing automated tools for botanical collectors to gather political, geographic, and taxonomic data for herbarium specimens"
 ---
 
-```{r, echo = FALSE, results='asis'}
+```{r badges, echo = FALSE, results='asis'}
 cat(
   badger::badge_github_actions("lint", "sagesteppe/BarnebyLives"),  "\n",
 	badger::badge_codefactor('sagesteppe/BarnebyLives'),  "\n",
@@ -22,9 +22,15 @@ cat(
 Tools for collecting digital data on herbarium specimens across Western North America
 </div>
 
-## Overview <img src="man/figures/logo.png" align="right" height="138", role='presentation />
+## Overview 
+<img src="man/figures/logo.png"
+     align="right"
+     height="138"
+     role="presentation" />
 
-BarnebyLives! is an R program which serves to help botanical collectors in Western North America. BarnebyLives! runs multiple types of queries to acquire political and administrative, geographic, and taxonomic data for recently collected herbarium specimens. It also has limited abilities to search for taxonomic synonyms, check spelling of family, genus, and species names, as well as author abbreviations.  
+BarnebyLives! is an R program which serves to help botanical collectors in Western North America. 
+BarnebyLives! runs multiple types of queries to acquire political and administrative, geographic, and taxonomic data for recently collected herbarium specimens. 
+It also has limited abilities to search for taxonomic synonyms, check spelling of family, genus, and species names, as well as author abbreviations.  
 
 BarnebyLives! is designed to cover the entirety of the flora of the western conterminous US, which coincides with the Mississippi River. 
 It also includes the entirety of the state of Illinois, and portions of Indiana. However, the area is bounded on it's North by Canada and South by Mexico, essentially it covers the western portion of the Conterminous United States (which excludes Alaska).
