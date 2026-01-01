@@ -12,7 +12,7 @@ cat(
   badger::badge_github_actions("lint", "sagesteppe/BarnebyLives"),  "\n",
 	badger::badge_codefactor('sagesteppe/BarnebyLives'),  "\n",
 	badger::badge_repostatus("Active"),  "\n",
-  badger::badge_github_actions("R-CMD-check", "sagesteppe/BarnebyLives"), "\n"
+  badger::badge_github_actions("sagesteppe/BarnebyLives", "R-CMD-check"), "\n"
 )
 ```
 
