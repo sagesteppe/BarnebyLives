@@ -3,7 +3,9 @@
 Tools for collecting digital data on herbarium specimens across Western
 North America
 
-## Overview ![](reference/figures/logo.png)
+## Overview
+
+![BarnebyLives package hexagonal logo](reference/figures/logo.png)
 
 BarnebyLives! is an R program which serves to help botanical collectors
 in Western North America. BarnebyLives! runs multiple types of queries
@@ -12,11 +14,11 @@ for recently collected herbarium specimens. It also has limited
 abilities to search for taxonomic synonyms, check spelling of family,
 genus, and species names, as well as author abbreviations.
 
-BarnebyLives! serves the entirety of the flora of the western
-conterminous US, which coincides with the Mississippi River. It also
-includes the entirety of the state of Illinois, and portions of Indiana.
-However, the area is bounded on it’s North by Canada and South by
-Mexico, essentially it covers the western portion of the Conterminous
+BarnebyLives! is designed to cover the entirety of the flora of the
+western conterminous US, which coincides with the Mississippi River. It
+also includes the entirety of the state of Illinois, and portions of
+Indiana. However, the area is bounded on it’s North by Canada and South
+by Mexico, essentially it covers the western portion of the Conterminous
 United States (which excludes Alaska). While it covers this range, most
 variables are focused on supporting botanists working West of the Rocky
 Mountain Front Range, especially those operating on Bureau of Land
@@ -68,18 +70,9 @@ the script outputs - Herbarium labels with retro dot municipality maps
 formats congruent with Symbiota, Darwincore, Rocky Moutain Herbarium,
 and Consortium of Pacific Northwest Herbaria.
 
-Currently BarnebyLives! Is being run on a juiced up computer either in
-Rogers Park Chicago or Reno. The amount of data which it queries is very
-large. Please let me know if you have a query and I will run it for you.
-If you only collect from a smaller portion of the West, e.g. a certain
-state, or FS/BLM Unit/Field Office, you should be able to set up a local
-instance. Although, the documentation for such an endeavor is nascent
-the endeavor is simple, see “crop2boundary” for the workflow.
-
 ## Installation
 
-BarnebyLives! is in beta testing, and can currently only be installed as
-0.1.0 from github.
+BarnebyLives! Can be installed from github.
 
 ``` r
 devtools::install_github('sagesteppe/BarnebyLives')
@@ -294,9 +287,17 @@ Unnecessary columns!
 
 ## General Workflow
 
-![Suggested Workflow](reference/figures/workflow.png)
+![Flowchart showing BarnebyLives workflow from field data collection
+through label generation and herbarium export. Steps include: input
+specimen data, run query functions, generate
+political/geographic/taxonomic metadata, create labels, and export to
+multiple herbarium formats](reference/figures/workflow.png)
 
-Suggested Workflow
+Flowchart showing BarnebyLives workflow from field data collection
+through label generation and herbarium export. Steps include: input
+specimen data, run query functions, generate
+political/geographic/taxonomic metadata, create labels, and export to
+multiple herbarium formats
 
 ## Geodata directory structure
 
@@ -428,9 +429,9 @@ ps2pdf labels_in.pdf labels_out-ps2pdf.pdf
 
 Has worked for me.
 
-| ![Portrait of Rupert Barneby by Dwight Ripley 1955](reference/figures/Portrait_of_Rupert_Barneby.png) |
-|:-----------------------------------------------------------------------------------------------------:|
-|                          *‘Portrait of Rupert Barneby’* Dwight Ripley (1955)                          |
+| ![Oil portrait of botanist Rupert Charles Barneby painted by Dwight Ripley in 1955, showing Barneby in contemplative pose against a warm background](reference/figures/Portrait_of_Rupert_Barneby.png) |
+|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+|                                                                          *‘Portrait of Rupert Barneby’* Dwight Ripley (1955)                                                                           |
 
 *BarnebyLives(!) Was named after Rupert Charles Barneby, botanist
 extraordinaire, artist, socialite, and kind hearted human being. He is
