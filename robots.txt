@@ -1,6 +1,6 @@
 User-agent: *
 Allow: /
-Sitemap: https://sagesteppe.github.io/BarnebyLives/sitemap.xml
+Sitemap: https://sagesteppe.github.io/BarnebyLives/docs/sitemap.xml
 
 # AI Crawler specific directives
 User-agent: GPTBot
