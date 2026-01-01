@@ -1,74 +1,82 @@
----
-title: "BarnebyLives: Herbarium Data Collection"
-description: "R package providing automated tools for botanical collectors to gather political, geographic, and taxonomic data for herbarium specimens"
----
-[![R-CMD-check](https://github.com/sagesteppe/flyer/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/sagesteppe/BarnebyLives/actions/workflows/R-CMD-check.yaml)
+[![R build
+status](https://github.com/lint/workflows/sagesteppe/BarnebyLives/badge.svg)](https://github.com/lint/actions)
 [![CodeFactor](https://www.codefactor.io/repository/github/sagesteppe/BarnebyLives/badge)](https://www.codefactor.io/repository/github/sagesteppe/BarnebyLives)
 [![Project Status: Active - The project has reached a stable, usable
 state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
+[![R build
+status](https://github.com/R-CMD-check/workflows/sagesteppe/BarnebyLives/badge.svg)](https://github.com/R-CMD-check/actions)
 
 # BarnebyLives
 
 <div class="lead">
-Tools for collecting digital data on herbarium specimens across Western North America
+
+Tools for collecting digital data on herbarium specimens across Western
+North America
+
 </div>
 
-## Overview <img src="man/figures/logo.png" align="right" height="138" role="presentation"/>
+## Overview
 
-BarnebyLives! is an R program which serves to help botanical collectors
-in Western North America. BarnebyLives! runs multiple types of queries
+<img src="man/figures/logo.png"
+     align="right"
+     height="138"
+     alt="BarnebyLives package hexagonal logo"
+     role="presentation" />
+
+BarnebyLives\! is an R program which serves to help botanical collectors
+in Western North America. BarnebyLives\! runs multiple types of queries
 to acquire political and administrative, geographic, and taxonomic data
 for recently collected herbarium specimens. It also has limited
 abilities to search for taxonomic synonyms, check spelling of family,
 genus, and species names, as well as author abbreviations.
 
-BarnebyLives! serves the entirety of the flora of the western
-conterminous US, which coincides with the Mississippi River. It also
-includes the entirety of the state of Illinois, and portions of Indiana.
-However, the area is bounded on it’s North by Canada and South by
-Mexico, essentially it covers the western portion of the Conterminous
+BarnebyLives\! is designed to cover the entirety of the flora of the
+western conterminous US, which coincides with the Mississippi River. It
+also includes the entirety of the state of Illinois, and portions of
+Indiana. However, the area is bounded on it’s North by Canada and South
+by Mexico, essentially it covers the western portion of the Conterminous
 United States (which excludes Alaska). While it covers this range, most
 variables are focused on supporting botanists working West of the Rocky
 Mountain Front Range, especially those operating on Bureau of Land
 Management and Forest Service administered lands.
 
-BarnebyLives! Is meant to *supplement*, not supplant, collectors field
-note endeavors. Variables which BarnebyLives! may produce,
+BarnebyLives\! Is meant to *supplement*, not supplant, collectors field
+note endeavors. Variables which BarnebyLives\! may produce,
 automatically, for each collection includes:
 
 **Political**  
-- State  
-- County  
-- Township  
-- Public Land Survey System (township, range, section)
+\- State  
+\- County  
+\- Township  
+\- Public Land Survey System (township, range, section)
 
 **Geographic** - Mountain Range (if relevant)  
-- Nearest Geographic Names Information System (GNIS) place name, and
+\- Nearest Geographic Names Information System (GNIS) place name, and
 distance and azimuth from it
 
 **Site characteristics**  
-- Elevation (both meters and feet)  
-- Slope  
-- Aspect  
-- Surficial geology  
-- Geomorphon (major landform elements)
+\- Elevation (both meters and feet)  
+\- Slope  
+\- Aspect  
+\- Surficial geology  
+\- Geomorphon (major landform elements)
 
 **Taxonomic**  
-- Spell check for Family, Genus, and specific epithet - Searches for
+\- Spell check for Family, Genus, and specific epithet - Searches for
 synonym to species  
-- Spell checks taxonomic authorities - Spell check for associated
+\- Spell checks taxonomic authorities - Spell check for associated
 species
 
 **Directions**  
-- directions to a parking spot can be acquired from Google Maps; however
-this implies the location can be driven to in the first place.
+\- directions to a parking spot can be acquired from Google Maps;
+however this implies the location can be driven to in the first place.
 
 **Other features include**  
-- Date parsing, e.g. convert date into congruent museum formats (month
+\- Date parsing, e.g. convert date into congruent museum formats (month
 in European style)  
-- Conversion of Degrees Minutes Seconds (DMS) to Decimal Degrees (DD)  
-- Exporting collection data as a ‘shapefile’ or KML for use in a GIS or
+\- Conversion of Degrees Minutes Seconds (DMS) to Decimal Degrees (DD)  
+\- Exporting collection data as a ‘shapefile’ or KML for use in a GIS or
 GoogleEarth
 
 **Label and shipping manifest generation** - Herbarium Labels which
@@ -79,18 +87,9 @@ the script outputs - Herbarium labels with retro dot municipality maps
 formats congruent with Symbiota, Darwincore, Rocky Moutain Herbarium,
 and Consortium of Pacific Northwest Herbaria.
 
-Currently BarnebyLives! Is being run on a juiced up computer either in
-Rogers Park Chicago or Reno. The amount of data which it queries is very
-large. Please let me know if you have a query and I will run it for you.
-If you only collect from a smaller portion of the West, e.g. a certain
-state, or FS/BLM Unit/Field Office, you should be able to set up a local
-instance. Although, the documentation for such an endeavor is nascent
-the endeavor is simple, see “crop2boundary” for the workflow.
-
 ## Installation
 
-BarnebyLives! is in beta testing, and can currently only be installed as
-0.1.0 from github.
+BarnebyLives\! Can be installed from github.
 
 ``` r
 devtools::install_github('sagesteppe/BarnebyLives')
@@ -114,9 +113,8 @@ sudo apt-get install pdftk -y
 ### MacOS
 
 <details>
-<summary>
-MacOS Installation
-</summary>
+
+<summary> MacOS Installation </summary>
 
 We recommend using the small package tinytex (pronounced Tiny-Tech)
 which comes with only a core set of utilities which can be supplemented
@@ -144,9 +142,8 @@ pdflatex --version
 ### Windows
 
 <details>
-<summary>
-Windows Installation
-</summary>
+
+<summary> Windows Installation </summary>
 
 1)  install git for windows
 
@@ -242,57 +239,58 @@ functions in BarnebyLives. The columns in the middle table are suggested
 to increase the quality of the collections. The columns in the lower
 table are optional, to be blunt, BarnebyLives will generate all of these
 values. Ficticious examples are provided here, while links to real
-examples (~100) are contained
+examples (\~100) are contained
 [here](https://docs.google.com/spreadsheets/d/e/2PACX-1vR8I-JBcgA7P9RYjJqbTebzNFLS1bLz1sYVW1vPlU5Bq6WXCwKS4zkeGTCmlo9BcznCKNbdz6gtK9pV/pubhtml)
 and in the vignettes.
 
-| Column name | Description | Example |
-|----|----|----|
-| Collection_number | The collection number for the primary botanist. This number should unambiguously identify the collection, and be inclusive of all replicates (multiple herbaria sheets). We recommend using a number agnostic of projects and seasons. | 6359 |
-| Primary_Collector | The botanist who assumes primary responsibility for collecting, processing, and coordinating the accessioning of the collection with herbaria. | Rupert Barneby |
-| Associated_Collectors | Other collectors who were present at the time of collection, and contributed to the process. | Dwight Ripley |
-| Full_name | The full scientific name of the taxonomic entity, by neccessity including the Genus and Epithet which form a binomial, and information on infraspecies. | Astragalus tephrodes var. eurylobus |
-| Latitude | The decimal degrees (dd) or degrees minutes seconds (dms) perpendicular to the equator which the collection was made at. | 37.6415 |
-| Longitude | The decimal degrees (dd) or degrees minutes seconds (dms) along the equator which the collection was made at. | -114.4985 |
-| Date_digital | The date which the collection was made in American format, ‘mm.dd.yyyy’ for example, ‘01.02.2023’ is January 2nd. | 06.18.1944 |
-| Vegetation | Plant species which are present with high amounts of biomass, or which are postulated to be keystone species etc. | Artemisia nova, Pleuraphis jamesii |
-| Associates | Other plant species growing in the area which do not compose the dominant amounts of biomass. | Brickellia longifolia |
-| Habtiat | Notes on the abiotic (landform, soil texture, etc.) and biotic (landcover type ‘forest’, ‘riparian’ etc.) setting which the collection was growing in. | Ridges of barren alkaline hills |
-| Notes | Any notes, especially relevant are those describing growth form, floral colour, scents, or textures. | petals pink purple |
+| Column name            | Description                                                                                                                                                                                                                            | Example                             |
+| ---------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------- |
+| Collection\_number     | The collection number for the primary botanist. This number should unambiguously identify the collection, and be inclusive of all replicates (multiple herbaria sheets). We recommend using a number agnostic of projects and seasons. | 6359                                |
+| Primary\_Collector     | The botanist who assumes primary responsibility for collecting, processing, and coordinating the accessioning of the collection with herbaria.                                                                                         | Rupert Barneby                      |
+| Associated\_Collectors | Other collectors who were present at the time of collection, and contributed to the process.                                                                                                                                           | Dwight Ripley                       |
+| Full\_name             | The full scientific name of the taxonomic entity, by neccessity including the Genus and Epithet which form a binomial, and information on infraspecies.                                                                                | Astragalus tephrodes var. eurylobus |
+| Latitude               | The decimal degrees (dd) or degrees minutes seconds (dms) perpendicular to the equator which the collection was made at.                                                                                                               | 37.6415                             |
+| Longitude              | The decimal degrees (dd) or degrees minutes seconds (dms) along the equator which the collection was made at.                                                                                                                          | \-114.4985                          |
+| Date\_digital          | The date which the collection was made in American format, ‘mm.dd.yyyy’ for example, ‘01.02.2023’ is January 2nd.                                                                                                                      | 06.18.1944                          |
+| Vegetation             | Plant species which are present with high amounts of biomass, or which are postulated to be keystone species etc.                                                                                                                      | Artemisia nova, Pleuraphis jamesii  |
+| Associates             | Other plant species growing in the area which do not compose the dominant amounts of biomass.                                                                                                                                          | Brickellia longifolia               |
+| Habtiat                | Notes on the abiotic (landform, soil texture, etc.) and biotic (landcover type ‘forest’, ‘riparian’ etc.) setting which the collection was growing in.                                                                                 | Ridges of barren alkaline hills     |
+| Notes                  | Any notes, especially relevant are those describing growth form, floral colour, scents, or textures.                                                                                                                                   | petals pink purple                  |
 
-Suggested columns!
+Suggested columns\!
 
-| Column name | Description | Example |
-|----|----|----|
-| Fide | The most authoritative Flora, or monograph, used to identify the collections. | Intermountain Flora |
-| Determined_by | A botanist who verified the identity of the collection. | Rupert Barneby |
-| Determined_date | The date the botanist determined the specimen. This beginning a chain of annotations for the distant future. | 06.18.1944 |
-| Tissue_collections | Number of individual plants from which tissue collections were made. | 0 |
-| Project_name | The endeavor which this collection was made for, or which field work may be associated with. | Flora Nevadensis |
-| Site_name | A user defined name for the locality from which collections were made. | Caliente |
+| Column name         | Description                                                                                                  | Example             |
+| ------------------- | ------------------------------------------------------------------------------------------------------------ | ------------------- |
+| Fide                | The most authoritative Flora, or monograph, used to identify the collections.                                | Intermountain Flora |
+| Determined\_by      | A botanist who verified the identity of the collection.                                                      | Rupert Barneby      |
+| Determined\_date    | The date the botanist determined the specimen. This beginning a chain of annotations for the distant future. | 06.18.1944          |
+| Tissue\_collections | Number of individual plants from which tissue collections were made.                                         | 0                   |
+| Project\_name       | The endeavor which this collection was made for, or which field work may be associated with.                 | Flora Nevadensis    |
+| Site\_name          | A user defined name for the locality from which collections were made.                                       | Caliente            |
 
-Unnecessary columns!
+Unnecessary columns\!
 
-| Column name | Description |
-|----|----|
-| Genus | The Genus which the species is a component of |
-| Species | The Species which the population from which the collection was made is a component of. |
-| Name_authority | The full scientific name of the taxonomic entity, by neccessity including the Genus and Epithet which form a binomial, and information on infraspecies and authors |
-| Binomial_authority | The scientific authors who conceptualized the species, and described it, and if relevant the authors whom have transferred the species to it’s current genus. |
-| Infrarank | The taxonomic level nested within Species which this population is a component of, generally one of either ‘var.’ or ‘ssp.’ for variety of subspecies respectively. |
-| Infraspecies | The taxonomic entity which this population is a component of within the hierarchy of species. |
-| Infraspecific_Authority | The scientific authors who conceptualized the species, and described it, and relevant authors whom have transferred the species to within a species. |
-| Family | A Family which the Genus which this species is apart of is considered to be a component of. |
-| Datum | A smoothed model of the earths surface and reference locations on the surface to measure from (~i.e. meridians). Typical geodetic datums include ‘WGS 84’, ‘NAD 83’. |
-| Aspect | The measured or in-field estimated cardinal direction which the population faced. |
-| Slope | The measured or in-field estimated slope which the population faced. |
+| Column name              | Description                                                                                                                                                           |
+| ------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Genus                    | The Genus which the species is a component of                                                                                                                         |
+| Species                  | The Species which the population from which the collection was made is a component of.                                                                                |
+| Name\_authority          | The full scientific name of the taxonomic entity, by neccessity including the Genus and Epithet which form a binomial, and information on infraspecies and authors    |
+| Binomial\_authority      | The scientific authors who conceptualized the species, and described it, and if relevant the authors whom have transferred the species to it’s current genus.         |
+| Infrarank                | The taxonomic level nested within Species which this population is a component of, generally one of either ‘var.’ or ‘ssp.’ for variety of subspecies respectively.   |
+| Infraspecies             | The taxonomic entity which this population is a component of within the hierarchy of species.                                                                         |
+| Infraspecific\_Authority | The scientific authors who conceptualized the species, and described it, and relevant authors whom have transferred the species to within a species.                  |
+| Family                   | A Family which the Genus which this species is apart of is considered to be a component of.                                                                           |
+| Datum                    | A smoothed model of the earths surface and reference locations on the surface to measure from (\~i.e. meridians). Typical geodetic datums include ‘WGS 84’, ‘NAD 83’. |
+| Aspect                   | The measured or in-field estimated cardinal direction which the population faced.                                                                                     |
+| Slope                    | The measured or in-field estimated slope which the population faced.                                                                                                  |
 
 ## General Workflow
 
-<figure>
-<img src="man/figures/workflow.png" alt="Suggested Workflow" />
-<figcaption aria-hidden="true">Suggested Workflow</figcaption>
-</figure>
+![Flowchart showing BarnebyLives workflow from field data collection
+through label generation and herbarium export. Steps include: input
+specimen data, run query functions, generate
+political/geographic/taxonomic metadata, create labels, and export to
+multiple herbarium formats](man/figures/workflow.png)
 
 ## Geodata directory structure
 
@@ -342,7 +340,7 @@ following commands in R.
 
     p2libs <- system.file(package = 'BarnebyLives')
     folds <- file.path('rmarkdown', 'templates', 'labels', 'skeleton', 'SoS-skeleton.Rmd') 
-
+    
     file.copy(from = file.path(p2libs, folds), 
               to = '.') # change for wherever you want the label to go. 
 
@@ -355,11 +353,11 @@ We can copy it to a location, from R, like this.
 
     p2libs <- system.file(package = 'BarnebyLives')
     folds <- file.path('rmarkdown', 'render_labels.sh') 
-
+    
     file.copy(from = file.path(p2libs, folds), 
               to = '/media/steppe/hdd/Barneby_Lives-dev/manuscript/labels/raw')
 
-And once here, we can run it like this (from a shell!)
+And once here, we can run it like this (from a shell\!)
 
     bash render_labels.sh collector='Dwight'
 
@@ -374,8 +372,8 @@ the start of an argument…
     path2file/render_labels.sh collector='Dwight'
 
 Also a reminder that you can check your paths via `$PATH`, and can
-install to somewhere on your path! e.g. ‘/usr/local/bin’, after that you
-can simply call it… But I’m not sure if it will find the dir you are
+install to somewhere on your path\! e.g. ‘/usr/local/bin’, after that
+you can simply call it… But I’m not sure if it will find the dir you are
 looking for.
 
     render_labels.sh collector='Dwight'
@@ -389,8 +387,8 @@ following location:
     │       └── Dwight-raw
 
 The labels will end up in ‘final’ and the subfolder within raw
-(‘Dwight-raw’) will be deleted. If you want to re-render you’ll need to
-run the `purrr::walk` again.
+(‘Dwight-raw’) will be deleted. If you want to re-render you’ll need
+to run the `purrr::walk` again.
 
 Note that the ‘collector’ will need to match (..exactly…) the output of
 the `purrr::walk` files collector name.
@@ -404,10 +402,10 @@ LaTeX (in general, not related to this package).
 
 Has worked for me.
 
-| ![Portrait of Rupert Barneby by Dwight Ripley 1955](man/figures/Portrait_of_Rupert_Barneby.png) |
-|:--:|
-| *‘Portrait of Rupert Barneby’* Dwight Ripley (1955) |
+| ![Oil portrait of botanist Rupert Charles Barneby painted by Dwight Ripley in 1955, showing Barneby in contemplative pose against a warm background](man/figures/Portrait_of_Rupert_Barneby.png) |
+| :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+|                                                                       *‘Portrait of Rupert Barneby’* Dwight Ripley (1955)                                                                        |
 
-*BarnebyLives(!) Was named after Rupert Charles Barneby, botanist
+*BarnebyLives(\!) Was named after Rupert Charles Barneby, botanist
 extraordinaire, artist, socialite, and kind hearted human being. He is
-the hero the West needs not Hayduke. Hence, BarnebyLives!*
+the hero the West needs not Hayduke. Hence, BarnebyLives\!*

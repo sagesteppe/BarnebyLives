@@ -99,7 +99,7 @@ navbar:
       text: "Documentation"
       menu:
       - text: "Getting Started"
-        href: articles/getting-started.html
+        href: articles/index.html
       - text: "Data Sources"
         href: articles/data-sources.html
     github:

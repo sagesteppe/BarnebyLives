@@ -12,7 +12,7 @@ cat(
   badger::badge_github_actions("lint", "sagesteppe/BarnebyLives"),  "\n",
 	badger::badge_codefactor('sagesteppe/BarnebyLives'),  "\n",
 	badger::badge_repostatus("Active"),  "\n",
-  badger::badge_github_actions("R-CMD-check", "sagesteppe/BarnebyLives")
+  badger::badge_github_actions("R-CMD-check", "sagesteppe/BarnebyLives"), "\n"
 )
 ```
 
@@ -26,6 +26,7 @@ Tools for collecting digital data on herbarium specimens across Western North Am
 <img src="man/figures/logo.png"
      align="right"
      height="138"
+     alt="BarnebyLives package hexagonal logo"
      role="presentation" />
 
 BarnebyLives! is an R program which serves to help botanical collectors in Western North America. 
@@ -284,7 +285,7 @@ Unnecessary columns!
 
 ## General Workflow 
 
-![Flowchart showing BarnebyLives workflow from field data collection through label generation and herbarium export. Steps include: input specimen data, run query functions, generate political/geographic/taxonomic metadata, create labels, and export to multiple herbarium formats](reference/figures/workflow.png)
+![Flowchart showing BarnebyLives workflow from field data collection through label generation and herbarium export. Steps include: input specimen data, run query functions, generate political/geographic/taxonomic metadata, create labels, and export to multiple herbarium formats](man/figures/workflow.png)
 
 ## Geodata directory structure
 For those that are setting up a local instance the directory structure for the geodata is flat. 
@@ -387,7 +388,7 @@ ps2pdf labels_in.pdf labels_out-ps2pdf.pdf
 ```
 Has worked for me. 
 
-| ![Oil portrait of botanist Rupert Charles Barneby painted by Dwight Ripley in 1955, showing Barneby in contemplative pose against a warm background](man/figures/barneby-portrait.jpg) | 
+| ![Oil portrait of botanist Rupert Charles Barneby painted by Dwight Ripley in 1955, showing Barneby in contemplative pose against a warm background](man/figures/Portrait_of_Rupert_Barneby.png) | 
 |:--:| 
 | *'Portrait of Rupert Barneby'* Dwight Ripley (1955) |
 
