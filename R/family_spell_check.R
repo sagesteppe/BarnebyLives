@@ -38,8 +38,8 @@ family_spell_check <- function(x, path) {
       dplyr::bind_rows(incorrect_families, correct_families) |>
       dplyr::select(-SPELLING) |>
       dplyr::arrange(Collection_number)
-    return(out)
+    out
   } else {
-    return(x)
+    x
   }
 }

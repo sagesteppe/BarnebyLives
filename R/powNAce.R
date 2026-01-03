@@ -38,14 +38,14 @@ powNAce <- function(x) {
     #  x$POW_Infraspecific_authority <- as.character(x$POW_Infraspecific_authority)
     #  x$POW_Binomial_authority <- as.character(x$POW_Binomial_authority)
 
-    return(y)
+    y
   }
 
   # we need NA's to be explicitly treated
   compareNA <- function(v1, v2) {
     same <- (v1 == v2) | (is.na(v1) & is.na(v2))
     same[is.na(same)] <- FALSE
-    return(same)
+    same
   } # @ BEN STACK O 16822426
 
   author_spacer <- function(x) {
@@ -59,7 +59,7 @@ powNAce <- function(x) {
     abbrevs <- paste0(abbrevs_notrail, trailed)
     abbrevs <- gsub("  ", " ", abbrevs)
     abbrevs <- gsub(" \\)", ")", abbrevs)
-    return(abbrevs)
+    abbrevs
   }
 
   mycs <- c(
@@ -128,5 +128,5 @@ powNAce <- function(x) {
       -dplyr::any_of(c('POW_Authority', 'POW_Name_authority', 'POW_Full_name'))
     )
 
-  return(x)
+  x
 }

@@ -87,5 +87,5 @@ date_parser <- function(x, coll_date, det_date = NULL) {
       dplyr::relocate(dplyr::all_of(column_names), .before = dplyr::last_col())
   }
 
-  return(x_dmy)
+  x_dmy
 }

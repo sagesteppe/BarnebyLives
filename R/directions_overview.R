@@ -52,5 +52,5 @@ directions_overview <- function(x) {
 
   overview <- gsub('USA ', "", overview)
 
-  return(overview)
+  overview
 }

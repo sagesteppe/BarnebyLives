@@ -65,5 +65,5 @@ format_database_import <- function(x, format) {
   out <- dplyr::bind_cols(x_sub, empty_cols) |>
     dplyr::select(dplyr::all_of(dbt$OutputField))
 
-  return(out)
+  out
 }

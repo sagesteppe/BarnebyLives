@@ -69,5 +69,5 @@ specificDirections <- function(x) {
   directionsString <- gsub('. .', '.', directionsString, fixed = TRUE)
   directionsString <- dirStartEnd(directionsString)
 
-  return(directionsString)
+  directionsString
 }

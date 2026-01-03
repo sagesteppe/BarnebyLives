@@ -64,7 +64,7 @@ split_scientificName <- function(x, sciName_col, overwrite) {
 
     vars <- data.frame(cbind(Binomial, Genus, Epithet))
 
-    return(vars)
+    vars
   }
 
   binomials <- lapply(to_split, binomial) |>
@@ -148,8 +148,8 @@ split_scientificName <- function(x, sciName_col, overwrite) {
     in_out <- dplyr::select(x, -dplyr::any_of(cols2overwrite))
     output <- dplyr::bind_cols(in_out, output)
 
-    return(output)
+    output
   } else {
-    return(output)
+    output
   }
 }

@@ -214,7 +214,7 @@ download_sgmc <- function(dest, url) {
       if (length(found)) {
         return(shQuote(found[[1]]))
       }
-      return(NULL)
+      NULL
     }
     wget_path <- find_git_bash_tool("wget")
     curl_path <- find_git_bash_tool("curl")
@@ -234,10 +234,10 @@ download_sgmc <- function(dest, url) {
     status <- system(cmd)
     if (status == 0) {
       message(crayon::green(label, " download completed successfully."))
-      return(TRUE)
+      TRUE
     } else {
       warning(label, " failed to download file.")
-      return(FALSE)
+      FALSE
     }
   }
 
@@ -378,5 +378,5 @@ tileSelector <- function(bound) {
     sep = ""
   )
 
-  return(fnames)
+  fnames
 }

@@ -37,5 +37,5 @@ get_google_directions <- function(x, api_key) {
   # rename output to reflect either ORIGIN-SITE_NAME, ORIGIN_DEST_COORDS
   # names(directions) <-
   #    u <- paste0(x$Site_name, '-', origin)
-  return(directions)
+  directions
 }

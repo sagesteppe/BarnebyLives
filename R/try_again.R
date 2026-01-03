@@ -10,5 +10,5 @@ try_again <- function(x) {
   only_binomial <- paste(only_binomial[1], only_binomial[2])
 
   results <- kewr::search_powo(only_binomial)
-  return(results)
+  results
 }

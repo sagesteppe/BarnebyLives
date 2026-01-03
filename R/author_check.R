@@ -47,7 +47,7 @@ author_check <- function(x, path) {
         Issues <- NA
       }
     }
-    return(Issues)
+    Issues
   }
 
   # load abbreviations
@@ -93,5 +93,5 @@ author_check <- function(x, path) {
     ) |>
     dplyr::relocate(dplyr::any_of(c('Infra_auth_issues')), .after = infra_auth)
 
-  return(Issues)
+  Issues
 }

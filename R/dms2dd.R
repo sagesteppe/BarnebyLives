@@ -89,7 +89,7 @@ dms2dd <- function(x, lat, long, dms) {
     x <- as.data.frame(x)
   }
 
-  return(x)
+  x
 }
 
 #' will operate row-wise in case of mixed coordinate system
@@ -116,5 +116,5 @@ dmsbyrow <- function(x, long, lat) {
     colnames(x)[which(names(x) == lat)] <- 'latitude_dd'
     colnames(x)[which(names(x) == long)] <- 'longitude_dd'
   }
-  return(x)
+  x
 }

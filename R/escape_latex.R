@@ -23,5 +23,5 @@ escape_latex <- function(x) {
   x <- gsub("\\}", "\\\\}", x)
   x <- gsub("~", "\\\\textasciitilde{}", x)
 
-  return(x)
+  x
 }
