@@ -157,7 +157,7 @@ make_tiles <- function(bound, bb_vals) {
     ) #cols
   ) |>
     sf::st_as_sf() |>
-    dplyr::rename(geometry = x) %>%
+    dplyr::rename(geometry = x) |>
     dplyr::mutate(
       x = sf::st_coordinates(sf::st_centroid(.))[, 1],
       y = sf::st_coordinates(sf::st_centroid(.))[, 2],
@@ -191,7 +191,7 @@ mason <- function(path, pathOut, tile_cellsV) {
   )
 
   prods <- c('aspect', 'dem', 'geom', 'slope')
-  for (i in seq_len(length(prods))) {
+  for (i in seq_along(prods)) {
     outdir <- file.path(pathOut, prods[i])
     if (!dir.exists(outdir)) {
       dir.create(outdir) # ensure output dir exists
@@ -291,7 +291,7 @@ make_it_political <- function(path, pathOut, tile_cells) {
   sf::st_agr(counties) <- 'constant'
   sf::st_agr(tile_cells) <- 'constant'
   counties <- counties[
-    sf::st_intersects(counties, sf::st_union(tile_cells)) %>% lengths > 0,
+    sf::st_intersects(counties, sf::st_union(tile_cells)) |> lengths() > 0,
   ]
   counties <- dplyr::left_join(counties, states, by = "STATEFP") |>
     dplyr::select(-STATEFP) |>
@@ -324,7 +324,7 @@ places_and_spaces <- function(path, pathOut, bound) {
   st <- sf::st_agr('constant')
 
   st <- st[
-    sf::st_intersects(st, bb) %>% lengths > 0,
+    sf::st_intersects(st, bb) |> lengths() > 0,
     c('STATEFP', 'NAME', 'STUSPS')
   ]
   places <- lapply(
@@ -355,7 +355,7 @@ places_and_spaces <- function(path, pathOut, bound) {
     sf::st_transform(4326)
 
   sf::st_agr(bb) <- 'constant'
-  places <- places[sf::st_intersects(places, bb) %>% lengths > 0, ]
+  places <- places[sf::st_intersects(places, bb) |> lengths() > 0, ]
   places <- sf::st_set_precision(places, precision = 10^3)
   # this will drop location coordinates to 3 decimal places.
 
@@ -457,7 +457,7 @@ process_gnis <- function(path, pathOut, bound) {
     sf::st_as_sf(coords = c('prim_long_dec', 'prim_lat_dec'), crs = 4269)
 
   sf::st_agr(places) <- 'constant'
-  places <- places[sf::st_intersects(places, bb) %>% lengths > 0, ]
+  places <- places[sf::st_intersects(places, bb) |> lengths() > 0, ]
   places <- places |>
     dplyr::mutate(ID = seq_len(dplyr::n())) |>
     dplyr::rename(fetr_nm = feature_name) |>
@@ -572,7 +572,7 @@ process_padus <- function(path, pathOut, bound, tile_cells) {
   tile_cells <- sf::st_transform(tile_cells, sf::st_crs(padus))
   padus <- sf::st_make_valid(padus)
   padus <- padus[
-    sf::st_intersects(padus, sf::st_union(tile_cells)) %>% lengths > 0,
+    sf::st_intersects(padus, sf::st_union(tile_cells)) |> lengths() > 0,
   ]
   padus <- sf::st_crop(padus, sf::st_union(tile_cells))
   padus <- sf::st_make_valid(padus)

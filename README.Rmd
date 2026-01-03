@@ -18,6 +18,8 @@ cat(
 )
 ```
 
+<!-- badges: end -->
+
 # BarnebyLives
 
 <div class="lead">
