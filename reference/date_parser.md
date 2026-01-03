@@ -7,7 +7,7 @@ this function will return up to two additional columns with x.
 ## Usage
 
 ``` r
-date_parser(x, coll_date, det_date)
+date_parser(x, coll_date, det_date = NULL)
 ```
 
 ## Arguments
@@ -43,17 +43,17 @@ first50dates <- data.frame(
 dates <- date_parser(first50dates, coll_date = 'collection_date')
 head(dates)
 #>   collection_date collection_date_ymd collection_date_day collection_date_mo
-#> 1       9-19-2023          2023-09-19                  19                  9
-#> 2       4-25-2023          2023-04-25                  25                  4
-#> 3        5-2-2023          2023-05-02                   2                  5
-#> 4        8-8-2023          2023-08-08                   8                  8
-#> 5        6-1-2023          2023-06-01                   1                  6
-#> 6       4-28-2023          2023-04-28                  28                  4
+#> 1        8-8-2023          2023-08-08                   8                  8
+#> 2        6-1-2023          2023-06-01                   1                  6
+#> 3       4-28-2023          2023-04-28                  28                  4
+#> 4        3-1-2023          2023-03-01                   1                  3
+#> 5        9-7-2023          2023-09-07                   7                  9
+#> 6       8-12-2023          2023-08-12                  12                  8
 #>   collection_date_yr collection_date_text
-#> 1               2023         19 Sep, 2023
-#> 2               2023         25 Apr, 2023
-#> 3               2023          2 May, 2023
-#> 4               2023          8 Aug, 2023
-#> 5               2023          1 Jun, 2023
-#> 6               2023         28 Apr, 2023
+#> 1               2023          8 Aug, 2023
+#> 2               2023          1 Jun, 2023
+#> 3               2023         28 Apr, 2023
+#> 4               2023          1 Mar, 2023
+#> 5               2023          7 Sep, 2023
+#> 6               2023         12 Aug, 2023
 ```

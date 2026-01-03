@@ -6,21 +6,70 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Printing herbarium labels and exporting a digital copy of data • BarnebyLives</title>
+<!-- favicons --><link rel="icon" type="image/png" sizes="96x96" href="../favicon-96x96.png">
+<link rel="icon" type="”image/svg+xml”" href="../favicon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="icon" sizes="any" href="../favicon.ico">
+<link rel="manifest" href="../site.webmanifest">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Printing herbarium labels and exporting a digital copy of data">
+<meta name="description" content="Rendering herbarium labels">
+<meta property="og:description" content="Rendering herbarium labels">
+<meta property="og:image" content="https://sagesteppe.github.io/BarnebyLives/logo.png">
+<!-- Google SEO Verification tag --><meta name="google-site-verification" content="viUZcwXk_Fi5hsfdB7m6GgrFgGMJ-xVe1BcMTezGJII">
+<!-- JSON-LD Structured Data for AI Crawlers --><script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "BarnebyLives",
+  "applicationCategory": "Scientific Software",
+  "operatingSystem": "Windows, macOS, Linux",
+  "softwareVersion": "0.3.0",
+  "description": "R package providing tools for botanical collectors in Western North America to collect digital data on herbarium specimens, including political, geographic, and taxonomic information.",
+  "url": "https://sagesteppe.github.io/BarnebyLives/",
+  "downloadUrl": "https://github.com/sagesteppe/BarnebyLives",
+  "author": {
+    "@type": "Person",
+    "name": "Reed Clark Benkendorf",
+    "url": "https://github.com/sagesteppe"
+  },
+  "programmingLanguage": "R",
+  "keywords": [
+    "herbarium",
+    "botanical data collection",
+    "Western North America flora",
+    "taxonomic data",
+    "R package",
+    "specimen data",
+    "GNIS",
+    "BLM",
+    "Forest Service",
+    "plant taxonomy",
+    "field botany"
+  ],
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+}
+</script><!-- Additional SEO Meta Tags --><meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+<meta name="keywords" content="R package, herbarium, botanical data, Western North America, specimen collection, taxonomic data, field botany, GNIS, BLM, Forest Service">
+<meta name="author" content="Reed Clark Benkendorf">
+<link rel="canonical" href="https://sagesteppe.github.io/BarnebyLives/">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
-    <nav class="navbar navbar-expand-lg fixed-top bg-light" data-bs-theme="light" aria-label="Site navigation"><div class="container">
+    <nav class="navbar navbar-expand-lg fixed-top bg-primary" data-bs-theme="dark" aria-label="Site navigation"><div class="container">
 
     <a class="navbar-brand me-2" href="../index.html">BarnebyLives</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -29,21 +78,21 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
-<li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="nav-item"><a class="nav-link" href="../reference/index.html">Function Reference</a></li>
 <li class="active nav-item dropdown">
-  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="../articles/creating_labels.html">Printing herbarium labels and exporting a digital copy of data</a></li>
-    <li><a class="dropdown-item" href="../articles/rendering_shipping_manifests.html">Rendering a shipping manifest</a></li>
-    <li><a class="dropdown-item" href="../articles/running_pipeline.html">BarnebyLives! Running pipeline</a></li>
-    <li><a class="dropdown-item" href="../articles/setting_up_files.html">Preparing to use BarnebyLives!</a></li>
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-documentation" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Documentation</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-documentation">
+<li><a class="dropdown-item" href="../articles/index.html">Getting Started</a></li>
+    <li><a class="dropdown-item" href="../data-sources.html">Data Sources</a></li>
   </ul>
 </li>
+<li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul>
 <ul class="navbar-nav">
 <li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json">
 </form></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/sagesteppe/BarnebyLives" aria-label="View source code on GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul>
 </div>
 
@@ -56,138 +105,187 @@
 
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-
-      <h1>Printing herbarium labels and exporting a digital copy of data</h1>
+      <img src="../logo.png" class="logo" alt=""><h1>Printing herbarium labels and exporting a digital copy of data</h1>
             
+            <h4 data-toc-skip class="date">2026-01-03</h4>
       
-
+      <small class="dont-index">Source: <a href="https://github.com/sagesteppe/BarnebyLives/blob/main/vignettes/creating_labels.Rmd" class="external-link"><code>vignettes/creating_labels.Rmd</code></a></small>
       <div class="d-none name"><code>creating_labels.Rmd</code></div>
     </div>
 
     
     
-<p>This vignette will show you how to create your herbarium labels. It
-also details how to export the data from the BarnebyLives format to some
-other popular herbarium database formats.</p>
+<p>This vignette shows how to create herbarium labels using
+BarnebyLives. The workflow has several steps:</p>
+<ol style="list-style-type: decimal">
+<li>set up a working directory and copy in a label skeleton</li>
+<li>modify the skeleton so it can read the data</li>
+<li>use an R script to generate the labels</li>
+<li>review the directory populated with outputs</li>
+<li>perform a mock run and optionally export a digital copy of the
+collection data</li>
+</ol>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># devtools::install_github('sagesteppe/BarnebyLives')</span></span>
+<code class="sourceCode R"><span><span class="co"># remotes::install_github('sagesteppe/BarnebyLives') </span></span>
+<span><span class="co"># OR devtools::install_github('sagesteppe/BarnebyLives')</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://sagesteppe.github.io/BarnebyLives/">BarnebyLives</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://purrr.tidyverse.org/" class="external-link">purrr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://glue.tidyverse.org/" class="external-link">glue</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">'collection_examples'</span><span class="op">)</span></span></code></pre></div>
-<p>You will need to create a directory (folder) where your labels will
-be placed. Here we create a directory named “HerbariumLabels” in our
-local Documents directory. This directory is where our final labels are
-going to end up. We also need to create a subdirectory named ‘raw’, this
-is where the initial output labels, generated by R interacting with your
-TeX distribution will be written to. Each label is made individually,
-and then later mosaiced (like tiles) onto pages for printing.</p>
+<div class="section level2">
+<h2 id="setting-up-a-directory-to-work-in">setting up a directory to work in<a class="anchor" aria-label="anchor" href="#setting-up-a-directory-to-work-in"></a>
+</h2>
+<p>A dedicated directory keeps raw labels, final sheets, and skeletons
+organized.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">setwd</a></span><span class="op">(</span><span class="st">'~/Documents'</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/files2.html" class="external-link">dir.create</a></span><span class="op">(</span><span class="st">'HerbariumLabels'</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/files2.html" class="external-link">dir.create</a></span><span class="op">(</span><span class="st">'HerbariumLabels/raw'</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">p</span> <span class="op">&lt;-</span> <span class="st">'~/Documents/HerbariumLabels/raw'</span></span></code></pre></div>
-<p>You can use a <code>purrr</code> function, <code>walk</code>, to
-write many labels one after another in the following fashion. Be sure to
-specify reasonable paths to write to! BL will create a temporary ‘raw’
-file in location, which will store the intermediary labels.</p>
-<p>Before you let <code><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">purrr::walk</a></code> through the labels to make,
-you can copy the label template to a more easily accessible location on
-your computer. This following code chunk below will search for your
-current version of R, and then we can bring the template over from the
-BarnebyLives directory which holds the package. As mentioned
-BarnebyLives is a weirdo of an r package, so we are also specifying the
-location within the package which holds the actual template (‘skeleton’)
-which we will populate our labels values into.</p>
+<p>Now we will need to copy a skeleton from the package to work with. We
+can access skeletons from the packages installation like this.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">p2libs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span>package <span class="op">=</span> <span class="st">'BarnebyLives'</span><span class="op">)</span></span>
+<span><span class="va">folds</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">p2libs</span>, <span class="st">'rmarkdown'</span>, <span class="st">'templates'</span>, <span class="st">'labels'</span>, <span class="st">'skeleton'</span>, <span class="st">'skeleton.Rmd'</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">folds</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span></span>
-<span>   <span class="st">'rmarkdown'</span>, <span class="st">'templates'</span>, <span class="st">'labels'</span>, <span class="st">'skeleton'</span>, <span class="st">'skeleton.Rmd'</span><span class="op">)</span></span></code></pre></div>
-<p>In this example we are going to use the default BarnebyLives template
-to create some labels. You can create your own label template as well,
-that is discussed in the vignette “Custom Label Templates”. As mentioned
-we will use purrr::walk(), this function is going to perform an
-operation on each record which is feed into it via the <code>.x</code>
-argument. While we are specifying the individual rows of our collections
-in this document, purrr::walk() is going to call another function
-<code><a href="https://pkgs.rstudio.com/rmarkdown/reference/render.html" class="external-link">rmarkdown::render</a></code>, which will load the data for these
-records from a csv into an R session, and write the labels from there.
-Note that Collection_numbers are essential to making this happen, if you
-are really trying to magyver some things, then you can fake this value
-using another ID which is UNIQUE for each record here, and matches what
-is in the BL output csv data.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">walk</a></span><span class="op">(</span></span>
-<span>  .x <span class="op">=</span> <span class="va">collection_examples</span><span class="op">$</span><span class="va">Collection_number</span>,</span>
-<span>  <span class="op">~</span> <span class="fu">rmarkdown</span><span class="fu">::</span><span class="fu"><a href="https://pkgs.rstudio.com/rmarkdown/reference/render.html" class="external-link">render</a></span><span class="op">(</span></span>
-<span>    input <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">p2libs</span>, <span class="va">folds</span><span class="op">)</span>, </span>
-<span>    <span class="co"># the template which will be populated</span></span>
-<span>    output_file <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">p</span>, <span class="fu">glue</span><span class="fu">::</span><span class="fu"><a href="https://glue.tidyverse.org/reference/glue.html" class="external-link">glue</a></span><span class="op">(</span><span class="st">"{.x}.pdf"</span><span class="op">)</span><span class="op">)</span>, </span>
-<span>    <span class="co"># the location and name for the output file. </span></span>
-<span>    params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>Collection_number <span class="op">=</span> <span class="op">{</span><span class="va">.x</span><span class="op">}</span><span class="op">)</span> </span>
-<span>    <span class="co"># this is what purrr will walk through - the collection numbers. </span></span>
-<span>  <span class="op">)</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-<p>As I suspect that many users will want to create a custom label
-template, I show how easy it is to modify the above function calls
-below.</p>
-<p>It will be best practice to make a copy of the template, and save it
-in a part of the computer which people are more likely to interface
-with, e.g. within the Documents directory. If you make a modified copy
-of the template in the R package, whenever the package get’s updated and
-you reinstall it, your template will be erased! It is very unlikely you
-will be able to get a template back after it’s removed, so don’t do
-this!</p>
-<p>Using the code below we can simply copy (<code>file.copy</code>) the
-template to the current working directory (supplied as argument:
-‘.’).</p>
+<span><span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.copy</a></span><span class="op">(</span>from <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">p2libs</span>, <span class="va">folds</span><span class="op">)</span>, to <span class="op">=</span>  <span class="st">'.'</span><span class="op">)</span></span></code></pre></div>
+<p>Your directory should now look like this.</p>
+<pre><code>~/Documents/HerbariumLabels/
+├── raw/           # intermediate single-label PDFs
+├── final/         # mosaiced sheets (optional, after combining)
+└── skeleton.Rmd   # label template (copied from BarnebyLives)</code></pre>
+</div>
+<div class="section level2">
+<h2 id="modifying-skeleton-to-receive-data">modifying skeleton to receive data<a class="anchor" aria-label="anchor" href="#modifying-skeleton-to-receive-data"></a>
+</h2>
+<p>Labels in BarnebyLives are rendered via skeletons. In other words,
+skeletons convert the data in spreadsheets onto labels. The package
+provides a handful of templates, which can be further customized.</p>
+<p>We have to modify the skeletons so that they know where to load the
+data from. Within the skeleton you just copied from the R package
+repository, you will need to modify where it loads data from.</p>
+<p>A default template (e.g. <code>skeleton-research.Rmd</code>) will
+have some code that looks like this in the first block.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.copy</a></span><span class="op">(</span>from <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">p2libs</span>, <span class="va">folds</span><span class="op">)</span>, to <span class="op">=</span>  <span class="st">'.'</span><span class="op">)</span></span></code></pre></div>
-<p>As mentioned we will showcase some template changes in a different
-vignette, “Custom Label Templates”, but we will just use this default
-template again for this example. Now from that location you can run the
-script again, but this time with modification to the ‘input’ argument of
-<code><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">purrr::walk</a></code>.</p>
+<code class="sourceCode R"><span><span class="va">record</span> <span class="op">&lt;-</span> <span class="va">collection_examples</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">Collection_number</span> <span class="op">==</span> <span class="va">params</span><span class="op">$</span><span class="va">Collection_number</span><span class="op">)</span> <span class="op">|&gt;</span>  </span>
+<span>  <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_drop_geometry</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p>A modified template will look like the following, and specify a real
+location to read data from. Note that in both scenarios the filter line
+is essential so sync up the driving script and the labels to receive
+data.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span><span class="st">"ExampleCollection.csv"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
+<span>    Coordinate_Uncertainty <span class="op">=</span> <span class="st">"+/- 5m"</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">Collection_number</span> <span class="op">==</span> <span class="va">params</span><span class="op">$</span><span class="va">Collection_number</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="creating-a-driver-script-to-feed-the-skeleton-data">creating a driver script to feed the skeleton data<a class="anchor" aria-label="anchor" href="#creating-a-driver-script-to-feed-the-skeleton-data"></a>
+</h2>
+<p>Now we have the skeleton ready to receive data, but we will need to
+create another R script, which will be able to launch as many instances
+of <code><a href="https://pkgs.rstudio.com/rmarkdown/reference/render.html" class="external-link">rmarkdown::render</a></code> as we have labels we want to create.
+We’ll call this script a ‘driver’ script. We will use
+<code><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">purrr::walk()</a></code> to map <code>Rmarkdown::render</code> across
+each row of the data set we wish to create labels of. The core of this
+script will be the call to <code>purrr</code>.</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">walk</a></span><span class="op">(</span></span>
 <span>  .x <span class="op">=</span> <span class="va">collection_examples</span><span class="op">$</span><span class="va">Collection_number</span>,</span>
 <span>  <span class="op">~</span> <span class="fu">rmarkdown</span><span class="fu">::</span><span class="fu"><a href="https://pkgs.rstudio.com/rmarkdown/reference/render.html" class="external-link">render</a></span><span class="op">(</span></span>
-<span>    input <span class="op">=</span> <span class="st">'skeleton.Rmd'</span>, <span class="co"># specifying the location of our new template! </span></span>
-<span>    <span class="co"># R is assuming it is in our current working directory, and will fail if it is</span></span>
-<span>    <span class="co"># not found!</span></span>
-<span>    output_file <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">p</span>, <span class="fu">glue</span><span class="fu">::</span><span class="fu"><a href="https://glue.tidyverse.org/reference/glue.html" class="external-link">glue</a></span><span class="op">(</span><span class="st">"{.x}.pdf"</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>    params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>Collection_number <span class="op">=</span> <span class="op">{</span><span class="va">.x</span><span class="op">}</span><span class="op">)</span></span>
+<span>    input <span class="op">=</span> <span class="st">"skeleton-default.Rmd"</span>,                      <span class="co"># template to populate</span></span>
+<span>    output_file <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">p</span>, <span class="fu"><a href="https://glue.tidyverse.org/reference/glue.html" class="external-link">glue</a></span><span class="op">(</span><span class="st">"{.x}.pdf"</span><span class="op">)</span><span class="op">)</span>,<span class="co"># write one PDF per record</span></span>
+<span>    params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>Collection_number <span class="op">=</span> <span class="op">{</span><span class="va">.x</span><span class="op">}</span><span class="op">)</span>      <span class="co"># pass record to skeleton</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p>As you can see you only need to change a single argument in the above
-code chunk to use a custom label - just let this
-<code><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">purrr::walk()</a></code> know where to find the template, and you
-should be good.</p>
+<p>Every iteration of this loop spins up a new R session, loads the
+skeleton, filters to the current collection number, and outputs a
+single-label PDF in the raw/ folder.</p>
+<p>However, earlier in this driver script we will need to load identify
+which records we want to render. Note that purrr will render the labels
+in the vector being feed to <code>.x</code>, which should always be
+<code>Collection_number</code>. You can create a dummy ID for this if
+collectors collect without number.</p>
+</div>
+<div class="section level2">
+<h2 id="combining-labels">combining labels<a class="anchor" aria-label="anchor" href="#combining-labels"></a>
+</h2>
+<p>After running the driver script, the ‘raw’ directory should be
+populated.</p>
+<pre><code>~/Documents/HerbariumLabels/
+├── raw/
+│   ├── 101.pdf
+│   ├── 102.pdf
+│   ├── 103.pdf
+│   └── ...
+└── skeleton.Rmd</code></pre>
+<p>A bash script will combine all of these raw labels onto a standard
+8.5x11 sheet of paper.</p>
+<p>First copy the bash script into our directory.</p>
+<p>The script lives at the installed BarnebyLives location…</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">p2libs</span><span class="op">)</span></span></code></pre></div>
+<p>And is named <code>render_labels.sh</code></p>
+<p>It can be copied to your label generation directory using bash, or
+R.</p>
+<p>Using bash.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="bu">cd</span> ~/Documents/HerbariumLabels/ <span class="co"># first go to destination for file. </span></span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a><span class="fu">cp</span> /home/sagesteppe/R/x86_64-pc-linux-gnu-library/4.5/BarnebyLives/render_labels.sh .</span></code></pre></div>
+<p>Note the <code>cp</code> command copies a file <code>from</code> to a
+<code>destination</code>, in this case the current directory.</p>
+<p>Using R - about the same as before.</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.copy</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">p2libs</span>, <span class="st">'render_labels.sh'</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/path.expand.html" class="external-link">path.expand</a></span><span class="op">(</span><span class="st">'~'</span><span class="op">)</span>, <span class="st">'Documents'</span>, <span class="st">'HerbariumLabels'</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p>the script can then be called from it’s current location, and will
+populate the <code>processed</code> and <code>final</code> directory
+with the combined labels for printing</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="fu">bash</span> render_labels.sh collector=<span class="st">'name'</span></span></code></pre></div>
+<p>you can also try and run it from R</p>
+<pre class="render"><code><span><span class="fu"><a href="https://rdrr.io/r/base/system2.html" class="external-link">system2</a></span><span class="op">(</span>command <span class="op">=</span></span>
+<span>          <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span></span>
+<span>            <span class="fu"><a href="https://rdrr.io/r/base/path.expand.html" class="external-link">path.expand</a></span><span class="op">(</span><span class="st">'~'</span><span class="op">)</span>, </span>
+<span>            <span class="st">'Documents'</span>, <span class="st">'HerbariumLabels'</span>, <span class="st">'render_labels.sh'</span><span class="op">)</span>,</span>
+<span>        args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">""</span><span class="op">)</span>, <span class="co"># Arguments as a character vector</span></span>
+<span>        stdout <span class="op">=</span> <span class="cn">TRUE</span>, <span class="co"># Capture standard output</span></span>
+<span>        stderr <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre>
+</div>
 <div class="section level2">
 <h2 id="exporting-a-digital-copy-of-the-data">Exporting a digital copy of the data<a class="anchor" aria-label="anchor" href="#exporting-a-digital-copy-of-the-data"></a>
 </h2>
 <p>This is normally the time when I also make a digital copy of the data
 for direct accessioning at the herbarium side.</p>
 <p>Currently BL supports writing out data for mass upload in a few
-formats for herbaria(e.g. Symbiota, Jepson, Chicago Botanic Garden), but
-we are always eager to add more, so <em>PLEASE</em> do not hesitate to
-ask if you want something to be supported! There is a lot of code, but
+formats for herbaria (e.g. Symbiota, Jepson), but we are always eager to
+add more, so <em>PLEASE</em> do not hesitate to ask if you want
+something to be supported! There is a lot of code below, but
 realistically all it is doing is replacing NA values with ’’, or empty
 contents, this is the best format for people to get NULL values for
 their databases.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">database_templates</span><span class="op">$</span><span class="va">Database</span><span class="op">)</span> <span class="co"># currently supported options. </span></span>
 <span></span>
 <span><span class="va">dat_import</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/format_database_import.html">format_database_import</a></span><span class="op">(</span><span class="va">collection_examples</span>, <span class="st">'Symbiota'</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span> <span class="co"># KEEP THIS AROUND! Instead of writing explicit NA's # we</span></span>
-<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html" class="external-link">across</a></span><span class="op">(</span> <span class="co"># just return blank cells, this helps with import on most</span></span>
-<span>      <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/everything.html" class="external-link">everything</a></span><span class="op">(</span><span class="op">)</span>, <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">.</span><span class="op">)</span><span class="op">)</span>, <span class="co"># users ends. </span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span> </span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html" class="external-link">across</a></span><span class="op">(</span> </span>
+<span>      <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/everything.html" class="external-link">everything</a></span><span class="op">(</span><span class="op">)</span>, <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">.</span><span class="op">)</span><span class="op">)</span>, </span>
 <span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html" class="external-link">across</a></span><span class="op">(</span></span>
-<span>      <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/everything.html" class="external-link">everything</a></span><span class="op">(</span><span class="op">)</span>, <span class="op">~</span> <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/replace_na.html" class="external-link">replace_na</a></span><span class="op">(</span><span class="va">.</span>, <span class="st">''</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>  </span>
+<span>      <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/everything.html" class="external-link">everything</a></span><span class="op">(</span><span class="op">)</span>, <span class="op">~</span> <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/replace_na.html" class="external-link">replace_na</a></span><span class="op">(</span><span class="va">.</span>, <span class="st">''</span><span class="op">)</span></span>
+<span>      <span class="op">)</span></span>
+<span>    <span class="op">)</span>  </span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html" class="external-link">write.csv</a></span><span class="op">(</span><span class="va">dat_import</span>, <span class="st">'Symbiota_format_collections_2024.csv'</span>, row.names <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span></code></pre></div>
 </div>
-  </main>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+    </nav></aside>
 </div>
 
 
@@ -205,7 +303,19 @@ their databases.</p>
 
 
 
-
-
-  </body>
+  <!-- Sitemap notification -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "url": "https://sagesteppe.github.io/BarnebyLives/",
+  "name": "BarnebyLives Documentation",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://sagesteppe.github.io/BarnebyLives/search.html?q={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+</body>
 </html>

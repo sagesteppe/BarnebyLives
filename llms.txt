@@ -1,4 +1,11 @@
+# BarnebyLives
+
+Tools for collecting digital data on herbarium specimens across Western
+North America
+
 ## Overview
+
+![BarnebyLives package hexagonal logo](reference/figures/logo.png)
 
 BarnebyLives! is an R program which serves to help botanical collectors
 in Western North America. BarnebyLives! runs multiple types of queries
@@ -7,11 +14,11 @@ for recently collected herbarium specimens. It also has limited
 abilities to search for taxonomic synonyms, check spelling of family,
 genus, and species names, as well as author abbreviations.
 
-BarnebyLives! serves the entirety of the flora of the western
-conterminous US, which coincides with the Mississippi River. It also
-includes the entirety of the state of Illinois, and portions of Indiana.
-However, the area is bounded on it’s North by Canada and South by
-Mexico, essentially it covers the western portion of the Conterminous
+BarnebyLives! is designed to cover the entirety of the flora of the
+western conterminous US, which coincides with the Mississippi River. It
+also includes the entirety of the state of Illinois, and portions of
+Indiana. However, the area is bounded on it’s North by Canada and South
+by Mexico, essentially it covers the western portion of the Conterminous
 United States (which excludes Alaska). While it covers this range, most
 variables are focused on supporting botanists working West of the Rocky
 Mountain Front Range, especially those operating on Bureau of Land
@@ -63,22 +70,15 @@ the script outputs - Herbarium labels with retro dot municipality maps
 formats congruent with Symbiota, Darwincore, Rocky Moutain Herbarium,
 and Consortium of Pacific Northwest Herbaria.
 
-Currently BarnebyLives! Is being run on a juiced up computer either in
-Rogers Park Chicago or Reno. The amount of data which it queries is very
-large. Please let me know if you have a query and I will run it for you.
-If you only collect from a smaller portion of the West, e.g. a certain
-state, or FS/BLM Unit/Field Office, you should be able to set up a local
-instance. Although, the documentation for such an endeavor is nascent
-the endeavor is simple, see “crop2boundary” for the workflow.
-
 ## Installation
 
-BarnebyLives! is in beta testing, and can currently only be installed as
-0.1.0 from github.
+BarnebyLives! Can be installed from github.
 
 ``` r
 devtools::install_github('sagesteppe/BarnebyLives')
 ```
+
+### Linux
 
 The generation of labels will requires that Rmarkdown is succesfully set
 up to render to PDF via a LaTeX distribution such as pdflatex, lualatex,
@@ -93,10 +93,145 @@ sudo apt-get install pdfjam -y
 sudo apt-get install pdftk -y
 ```
 
-We hope to collaborate with others to treat CONUS and to create
-multiformat data e.g. Darwincore, CPNWH, etc., and push this product
-onto CRAN as well as publish a short piece in APPS! It is on the
-backburner, but still simmering! Stay tuned in but dropped out!
+### MacOS
+
+MacOS Installation
+
+We recommend using the small package tinytex (pronounced Tiny-Tech)
+which comes with only a core set of utilities which can be supplemented
+as required. TinyTex can be installed directly in R using:
+
+``` r
+install.packages("tinytex')
+tinytex::install_tinytex()
+```
+
+Now from a command terminal run the following to use TexLives package
+manager to add a few additional required tools.
+
+``` R
+tlmgr install eso-pic grfext grffile oberdiek pdfjam pdfjam.universal-darwin pdflscape pdfpages setspace tlgpg tlgpg.universal-darwin
+```
+
+To verify the installs worked check, from the command line.
+
+``` sh
+pdfjam --version
+pdflatex --version
+```
+
+### Windows
+
+Windows Installation
+
+1.  install git for windows
+
+See [here](https://gitforwindows.org/) for details on install.
+
+2.  to render individual labels
+
+after installing BarnebyLives, tinytex will need to install a minimal
+tex version. Run the following in R.
+
+``` r
+install.packages('tinytex')
+tinytex::install_tinytex()
+```
+
+3.  to combine the labels for printing.
+
+You will need a few more tools. First you will need `choco`, which is a
+package manager for windows (like brew for Mac, or apt or yum for
+Linux). These details are reproduced from
+[chocolatey.org](https://community.chocolatey.org/courses/installation/installing?method=installing-chocolatey#powershell)
+
+from a POWERSHELL run as administrator
+
+``` R
+Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+```
+
+If that doesn’t work you will need to swap your permissions (see the
+linked guide above).
+
+You can verify that `choco` is installed by running, from the powershell
+
+``` R
+choco
+```
+
+And now use choco to install `pdftk`. Open a git bash shell as an
+administrator and
+
+``` R
+choco install pdftk -y
+```
+
+4.  install pdfjam
+
+Download the most recent release of pdfjam (4.2.zip) from the github
+[repo](https://github.com/pdfjam/pdfjam/releases)
+
+using the git bash terminal copy if to a location on PATH
+
+``` R
+unzip pdfjam-4.2.zip 
+mv ~/Downloads/pdfjam-4.2 ~/pdfjam
+```
+
+make it executable
+
+``` R
+chmod +x ~/pdfjam/bin/pdfjam
+```
+
+add to your PATH
+
+``` R
+export PATH="$HOME/pdfjam/bin:$PATH"
+```
+
+and verify the installation with
+
+``` R
+which pdfjam
+```
+
+if that works add it your path for good
+
+``` R
+echo 'export PATH="$HOME/pdfjam/bin:$PATH"' >> ~/.bashrc
+```
+
+5.  install required latex packages to supplement tinytex
+
+You will need the tinytex package manager for this. Check if it is
+accessible via
+
+``` R
+which tlmgr
+```
+
+if is not found, and you installed via R. try adding it to path as in
+the below.
+
+note *USERNAME* is a placeholder.
+
+``` R
+echo 'export PATH="/c/Users/USERNAME/AppData/Roaming/TinyTeX/bin/windows:$PATH"' >> ~/.bashrc
+```
+
+and you are probably going to need to update tlmgr right off the bat.
+
+``` R
+tlmgr --update self
+```
+
+now you can install the other required packages
+
+``` R
+tlmgr.bat install pdfpages eso-pic grfext grffile oberdiek pdflscape pdfpages setspace tlgpg
+```
 
 ## Input Data Column Names
 
@@ -105,8 +240,8 @@ functions in BarnebyLives. The columns in the middle table are suggested
 to increase the quality of the collections. The columns in the lower
 table are optional, to be blunt, BarnebyLives will generate all of these
 values. Ficticious examples are provided here, while links to real
-examples (over 100) are contained
-[here](https://docs.google.com/spreadsheets/d/1iOQBNeGqRJ3yhA-Sujas3xZ2Aw5rFkktUKv3N_e4o8M/edit#gid=0)
+examples (~100) are contained
+[here](https://docs.google.com/spreadsheets/d/e/2PACX-1vR8I-JBcgA7P9RYjJqbTebzNFLS1bLz1sYVW1vPlU5Bq6WXCwKS4zkeGTCmlo9BcznCKNbdz6gtK9pV/pubhtml)
 and in the vignettes.
 
 | Column name           | Description                                                                                                                                                                                                                            | Example                             |
@@ -152,9 +287,17 @@ Unnecessary columns!
 
 ## General Workflow
 
-![Suggested Workflow](reference/figures/workflow.png)
+![Flowchart showing BarnebyLives workflow from field data collection
+through label generation and herbarium export. Steps include: input
+specimen data, run query functions, generate
+political/geographic/taxonomic metadata, create labels, and export to
+multiple herbarium formats](reference/figures/workflow.png)
 
-Suggested Workflow
+Flowchart showing BarnebyLives workflow from field data collection
+through label generation and herbarium export. Steps include: input
+specimen data, run query functions, generate
+political/geographic/taxonomic metadata, create labels, and export to
+multiple herbarium formats
 
 ## Geodata directory structure
 
@@ -202,48 +345,42 @@ which you find suitable. Personally, I slap all of them on an hdd.
 
 ## Rendering Labels
 
-You will need to print you labels for the sheets. We do so as follows.
-
-a bash loop, such as this, works to combine the labels - 4 per page.
-
-``` R
-files=(raw/*)
-for (( i=0; i<${#files[*]}; i+=4 ));
-do
-  filename="${files[i]##*/}"
-    pdfjam "${files[@]:$i:4}" --nup 2x2 --landscape --outfile "processed/$filename" --noautoscale true  
-done
-```
-
-obviously the pages of labels can then be combined, like this, to create
-a single print job.
+BL provides three template labels, each of which are distributed from
+within the package and copied to their final location using the
+following commands in R.
 
 ``` R
-files=(processed/*)
-pdftk ${files[*]} output final/labels.pdf
+p2libs <- system.file(package = 'BarnebyLives')
+folds <- file.path('rmarkdown', 'templates', 'labels', 'skeleton', 'SoS-skeleton.Rmd') 
+
+file.copy(from = file.path(p2libs, folds), 
+          to = '.') # change for wherever you want the label to go. 
 ```
 
-We have this functionality contained within a bash script which is
-distributed with the package, ‘render_labels’. Which takes a single
-argument ‘collector’ e.g. ‘collector=Dwight’. We’ve had difficulty
-calling this script from it’s default install location :/, but it can
-easily be copied elsewhere and ran from that location. It’s easy to find
-this (and where the default herbarium label templates are, which you can
-totally modify :-)), in R using the following command. Obviously this
-file can then be copied to another location (from within R) and ran…
+You will need to print you labels for the sheets. We use a `purrr`
+`walk` to create 4x4in individuals labels as pdf’s using Rmarkdown. Then
+we combine all of them using bash. A bash script, `render_labels.sh` is
+distributed with the package to accomplish this.
+
+We can copy it to a location, from R, like this.
 
 ``` R
-p2script <- paste0(.libPaths()[ 
-  grepl(paste0(version$major, '.', sub('\\..*', "", version$minor)), 
-        .libPaths())], '/render_labels.sh')
-file.copy(p2script, destination)
+p2libs <- system.file(package = 'BarnebyLives')
+folds <- file.path('rmarkdown', 'render_labels.sh') 
+
+file.copy(from = file.path(p2libs, folds), 
+          to = '/media/steppe/hdd/Barneby_Lives-dev/manuscript/labels/raw')
 ```
 
-You can run the script like this…
+And once here, we can run it like this (from a shell!)
 
 ``` R
-bash path2file/render_labels.sh collector='Dwight'
+bash render_labels.sh collector='Dwight'
 ```
+
+Note that, we’ve had difficulty calling this script from it’s default
+install location :/, but it can easily be copied elsewhere and ran from
+that location.
 
 reminder, you only need to chmod +x a file if you don’t call ‘bash’ at
 the start of an argument…
@@ -255,7 +392,8 @@ path2file/render_labels.sh collector='Dwight'
 
 Also a reminder that you can check your paths via `$PATH`, and can
 install to somewhere on your path! e.g. ‘/usr/local/bin’, after that you
-can simply call it…
+can simply call it… But I’m not sure if it will find the dir you are
+looking for.
 
 ``` R
 render_labels.sh collector='Dwight'
@@ -266,49 +404,34 @@ following location:
 
 ``` R
 ├── HerbariumLabels
-│  ├── final
+│  ├── final ## <- products will go in here!!! 
 │  └── raw ## <- call render_labels.sh from here!!!
 │       └── Dwight-raw
 ```
 
-The labels will end up in ‘Final’ and the subfolder within raw
+The labels will end up in ‘final’ and the subfolder within raw
 (‘Dwight-raw’) will be deleted. If you want to re-render you’ll need to
-run the purrr::walk again.
+run the [`purrr::walk`](https://purrr.tidyverse.org/reference/map.html)
+again.
 
 Note that the ‘collector’ will need to match (..exactly…) the output of
-the purrr::walk files collector name.
+the [`purrr::walk`](https://purrr.tidyverse.org/reference/map.html)
+files collector name.
 
-## Chicago Botanic Garden Fieldworkers Usage
+## Trouble printing?
 
-There are multiple ways to submit jobs to BarnebyLives! One method is to
-submit your herbarium data collection sheet via email to me. The
-preferred method is to enter your data onto [Google
-Sheets](https://docs.google.com/spreadsheets/d/1iOQBNeGqRJ3yhA-Sujas3xZ2Aw5rFkktUKv3N_e4o8M/edit#gid=0).
-You will need to be added as a user for this. Contact my
-@chicagobotanic.org for this. This project contains 3 tabs - definitions
-of all fields which can be filled (Data Definitions)  
-- examples of real (my) collections for 2023 to base your work off (Data
-Entry - Examples)  
-- user submittal sheet (Data Entry)  
-- an example of the text output which will be generated (Processed -
-Examples) - the text output which is generated for queries (Processed)
+Some printers (maybe not updating drivers enough?) have trouble printing
+LaTeX (in general, not related to this package).
 
-There are two colors on this sheet. White (or Black in dark mode) are
-cells which cannot be derived via the program. Blue cells are optional,
-or otherwise not required.
+``` R
+ps2pdf labels_in.pdf labels_out-ps2pdf.pdf
+```
 
-### Usage Process
+Has worked for me.
 
-Allow up to 1 month of processing time for a request. You should be
-working on labels throughout the season. Your submittal will be ran
-within a couple weeks. The results will be populated in the sheet
-‘Processed’, you will need to manually review/edit them, once you are
-satisfied and made the required alterations we will submit them for
-label generation.
-
-| ![Portrait of Rupert Barneby by Dwight Ripley 1955](reference/figures/Portrait_of_Rupert_Barneby.png) |
-|:-----------------------------------------------------------------------------------------------------:|
-|                          *‘Portrait of Rupert Barneby’* Dwight Ripley (1955)                          |
+| ![Oil portrait of botanist Rupert Charles Barneby painted by Dwight Ripley in 1955, showing Barneby in contemplative pose against a warm background](reference/figures/Portrait_of_Rupert_Barneby.png) |
+|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+|                                                                          *‘Portrait of Rupert Barneby’* Dwight Ripley (1955)                                                                           |
 
 *BarnebyLives(!) Was named after Rupert Charles Barneby, botanist
 extraordinaire, artist, socialite, and kind hearted human being. He is
@@ -347,7 +470,7 @@ User facing functions for carrying out the BL workflow
 - [`label_writer()`](https://sagesteppe.github.io/BarnebyLives/reference/label_writer.md)
   : write herbarium labels to pdf
 - [`map_maker()`](https://sagesteppe.github.io/BarnebyLives/reference/map_maker.md)
-  : make a quick county dot map to display the location of the
+  : Make a quick county dot map to display the location of the
   collection
 - [`physical_grabber()`](https://sagesteppe.github.io/BarnebyLives/reference/physical_grabber.md)
   : gather physical characteristics of the site
@@ -375,6 +498,10 @@ Data prep functions
   : Set up the downloaded data for a BarnebyLives instance
 - [`TaxUnpack()`](https://sagesteppe.github.io/BarnebyLives/reference/TaxUnpack.md)
   : a function to subset the WCVP data set to an area of focus
+- [`check_data_setup_outputs()`](https://sagesteppe.github.io/BarnebyLives/reference/check_data_setup_outputs.md)
+  : Check whether expected output files from data_setup() exist
+- [`tileSelector()`](https://sagesteppe.github.io/BarnebyLives/reference/tileSelector.md)
+  : Determine which raster tiles to download for topographic variables
 
 ## Data
 
@@ -386,8 +513,6 @@ Data prep functions
   : This is a reproduced and slightly curated list of populated places.
 - [`herbaria_info`](https://sagesteppe.github.io/BarnebyLives/reference/herbaria_info.md)
   : herbaria_info
-- [`ipni_authors`](https://sagesteppe.github.io/BarnebyLives/reference/ipni_authors.md)
-  : IPNI author abbreviations
 - [`project_examples`](https://sagesteppe.github.io/BarnebyLives/reference/project_examples.md)
   : project_examples
 - [`shipping_examples`](https://sagesteppe.github.io/BarnebyLives/reference/shipping_examples.md)
@@ -405,6 +530,8 @@ functions used while labels are being generated
   : do or don't write the associated plant species
 - [`collection_writer()`](https://sagesteppe.github.io/BarnebyLives/reference/collection_writer.md)
   : format collector info and codes
+- [`escape_latex()`](https://sagesteppe.github.io/BarnebyLives/reference/escape_latex.md)
+  : escape characters for use with LaTeX rendering
 - [`species_font()`](https://sagesteppe.github.io/BarnebyLives/reference/species_font.md)
   : ensure proper italicization of a associated species
 - [`writer()`](https://sagesteppe.github.io/BarnebyLives/reference/writer.md)
@@ -441,13 +568,61 @@ functions used internally
 
 # Articles
 
-### All vignettes
+### Setting up an instance, and cleaning collection data with it
+
+- [Preparing to use
+  BarnebyLives!](https://sagesteppe.github.io/BarnebyLives/articles/setting_up_files.md):
+
+  How to download and configure taxonomic and geographic datasets
+  required for a working BarnebyLives instance.
+
+- [BarnebyLives! Running
+  pipeline](https://sagesteppe.github.io/BarnebyLives/articles/running_pipeline.md):
+
+  Core functionality. Cleaning and processing data.
+
+### General label and manifest creation
+
+Creating labels
 
 - [Printing herbarium labels and exporting a digital copy of
   data](https://sagesteppe.github.io/BarnebyLives/articles/creating_labels.md):
+
+  Rendering herbarium labels
+
 - [Rendering a shipping
   manifest](https://sagesteppe.github.io/BarnebyLives/articles/rendering_shipping_manifests.md):
-- [BarnebyLives! Running
-  pipeline](https://sagesteppe.github.io/BarnebyLives/articles/running_pipeline.md):
-- [Preparing to use
-  BarnebyLives!](https://sagesteppe.github.io/BarnebyLives/articles/setting_up_files.md):
+
+  Rendering shipping manifests and transfer letters for shipping
+  specimens.
+
+### Built in herbarium label templates
+
+Examples of some built in templates
+
+- [Built in
+  templates](https://sagesteppe.github.io/BarnebyLives/articles/built_in_templates.md):
+
+  All of the built in herbarium label templates.
+
+- [Labels with
+  graphics](https://sagesteppe.github.io/BarnebyLives/articles/labels_with_graphics.md):
+
+  Using label templates which allow you to embed, graphics, such as maps
+  or logos onto them.
+
+### Customizing and altering herbarium label templates
+
+User specified label modifications
+
+- [Customizing a label
+  template](https://sagesteppe.github.io/BarnebyLives/articles/customizing_a_label_template.md):
+
+  Simple modifications to an existing label template, such as moving
+  elements around or changing font size.
+
+- [Customizing label
+  fonts](https://sagesteppe.github.io/BarnebyLives/articles/custom_label_fonts.md):
+
+  Changing the default font, using multiple fonts, downloading fonts
+  from online.

@@ -1,81 +1,267 @@
-<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/404.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/LICENSE-text.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/LICENSE.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/articles/creating_labels.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/articles/index.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/articles/rendering_shipping_manifests.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/articles/running_pipeline.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/articles/setting_up_files.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/authors.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/index.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/reference/GMBA_dl.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/reference/GNIS_dl.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/reference/PAD_dl.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/reference/PLSS_dl.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/reference/SGMC_dl.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/reference/TaxUnpack.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/reference/WCVP_dl.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/reference/all_authors.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/reference/allotments_dl.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/reference/associate_dropper.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/reference/associates_spell_check.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/reference/associates_writer.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/reference/author_check.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/reference/autofill_checker.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/reference/collection_examples.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/reference/collection_writer.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/reference/coords2sf.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/reference/counties_dl.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/reference/data_download.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/reference/data_setup.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/reference/database_templates.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/reference/date2text.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/reference/date_parser.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/reference/directions_grabber.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/reference/directions_overview.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/reference/dms2dd.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/reference/family_spell_check.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/reference/format_database_import.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/reference/format_degree.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/reference/geodata_writer.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/reference/geological_map.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/reference/get_google_directions.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/reference/google_towns.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/reference/herbaria_info.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/reference/index.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/reference/ipni_authors.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/reference/label_writer.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/reference/make_it_political.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/reference/make_tiles.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/reference/map_maker.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/reference/mason.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/reference/notFound.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/reference/physical_grabber.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/reference/pipe.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/reference/places_and_spaces.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/reference/political_grabber.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/reference/powNAce.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/reference/powo_searcher.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/reference/process_gmba.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/reference/process_gnis.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/reference/process_grazing_allot.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/reference/process_padus.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/reference/process_plss.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/reference/project_examples.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/reference/randomNames.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/reference/result_grabber.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/reference/shipping_examples.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/reference/site_writer.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/reference/species_font.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/reference/specificDirections.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/reference/spell_check.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/reference/split_scientificName.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/reference/tileSelector.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/reference/try_again.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/reference/wcvp_update.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/reference/writer.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/reference/writer2.html</loc></url>
-<url><loc>https://sagesteppe.github.io/BarnebyLives/reference/writer_fide.html</loc></url>
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/404.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/LICENSE-text.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/LICENSE.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/articles/built_in_templates.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/articles/creating_labels.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/articles/custom_label_fonts.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/articles/customizing_a_label_template.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/articles/index.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/articles/labels_with_graphics.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/articles/rendering_shipping_manifests.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/articles/running_pipeline.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/articles/setting_up_files.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/authors.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/data-sources.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/index.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/news/index.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/reference/GMBA_dl.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/reference/GNIS_dl.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/reference/PLSS_dl.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/reference/SGMC_dl.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/reference/TaxUnpack.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/reference/Valleys_dl.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/reference/WCVP_dl.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/reference/all_authors.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/reference/allotments_dl.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/reference/associate_dropper.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/reference/associates_spell_check.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/reference/associates_writer.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/reference/author_check.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/reference/autofill_checker.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/reference/check_data_setup_outputs.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/reference/collection_examples.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/reference/collection_writer.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/reference/coords2sf.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/reference/counties_dl.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/reference/data_download.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/reference/data_setup.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/reference/database_templates.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/reference/date2text.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/reference/date_parser.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/reference/directions_grabber.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/reference/directions_overview.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/reference/dms2dd.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/reference/dmsbyrow.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/reference/download_sgmc.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/reference/escape_latex.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/reference/family_spell_check.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/reference/format_database_import.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/reference/format_degree.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/reference/geodata_writer.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/reference/get_google_directions.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/reference/google_towns.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/reference/herbaria_info.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/reference/index.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/reference/label_writer.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/reference/make_it_political.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/reference/make_tiles.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/reference/map_maker.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/reference/mason.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/reference/notFound.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/reference/physical_grabber.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/reference/pipe.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/reference/places_and_spaces.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/reference/political_grabber.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/reference/powNAce.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/reference/powo_searcher.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/reference/process_geology.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/reference/process_gmba.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/reference/process_gnis.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/reference/process_grazing_allot.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/reference/process_padus.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/reference/process_plss.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/reference/project_examples.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/reference/randomNames.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/reference/result_grabber.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/reference/safe_untar.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/reference/shipping_examples.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/reference/site_writer.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/reference/species_font.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/reference/specificDirections.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/reference/spell_check.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/reference/split_scientificName.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/reference/tileSelector.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/reference/try_again.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/reference/wcvp_update.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/reference/writer.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/reference/writer2.html</loc>
+  </url>
+  <url>
+    <loc>https://sagesteppe.github.io/BarnebyLives/reference/writer_fide.html</loc>
+  </url>
 </urlset>
-

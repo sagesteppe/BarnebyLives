@@ -14,12 +14,11 @@ the collector more time to do less onerous tasks; such as collection and
 study.
 
 While in theory all of the tasks in this script could be automated,
-doing so would be an unconscionable action against local taxonomic
-authorities. While several database options for updating collections
-(and spell checking names) which are current and well curated (e.g. Kew
-Plants of the World) exist, we feel many proposals and combinations
-require interpretation by those in the regions attempting to understand
-the material at hand.
+doing so neglect the opinions of local taxonomic authorities. While
+several database options for updating collections (and spell checking
+names) which are current and well curated (e.g. Kew Plants of the World)
+exist, we feel many proposals and combinations require interpretation by
+those in the regions attempting to understand the material at hand.
 
 This script will perform the following tasks.
 
@@ -79,67 +78,11 @@ library(tidyverse)
 library(BarnebyLives)
 ```
 
-In this example I am going to showcase loading the data we want to run
-through the pipeline using Google Sheets. This can allow for collectors
-on a team to readily contribute to preparing and transcribing notes for
-an expedition simultaneously. Loading data in from a local CSV or excel
-type file is as easy as `read.csv` or
-[`readxl::read_excel`](https://readxl.tidyverse.org/reference/read_excel.html)
-instead.
-
-We will use the package `googlesheets4`, which is a part of the
-tidyverse, but which does not install by default with the remainder of
-the ’verse. We will feed in the last part of the URL as the link to the
-path. If this is your first time using `googlesheets4`, it will walk you
-through a few steps to log into your google account so you can access
-data securely. After that `googlesheets4` is actually really
-straightforward to use, note that I use the `drive_auth` function here.
-This function makes non-interactive use easy, it is only used here
-because the vignette renders as a non-interactive format.
+load data
 
 ``` r
-# install.packages('googlesheets4')
-library(googlesheets4)
-
-googledrive::drive_auth("reedbenkendorf27@gmail.com")
-# read in data from the sheet to process
-df <- read_sheet('1iOQBNeGqRJ3yhA-Sujas3xZ2Aw5rFkktUKv3N_e4o8M', 
-                    sheet = 'Data Entry - Examples') %>% 
-  mutate(UNIQUEID = paste0(Primary_Collector, Collection_number))
+df <- uncleaned_collection_examples
 ```
-
-#### only process data which have not yet run through the pipeline.
-
-BarnebyLives takes a little bit of time to run, and it also requires the
-usage of Google Developer credits for the directions portion. You may
-want to ensure that you are not re-running files which you have already
-processed. We can do that very simply using a combination of collectors
-name’s and their collection numbers. If you are processing for many many
-people at once, and worried people may have the same names, and be
-collecting in the same range of numbers, then you can add in other data
-which would be required to make a UNIQUEID, most likely a component of
-the date.
-
-``` r
-# determine whether these data have already been processed by the script, using
-# a unique combination of collection name and collection code. 
-# these are the data which have gone through the pipeline already
-processed <- read_sheet('1iOQBNeGqRJ3yhA-Sujas3xZ2Aw5rFkktUKv3N_e4o8M',
-                        sheet = 'Processed - Examples') %>% 
-  select(Collection_number, Primary_Collector) %>% 
-  mutate(UNIQUEID = paste0(Primary_Collector, Collection_number))
-
-# here we look for any 'input' files which are present in the processed files and 
-# drop them. 
-input <- filter(df, ! UNIQUEID %in% processed$UNIQUEID ) %>% 
-  select(-UNIQUEID)
-
-rm(processed, df)
-```
-
-Even though I coded this functionality, I essentially never use it. The
-reason being that I don’t use the directions that much, and just get up
-to start a cup of tea when the pipeline is running.
 
 ### Ensure Coordinates and Dates and formatted appropriately
 
@@ -151,20 +94,18 @@ also parse out the day of month, month of year, and year, which is used
 in multiple possible downstream software.
 
 ``` r
-data <- date_parser(input, coll_date = 'Date_digital', det_date = 'Determined_date')
+data <- date_parser(df, coll_date = 'Date_digital', det_date = 'Determined_date')
 
-dplyr::select(data, starts_with('Date')) %>% 
-  utils::head()
+dplyr::select(data, starts_with('Date')) |>
+  head()
 ```
 
 #### Conversion of Degrees Minutes Seconds (DMS) to Decimal Degrees (DD).
 
 The DMS format is still used in a few applications we will convert this
-to the more generally utilized DD format. Although DMS is certainly
-prettier to read, DD is just used so much more often we change
-everything to it. Sad. We will maintain both formats in the data set, so
-others have them readily available for other uses aside from creating
-herbarium labels.
+to the more generally utilized DD format. We will maintain both formats
+in the data set, so others have them readily available for other uses
+aside from creating herbarium labels.
 
 ``` r
 data <- dms2dd(data, dms = F)
@@ -180,7 +121,6 @@ We try to identify that issue here.
 data <- autofill_checker(data)
 
 dplyr::select(data, Long_AutoFill_Flag, Lat_AutoFill_Flag) |> 
-  dplyr::drop_na() |>
   utils::head()
 ```
 
@@ -191,7 +131,10 @@ another Geographic Information System.
 
 ``` r
 data <- coords2sf(data)
-head(data) # now we can see that it is an sf object
+
+data |>
+  select(Collection_number, geometry) |>
+  str() # now we can see that it is an sf object
 ```
 
 ### Retrieve Political/Administrative Information
@@ -241,17 +184,6 @@ BarnebyLives acquires a range of characteristics which are useful to
 describe the physical environment, these are: elevation (both meters and
 feet), slope, aspect, surficial geology, and geomorphons.
 
-While most of BarnebyLives is dedicated towards addressing the peeves of
-curators with too much time on their hands, this module is for me. What
-I generally see, if people even both to describe the site at all, is
-that they are laser focused on a tiny micro-environment that they
-collected the individual plant in - not the characteristics of the
-population or even the general area of the population they are seeing. I
-don’t dislike these notes, in fact I find them of the utmost value.
-However, even those inclusions exist within a broader context, which is
-doing much habitat filtering in and of itself, and without this relation
-the obscurity of these certain habitats can be lost.
-
 Here are some details on some of the data sets which we are using. All
 elevation data come from [DEM90](https://www.earthenv.org/DEM), as the
 name implies this data set is at roughly 90 meters of roughly in the X
@@ -269,10 +201,7 @@ positions](https://www.sciencedirect.com/science/article/abs/pii/S0169555X120050
 [Geomorpho90m](https://portal.opentopography.org/dataspace/dataset?opentopoID=OTDS.012020.4326.1),
 which are useful for characterizing landform position. These are useful
 for spatial ecology and describe where on the landscape the population
-was broadly located. Generally ‘Valleys’ tend to eat up more land cover
-than they should, often extending up into alluvial fans, but I find them
-very useful for describing roughly where on the landscape the population
-is.
+was broadly located.
 
 ``` r
 data <- physical_grabber(data, path = p)
@@ -321,27 +250,22 @@ data <- associates_spell_check(data, 'Associates', path = p) # we can run on bot
 data <- associates_spell_check(data, 'Vegetation', path = p)
 ```
 
-Remove the collected species from the list of associated species. Many
-collectors will include the focal collection in the list of associated
-species when performing data entry for a site. We can remove it here.
+Remove the collected species from associated species lists. Many
+collectors include the focal collection when performing data entry.
 
 ``` r
 data <- associate_dropper(data, 'Full_name', col  = 'Associates')
 data <- associate_dropper(data, 'Full_name', col  = 'Vegetation')
 ```
 
-After BarnebyLives! has verified the spelling of the species it will
-submit it to Plants of the World Online to determine whether a more
-current and accepted name has been applied. BL! will not automatically
-over-write your submitted species, and it is important that you
-interpret the results of query. Especially as it is possible that
-**spell_check** has mis-matched your material to another name.
-
-Searches for synonym to species
+After BarnebyLives verifies spelling, it submits names to Plants of the
+World Online to check for synonymy. BL will not automatically overwrite
+your submitted species - interpretation of results is important,
+especially as *spell_check* may occasionally mis-match material.
 
 ``` r
 names <- sf::st_drop_geometry(data) %>% 
-  pull(Full_name)
+  pull(Full_name) # should be a vector fo searching
 
 pow_res <- lapply(names,
       powo_searcher) %>% 
@@ -364,21 +288,20 @@ directions <- directions_grabber(data, api_key = SoS_gkey)
 
 ## Export collections
 
-We will write these data to Google sheets for our examples.
+Write out the data for use in label generation, and as a master copy for
+exporting data for mass upload to a database.
 
 ``` r
-# first ensure the columns are in the same order as google sheets
+## Export Collections 
+data <- sf::st_drop_geometry(data) |>
+  as.data.frame() |>
+  mutate(Coordinate_uncertainty = "+/- 5m")
 
-processed <- read_sheet('1iOQBNeGqRJ3yhA-Sujas3xZ2Aw5rFkktUKv3N_e4o8M',
-                        sheet = 'Processed - Examples') %>% 
-  colnames() 
-
-df <- sf::st_drop_geometry(directions) %>% 
-  dplyr::select(dplyr::all_of(processed))
-
-# we will add these data onto our final sheet.
-sheet_append('1iOQBNeGqRJ3yhA-Sujas3xZ2Aw5rFkktUKv3N_e4o8M', 
-             sheet = 'Processed - Examples', data = df) 
+## mac can be weird with this file. 
+readr::write_excel_csv(
+  data, 
+  file.path('..', 'labels', 'cleaned_collection_data.csv')
+  )
 ```
 
 We can also export collections as either (or both!) a ‘shapefile’ or KML
