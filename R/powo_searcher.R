@@ -51,5 +51,5 @@ powo_searcher <- function(x) {
   new_names <- paste0('POW', '_', stringr::str_to_sentence(colnames(out_ob)))
   colnames(out_ob) <- new_names
 
-  return(out_ob)
+  out_ob
 }

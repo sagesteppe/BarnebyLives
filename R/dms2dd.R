@@ -50,7 +50,7 @@ dms2dd <- function(x, lat, long, dms) {
 
   # we will need to perform this operation across every single row,
   # because some people will put dms and dd in the same column...
-  x_spl <- split(x, f = 1:nrow(x))
+  x_spl <- split(x, f = seq_len(nrow(x)))
 
  # return(x_spl)
   x <- lapply(x_spl, dmsbyrow, long = long, lat = lat) |>

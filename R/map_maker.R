@@ -128,7 +128,7 @@ map_maker <- function(x, path_out, path, collection_col, parallel = 0) {
     )
   }
 
-  pts_list <- split(pts, seq(nrow(pts)))
+  pts_list <- split(pts, seq_len(nrow(pts)))
   if (parallel > 0) {
     n_cores <- max(1, round(parallel::detectCores() * parallel))
     cl <- parallel::makeCluster(n_cores)

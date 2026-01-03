@@ -123,7 +123,7 @@ powNAce <- function(x) {
   )
   x <- dplyr::left_join(x, x_pow, by = 'UNIQUEID')
 
-  x <- dplyr::relocate(x, dplyr::any_of(c(mycs, 'POW_Query')), .after = 4) %>%
+  x <- dplyr::relocate(x, dplyr::any_of(c(mycs, 'POW_Query')), .after = 4) |>
     dplyr::select(
       -dplyr::any_of(c('POW_Authority', 'POW_Name_authority', 'POW_Full_name'))
     )

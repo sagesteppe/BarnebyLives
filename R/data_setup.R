@@ -437,7 +437,7 @@ process_gnis <- function(path, pathOut, bound) {
   sf::st_agr(bb) = "constant"
 
   st <- st[
-    sf::st_intersects(st, bb) %>% lengths > 0,
+    sf::st_intersects(st, bb) |> lengths() > 0,
     c('STATEFP', 'NAME', 'STUSPS')
   ]
 

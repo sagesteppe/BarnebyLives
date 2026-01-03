@@ -53,7 +53,7 @@ split_scientificName <- function(x, sciName_col, overwrite) {
   # we will proceed row wise, treating each record independently from the last
   # in case that there are missing values.
 
-  to_split <- split(x[, sciName_col], f = 1:nrow(x))
+  to_split <- split(x[, sciName_col], f = seq_len(nrow(x)))
 
   binomial <- function(x) {
     # recovery of the binomial, only the first two pieces of the name.

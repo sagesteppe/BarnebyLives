@@ -94,5 +94,5 @@ coords2sf <- function(x, datum) {
       dplyr::select(-crs) %>%
       dplyr::mutate(datum = 'WGS84', .before = geometry)
   }
-  return(dat_list)
+  dat_list
 }

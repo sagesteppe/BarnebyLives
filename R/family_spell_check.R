@@ -19,7 +19,7 @@ family_spell_check <- function(x, path) {
     } else {
       out <- famLKPtab[which.min(adist(x, famLKPtab$Family)), 'Family']
     }
-    return(out)
+    out
   }
 
   famLKPtab <- read.csv(file.path(path, 'families_lookup_table.csv')) |>

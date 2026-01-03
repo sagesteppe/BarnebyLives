@@ -46,5 +46,5 @@ species_font <- function(x) {
   # Clean up any double periods
   x <- gsub('\\.+', '.', x)
 
-  return(x)
+  x
 }

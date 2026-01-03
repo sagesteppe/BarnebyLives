@@ -71,5 +71,5 @@ site_writer <- function(x, path) {
     dplyr::relocate(dplyr::any_of(c('Site', 'Allotment')), .before = geometry) |>
     dplyr::select(-dplyr::any_of(c('ID')))
 
-  return(distances_df)
+  distances_df
 }

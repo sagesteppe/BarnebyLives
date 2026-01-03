@@ -27,7 +27,8 @@ specificDirections <- function(x) {
     y <- gsub("Turn Con't", "Con't", y)
     y <- gsub('ALT', 'Alt', y)
     y <- gsub("Con't Con't", "Con't", y)
-    return(y)
+    
+    y
   }
 
   dirStartEnd <- function(x) {
@@ -37,7 +38,8 @@ specificDirections <- function(x) {
     y <- gsub(" 0 mi", "", y)
     y <- gsub('Pass by .*[)]', '', y)
     y <- trimws(y)
-    return(y)
+    
+    y
   }
 
   dist <- x[['routes']][['legs']][[1]][['steps']][[1]]$distance

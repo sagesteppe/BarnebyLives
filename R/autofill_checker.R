@@ -46,5 +46,5 @@ autofill_checker <- function(x) {
       .after = dplyr::last_col()
     )
 
-  return(output)
+  output
 }

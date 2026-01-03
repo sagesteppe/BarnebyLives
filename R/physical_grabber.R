@@ -6,10 +6,11 @@
 #' @examples #see the package vignette
 #' @export
 physical_grabber <- function(x, path) {
+  
   round_df <- function(df, digits) {
     nums <- vapply(df, is.numeric, FUN.VALUE = logical(1))
     df[, nums] <- round(df[, nums], digits = digits)
-    return(df)
+    df
   }
 
   x_spat <- terra::vect(x)
@@ -136,5 +137,5 @@ physical_grabber <- function(x, path) {
       .before = geometry
     )
 
-  return(object)
+  object
 }
