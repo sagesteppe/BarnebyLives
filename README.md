@@ -2,8 +2,8 @@
 [![Project Status: Active - The project has reached a stable, usable
 state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
-[![R build
-status](https://github.com/R-CMD-check/workflows/sagesteppe/BarnebyLives/badge.svg)](https://github.com/R-CMD-check/actions)
+[![](https://img.shields.io/badge/doi-10.5281/zenodo.18140441-orange.svg)](https://doi.org/10.5281/zenodo.18140441)
+[![R-CMD-check](https://github.com/sagesteppe/BarnebyLives/workflows/R-CMD-check/badge.svg)](https://github.com/sagesteppe/BarnebyLives/actions/workflows/R-CMD-check.yaml)
 
 # BarnebyLives
 
@@ -19,8 +19,7 @@ North America
 <img src="man/figures/logo.png"
      align="right"
      height="138"
-     alt="BarnebyLives package hexagonal logo"
-     role="presentation" />
+     alt="BarnebyLives package hexagonal logo"/>
 
 BarnebyLives\! is an R program which serves to help botanical collectors
 in Western North America. BarnebyLives\! runs multiple types of queries
