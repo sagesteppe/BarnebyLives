@@ -1,5 +1,3 @@
-[![R build
-status](https://github.com/lint/workflows/sagesteppe/BarnebyLives/badge.svg)](https://github.com/lint/actions)
 [![CodeFactor](https://www.codefactor.io/repository/github/sagesteppe/BarnebyLives/badge)](https://www.codefactor.io/repository/github/sagesteppe/BarnebyLives)
 [![Project Status: Active - The project has reached a stable, usable
 state and is being actively

@@ -9,7 +9,6 @@ description: "R package providing automated tools for botanical collectors to ga
 
 ```{r badges, echo = FALSE, results='asis'}
 cat(
-  badger::badge_github_actions("lint", "sagesteppe/BarnebyLives"),  "\n",
 	badger::badge_codefactor('sagesteppe/BarnebyLives'),  "\n",
 	badger::badge_repostatus("Active"),  "\n",
   badger::badge_doi("10.5281/zenodo.18140441", "\n",
