@@ -30,12 +30,12 @@ Determined_date_text = rep('a day in time', 3)
 
 lapply(text, writer_fide)
 #> $`1`
-#> [1] "Fide: \\textit{Michigan Fl. Book }(emphatic), det.: Marabeth, a day in time."
+#> [1] "Fide: *Michigan Fl. Book *(emphatic), det.: Marabeth, a day in time."
 #> 
 #> $`2`
-#> [1] "Fide: \\textit{Michigan Fl. Book }(emphatic) \\textit{ verbose}, det.: Marabeth, a day in time."
+#> [1] "Fide: *Michigan Fl. Book *(emphatic)* verbose*, det.: Marabeth, a day in time."
 #> 
 #> $`3`
-#> [1] "Fide: \\textit{Michigan Fl. Book}, det.: Marabeth, a day in time."
+#> [1] "Fide: *Michigan Fl. Book*, det.: Marabeth, a day in time."
 #> 
 ```

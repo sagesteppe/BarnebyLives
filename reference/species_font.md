@@ -21,5 +21,5 @@ species_font(x)
 ``` r
 associates <- c('Eriogonum ovalifolium var. purpureum, Castilleja sp., Crepis spp.')
 species_font(associates)
-#> [1] "\\textit{Eriogonum ovalifolium} var. \\textit{purpureum, Castilleja} sp., \\textit{Crepis} spp."
+#> [1] "*Eriogonum ovalifolium* var. *purpureum, Castilleja* sp., *Crepis* spp."
 ```

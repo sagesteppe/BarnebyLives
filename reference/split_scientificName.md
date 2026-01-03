@@ -39,61 +39,47 @@ ce <- data.frame(
 
 split_scientificName(ce)|> head()
 #> `sciName_col` argument not supplied, using: Binomial
-#>   Collection_number
-#> 1              2859
-#> 2              2933
-#> 3              2927
-#> 4              2834
-#> 5              2901
-#> 6              2863
-#>                                                           x...sciName_col.
-#> 1                                                Crepis occidentalis Nutt.
-#> 2                                                     Ipomopsis polycladon
-#> 3                                                            Allium parvum
-#> 4                                                         Allium nevadense
-#> 5 Bromus sitchensis Trin. var. marginatus (Piper) Otting and R.E. Brainerd
-#> 6                                                      Lupinus brevicaulis
-#>       Genus      Epithet        Binomial_authority       Name_authority
-#> 1    Crepis occidentalis Crepis occidentalis Nutt.                Nutt.
-#> 2 Ipomopsis   polycladon      Ipomopsis polycladon Ipomopsis polycladon
-#> 3    Allium       parvum             Allium parvum        Allium parvum
-#> 4    Allium    nevadense          Allium nevadense     Allium nevadense
-#> 5    Bromus   sitchensis   Bromus sitchensis Trin.                Trin.
-#> 6   Lupinus  brevicaulis       Lupinus brevicaulis  Lupinus brevicaulis
-#>   Infraspecific_rank Infraspecies Infraspecific_authority
-#> 1               <NA>         <NA>                    <NA>
-#> 2               <NA>         <NA>                    <NA>
-#> 3               <NA>         <NA>                    <NA>
-#> 4               <NA>         <NA>                    <NA>
-#> 5               <NA>         <NA>                    <NA>
-#> 6               <NA>         <NA>                    <NA>
+#>   Collection_number                  x...sciName_col.        Genus    Epithet
+#> 1              2858              Cordylanthus ramosus Cordylanthus    ramosus
+#> 2              2829          Scutellaria nana A. Gray  Scutellaria       nana
+#> 3              2861                Astragalus filipes   Astragalus    filipes
+#> 4              2859              Sphaeralcea munroana  Sphaeralcea   munroana
+#> 5              2928                    Diplacus nanus     Diplacus      nanus
+#> 6              2834 Bromus sitchensis var. marginatus       Bromus sitchensis
+#>         Binomial_authority       Name_authority Infraspecific_rank Infraspecies
+#> 1     Cordylanthus ramosus Cordylanthus ramosus               <NA>         <NA>
+#> 2 Scutellaria nana A. Gray              A. Gray               <NA>         <NA>
+#> 3       Astragalus filipes   Astragalus filipes               <NA>         <NA>
+#> 4     Sphaeralcea munroana Sphaeralcea munroana               <NA>         <NA>
+#> 5           Diplacus nanus       Diplacus nanus               <NA>         <NA>
+#> 6        Bromus sitchensis    Bromus sitchensis               <NA>         <NA>
+#>   Infraspecific_authority
+#> 1                    <NA>
+#> 2                    <NA>
+#> 3                    <NA>
+#> 4                    <NA>
+#> 5                    <NA>
+#> 6                    <NA>
 split_scientificName(ce, sciName_col = 'Binomial') |> head()
-#>   Collection_number
-#> 1              2859
-#> 2              2933
-#> 3              2927
-#> 4              2834
-#> 5              2901
-#> 6              2863
-#>                                                           x...sciName_col.
-#> 1                                                Crepis occidentalis Nutt.
-#> 2                                                     Ipomopsis polycladon
-#> 3                                                            Allium parvum
-#> 4                                                         Allium nevadense
-#> 5 Bromus sitchensis Trin. var. marginatus (Piper) Otting and R.E. Brainerd
-#> 6                                                      Lupinus brevicaulis
-#>       Genus      Epithet        Binomial_authority       Name_authority
-#> 1    Crepis occidentalis Crepis occidentalis Nutt.                Nutt.
-#> 2 Ipomopsis   polycladon      Ipomopsis polycladon Ipomopsis polycladon
-#> 3    Allium       parvum             Allium parvum        Allium parvum
-#> 4    Allium    nevadense          Allium nevadense     Allium nevadense
-#> 5    Bromus   sitchensis   Bromus sitchensis Trin.                Trin.
-#> 6   Lupinus  brevicaulis       Lupinus brevicaulis  Lupinus brevicaulis
-#>   Infraspecific_rank Infraspecies Infraspecific_authority
-#> 1               <NA>         <NA>                    <NA>
-#> 2               <NA>         <NA>                    <NA>
-#> 3               <NA>         <NA>                    <NA>
-#> 4               <NA>         <NA>                    <NA>
-#> 5               <NA>         <NA>                    <NA>
-#> 6               <NA>         <NA>                    <NA>
+#>   Collection_number                  x...sciName_col.        Genus    Epithet
+#> 1              2858              Cordylanthus ramosus Cordylanthus    ramosus
+#> 2              2829          Scutellaria nana A. Gray  Scutellaria       nana
+#> 3              2861                Astragalus filipes   Astragalus    filipes
+#> 4              2859              Sphaeralcea munroana  Sphaeralcea   munroana
+#> 5              2928                    Diplacus nanus     Diplacus      nanus
+#> 6              2834 Bromus sitchensis var. marginatus       Bromus sitchensis
+#>         Binomial_authority       Name_authority Infraspecific_rank Infraspecies
+#> 1     Cordylanthus ramosus Cordylanthus ramosus               <NA>         <NA>
+#> 2 Scutellaria nana A. Gray              A. Gray               <NA>         <NA>
+#> 3       Astragalus filipes   Astragalus filipes               <NA>         <NA>
+#> 4     Sphaeralcea munroana Sphaeralcea munroana               <NA>         <NA>
+#> 5           Diplacus nanus       Diplacus nanus               <NA>         <NA>
+#> 6        Bromus sitchensis    Bromus sitchensis               <NA>         <NA>
+#>   Infraspecific_authority
+#> 1                    <NA>
+#> 2                    <NA>
+#> 3                    <NA>
+#> 4                    <NA>
+#> 5                    <NA>
+#> 6                    <NA>
 ```

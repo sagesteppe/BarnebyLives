@@ -12,6 +12,10 @@ project_examples
 
 A data frame with projects and contact info
 
+## Details
+
+This is a small data frame of examples of collection projects
+
 ## Examples
 
 ``` r

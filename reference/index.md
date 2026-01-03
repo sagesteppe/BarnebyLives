@@ -31,7 +31,7 @@ User facing functions for carrying out the BL workflow
 - [`label_writer()`](https://sagesteppe.github.io/BarnebyLives/reference/label_writer.md)
   : write herbarium labels to pdf
 - [`map_maker()`](https://sagesteppe.github.io/BarnebyLives/reference/map_maker.md)
-  : Make a quick county dot map to display the location of the
+  : make a quick county dot map to display the location of the
   collection
 - [`physical_grabber()`](https://sagesteppe.github.io/BarnebyLives/reference/physical_grabber.md)
   : gather physical characteristics of the site
@@ -59,10 +59,6 @@ Data prep functions
   : Set up the downloaded data for a BarnebyLives instance
 - [`TaxUnpack()`](https://sagesteppe.github.io/BarnebyLives/reference/TaxUnpack.md)
   : a function to subset the WCVP data set to an area of focus
-- [`check_data_setup_outputs()`](https://sagesteppe.github.io/BarnebyLives/reference/check_data_setup_outputs.md)
-  : Check whether expected output files from data_setup() exist
-- [`tileSelector()`](https://sagesteppe.github.io/BarnebyLives/reference/tileSelector.md)
-  : Determine which raster tiles to download for topographic variables
 
 ## Data
 
@@ -74,6 +70,8 @@ Data prep functions
   : This is a reproduced and slightly curated list of populated places.
 - [`herbaria_info`](https://sagesteppe.github.io/BarnebyLives/reference/herbaria_info.md)
   : herbaria_info
+- [`ipni_authors`](https://sagesteppe.github.io/BarnebyLives/reference/ipni_authors.md)
+  : IPNI author abbreviations
 - [`project_examples`](https://sagesteppe.github.io/BarnebyLives/reference/project_examples.md)
   : project_examples
 - [`shipping_examples`](https://sagesteppe.github.io/BarnebyLives/reference/shipping_examples.md)
@@ -91,8 +89,6 @@ functions used while labels are being generated
   : do or don't write the associated plant species
 - [`collection_writer()`](https://sagesteppe.github.io/BarnebyLives/reference/collection_writer.md)
   : format collector info and codes
-- [`escape_latex()`](https://sagesteppe.github.io/BarnebyLives/reference/escape_latex.md)
-  : escape characters for use with LaTeX rendering
 - [`species_font()`](https://sagesteppe.github.io/BarnebyLives/reference/species_font.md)
   : ensure proper italicization of a associated species
 - [`writer()`](https://sagesteppe.github.io/BarnebyLives/reference/writer.md)
