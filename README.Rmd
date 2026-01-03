@@ -7,6 +7,8 @@ title: "BarnebyLives: Herbarium Data Collection for W North America"
 description: "R package providing automated tools for botanical collectors to gather political, geographic, and taxonomic data for herbarium specimens"
 ---
 
+<!-- badges: start -->
+
 ```{r badges, echo = FALSE, results='asis'}
 cat(
 	badger::badge_codefactor('sagesteppe/BarnebyLives'),  "\n",
