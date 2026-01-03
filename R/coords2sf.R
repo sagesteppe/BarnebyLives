@@ -90,8 +90,8 @@ coords2sf <- function(x, datum) {
         ) |>
         sf::st_transform(4326)
     ) |>
-      dplyr::bind_rows() %>%
-      dplyr::select(-crs) %>%
+      dplyr::bind_rows() |>
+      dplyr::select(-crs) |>
       dplyr::mutate(datum = 'WGS84', .before = geometry)
   }
   dat_list

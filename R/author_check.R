@@ -88,10 +88,10 @@ author_check <- function(x, path) {
 
   Issues <- Issues |>
     dplyr::relocate(
-      dplyr::any_of(c('Binomial_authority_issues')),
+      dplyr::any_of('Binomial_authority_issues'),
       .after = binom_auth
     ) |>
-    dplyr::relocate(dplyr::any_of(c('Infra_auth_issues')), .after = infra_auth)
+    dplyr::relocate(dplyr::any_of('Infra_auth_issues'), .after = infra_auth)
 
   Issues
 }

@@ -69,7 +69,7 @@ site_writer <- function(x, path) {
 
   distances_df <- dplyr::bind_cols(x, distances_df) |>
     dplyr::relocate(dplyr::any_of(c('Site', 'Allotment')), .before = geometry) |>
-    dplyr::select(-dplyr::any_of(c('ID')))
+    dplyr::select(-dplyr::any_of('ID'))
 
   distances_df
 }

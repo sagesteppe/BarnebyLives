@@ -57,5 +57,5 @@ result_grabber <- function(x) {
     infra_authority
   )
 
-  return(taxonomic_info)
+  taxonomic_info
 }
