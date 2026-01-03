@@ -12,7 +12,8 @@ cat(
   badger::badge_github_actions("lint", "sagesteppe/BarnebyLives"),  "\n",
 	badger::badge_codefactor('sagesteppe/BarnebyLives'),  "\n",
 	badger::badge_repostatus("Active"),  "\n",
-  badger::badge_github_actions("sagesteppe/BarnebyLives", "R-CMD-check"), "\n"
+  badger::badge_doi("10.5281/zenodo.18140441", "\n",
+  "[![R-CMD-check](https://github.com/sagesteppe/BarnebyLives/workflows/R-CMD-check/badge.svg)](https://github.com/sagesteppe/BarnebyLives/actions/workflows/R-CMD-check.yaml)", "\n"
 )
 ```
 
