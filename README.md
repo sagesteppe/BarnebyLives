@@ -1,9 +1,25 @@
+---
+output:
+  md_document:
+    variant: gfm
+    preserve_yaml: true
+html_preview: false
+title: "BarnebyLives: Herbarium Data Collection for W North America"
+description: "R package providing automated tools for botanical collectors to gather political, geographic, and taxonomic data for herbarium specimens"
+---
+
+# dplyr <a href="https://sagesteppe.github.io/BarnebyLives/">\<img src=“man/figures/logo.png” align=“right” height=“138”,alt=“BarnebyLives package hexagonal logo” /\></a>
+
+<!-- badges: start -->
+
 [![CodeFactor](https://www.codefactor.io/repository/github/sagesteppe/BarnebyLives/badge)](https://www.codefactor.io/repository/github/sagesteppe/BarnebyLives)
 [![Project Status: Active - The project has reached a stable, usable
 state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![](https://img.shields.io/badge/doi-10.5281/zenodo.18140441-orange.svg)](https://doi.org/10.5281/zenodo.18140441)
 [![R-CMD-check](https://github.com/sagesteppe/BarnebyLives/workflows/R-CMD-check/badge.svg)](https://github.com/sagesteppe/BarnebyLives/actions/workflows/R-CMD-check.yaml)
+
+<!-- badges: end -->
 
 # BarnebyLives
 
@@ -18,7 +34,7 @@ North America
 
 <img src="man/figures/logo.png"
      align="right"
-     height="138"
+     height="48"
      alt="BarnebyLives package hexagonal logo"/>
 
 BarnebyLives\! is an R program which serves to help botanical collectors
@@ -283,11 +299,9 @@ Unnecessary columns\!
 
 ## General Workflow
 
-![Flowchart showing BarnebyLives workflow from field data collection
-through label generation and herbarium export. Steps include: input
-specimen data, run query functions, generate
-political/geographic/taxonomic metadata, create labels, and export to
-multiple herbarium formats](man/figures/workflow.png)
+<img src="man/figures/workflow.png" 
+     alt="Flowchart showing BarnebyLives workflow from field data collection through label generation and herbarium export. Steps include: input specimen data, run query functions, generate political/geographic/taxonomic metadata, create labels, and export to multiple herbarium formats" 
+     width="600" height="300">
 
 ## Geodata directory structure
 
@@ -399,9 +413,10 @@ LaTeX (in general, not related to this package).
 
 Has worked for me.
 
-| ![Oil portrait of botanist Rupert Charles Barneby painted by Dwight Ripley in 1955, showing Barneby in contemplative pose against a warm background](man/figures/Portrait_of_Rupert_Barneby.png) |
-| :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
-|                                                                       *‘Portrait of Rupert Barneby’* Dwight Ripley (1955)                                                                        |
+<img src="man/figures/Portrait_of_Rupert_Barneby.png" 
+     alt="Oil portrait of botanist Rupert Charles Barneby" 
+     width="300" height="600">| |:–:| | *‘Portrait of Rupert Barneby’*
+Dwight Ripley (1955) |
 
 *BarnebyLives(\!) Was named after Rupert Charles Barneby, botanist
 extraordinaire, artist, socialite, and kind hearted human being. He is
