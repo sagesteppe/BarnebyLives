@@ -1,3 +1,5 @@
+# dplyr [\<img src=“man/figures/logo.png” align=“right” height=“138”,alt=“BarnebyLives package hexagonal logo” /\>](https://sagesteppe.github.io/BarnebyLives/)
+
 # BarnebyLives
 
 Tools for collecting digital data on herbarium specimens across Western
@@ -293,12 +295,6 @@ specimen data, run query functions, generate
 political/geographic/taxonomic metadata, create labels, and export to
 multiple herbarium formats](reference/figures/workflow.png)
 
-Flowchart showing BarnebyLives workflow from field data collection
-through label generation and herbarium export. Steps include: input
-specimen data, run query functions, generate
-political/geographic/taxonomic metadata, create labels, and export to
-multiple herbarium formats
-
 ## Geodata directory structure
 
 For those that are setting up a local instance the directory structure
@@ -429,9 +425,9 @@ ps2pdf labels_in.pdf labels_out-ps2pdf.pdf
 
 Has worked for me.
 
-| ![Oil portrait of botanist Rupert Charles Barneby painted by Dwight Ripley in 1955, showing Barneby in contemplative pose against a warm background](reference/figures/Portrait_of_Rupert_Barneby.png) |
-|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
-|                                                                          *‘Portrait of Rupert Barneby’* Dwight Ripley (1955)                                                                           |
+![Oil portrait of botanist Rupert Charles
+Barneby](reference/figures/Portrait_of_Rupert_Barneby.png)\| \|:–:\| \|
+*‘Portrait of Rupert Barneby’* Dwight Ripley (1955) \|
 
 *BarnebyLives(!) Was named after Rupert Charles Barneby, botanist
 extraordinaire, artist, socialite, and kind hearted human being. He is
