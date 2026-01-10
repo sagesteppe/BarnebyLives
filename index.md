@@ -1,4 +1,4 @@
-# dplyr [\<img src=“man/figures/logo.png” align=“right” height=“138”,alt=“BarnebyLives package hexagonal logo” /\>](https://sagesteppe.github.io/BarnebyLives/)
+# BarnebyLives
 
 # BarnebyLives
 
@@ -6,8 +6,6 @@ Tools for collecting digital data on herbarium specimens across Western
 North America
 
 ## Overview
-
-![BarnebyLives package hexagonal logo](reference/figures/logo.png)
 
 BarnebyLives! is an R program which serves to help botanical collectors
 in Western North America. BarnebyLives! runs multiple types of queries
