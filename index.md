@@ -1,5 +1,4 @@
-[![BarnebyLives package hexagonal
-logo](reference/figures/logo.png)](https://sagesteppe.github.io/BarnebyLives/)
+# BarnebyLives
 
 Tools for collecting digital data on herbarium specimens across Western
 North America
