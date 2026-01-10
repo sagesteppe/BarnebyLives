@@ -30,7 +30,9 @@
 
 <meta name="description" content="R package providing automated tools for botanical collectors to gather political, geographic, and taxonomic data for herbarium specimens">
 
-# BarnebyLives <a href="https://sagesteppe.github.io/BarnebyLives/"><img src="man/figures/logo.png" align="right" height="138" alt="BarnebyLives package hexagonal logo" /></a>
+<!-- hex logo -->
+
+<a href="https://sagesteppe.github.io/BarnebyLives/"><img src="man/figures/logo.png" align="right" height="138" alt="BarnebyLives package hexagonal logo" /></a>
 
 <!-- badges: start -->
 
@@ -42,8 +44,6 @@ developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.re
 [![R-CMD-check](https://github.com/sagesteppe/BarnebyLives/workflows/R-CMD-check/badge.svg)](https://github.com/sagesteppe/BarnebyLives/actions/workflows/R-CMD-check.yaml)
 
 <!-- badges: end -->
-
-# BarnebyLives
 
 <div class="lead">
 
