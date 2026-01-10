@@ -30,9 +30,7 @@
 
 <meta name="description" content="R package providing automated tools for botanical collectors to gather political, geographic, and taxonomic data for herbarium specimens">
 
-<!-- hex logo -->
-
-<a href="https://sagesteppe.github.io/BarnebyLives/"><img src="man/figures/logo.png" align="right" height="138" alt="BarnebyLives package hexagonal logo" /></a>
+# BarnebyLives <a href="https://sagesteppe.github.io/BarnebyLives/"><img src="man/figures/logo.png" align="right" height="138" alt="BarnebyLives package hexagonal logo" /></a>
 
 <!-- badges: start -->
 
