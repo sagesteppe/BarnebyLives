@@ -6,7 +6,7 @@
 #' @param symbol fixed here as the degree symbol
 #' @examples format_degree(180)
 #' @keywords internal
-#' @export
+#' @noRd
 format_degree <- function(x, symbol = "\u00B0") {
   paste0(x, symbol) # @ dirk
 }

@@ -18,17 +18,17 @@
 #'
 #' map_maker(ce, path_out = 'test', path = path, collection_col = 'Collection_number')
 #'
-#' # single threaded; but gains on parallel unlikely.
+#' # single threaded; nice and easy to take time.
 #' start_time <- Sys.time()
 #' map_maker(ce, path_out = 'test', path = path, collection_col = 'Collection_number')
 #' duration <- Sys.time() - start_time
 #'
-#' # with all cores via parallel::
+#' # with all cores via parallel:: -  may not be faster on all systems due to overhead
 #' start_time_parallel <- Sys.time()
 #' map_maker(ce, path_out = 'test', path = path, collection_col = 'Collection_number', parallel = 1)
 #' parallel_duration <- Sys.time() - start_time_parallel
 #'
-#' # but speed up gains unlikely. if pct is % loading cores took longer than single threading.
+#' # but speed up gains unlikely. if pct time to run the jobs spends too long loading cores. 
 #' speedup <- as.numeric(duration) / as.numeric(parallel_duration)
 #' if(speedup > 1) {
 #'  cat("Parallel was", round(
@@ -42,30 +42,40 @@
 #' }
 #' @export
 map_maker <- function(x, path_out, path, collection_col, parallel = 0) {
-  political <- sf::st_read(
+
+  political <- sf::st_read( # read in the data used for boundaries / basemap.  
     file.path(path, 'political', 'political.shp'),
     quiet = T
   )
+
+  # needs to be sf for the mapping, no conversion in function. 
+  if (!inherits(x, "sf")) {
+    stop("x must be an sf object")
+  }
+
+  # project points to the larger spatial data set. 
   if (sf::st_crs(x) == sf::st_crs(political)) {
     pts <- x
   } else {
     pts <- sf::st_transform(x, sf::st_crs(political))
   }
-  dir.create(
+
+  dir.create( # ensure directory exists. 
     file.path(path_out, 'maps'),
     recursive = TRUE,
     showWarnings = FALSE
   )
 
-  if (!inherits(x, "sf")) {
-    stop("x must be an sf object")
-  }
+
+  # stop is we do not find the collection number column
   if (!collection_col %in% names(x)) {
     stop(paste("Column", collection_col, "not found in x"))
   }
+
+  # determine is user supplied meaningful argument to use parallel. 
   if (parallel < 0 || parallel > 1) {
     if (parallel < 0) {
-      parellel = 0
+      parallel = 0
     } else {
       parallel <- 1
     }
@@ -83,7 +93,7 @@ map_maker <- function(x, path_out, path, collection_col, parallel = 0) {
   ]
   pts <- sf::st_as_sf(pts)
 
-  # Add this check:
+  # see if point is actually in the US.
   missing_states <- is.na(pts$temp_state)
   if (any(missing_states)) {
     warning(paste(

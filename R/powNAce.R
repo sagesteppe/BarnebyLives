@@ -5,6 +5,7 @@
 #' POW cells which are identical to the input (verified cleaned) as NA
 #' ideally making it easier for person to process there results and prepare
 #' there data for sharing via labels and digitally.
+#' 
 #' @param x an sf/data frame/tibble which has both the input and POW ran data on it
 #' @examples
 #' \dontrun{

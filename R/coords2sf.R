@@ -17,10 +17,13 @@
 #' @export
 coords2sf <- function(x, datum) {
   # first verify that the points have coordinates.
-  r <- sapply(x[c('latitude_dd', 'longitude_dd')], is.na)
-  lat <- which(r[, 1] == TRUE)
-  long <- which(r[, 2] == TRUE)
+  r <- do.call(cbind, lapply(x[c('latitude_dd', 'longitude_dd')], is.na))
+  colnames(r) <- c('latitude_dd', 'longitude_dd')
+
+  lat <- which(r[, 1])
+  long <- which(r[, 2])
   remove <- unique(c(lat, long))
+
 
   if (length(remove) > 0) {
     x <- x[-remove, ]

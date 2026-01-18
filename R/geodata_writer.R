@@ -15,12 +15,14 @@ geodata_writer <- function(x, path, filename, filetype) {
     filename <- paste0('HerbariumCollections-', Sys.Date())
   }
   if (missing(path)) {
-    fname <- paste0(filename, filetype)
-  } else {
-    fname <- file.path(path, paste0(filename, '.', filetype))
+  path <- "."
   }
+  
+  fname <- file.path(path, paste0(filename, ".", filetype))
 
-  ifelse(!dir.exists(file.path(path)), dir.create(file.path(path)), FALSE)
+  if (!dir.exists(path)) {
+    dir.create(path, recursive = TRUE)
+  }
 
   x <- x |>
     dplyr::mutate(

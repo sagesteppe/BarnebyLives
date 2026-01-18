@@ -21,13 +21,11 @@ notFound <- function(x) {
   rows <- unique(row_no) # these rows had complications...
   not_found <- x[rows, 'query'] # these records were not found.
 
-  recs <- cat(
+  message(
     'The record: ',
     not_found,
     ' (row ',
     rows,
     ') did not have all data retrieved.\n'
   )
-
-  message(recs)
 }

@@ -47,7 +47,17 @@ Imports:
 Remotes: 
 	barnabywalker/kewr, 
 	cran/parzer@0.4.3
-Suggests: data.table, testthat (>= 3.0.0), tidyverse, knitr, tigris, googlesheets4, kableExtra, ggplot2, parallel
+Suggests: 
+	data.table, 
+	testthat (>= 3.0.0), 
+	covr,
+	tidyverse, 
+	knitr, 
+	tigris, 
+	googlesheets4, 
+	kableExtra, 
+	ggplot2, 
+	parallel
 VignetteBuilder: knitr
 Config/testthat/edition: 3
 Roxygen: list(markdown = TRUE)

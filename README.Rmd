@@ -413,8 +413,8 @@ Has worked for me.
 
 <img src="man/figures/Portrait_of_Rupert_Barneby.png" 
      alt="Oil portrait of botanist Rupert Charles Barneby" 
-     width="300" height="600">| 
-|:--:| 
-| *'Portrait of Rupert Barneby'* Dwight Ripley (1955) |
+     width="300" height="600">
+
+'Portrait of Rupert Barneby'* Dwight Ripley (1955) 
 
 *BarnebyLives(!) Was named after Rupert Charles Barneby, botanist extraordinaire, artist, socialite, and kind hearted human being. He is the hero the West needs not Hayduke. Hence, BarnebyLives!*
