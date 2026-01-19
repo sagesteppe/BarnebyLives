@@ -41,7 +41,7 @@ test_that("geodata_writer uses defaults when arguments missing", {
   files <- list.files(tmp, pattern = "\\.kml$", full.names = TRUE)
 
   expect_length(files, 1)
-  expect_match(basename(files), "HerbariumCollections-")
+  expect_match(basename(files), "HerbariumCollections_")
 })
 
 

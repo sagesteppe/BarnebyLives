@@ -33,16 +33,16 @@ test_that("dms2dd stops if columns not found", {
 
 test_that("dms2dd converts DMS strings correctly", {
   df <- data.frame(
-    latitude = c("45 7 24"),
-    longitude = c("120 27 21")
+    latitude = c("45° 7' 24\""),    # or "45 7 24N" or "45:7:24"
+    longitude = c("120° 27' 21\"")  # or "120 27 21W" or "120:27:21"
   )
-  
   res <- dms2dd(df)
-  
   expect_true(all(c("latitude_dd", "longitude_dd") %in% colnames(res)))
   expect_true(all(c("latitude_dms", "longitude_dms") %in% colnames(res)))
+  # You could also check the actual values
+  expect_equal(res$latitude_dd, 45.123, tolerance = 0.01)
+  expect_equal(res$longitude_dd, -120.456, tolerance = 0.01)
 })
-
 test_that("dms2dd preserves data.table class", {
   dt <- data.table::data.table(
     latitude = c(45.123),
