@@ -118,4 +118,7 @@ spell_check <- function(data, column, path) {
     sc_res <- dplyr::bind_cols(sc_res, geometry_col) |>
       sf::st_as_sf()
   }
+
+  sc_res
+  
 }

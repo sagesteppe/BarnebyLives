@@ -6,6 +6,16 @@
 #' @examples # see package vignette
 #' @export
 directions_grabber <- function(x, api_key) {
+
+  if (missing(api_key) || is.null(api_key)) {
+    stop("api_key is required")
+  }
+  
+  required_cols <- c("latitude_dd", "longitude_dd", "Site")
+  if (!all(required_cols %in% names(x))) {
+    stop("Input must contain columns: ", paste(required_cols, collapse = ", "))
+  }
+
   # identify unique sites
   sites <- split(x, f = list(x$latitude_dd, x$longitude_dd), drop = TRUE)
   sites <- lapply(sites, '[', 1, )
@@ -18,7 +28,7 @@ directions_grabber <- function(x, api_key) {
   )
 
   # gather results from API
-  test_gq <- get_google_directions(sites, api_key = SoS_gkey)
+  test_gq <- get_google_directions(sites, api_key = api_key)
 
   # extract an overview of the directions as well as the specifics
   dir_over <- lapply(test_gq, directions_overview) |> unlist()
