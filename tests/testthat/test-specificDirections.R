@@ -45,9 +45,8 @@ test_that("specificDirections strips HTML tags", {
                 value = 1000,
                 text = "1.0 km"
               ),
-              html_instructions = c(
+              html_instructions = 
                 "<div><b>Turn</b> left onto Main St</div>"
-              )
             )
           )
         )
@@ -137,9 +136,8 @@ test_that("specificDirections abbreviates Continue", {
                 value = 1000,
                 text = "1.0 km"
               ),
-              html_instructions = c(
+              html_instructions = 
                 "<div>Continue onto Highway 50</div>"
-              )
             )
           )
         )
@@ -167,9 +165,8 @@ test_that("specificDirections removes commercial landmarks", {
                 value = 1000,
                 text = "1.0 km"
               ),
-              html_instructions = c(
+              html_instructions =
                 "<div>Turn left Pass by Burger King on the right</div>"
-              )
             )
           )
         )

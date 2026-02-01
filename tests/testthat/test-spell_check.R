@@ -67,7 +67,7 @@ create_test_data_sf <- function() {
     stringsAsFactors = FALSE
   )
   
-  sf::st_as_sf(df, coords = c("lon", "lat"), crs = 4326) %>%
+  sf::st_as_sf(df, coords = c("lon", "lat"), crs = 4326) |>
     mutate(lon = c(-105.5, -106.2, -107.1, -108.0),
            lat = c(40.5, 41.2, 42.1, 43.0))
 }
@@ -521,7 +521,7 @@ test_that("spell_check works with documentation example", {
     Epithet = c('purshii', 'borealius', 'multifora', 'annuus')
   )
   
-  names_l <- split(names, f = 1:nrow(names))
+  names_l <- split(names, f = seq_len(nrow(names)))
   
   # Should process without error
   r <- lapply(names_l, spell_check, column = 'Full_name', path = temp_path)

@@ -7,7 +7,7 @@ test_that("wcvp_update downloads when local file is outdated or missing", {
   tmp_dir <- tempdir()
   
   # Mock list.files to simulate local wcvp.zip present
-  mock_list <- mock(c("wcvp.zip"))
+  mock_list <- mock("wcvp.zip")
   stub(wcvp_update, "list.files", mock_list)
   
   # Mock read_xlsx to return a fake date (6 days ago)

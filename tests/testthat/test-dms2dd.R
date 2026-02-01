@@ -17,8 +17,8 @@ test_that("dms2dd converts decimal degree input correctly", {
 
 test_that("dms2dd auto-detects lat/long columns if not supplied", {
   df <- data.frame(
-    lat_val = c(45.123),
-    long_val = c(-120.456)
+    lat_val = 45.123,
+    long_val = -120.456
   )
   
   expect_message(res <- dms2dd(df))
@@ -33,8 +33,8 @@ test_that("dms2dd stops if columns not found", {
 
 test_that("dms2dd converts DMS strings correctly", {
   df <- data.frame(
-    latitude = c("45° 7' 24\""),    # or "45 7 24N" or "45:7:24"
-    longitude = c("120° 27' 21\"")  # or "120 27 21W" or "120:27:21"
+    latitude = "45° 7' 24\"",    # or "45 7 24N" or "45:7:24"
+    longitude = "120° 27' 21\""  # or "120 27 21W" or "120:27:21"
   )
   res <- dms2dd(df)
   expect_true(all(c("latitude_dd", "longitude_dd") %in% colnames(res)))
@@ -45,8 +45,8 @@ test_that("dms2dd converts DMS strings correctly", {
 })
 test_that("dms2dd preserves data.table class", {
   dt <- data.table::data.table(
-    latitude = c(45.123),
-    longitude = c(-120.456)
+    latitude = 45.123,
+    longitude = -120.456
   )
   
   res <- dms2dd(dt)
@@ -59,7 +59,7 @@ test_that("dmsbyrow handles mixed DMS/DD input", {
     long1 = c(-120.456, "120 27 21")
   )
   
-  res <- lapply(split(df, 1:nrow(df)), dmsbyrow, long = "long1", lat = "lat1")
+  res <- lapply(split(df, seq_len(nrow(df))), dmsbyrow, long = "long1", lat = "lat1")
   expect_equal(length(res), 2)
   expect_true(all(c("latitude_dd", "longitude_dd") %in% colnames(res[[1]])))
 })

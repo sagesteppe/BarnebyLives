@@ -10,9 +10,7 @@ make_spellcheck_tables <- function(path) {
   )
 
   infra <- data.frame(
-    taxon_name = c(
-      "Linnaea borealis subsp. borealis"
-    ),
+    taxon_name = "Linnaea borealis subsp. borealis",
     stringsAsFactors = FALSE
   )
 

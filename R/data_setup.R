@@ -514,7 +514,6 @@ process_gnis <- function(path, pathOut, bound) {
 #' @keywords internal
 process_padus <- function(path, pathOut, bound, tile_cells) {
   bound <- sf::st_transform(bound, 4269)
-  tile_cells
   tile_cells <- sf::st_transform(tile_cells, 4269)
 
   states <- tigris::states(cb = TRUE, year = 2022, progress_bar = FALSE)

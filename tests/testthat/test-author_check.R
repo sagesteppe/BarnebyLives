@@ -40,7 +40,7 @@ test_that("author_check flags incorrect abbreviations", {
 test_that("author_check handles NA correctly", {
 
   temp_dir <- tempdir()
-  write.csv(data.frame(x = c("L.")), file.path(temp_dir, "ipni_author_abbreviations.csv"), row.names = FALSE)
+  write.csv(data.frame(x = "L."), file.path(temp_dir, "ipni_author_abbreviations.csv"), row.names = FALSE)
 
   df <- data.frame(
     Genus = "Mentzelia",
@@ -60,7 +60,7 @@ test_that("author_check handles NA correctly", {
 
 test_that("author_check works with sf objects", {
   temp_dir <- tempdir()
-  write.csv(data.frame(x = c("L.")), file.path(temp_dir, "ipni_author_abbreviations.csv"), row.names = FALSE)
+  write.csv(data.frame(x = "L."), file.path(temp_dir, "ipni_author_abbreviations.csv"), row.names = FALSE)
 
   # create simple sf object
   sf_df <- sf::st_as_sf(
@@ -83,7 +83,7 @@ test_that("author_check works with sf objects", {
 
 test_that("author_check returns data frame with same number of rows", {
   temp_dir <- tempdir()
-  write.csv(data.frame(x = c("L.")), file.path(temp_dir, "ipni_author_abbreviations.csv"), row.names = FALSE)
+  write.csv(data.frame(x = "L."), file.path(temp_dir, "ipni_author_abbreviations.csv"), row.names = FALSE)
 
   df <- data.frame(
     Genus = c("A", "B"),

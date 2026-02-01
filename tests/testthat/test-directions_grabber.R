@@ -8,8 +8,8 @@ create_mock_data <- function(n = 3) {
     Site = c("Site A from Location 1", "Site B from Location 2", "Site C from Location 3"),
     latitude_dd = c(40.7128, 34.0522, 41.8781),
     longitude_dd = c(-74.0060, -118.2437, -87.6298)
-  ) %>%
-    sf::st_as_sf(coords = c("longitude_dd", "latitude_dd"), crs = 4326) %>%
+  ) |>
+    sf::st_as_sf(coords = c("longitude_dd", "latitude_dd"), crs = 4326) |>
     dplyr::mutate(
       latitude_dd = c(40.7128, 34.0522, 41.8781),
       longitude_dd = c(-74.0060, -118.2437, -87.6298)

@@ -11,9 +11,9 @@ test_that("associates_spell_check handles genus, species, infra and uncertainty"
   # 1. Fake input dataframe with all cases
   # -----------------------
   df <- data.frame(
-    Vegetation = c(
+    Vegetation = 
       "Cypers sp., Persicara spp., Eupatorium occidentalis, Pinus ponderosa var. scopulorum"
-    ),
+    ,
     stringsAsFactors = FALSE
   )
 
