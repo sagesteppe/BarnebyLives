@@ -451,7 +451,7 @@ process_gnis <- function(path, pathOut, bound) {
   cols <- c('feature_name', 'prim_lat_dec', 'prim_long_dec')
 
   places <- lapply(files, read.csv, sep = "|") |>
-    lapply(\(x) dplyr::select(x, all_of(cols))) |>
+    lapply(\(x) dplyr::select(x, dplyr::all_of(cols))) |>
     data.table::rbindlist() |>
     sf::st_as_sf(coords = c('prim_long_dec', 'prim_lat_dec'), crs = 4269)
 

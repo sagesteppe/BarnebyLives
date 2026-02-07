@@ -16,3 +16,4 @@
 ^docs/robots\.txt$
 update_sitemap.R
 ^update_readme.sh
+^update-readme.sh

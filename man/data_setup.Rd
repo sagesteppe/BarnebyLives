@@ -4,7 +4,7 @@
 \alias{data_setup}
 \title{Set up the downloaded data for a BarnebyLives instance}
 \usage{
-data_setup(path, pathOut, bound, cleanup)
+data_setup(path, pathOut, bound, cleanup = FALSE)
 }
 \arguments{
 \item{path}{Character. path to the folder where output from \code{data_download} was downloaded.

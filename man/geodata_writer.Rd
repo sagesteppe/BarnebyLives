@@ -4,7 +4,7 @@
 \alias{geodata_writer}
 \title{write out spatial data for collections to Google Earth or QGIS}
 \usage{
-geodata_writer(x, path, filename, filetype)
+geodata_writer(x, path = ".", filename, filetype = "kml")
 }
 \arguments{
 \item{x}{a data frame(/sf/tibble) which has at least undergone the 'dms2dd' and 'coords2sf' functions from BarnebyLives.}

@@ -182,13 +182,11 @@ test_that("map_maker warns and skips points outside boundaries", {
     "points did not intersect any state"
   )
 })
-
 test_that("map_maker handles parallel parameter bounds", {
   skip_if_not_installed("sf")
   skip_if_not_installed("ggplot2")
   
   tmp <- withr::local_tempdir()
-  
   df <- data.frame(
     Collection_number = 101,
     lon = -105,
@@ -214,12 +212,21 @@ test_that("map_maker handles parallel parameter bounds", {
     .package = "ggplot2"
   )
   
+  # Mock parallel functions to avoid spawning processes in CI
+  testthat::local_mocked_bindings(
+    detectCores = function() 2L,  # Return small number
+    makeCluster = function(...) NULL,
+    stopCluster = function(...) invisible(NULL),
+    clusterEvalQ = function(...) invisible(NULL),
+    parLapply = function(cl, X, FUN, ...) lapply(X, FUN, ...),  # Fall back to lapply
+    .package = "parallel"
+  )
+  
   # Should not error with out-of-bounds parallel values
   expect_no_error(
     map_maker(pts, path_out = tmp, path = tmp, 
               collection_col = "Collection_number", parallel = -0.5)
   )
-  
   expect_no_error(
     map_maker(pts, path_out = tmp, path = tmp, 
               collection_col = "Collection_number", parallel = 1.5)
