@@ -260,7 +260,7 @@ test_that("powo_searcher works with lapply and bind_rows", {
   )
   
   # Simulate the documentation example
-  pow_results <- lapply(species_list, powo_searcher) %>%
+  pow_results <- lapply(species_list, powo_searcher) |>
     dplyr::bind_rows()
   
   expect_equal(nrow(pow_results), 3)

@@ -30,7 +30,7 @@ create_pownace_test_data_sf <- function() {
   df$lon <- c(-105.5, -106.2, -107.1, -108.0, -109.3)
   df$lat <- c(40.5, 41.2, 42.1, 43.0, 44.3)
   
-  sf::st_as_sf(df, coords = c("lon", "lat"), crs = 4326) %>%
+  sf::st_as_sf(df, coords = c("lon", "lat"), crs = 4326) |>
     mutate(
       lon = c(-105.5, -106.2, -107.1, -108.0, -109.3),
       lat = c(40.5, 41.2, 42.1, 43.0, 44.3)
