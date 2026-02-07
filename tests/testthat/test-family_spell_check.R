@@ -374,13 +374,13 @@ test_that("family_spell_check reads CSV from correct path", {
   expect_error(family_spell_check(test_data, path = temp_path), NA)
 })
 
-test_that("family_spell_check warns with invalid path", {
+test_that("family_spell_check errors with invalid path", {
   test_data <- data.frame(
     Collection_number = 1,
     Family = "Asteraceae"
   )
   
-  expect_warning(
+  expect_error(
     family_spell_check(test_data, path = "/nonexistent/path")
   )
 })

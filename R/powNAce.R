@@ -23,8 +23,8 @@ powNAce <- function(x) {
   # four conditions are compared to determine which taxonomic level the authority
   # applies to
   infra_base <- function(x) {
-    x$POW_Infraspecific_authority <- NA
-    x$POW_Binomial_authority <- NA
+    x$POW_Infraspecific_authority <- NA_character_
+    x$POW_Binomial_authority <- NA_character_
 
     y <- x
 
@@ -50,6 +50,9 @@ powNAce <- function(x) {
   } # @ BEN STACK O 16822426
 
   author_spacer <- function(x) {
+    # Store which elements are NA
+    na_indices <- is.na(x)
+    
     trailed <- vector(mode = 'character', length = length(x))
     trailed[grep('\\.$', x)] <- '.'
 
@@ -60,6 +63,10 @@ powNAce <- function(x) {
     abbrevs <- paste0(abbrevs_notrail, trailed)
     abbrevs <- gsub("  ", " ", abbrevs)
     abbrevs <- gsub(" \\)", ")", abbrevs)
+    
+    # Restore NAs
+    abbrevs[na_indices] <- NA_character_
+    
     abbrevs
   }
 
@@ -124,10 +131,24 @@ powNAce <- function(x) {
   )
   x <- dplyr::left_join(x, x_pow, by = 'UNIQUEID')
 
+  # At the very end of powNAce, right before the final return of x:
+  
   x <- dplyr::relocate(x, dplyr::any_of(c(mycs, 'POW_Query')), .after = 4) |>
     dplyr::select(
       -dplyr::any_of(c('POW_Authority', 'POW_Name_authority', 'POW_Full_name'))
     )
+
+  # Ensure all POW columns are character type with proper NAs
+  pow_cols <- c(
+    'POW_Genus', 'POW_Epithet', 'POW_Infrarank', 'POW_Infraspecies',
+    'POW_Binomial_authority', 'POW_Infraspecific_authority', 'POW_Family'
+  )
+
+  for (col in pow_cols) {
+    if (col %in% names(x)) {
+      x[[col]] <- as.character(x[[col]])
+    }
+  }
 
   x
 }

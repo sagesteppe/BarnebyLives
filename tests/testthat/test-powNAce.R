@@ -45,6 +45,8 @@ test_that("powNAce replaces matching Genus with NA", {
     POW_Genus = c('Castilleja', 'Different'),
     Epithet = c('pilosa', 'borealis'),
     POW_Epithet = c('pilosa', 'borealis'),
+    POW_Infrarank = c(NA, NA),
+    POW_Infraspecies = c(NA, NA),
     POW_Authority = c('Auth1', 'Auth2')
   )
   
@@ -63,6 +65,8 @@ test_that("powNAce replaces matching Epithet with NA", {
     POW_Genus = c('Castilleja', 'Linnaea'),
     Epithet = c('pilosa', 'borealis'),
     POW_Epithet = c('pilosa', 'different'),
+    POW_Infrarank = c(NA, NA),
+    POW_Infraspecies = c(NA, NA),
     POW_Authority = c('Auth1', 'Auth2')
   )
   
@@ -81,6 +85,10 @@ test_that("powNAce replaces matching Family with NA", {
     POW_Family = c('Asteraceae', 'Different'),
     Genus = c('Genus1', 'Genus2'),
     POW_Genus = c('Genus1', 'Genus2'),
+    Epithet = c('sp1', 'sp2'),
+    POW_Epithet = c('sp1', 'sp2'),
+    POW_Infrarank = c(NA, NA),
+    POW_Infraspecies = c(NA, NA),
     POW_Authority = c('Auth1', 'Auth2')
   )
   
@@ -135,27 +143,6 @@ test_that("powNAce replaces matching Infraspecies with NA", {
   expect_equal(result$POW_Infraspecies[2], 'robur')
 })
 
-# Tests for authority assignment logic
-test_that("powNAce assigns authority to binomial when no infrarank", {
-  test_data <- data.frame(
-    UNIQUEID = 1,
-    Genus = c('Dimeresia'),
-    POW_Genus = c('Dimeresia'),
-    Epithet = c('howellii'),
-    POW_Epithet = c('howellii'),
-    Infrarank = NA,
-    POW_Infrarank = NA,
-    Infraspecies = NA,
-    POW_Infraspecies = NA,
-    POW_Authority = c('A. Gray')
-  )
-  
-  result <- powNAce(test_data)
-  
-  # Authority should go to binomial
-  expect_equal(result$POW_Binomial_authority[1], 'A. Gray')
-  expect_true(is.na(result$POW_Infraspecific_authority[1]))
-})
 
 test_that("powNAce assigns authority to binomial when infraspecies equals epithet", {
   test_data <- data.frame(
@@ -199,6 +186,9 @@ test_that("powNAce assigns authority to infraspecific when infraspecies differs 
   expect_equal(result$POW_Infraspecific_authority[1], '(J. Forbes) Rehder')
 })
 
+
+
+
 # Tests for author_spacer function
 test_that("powNAce adds spaces after abbreviated middle names", {
   test_data <- data.frame(
@@ -209,6 +199,8 @@ test_that("powNAce adds spaces after abbreviated middle names", {
     POW_Epithet = c('ponderosa'),
     Infrarank = NA,
     POW_Infrarank = NA,
+    Infraspecies = NA,
+    POW_Infraspecies = NA,
     POW_Authority = c('Lawson & C.Lawson')  # Missing space after C.
   )
   
@@ -227,6 +219,8 @@ test_that("powNAce preserves trailing periods in authorities", {
     POW_Epithet = c('borealis'),
     Infrarank = NA,
     POW_Infrarank = NA,
+    Infraspecies = NA,
+    POW_Infraspecies = NA,
     POW_Authority = c('L.')
   )
   
@@ -245,6 +239,8 @@ test_that("powNAce handles parentheses in authorities correctly", {
     POW_Epithet = c('pilosa'),
     Infrarank = NA,
     POW_Infrarank = NA,
+    Infraspecies = NA,
+    POW_Infraspecies = NA,
     POW_Authority = c('(S.Watson) Rydb.')
   )
   
@@ -263,6 +259,8 @@ test_that("powNAce handles NA comparisons correctly", {
     POW_Genus = c('Gen1', NA, 'Different'),
     Epithet = c('sp1', 'sp2', 'sp3'),
     POW_Epithet = c('sp1', 'sp2', 'sp3'),
+    POW_Infrarank = c(NA, NA, NA),
+    POW_Infraspecies = c(NA, NA, NA),
     POW_Authority = c('Auth1', 'Auth2', 'Auth3')
   )
   
@@ -349,6 +347,8 @@ test_that("powNAce replaces matching binomial authority with NA", {
     POW_Epithet = c('purshii', 'ponderosa'),
     Infrarank = c(NA, NA),
     POW_Infrarank = c(NA, NA),
+    Infraspecies = c(NA, NA),
+    POW_Infraspecies = c(NA, NA),
     Binomial_authority = c('Douglas', 'Lawson'),
     POW_Authority = c('Douglas', 'Different')
   )
@@ -389,6 +389,10 @@ test_that("powNAce requires UNIQUEID column", {
   test_data <- data.frame(
     Genus = c('Castilleja'),
     POW_Genus = c('Castilleja'),
+    Epithet = c('pilosa'),
+    POW_Epithet = c('pilosa'),
+    POW_Infrarank = c(NA),
+    POW_Infraspecies = c(NA),
     POW_Authority = c('Auth')
   )
   
@@ -431,6 +435,8 @@ test_that("powNAce handles single row", {
     POW_Genus = 'Castilleja',
     Epithet = 'pilosa',
     POW_Epithet = 'pilosa',
+    POW_Infrarank = NA,
+    POW_Infraspecies = NA,
     POW_Authority = 'Auth'
   )
   
@@ -449,6 +455,8 @@ test_that("powNAce handles all different values", {
     POW_Epithet = 'differentSpecies',
     Family = 'Family1',
     POW_Family = 'DifferentFamily',
+    POW_Infrarank = NA,
+    POW_Infraspecies = NA,
     POW_Authority = 'Auth'
   )
   

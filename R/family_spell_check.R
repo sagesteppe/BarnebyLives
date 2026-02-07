@@ -22,6 +22,8 @@ family_spell_check <- function(x, path) {
     out
   }
 
+  if(!file.exists(file.path(path, 'families_lookup_table.csv'))){stop('File not found.')}
+
   famLKPtab <- read.csv(file.path(path, 'families_lookup_table.csv')) |>
     dplyr::mutate(SPELLING = TRUE)
   families <- dplyr::left_join(x, famLKPtab, by = 'Family')

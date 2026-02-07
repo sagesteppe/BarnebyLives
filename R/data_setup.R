@@ -569,6 +569,8 @@ process_padus <- function(path, pathOut, bound, tile_cells) {
 
   tile_cells <- sf::st_transform(tile_cells, sf::st_crs(padus))
   padus <- sf::st_make_valid(padus)
+  sf::st_agr(padus) = "constant"
+  
   padus <- padus[
     sf::st_intersects(padus, sf::st_union(tile_cells)) |> lengths() > 0,
   ]
