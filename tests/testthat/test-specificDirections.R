@@ -191,9 +191,8 @@ test_that("specificDirections removes destination phrases", {
                 value = 1000,
                 text = "1.0 km"
               ),
-              html_instructions = c(
+              html_instructions =
                 "<div>Turn left Destination will be on the right</div>"
-              )
             )
           )
         )
