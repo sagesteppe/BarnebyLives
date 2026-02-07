@@ -45,7 +45,7 @@ test_that("specificDirections strips HTML tags", {
                 value = 1000,
                 text = "1.0 km"
               ),
-              html_instructions =  "<div><b>Turn</b> left onto Main St</div>"
+              html_instructions = "<div><b>Turn</b> left onto Main St</div>"
             )
           )
         )
