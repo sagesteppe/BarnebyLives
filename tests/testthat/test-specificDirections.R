@@ -45,8 +45,7 @@ test_that("specificDirections strips HTML tags", {
                 value = 1000,
                 text = "1.0 km"
               ),
-              html_instructions = 
-                "<div><b>Turn</b> left onto Main St</div>"
+              html_instructions =  "<div><b>Turn</b> left onto Main St</div>"
             )
           )
         )
@@ -74,9 +73,7 @@ test_that("specificDirections converts distances to miles", {
                 value = 1609,  # Approximately 1 mile
                 text = "1.6 km"
               ),
-              html_instructions = c(
-                "<div>Turn left</div>"
-              )
+              html_instructions =  "<div>Turn left</div>"
             )
           )
         )

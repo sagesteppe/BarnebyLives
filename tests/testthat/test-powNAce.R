@@ -147,15 +147,15 @@ test_that("powNAce replaces matching Infraspecies with NA", {
 test_that("powNAce assigns authority to binomial when infraspecies equals epithet", {
   test_data <- data.frame(
     UNIQUEID = 1,
-    Genus = c('Castilleja'),
-    POW_Genus = c('Castilleja'),
-    Epithet = c('pilosa'),
-    POW_Epithet = c('pilosa'),
-    Infrarank = c('var.'),
-    POW_Infrarank = c('var.'),
-    Infraspecies = c('pilosa'),
-    POW_Infraspecies = c('pilosa'),
-    POW_Authority = c('(S. Watson) Rydb.')
+    Genus = 'Castilleja',
+    POW_Genus = 'Castilleja',
+    Epithet = 'pilosa',
+    POW_Epithet = 'pilosa',
+    Infrarank = 'var.',
+    POW_Infrarank = 'var.',
+    Infraspecies = 'pilosa',
+    POW_Infraspecies = 'pilosa',
+    POW_Authority = '(S. Watson) Rydb.'
   )
   
   result <- powNAce(test_data)
@@ -168,15 +168,15 @@ test_that("powNAce assigns authority to binomial when infraspecies equals epithe
 test_that("powNAce assigns authority to infraspecific when infraspecies differs from epithet", {
   test_data <- data.frame(
     UNIQUEID = 1,
-    Genus = c('Linnaea'),
-    POW_Genus = c('Linnaea'),
-    Epithet = c('borealis'),
-    POW_Epithet = c('borealis'),
-    Infrarank = c('var.'),
-    POW_Infrarank = c('var.'),
-    Infraspecies = c('americana'),
-    POW_Infraspecies = c('americana'),
-    POW_Authority = c('(J. Forbes) Rehder')
+    Genus = 'Linnaea',
+    POW_Genus = 'Linnaea',
+    Epithet = 'borealis',
+    POW_Epithet = 'borealis',
+    Infrarank = 'var.',
+    POW_Infrarank = 'var.',
+    Infraspecies = 'americana',
+    POW_Infraspecies = 'americana',
+    POW_Authority = '(J. Forbes) Rehder'
   )
   
   result <- powNAce(test_data)
@@ -187,21 +187,19 @@ test_that("powNAce assigns authority to infraspecific when infraspecies differs 
 })
 
 
-
-
 # Tests for author_spacer function
 test_that("powNAce adds spaces after abbreviated middle names", {
   test_data <- data.frame(
     UNIQUEID = 1,
-    Genus = c('Pinus'),
-    POW_Genus = c('Pinus'),
-    Epithet = c('ponderosa'),
-    POW_Epithet = c('ponderosa'),
+    Genus = 'Pinus',
+    POW_Genus = 'Pinus',
+    Epithet = 'ponderosa',
+    POW_Epithet = 'ponderosa',
     Infrarank = NA,
     POW_Infrarank = NA,
     Infraspecies = NA,
     POW_Infraspecies = NA,
-    POW_Authority = c('Lawson & C.Lawson')  # Missing space after C.
+    POW_Authority = 'Lawson & C.Lawson'  # Missing space after C.
   )
   
   result <- powNAce(test_data)
@@ -213,15 +211,15 @@ test_that("powNAce adds spaces after abbreviated middle names", {
 test_that("powNAce preserves trailing periods in authorities", {
   test_data <- data.frame(
     UNIQUEID = 1,
-    Genus = c('Linnaea'),
-    POW_Genus = c('Linnaea'),
-    Epithet = c('borealis'),
-    POW_Epithet = c('borealis'),
+    Genus = 'Linnaea',
+    POW_Genus = 'Linnaea',
+    Epithet = 'borealis',
+    POW_Epithet = 'borealis',
     Infrarank = NA,
     POW_Infrarank = NA,
     Infraspecies = NA,
     POW_Infraspecies = NA,
-    POW_Authority = c('L.')
+    POW_Authority = 'L.'
   )
   
   result <- powNAce(test_data)
@@ -233,15 +231,15 @@ test_that("powNAce preserves trailing periods in authorities", {
 test_that("powNAce handles parentheses in authorities correctly", {
   test_data <- data.frame(
     UNIQUEID = 1,
-    Genus = c('Castilleja'),
-    POW_Genus = c('Castilleja'),
-    Epithet = c('pilosa'),
-    POW_Epithet = c('pilosa'),
+    Genus = 'Castilleja',
+    POW_Genus = 'Castilleja',
+    Epithet = 'pilosa',
+    POW_Epithet = 'pilosa',
     Infrarank = NA,
     POW_Infrarank = NA,
     Infraspecies = NA,
     POW_Infraspecies = NA,
-    POW_Authority = c('(S.Watson) Rydb.')
+    POW_Authority = '(S.Watson) Rydb.'
   )
   
   result <- powNAce(test_data)
@@ -387,13 +385,13 @@ test_that("powNAce replaces matching infraspecific authority with NA", {
 # Tests for UNIQUEID requirement
 test_that("powNAce requires UNIQUEID column", {
   test_data <- data.frame(
-    Genus = c('Castilleja'),
-    POW_Genus = c('Castilleja'),
-    Epithet = c('pilosa'),
-    POW_Epithet = c('pilosa'),
-    POW_Infrarank = c(NA),
-    POW_Infraspecies = c(NA),
-    POW_Authority = c('Auth')
+    Genus = 'Castilleja',
+    POW_Genus = 'Castilleja',
+    Epithet = 'pilosa',
+    POW_Epithet = 'pilosa',
+    POW_Infrarank = NA,
+    POW_Infraspecies = NA,
+    POW_Authority = 'Auth'
   )
   
   # Should error or fail without UNIQUEID
