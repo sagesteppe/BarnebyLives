@@ -30,16 +30,20 @@
 
 <meta name="description" content="R package providing automated tools for botanical collectors to gather political, geographic, and taxonomic data for herbarium specimens">
 
-# BarnebyLives <a href="https://sagesteppe.github.io/BarnebyLives/"><img src="man/figures/logo.png" align="right" height="138" alt="BarnebyLives package hexagonal logo" /></a>
+# BarnebyLives
+
+<a href="https://sagesteppe.github.io/BarnebyLives/"><img src="man/figures/logo.png" align="right" height="138" alt="BarnebyLives package hexagonal logo" /></a>
 
 <!-- badges: start -->
 
+[![R build
+status](https://github.com/sagesteppe/BarnebyLives/workflows/R-CMD-check/badge.svg)](https://github.com/sagesteppe/BarnebyLives/actions)
+[![](https://codecov.io/gh/sagesteppe/BarnebyLives/branch/main/graph/badge.svg)](https://app.codecov.io/gh/sagesteppe/BarnebyLives)
 [![CodeFactor](https://www.codefactor.io/repository/github/sagesteppe/BarnebyLives/badge)](https://www.codefactor.io/repository/github/sagesteppe/BarnebyLives)
 [![Project Status: Active - The project has reached a stable, usable
 state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![](https://img.shields.io/badge/doi-10.5281/zenodo.18140441-orange.svg)](https://doi.org/10.5281/zenodo.18140441)
-[![R-CMD-check](https://github.com/sagesteppe/BarnebyLives/workflows/R-CMD-check/badge.svg)](https://github.com/sagesteppe/BarnebyLives/actions/workflows/R-CMD-check.yaml)
 
 <!-- badges: end -->
 
@@ -430,8 +434,9 @@ Has worked for me.
 
 <img src="man/figures/Portrait_of_Rupert_Barneby.png" 
      alt="Oil portrait of botanist Rupert Charles Barneby" 
-     width="300" height="600">| |:–:| | *‘Portrait of Rupert Barneby’*
-Dwight Ripley (1955) |
+     width="300" height="600">
+
+‘Portrait of Rupert Barneby’\* Dwight Ripley (1955)
 
 *BarnebyLives(\!) Was named after Rupert Charles Barneby, botanist
 extraordinaire, artist, socialite, and kind hearted human being. He is

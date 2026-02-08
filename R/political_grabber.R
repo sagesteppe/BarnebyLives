@@ -26,7 +26,7 @@ political_grabber <- function(x, y, path) {
     quiet = T
   )
   feature <- sf::st_read(
-    file.path(p2geo, 'mountains', 'mountains.shp'),
+    file.path(path, 'mountains', 'mountains.shp'),
     quiet = T
   )
 
@@ -37,8 +37,11 @@ political_grabber <- function(x, y, path) {
   plss <- sf::st_read(file.path(path, 'plss', 'plss.shp'), quiet = T)
   ownership <- sf::st_read(file.path(path, 'pad', 'pad.shp'), quiet = T)
 
-  # write attributes to data set
 
+  ## if neccessary transform projection to that of data. 
+  x <- sf::st_transform(x, sf::st_crs(plss))
+  
+  # write attributes to data set
   x <- sf::st_join(x, political)
   x <- sf::st_join(x, allotment)
   x <- sf::st_join(x, ownership)
@@ -46,6 +49,7 @@ political_grabber <- function(x, y, path) {
 
   x_plss <- sf::st_transform(x, sf::st_crs(plss))
   x_plss <- sf::st_join(x_plss, plss) |>
+    dplyr::distinct(.data[[y]], .keep_all = TRUE) |>
     sf::st_drop_geometry() |>
     dplyr::select(dplyr::any_of(c(y, 'trs')))
 

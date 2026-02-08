@@ -43,7 +43,10 @@ species_font <- function(x) {
     x <- paste0(x, '.')
   }
 
-  # Clean up any double periods
+   # Clean up period on both sides of closing brace
+  x <- gsub('\\.\\}\\.', '}.', x)
+  
+  # Clean up any remaining double periods
   x <- gsub('\\.+', '.', x)
 
   x

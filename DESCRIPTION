@@ -13,7 +13,7 @@ Description: Provides comprehensive tools for botanical collectors working in
     characteristics (elevation, slope, aspect, geology), and taxonomic validation. 
     Generates herbarium labels and manifests compatible with Symbiota, Darwin Core, 
     and major herbarium data systems. Named after renowned botanist Rupert Charles Barneby.
-License: MIT + file LICENSELicense: MIT + file LICENSE
+License: MIT + file LICENSE
 URL: https://sagesteppe.github.io/BarnebyLives/, 
      https://github.com/sagesteppe/BarnebyLives
 BugReports: https://github.com/sagesteppe/BarnebyLives/issues
@@ -47,7 +47,19 @@ Imports:
 Remotes: 
 	barnabywalker/kewr, 
 	cran/parzer@0.4.3
-Suggests: data.table, testthat (>= 3.0.0), tidyverse, knitr, tigris, googlesheets4, kableExtra, ggplot2, parallel
+Suggests: 
+	data.table, 
+	testthat (>= 3.0.0), 
+	covr,
+	tidyverse, 
+	knitr, 
+	tigris, 
+	googlesheets4, 
+	kableExtra, 
+	ggplot2, 
+	parallel,
+	mockery, 
+	withr
 VignetteBuilder: knitr
 Config/testthat/edition: 3
 Roxygen: list(markdown = TRUE)

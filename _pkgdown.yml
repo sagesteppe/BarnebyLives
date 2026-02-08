@@ -179,7 +179,6 @@ reference:
     contents:
       - all_authors
       - directions_overview
-      - format_degree
       - get_google_directions
       - notFound
       - mason

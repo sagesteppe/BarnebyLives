@@ -10,14 +10,12 @@
 #' @examples
 #' library(BarnebyLives)
 #' ce <- collection_examples
-#' ce <- data.frame(
-#'   Collection_number = ce$Collection_number[sample(1:nrow(ce), size = 100, replace = FALSE)],
-#'   Binomial = c(ce$Full_name, ce$Name_authority)[sample(1:nrow(ce)*2, size = 100, replace = FALSE)],
-#'   Binomial_authority = ce$Binomial_authority[sample(1:nrow(ce), size = 100, replace = FALSE)]
-#' ) # extra columns to challenge name search - values are meaningless
-#'
-#' split_scientificName(ce)|> head()
-#' split_scientificName(ce, sciName_col = 'Binomial') |> head()
+#' ce <- collection_examples[
+#'  sample(1:nrow(collection_examples), 25), 
+#'  Sci_name = c('Collection_number', 'Name_authority')
+#' ]
+#' 
+#' split_scientificName(ce, sciName_col = 'Sci_name')|> head()
 #' @export
 split_scientificName <- function(x, sciName_col, overwrite) {
   if (missing(sciName_col)) {

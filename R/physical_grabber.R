@@ -13,9 +13,10 @@ physical_grabber <- function(x, path) {
     df
   }
 
-  x_spat <- terra::vect(x)
-
   geology <- terra::vect(file.path(path, 'geology/geology.shp'))
+
+  x_spat <- terra::vect(x) |>
+    terra::project(terra::crs(geology))
   x_geo <- terra::extract(geology, x_spat)
 
   asp <- 'aspect'

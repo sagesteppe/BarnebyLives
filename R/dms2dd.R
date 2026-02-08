@@ -29,17 +29,23 @@ dms2dd <- function(x, lat, long, dms) {
   x <- as.data.frame(x)
 
   # identify columns if they were not supplied
+    # detect lat column if missing
   if (missing(lat)) {
-    lat = colnames(x)[grep('lat', colnames(x), ignore.case = T)][1]
-    message(crayon::yellow('argument to `lat` not found. detected and using: ', lat))
-  }
-  if (missing(long)) {
-    long = colnames(x)[grep('long', colnames(x), ignore.case = T)][1]
-    message(crayon::yellow('argument to `long` not found. detected and using: ', long))
+    lat <- colnames(x)[grep('lat', colnames(x), ignore.case = TRUE)][1]
+    if (is.na(lat)) stop('Error, argument for `lat` not found. Please specify.')
+    message(crayon::yellow('argument to `lat` found, using: ', lat))
   }
 
-  if(length(lat)==0){stop('Error, argument for `lat` not found. Please specify.')}
-  if(length(long)==0){stop('Error, argument for `lat` not found. Please specify.')}
+  # detect long column if missing
+  if (missing(long)) {
+    long <- colnames(x)[grep('long', colnames(x), ignore.case = TRUE)][1]
+    if (is.na(long)) stop('Error, argument for `long` not found. Please specify.')
+    message(crayon::yellow('argument to `long` found, using: ', long))
+  }
+  
+  # defensive check if columns explicitly supplied but don't exist
+  if (!lat %in% colnames(x)) stop('Column specified for lat does not exist')
+  if (!long %in% colnames(x)) stop('Column specified for long does not exist')
 
   # remove any N | E | S | W, or for that matter other alphabetical characters
   x[, long] <- as.character(x[, long])

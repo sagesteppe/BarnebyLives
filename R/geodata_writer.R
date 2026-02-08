@@ -7,22 +7,23 @@
 #' @param path a location to save the data to. If not supplied defaults to the current working directory.
 #' @param filename name of file. if not supplied defaults to appending todays date to 'Collections'
 #' @param filetype a file format to save the data to. This is a wrapper for sf::st_write and will support all drivers used there. If not supplied defaults to kml for use with Google Earth.
-geodata_writer <- function(x, path, filename, filetype) {
-  if (missing(filetype)) {
-    filetype <- 'kml'
-  }
+geodata_writer <- function(x, path = '.', filename, filetype = 'kml') {
+
   if (missing(filename)) {
-    filename <- paste0('HerbariumCollections-', Sys.Date())
+    filename <- paste0('HerbariumCollections_', gsub('-', '_', Sys.Date()))
   }
-  if (missing(path)) {
-    fname <- paste0(filename, filetype)
-  } else {
-    fname <- file.path(path, paste0(filename, '.', filetype))
+  
+  fname <- file.path(path, paste0(filename, ".", filetype))
+
+  if (!dir.exists(path)) {
+    dir.create(path, recursive = TRUE)
   }
 
-  ifelse(!dir.exists(file.path(path)), dir.create(file.path(path)), FALSE)
-
-  x <- x |>
+  if (file.exists(fname)) {
+    unlink(fname)
+  }
+  
+  x |>
     dplyr::mutate(
       Collector_n_Number = paste(
         gsub("(*UCP)[^;-](?<!\\b\\p{L})", "", Primary_Collector, perl = TRUE),
@@ -34,7 +35,6 @@ geodata_writer <- function(x, path, filename, filetype) {
     sf::st_write(
       dsn = fname,
       driver = filetype,
-      delete_dsn = TRUE,
       quiet = T,
       append = F
     )

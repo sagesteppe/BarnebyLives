@@ -21,7 +21,7 @@
 #' data_setup(path = '.', pathOut = '../geodata', bound = bound, cleanup = FALSE)
 #' }
 #' @export
-data_setup <- function(path, pathOut, bound, cleanup) {
+data_setup <- function(path, pathOut, bound, cleanup = FALSE) {
   if (missing(path)) {
     path <- file.path('.', 'geodata_raw')
   }
@@ -29,9 +29,6 @@ data_setup <- function(path, pathOut, bound, cleanup) {
     pathOut <- file.path('..', 'geodata')
   }
   dir.create(pathOut, showWarnings = FALSE)
-  if (missing(cleanup)) {
-    cleanup = FALSE
-  }
 
   # create the extent which we are operating in
   bb_vals <- c(min(bound$x), max(bound$x), min(bound$y), max(bound$y))
@@ -157,10 +154,12 @@ make_tiles <- function(bound, bb_vals) {
     ) #cols
   ) |>
     sf::st_as_sf() |>
-    dplyr::rename(geometry = x) |>
+    dplyr::rename(geometry = x)
+
+  tile_cells <- tile_cells |>
     dplyr::mutate(
-      x = sf::st_coordinates(sf::st_centroid(.))[, 1],
-      y = sf::st_coordinates(sf::st_centroid(.))[, 2],
+      x = sf::st_coordinates(sf::st_centroid(tile_cells))[, 1],
+      y = sf::st_coordinates(sf::st_centroid(tile_cells))[, 2],
       .before = geometry,
       dplyr::across(c('x', 'y'), \(x) round(x, 1)),
       cellname = paste0('n', abs(y), 'w', abs(x))
@@ -452,7 +451,7 @@ process_gnis <- function(path, pathOut, bound) {
   cols <- c('feature_name', 'prim_lat_dec', 'prim_long_dec')
 
   places <- lapply(files, read.csv, sep = "|") |>
-    lapply(\(x) dplyr::select(x, all_of(cols))) |>
+    lapply(\(x) dplyr::select(x, dplyr::all_of(cols))) |>
     data.table::rbindlist() |>
     sf::st_as_sf(coords = c('prim_long_dec', 'prim_lat_dec'), crs = 4269)
 
@@ -515,7 +514,6 @@ process_gnis <- function(path, pathOut, bound) {
 #' @keywords internal
 process_padus <- function(path, pathOut, bound, tile_cells) {
   bound <- sf::st_transform(bound, 4269)
-  tile_cells
   tile_cells <- sf::st_transform(tile_cells, 4269)
 
   states <- tigris::states(cb = TRUE, year = 2022, progress_bar = FALSE)
@@ -571,6 +569,8 @@ process_padus <- function(path, pathOut, bound, tile_cells) {
 
   tile_cells <- sf::st_transform(tile_cells, sf::st_crs(padus))
   padus <- sf::st_make_valid(padus)
+  sf::st_agr(padus) = "constant"
+  
   padus <- padus[
     sf::st_intersects(padus, sf::st_union(tile_cells)) |> lengths() > 0,
   ]

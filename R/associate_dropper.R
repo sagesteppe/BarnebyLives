@@ -31,6 +31,7 @@ associate_dropper <- function(x, Binomial, col) {
     x[col] <- gsub("^, ", "", x[col])
     x[col] <- gsub(", ,", ",", x[col])
     x[col] <- gsub(",([A-Za-z])", ", \\1", x[col])
+    x[col] <- gsub("[[:space:]]*$","",x[col])
   }
   res <- apply(X = x, FUN = remove, MARGIN = 1, Binomial, col)
   x[, col] <- res
