@@ -101,27 +101,9 @@ to mention valid infraspecies.</p></dd>
 <span class="r-in"><span>      <span class="st">'Astragalus purshii'</span>, <span class="st">'Pinus ponderosa'</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>      <span class="va">powo_searcher</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_rows.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> Request to 'http://www.plantsoftheworldonline.org/api/2/search' failed with code 500: Server error: (500) Internal Server Error</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">pow_results</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                         POW_Query     POW_Family</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  Linnaea borealis var. borealis Caprifoliaceae</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 Linnaea borealis var. americana Caprifoliaceae</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3              Astragalus purshii       Fabaceae</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4                 Pinus ponderosa       Pinaceae</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                     POW_Name_authority</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1                    Linnaea borealis L. var. borealis</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 Linnaea borealis L. var. americana (J.Forbes) Rehder</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3                  Astragalus purshii Douglas ex G.Don</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4                  Pinus ponderosa Douglas ex C.Lawson</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                     POW_Full_name POW_Binom_authority  POW_Genus POW_Epithet</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  Linnaea borealis var. borealis                  L.    Linnaea    borealis</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 Linnaea borealis var. americana                  L.    Linnaea    borealis</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3              Astragalus purshii    Douglas ex G.Don Astragalus     purshii</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4                 Pinus ponderosa Douglas ex C.Lawson      Pinus   ponderosa</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   POW_Infrarank POW_Infraspecies POW_Infra_authority</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1          var.         borealis                &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2          var.        americana   (J.Forbes) Rehder</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3          &lt;NA&gt;             &lt;NA&gt;                &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4          &lt;NA&gt;             &lt;NA&gt;                &lt;NA&gt;</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'pow_results' not found</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

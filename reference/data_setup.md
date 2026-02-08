@@ -6,7 +6,7 @@ them up to be used by the pipeline.
 ## Usage
 
 ``` r
-data_setup(path, pathOut, bound, cleanup)
+data_setup(path, pathOut, bound, cleanup = FALSE)
 ```
 
 ## Arguments

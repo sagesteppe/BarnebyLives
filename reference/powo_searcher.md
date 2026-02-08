@@ -25,25 +25,7 @@ pow_results <- lapply(
       'Astragalus purshii', 'Pinus ponderosa'),
       powo_searcher) |>
    dplyr::bind_rows()
+#> Error: Request to 'http://www.plantsoftheworldonline.org/api/2/search' failed with code 500: Server error: (500) Internal Server Error
 head(pow_results)
-#>                         POW_Query     POW_Family
-#> 1  Linnaea borealis var. borealis Caprifoliaceae
-#> 2 Linnaea borealis var. americana Caprifoliaceae
-#> 3              Astragalus purshii       Fabaceae
-#> 4                 Pinus ponderosa       Pinaceae
-#>                                     POW_Name_authority
-#> 1                    Linnaea borealis L. var. borealis
-#> 2 Linnaea borealis L. var. americana (J.Forbes) Rehder
-#> 3                  Astragalus purshii Douglas ex G.Don
-#> 4                  Pinus ponderosa Douglas ex C.Lawson
-#>                     POW_Full_name POW_Binom_authority  POW_Genus POW_Epithet
-#> 1  Linnaea borealis var. borealis                  L.    Linnaea    borealis
-#> 2 Linnaea borealis var. americana                  L.    Linnaea    borealis
-#> 3              Astragalus purshii    Douglas ex G.Don Astragalus     purshii
-#> 4                 Pinus ponderosa Douglas ex C.Lawson      Pinus   ponderosa
-#>   POW_Infrarank POW_Infraspecies POW_Infra_authority
-#> 1          var.         borealis                <NA>
-#> 2          var.        americana   (J.Forbes) Rehder
-#> 3          <NA>             <NA>                <NA>
-#> 4          <NA>             <NA>                <NA>
+#> Error: object 'pow_results' not found
 ```

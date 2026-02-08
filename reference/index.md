@@ -108,8 +108,6 @@ functions used internally
   : retrieve author results for autonyms
 - [`directions_overview()`](https://sagesteppe.github.io/BarnebyLives/reference/directions_overview.md)
   : return a quick route summary from googleway::google_directions
-- [`format_degree()`](https://sagesteppe.github.io/BarnebyLives/reference/format_degree.md)
-  : ASCII compliant degree symbol
 - [`get_google_directions()`](https://sagesteppe.github.io/BarnebyLives/reference/get_google_directions.md)
   : identify a populated place near a collection and get directions from
   there

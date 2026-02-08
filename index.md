@@ -1,5 +1,8 @@
 # BarnebyLives
 
+[![BarnebyLives package hexagonal
+logo](reference/figures/logo.png)](https://sagesteppe.github.io/BarnebyLives/)
+
 Tools for collecting digital data on herbarium specimens across Western
 North America
 
@@ -422,8 +425,9 @@ ps2pdf labels_in.pdf labels_out-ps2pdf.pdf
 Has worked for me.
 
 ![Oil portrait of botanist Rupert Charles
-Barneby](reference/figures/Portrait_of_Rupert_Barneby.png)\| \|:–:\| \|
-*‘Portrait of Rupert Barneby’* Dwight Ripley (1955) \|
+Barneby](reference/figures/Portrait_of_Rupert_Barneby.png)
+
+‘Portrait of Rupert Barneby’\* Dwight Ripley (1955)
 
 *BarnebyLives(!) Was named after Rupert Charles Barneby, botanist
 extraordinaire, artist, socialite, and kind hearted human being. He is

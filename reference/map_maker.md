@@ -47,17 +47,17 @@ path <- "/path/to/your/BarnebyLivesGeodata"
 
 map_maker(ce, path_out = 'test', path = path, collection_col = 'Collection_number')
 
-# single threaded; but gains on parallel unlikely.
+# single threaded; nice and easy to take time.
 start_time <- Sys.time()
 map_maker(ce, path_out = 'test', path = path, collection_col = 'Collection_number')
 duration <- Sys.time() - start_time
 
-# with all cores via parallel::
+# with all cores via parallel:: -  may not be faster on all systems due to overhead
 start_time_parallel <- Sys.time()
 map_maker(ce, path_out = 'test', path = path, collection_col = 'Collection_number', parallel = 1)
 parallel_duration <- Sys.time() - start_time_parallel
 
-# but speed up gains unlikely. if pct is % loading cores took longer than single threading.
+# but speed up gains unlikely. if pct time to run the jobs spends too long loading cores. 
 speedup <- as.numeric(duration) / as.numeric(parallel_duration)
 if(speedup > 1) {
  cat("Parallel was", round(

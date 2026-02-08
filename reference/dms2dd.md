@@ -40,8 +40,8 @@ both degrees, minutes, seconds (\_dms) and decimal degrees (\_dd).
   input_latitude = runif(15, min = 35, max = 48)
 )
 coords_formatted <- dms2dd( coords )
-#> argument to `lat` not found. detected and using:  input_latitude
-#> argument to `long` not found. detected and using:  input_longitude
+#> argument to `lat` found, using:  input_latitude
+#> argument to `long` found, using:  input_longitude
 head(coords_formatted)
 #>   longitude_dd latitude_dd latitude_dms longitude_dms
 #> 1   -106.79281    38.28896   N 38°17'20   W 106°47'34
@@ -60,8 +60,8 @@ data(uncleaned_collection_examples)
 
 dms2dd(uncleaned_collection_examples) |>
   dplyr::select(latitude_dd, longitude_dd, latitude_dms, longitude_dms)
-#> argument to `lat` not found. detected and using:  Latitude
-#> argument to `long` not found. detected and using:  Longitude
+#> argument to `lat` found, using:  Latitude
+#> argument to `long` found, using:  Longitude
 #>     latitude_dd longitude_dd latitude_dms longitude_dms
 #> 1      39.28469   -119.73222    N 39°17'5   W 119°43'56
 #> 2      39.28396   -119.73159    N 39°17'2   W 119°43'54

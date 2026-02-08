@@ -10,7 +10,7 @@ program.
 ## Usage
 
 ``` r
-geodata_writer(x, path, filename, filetype)
+geodata_writer(x, path = ".", filename, filetype = "kml")
 ```
 
 ## Arguments
