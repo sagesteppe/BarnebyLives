@@ -146,6 +146,7 @@ reference:
       - site_writer
       - spell_check
       - split_scientificName
+      - wcvp_searcher
   - title: Preparing data to run BL
     desc: Data prep functions
     contents: 
