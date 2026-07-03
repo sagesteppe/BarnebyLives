@@ -16,6 +16,7 @@ and check the links in the side bar too!
 ## Modifications
 
 ``` r
+
 library(BarnebyLives)
 library(tidyverse)
 
@@ -31,6 +32,7 @@ As a reminder labels can be copied from their original locations, in the
 package installation, using the following code.
 
 ``` r
+
 p2lib <- file.path(
   system.file(package = 'BarnebyLives'),
   'rmarkdown', 'templates', 'labels', 'skeleton'

@@ -12,8 +12,8 @@
 <link rel="icon" sizes="any" href="favicon.ico">
 <link rel="manifest" href="site.webmanifest">
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="BarnebyLives - Herbarium Data Collection Tools">
 <meta name="description" content="R package for collectors in Western North America. Automates  collection of political, geographic, and taxonomic data for herbarium  specimens.
@@ -250,67 +250,67 @@ Windows Installation
 <p>The columns in the top table are <strong>required</strong> to run the all the functions in BarnebyLives. The columns in the middle table are suggested to increase the quality of the collections. The columns in the lower table are optional, to be blunt, BarnebyLives will generate all of these values. Ficticious examples are provided here, while links to real examples (~100) are contained <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vR8I-JBcgA7P9RYjJqbTebzNFLS1bLz1sYVW1vPlU5Bq6WXCwKS4zkeGTCmlo9BcznCKNbdz6gtK9pV/pubhtml" class="external-link">here</a> and in the vignettes.</p>
 <table class="table">
 <colgroup>
-<col width="7%">
-<col width="80%">
-<col width="12%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
 </colgroup>
-<thead><tr class="header">
+<thead><tr>
 <th>Column name</th>
 <th>Description</th>
 <th>Example</th>
 </tr></thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td>Collection_number</td>
 <td>The collection number for the primary botanist. This number should unambiguously identify the collection, and be inclusive of all replicates (multiple herbaria sheets). We recommend using a number agnostic of projects and seasons.</td>
 <td>6359</td>
 </tr>
-<tr class="even">
+<tr>
 <td>Primary_Collector</td>
 <td>The botanist who assumes primary responsibility for collecting, processing, and coordinating the accessioning of the collection with herbaria.</td>
 <td>Rupert Barneby</td>
 </tr>
-<tr class="odd">
+<tr>
 <td>Associated_Collectors</td>
 <td>Other collectors who were present at the time of collection, and contributed to the process.</td>
 <td>Dwight Ripley</td>
 </tr>
-<tr class="even">
+<tr>
 <td>Full_name</td>
 <td>The full scientific name of the taxonomic entity, by neccessity including the Genus and Epithet which form a binomial, and information on infraspecies.</td>
 <td>Astragalus tephrodes var. eurylobus</td>
 </tr>
-<tr class="odd">
+<tr>
 <td>Latitude</td>
 <td>The decimal degrees (dd) or degrees minutes seconds (dms) perpendicular to the equator which the collection was made at.</td>
 <td>37.6415</td>
 </tr>
-<tr class="even">
+<tr>
 <td>Longitude</td>
 <td>The decimal degrees (dd) or degrees minutes seconds (dms) along the equator which the collection was made at.</td>
 <td>-114.4985</td>
 </tr>
-<tr class="odd">
+<tr>
 <td>Date_digital</td>
 <td>The date which the collection was made in American format, ‘mm.dd.yyyy’ for example, ‘01.02.2023’ is January 2nd.</td>
 <td>06.18.1944</td>
 </tr>
-<tr class="even">
+<tr>
 <td>Vegetation</td>
 <td>Plant species which are present with high amounts of biomass, or which are postulated to be keystone species etc.</td>
 <td>Artemisia nova, Pleuraphis jamesii</td>
 </tr>
-<tr class="odd">
+<tr>
 <td>Associates</td>
 <td>Other plant species growing in the area which do not compose the dominant amounts of biomass.</td>
 <td>Brickellia longifolia</td>
 </tr>
-<tr class="even">
+<tr>
 <td>Habtiat</td>
 <td>Notes on the abiotic (landform, soil texture, etc.) and biotic (landcover type ‘forest’, ‘riparian’ etc.) setting which the collection was growing in.</td>
 <td>Ridges of barren alkaline hills</td>
 </tr>
-<tr class="odd">
+<tr>
 <td>Notes</td>
 <td>Any notes, especially relevant are those describing growth form, floral colour, scents, or textures.</td>
 <td>petals pink purple</td>
@@ -318,44 +318,44 @@ Windows Installation
 </tbody>
 </table>
 <p>Suggested columns!</p>
-<table style="width:100%;" class="table">
+<table class="table">
 <colgroup>
-<col width="13%">
-<col width="73%">
-<col width="13%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
 </colgroup>
-<thead><tr class="header">
+<thead><tr>
 <th>Column name</th>
 <th>Description</th>
 <th>Example</th>
 </tr></thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td>Fide</td>
 <td>The most authoritative Flora, or monograph, used to identify the collections.</td>
 <td>Intermountain Flora</td>
 </tr>
-<tr class="even">
+<tr>
 <td>Determined_by</td>
 <td>A botanist who verified the identity of the collection.</td>
 <td>Rupert Barneby</td>
 </tr>
-<tr class="odd">
+<tr>
 <td>Determined_date</td>
 <td>The date the botanist determined the specimen. This beginning a chain of annotations for the distant future.</td>
 <td>06.18.1944</td>
 </tr>
-<tr class="even">
+<tr>
 <td>Tissue_collections</td>
 <td>Number of individual plants from which tissue collections were made.</td>
 <td>0</td>
 </tr>
-<tr class="odd">
+<tr>
 <td>Project_name</td>
 <td>The endeavor which this collection was made for, or which field work may be associated with.</td>
 <td>Flora Nevadensis</td>
 </tr>
-<tr class="even">
+<tr>
 <td>Site_name</td>
 <td>A user defined name for the locality from which collections were made.</td>
 <td>Caliente</td>
@@ -365,55 +365,55 @@ Windows Installation
 <p>Unnecessary columns!</p>
 <table class="table">
 <colgroup>
-<col width="12%">
-<col width="87%">
+<col width="50%">
+<col width="50%">
 </colgroup>
-<thead><tr class="header">
+<thead><tr>
 <th>Column name</th>
 <th>Description</th>
 </tr></thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td>Genus</td>
 <td>The Genus which the species is a component of</td>
 </tr>
-<tr class="even">
+<tr>
 <td>Species</td>
 <td>The Species which the population from which the collection was made is a component of.</td>
 </tr>
-<tr class="odd">
+<tr>
 <td>Name_authority</td>
 <td>The full scientific name of the taxonomic entity, by neccessity including the Genus and Epithet which form a binomial, and information on infraspecies and authors</td>
 </tr>
-<tr class="even">
+<tr>
 <td>Binomial_authority</td>
 <td>The scientific authors who conceptualized the species, and described it, and if relevant the authors whom have transferred the species to it’s current genus.</td>
 </tr>
-<tr class="odd">
+<tr>
 <td>Infrarank</td>
 <td>The taxonomic level nested within Species which this population is a component of, generally one of either ‘var.’ or ‘ssp.’ for variety of subspecies respectively.</td>
 </tr>
-<tr class="even">
+<tr>
 <td>Infraspecies</td>
 <td>The taxonomic entity which this population is a component of within the hierarchy of species.</td>
 </tr>
-<tr class="odd">
+<tr>
 <td>Infraspecific_Authority</td>
 <td>The scientific authors who conceptualized the species, and described it, and relevant authors whom have transferred the species to within a species.</td>
 </tr>
-<tr class="even">
+<tr>
 <td>Family</td>
 <td>A Family which the Genus which this species is apart of is considered to be a component of.</td>
 </tr>
-<tr class="odd">
+<tr>
 <td>Datum</td>
 <td>A smoothed model of the earths surface and reference locations on the surface to measure from (~i.e. meridians). Typical geodetic datums include ‘WGS 84’, ‘NAD 83’.</td>
 </tr>
-<tr class="even">
+<tr>
 <td>Aspect</td>
 <td>The measured or in-field estimated cardinal direction which the population faced.</td>
 </tr>
-<tr class="odd">
+<tr>
 <td>Slope</td>
 <td>The measured or in-field estimated slope which the population faced.</td>
 </tr>
@@ -535,6 +535,7 @@ Windows Installation
 <div class="dev-status">
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
+<li><a href="https://cran.r-project.org/web/checks/check_results_badger.html" class="external-link"><img src="https://badges.cranchecks.info/summary/badger.svg" alt="CRAN checks"></a></li>
 <li><a href="https://github.com/sagesteppe/BarnebyLives/actions" class="external-link"><img src="https://github.com/sagesteppe/BarnebyLives/workflows/R-CMD-check/badge.svg" alt="R build status"></a></li>
 <li><a href="https://app.codecov.io/gh/sagesteppe/BarnebyLives" class="external-link"><img src="https://codecov.io/gh/sagesteppe/BarnebyLives/branch/main/graph/badge.svg"></a></li>
 <li><a href="https://www.codefactor.io/repository/github/sagesteppe/BarnebyLives" class="external-link"><img src="https://www.codefactor.io/repository/github/sagesteppe/BarnebyLives/badge" alt="CodeFactor"></a></li>

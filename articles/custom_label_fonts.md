@@ -17,6 +17,7 @@ This vignette assumes you were able to get through
 `Custom Label Templates`.
 
 ``` r
+
 install.packages("tinytex")
 tinytex::install_tinytex()
 ```
@@ -24,6 +25,7 @@ tinytex::install_tinytex()
 You can check that you have successfully installed this with
 
 ``` r
+
 tinytex::is_tinytex()
 ```
 
@@ -69,6 +71,7 @@ line reads something like
 ### Prepare workspace
 
 ``` r
+
 library(BarnebyLives)
 library(tidyverse)
 
@@ -92,6 +95,7 @@ Be sure that you have copied the relevant skeleton to a local directory
 for use.
 
 ``` r
+
 p2lib <- file.path(
   system.file(package = 'BarnebyLives'),
   'rmarkdown', 'templates', 'labels', 'skeleton'

@@ -73,6 +73,7 @@ Files required to use this script:
 - World Flora Online static copy of the database.
 
 ``` r
+
 # devtools::install_github('sagesteppe/BarnebyLives')
 library(tidyverse)
 library(BarnebyLives)
@@ -81,6 +82,7 @@ library(BarnebyLives)
 load data
 
 ``` r
+
 df <- uncleaned_collection_examples
 ```
 
@@ -94,6 +96,7 @@ also parse out the day of month, month of year, and year, which is used
 in multiple possible downstream software.
 
 ``` r
+
 data <- date_parser(df, coll_date = 'Date_digital', det_date = 'Determined_date')
 
 dplyr::select(data, starts_with('Date')) |>
@@ -108,6 +111,7 @@ in the data set, so others have them readily available for other uses
 aside from creating herbarium labels.
 
 ``` r
+
 data <- dms2dd(data, dms = F)
 
 dplyr::select(data, starts_with(c('latitude', 'longitude'))) %>% 
@@ -118,6 +122,7 @@ Several spreadsheet software auto-increment numeric columns by default.
 We try to identify that issue here.
 
 ``` r
+
 data <- autofill_checker(data)
 
 dplyr::select(data, Long_AutoFill_Flag, Lat_AutoFill_Flag) |> 
@@ -130,6 +135,7 @@ required to write out data in a format readable by Google Earth or
 another Geographic Information System.
 
 ``` r
+
 data <- coords2sf(data)
 
 data |>
@@ -151,6 +157,7 @@ it will return information on grazing allotments.
 Retrieve State, County, Ownership, TRS, and allotment information
 
 ``` r
+
 p <- '/media/steppe/hdd/Barneby_Lives-dev/geodata'
 
 data <- political_grabber(data, y = 'Collection_number', path = p)
@@ -175,6 +182,7 @@ just think about it, that seems to be what people want.
 Retrieve Nearest GNIS place name, and azimuth from it.
 
 ``` r
+
 data <- site_writer(data, path = p)
 ```
 
@@ -204,6 +212,7 @@ for spatial ecology and describe where on the landscape the population
 was broadly located.
 
 ``` r
+
 data <- physical_grabber(data, path = p)
 ```
 
@@ -222,6 +231,7 @@ operate on both pieces of the binomial separately, and can work to
 identify the species within the context of genus.
 
 ``` r
+
 p <- '/media/steppe/hdd/Barneby_Lives-dev/taxonomic_data'
 data <- spell_check(data, path = p)
 
@@ -237,6 +247,7 @@ comprehensive, within a few years, of all taxonomists whom have
 published plant species.
 
 ``` r
+
 data <- author_check(data, path = p)
 ```
 
@@ -246,6 +257,7 @@ accurate. These *will not* then be submitted to Kew, as the fields could
 quickly overwhelm the API.
 
 ``` r
+
 data <- associates_spell_check(data, 'Associates', path = p) # we can run on both columns. 
 data <- associates_spell_check(data, 'Vegetation', path = p)
 ```
@@ -254,25 +266,19 @@ Remove the collected species from associated species lists. Many
 collectors include the focal collection when performing data entry.
 
 ``` r
+
 data <- associate_dropper(data, 'Full_name', col  = 'Associates')
 data <- associate_dropper(data, 'Full_name', col  = 'Vegetation')
 ```
 
-After BarnebyLives verifies spelling, it submits names to Plants of the
-World Online to check for synonymy. BL will not automatically overwrite
-your submitted species - interpretation of results is important,
-especially as *spell_check* may occasionally mis-match material.
+After BarnebyLives verifies spelling, it checks the local WCVP checklist
+for synonymy. BL will not automatically overwrite your submitted
+species - interpretation of results is important, especially as
+*spell_check* may occasionally mis-match material.
 
 ``` r
-names <- sf::st_drop_geometry(data) %>% 
-  pull(Full_name) # should be a vector fo searching
 
-pow_res <- lapply(names,
-      powo_searcher) %>% 
-  bind_rows()
-data <- bind_cols(data, pow_res)
-
-rm(names, pow_res)
+data <- wcvp_searcher(data = data, column = 'Full_name', path = p)
 ```
 
 ### Directions
@@ -282,6 +288,7 @@ this implies the location can be driven to in the first place. This may
 require interactive alterations from the user.
 
 ``` r
+
 SoS_gkey = Sys.getenv("Sos_gkey")
 directions <- directions_grabber(data, api_key = SoS_gkey)
 ```
@@ -292,6 +299,7 @@ Write out the data for use in label generation, and as a master copy for
 exporting data for mass upload to a database.
 
 ``` r
+
 ## Export Collections 
 data <- sf::st_drop_geometry(data) |>
   as.data.frame() |>
@@ -308,6 +316,7 @@ We can also export collections as either (or both!) a ‘shapefile’ or KML
 for use in GIS or GoogleEarth.
 
 ``` r
+
 geodata_writer(data, path = 'someplace', 
                filename = 'Herbarium_Collections_2023',
                filetype = 'kml')

@@ -11,6 +11,7 @@ The workflow has several steps:
     collection data
 
 ``` r
+
 # remotes::install_github('sagesteppe/BarnebyLives') 
 # OR devtools::install_github('sagesteppe/BarnebyLives')
 library(BarnebyLives)
@@ -27,6 +28,7 @@ A dedicated directory keeps raw labels, final sheets, and skeletons
 organized.
 
 ``` r
+
 setwd('~/Documents')
 dir.create('HerbariumLabels')
 dir.create('HerbariumLabels/raw')
@@ -38,6 +40,7 @@ Now we will need to copy a skeleton from the package to work with. We
 can access skeletons from the packages installation like this.
 
 ``` r
+
 p2libs <- system.file(package = 'BarnebyLives')
 folds <- file.path(p2libs, 'rmarkdown', 'templates', 'labels', 'skeleton', 'skeleton.Rmd')
 
@@ -65,6 +68,7 @@ A default template (e.g. `skeleton-research.Rmd`) will have some code
 that looks like this in the first block.
 
 ``` r
+
 record <- collection_examples |>
   dplyr::filter(Collection_number == params$Collection_number) |>  
   sf::st_drop_geometry()
@@ -76,6 +80,7 @@ is essential so sync up the driving script and the labels to receive
 data.
 
 ``` r
+
 data <- read.csv("ExampleCollection.csv") |>
   dplyr::mutate(
     Coordinate_Uncertainty = "+/- 5m"
@@ -96,6 +101,7 @@ script. We will use
 labels of. The core of this script will be the call to `purrr`.
 
 ``` r
+
 purrr::walk(
   .x = collection_examples$Collection_number,
   ~ rmarkdown::render(
@@ -137,6 +143,7 @@ First copy the bash script into our directory.
 The script lives at the installed BarnebyLives location…
 
 ``` r
+
 print(p2libs)
 ```
 
@@ -157,6 +164,7 @@ case the current directory.
 Using R - about the same as before.
 
 ``` r
+
 file.copy(
   file.path(p2libs, 'render_labels.sh'),
   file.path(
@@ -197,6 +205,7 @@ doing is replacing NA values with ’’, or empty contents, this is the
 best format for people to get NULL values for their databases.
 
 ``` r
+
 unique(database_templates$Database) # currently supported options. 
 
 dat_import <- format_database_import(collection_examples, 'Symbiota') |> 

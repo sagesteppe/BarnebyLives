@@ -15,6 +15,7 @@ useful.
 ### Prepare workspace
 
 ``` r
+
 #devtools::install_github('sagesteppe/BarnebyLives')
 library(BarnebyLives)
 library(tidyverse)
@@ -34,6 +35,7 @@ Label templates can be copied from their original locations to a more
 common directory for a user to interface with.
 
 ``` r
+
 p2lib <- file.path(
   system.file(package = 'BarnebyLives'),
   'rmarkdown', 'templates', 'labels', 'skeleton'
@@ -62,6 +64,7 @@ older styles, while aiming to be minimalist and looking good for time to
 come.
 
 ``` r
+
 l.nevadense.sf <- sf::st_as_sf(
   l.nevadense, 
   coords = c('longitude_dd', 'latitude_dd'),
@@ -167,6 +170,7 @@ A path to an image can be hard coded onto the skeleton, of feed in via
 params, and then label can be moved around as you see fit.
 
 ``` r
+
 file.copy(
   from = file.path(p2lib, 'skeleton-logo.Rmd'), 
   to = file.path(local, 'skeleton-logo.Rmd'), 

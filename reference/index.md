@@ -48,6 +48,8 @@ User facing functions for carrying out the BL workflow
   correctly
 - [`split_scientificName()`](https://sagesteppe.github.io/BarnebyLives/reference/split_scientificName.md)
   : split out a scientific input column to pieces
+- [`wcvp_searcher()`](https://sagesteppe.github.io/BarnebyLives/reference/wcvp_searcher.md)
+  : resolve a taxonomic name against the local WCVP checklist
 
 ## Preparing data to run BL
 

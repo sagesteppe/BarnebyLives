@@ -1,6 +1,14 @@
 # query plants of the world online for taxonomic information
 
-a wrapper for kewr::search_powo
+**[Deprecated](https://rdrr.io/r/base/Deprecated.html)** a wrapper for
+kewr::search_powo. Kew's POWO search API now blocks this style of
+programmatic request (returns HTTP 403 regardless of client or origin),
+so this function can no longer reach its data source. Use
+[`wcvp_searcher`](https://sagesteppe.github.io/BarnebyLives/reference/wcvp_searcher.md)
+instead, after setting up a local taxonomy backbone with
+[`wcvp_update`](https://sagesteppe.github.io/BarnebyLives/reference/wcvp_update.md)
+and
+[`TaxUnpack`](https://sagesteppe.github.io/BarnebyLives/reference/TaxUnpack.md).
 
 ## Usage
 
@@ -19,13 +27,13 @@ powo_searcher(x)
 ## Examples
 
 ``` r
+if (FALSE) { # \dontrun{
 library(dplyr)
 pow_results <- lapply(
       c('Linnaea borealis var. borealis', 'Linnaea borealis var. americana',
       'Astragalus purshii', 'Pinus ponderosa'),
       powo_searcher) |>
    dplyr::bind_rows()
-#> Error: Request to 'http://www.plantsoftheworldonline.org/api/2/search' failed with code 500: Server error: (500) Internal Server Error
 head(pow_results)
-#> Error: object 'pow_results' not found
+} # }
 ```

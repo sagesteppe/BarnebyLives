@@ -21,6 +21,7 @@ You can copy all at once, as shown below, or copy them one at a time as
 shown in other vignettes.
 
 ``` r
+
 p2lib <- file.path(
   system.file(package = 'BarnebyLives'),
   'rmarkdown', 'templates', 'labels', 'skeleton'
@@ -32,6 +33,7 @@ templates
 Use map to copy all of the skeletons.
 
 ``` r
+
 Map(file.copy, 
     from = file.path(p2lib, templates), 
     to = file.path(local, templates)

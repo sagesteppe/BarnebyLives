@@ -1,7 +1,17 @@
 # notify user if an entry had any results not found in POWO
 
-simple function to run on 'powo_searcher' results to show species not
-found which
+**[Deprecated](https://rdrr.io/r/base/Deprecated.html)** simple function
+to run on 'powo_searcher' results to show species not found which. This
+only has a purpose alongside
+[`powo_searcher`](https://sagesteppe.github.io/BarnebyLives/reference/powo_searcher.md),
+which is itself deprecated because Kew's POWO search API now blocks this
+style of request. Use
+[`wcvp_searcher`](https://sagesteppe.github.io/BarnebyLives/reference/wcvp_searcher.md)
+instead (after setting up a local taxonomy backbone with
+[`wcvp_update`](https://sagesteppe.github.io/BarnebyLives/reference/wcvp_update.md)
+and
+[`TaxUnpack`](https://sagesteppe.github.io/BarnebyLives/reference/TaxUnpack.md))
+and filter its output for `POW_Status == 'not-found'`.
 
 ## Usage
 

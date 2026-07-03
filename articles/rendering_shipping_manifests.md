@@ -26,6 +26,7 @@ Here we copy the file over to a more ‘natural’ part of the computers
 file system just like we did with the label templates.
 
 ``` r
+
 p2libs <- system.file(package = 'BarnebyLives')
 
 folds <- file.path(
@@ -44,6 +45,7 @@ defined settings. An example is below (do this in the template! not
 here).
 
 ``` r
+
 herbarium_code <- 'F' # index herbariorum code
 project <- data.frame(
   Name = 'Seeds of Success', # the project name. 
@@ -74,6 +76,7 @@ safe, For example a first name like ‘McKenna’ would results in ‘MK’
 being left behind - modify, or remove it, as desired.
 
 ``` r
+
 herbarium <- herbaria_info |> 
   dplyr::filter(Abbreviation == herbarium_code)
 specimens <- read.csv('../../results/collections-YOUR_NAME.csv') |>

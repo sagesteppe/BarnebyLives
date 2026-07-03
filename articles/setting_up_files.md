@@ -39,6 +39,7 @@ to an external drive mounted to my system, where I have a directory
 named ‘BL_sandbox’.
 
 ``` r
+
 # Example directory (adjust for your system)
 bl_dir <- "/media/steppe/hdd/BL_sandbox"
 ```
@@ -56,12 +57,15 @@ Gardens provides standardized nomenclature for global plant diversity
 and serves as the foundation for *Plants of the World Online (POWO)*.
 
 The `TaxUnpack` function downloads and processes WCVP data, creating
-three lookup tables:
+four lookup tables:
 
 Complete species catalog Infraspecific taxa (varieties and subspecies)
-Genus-level taxonomy
+Family catalog A global taxon ID index, spanning all taxonomic statuses
+and geographies, used by `wcvp_searcher` to resolve synonyms to their
+currently accepted name
 
 ``` r
+
 ## download and process the taxonomic data
 p2 <- file.path(bl_dir, 'taxdata')
 
@@ -76,6 +80,7 @@ Names Index (IPNI) ensure consistent citation formatting on specimen
 labels.
 
 ``` r
+
 data('ipni_authors', package='BarnebyLives')
 write.csv(ipni_authors, file.path(p2, 'ipni_author_abbreviations.csv'))
 ```
@@ -88,6 +93,7 @@ The `data_download` function retrieves most geographic data sets
 automatically.
 
 ``` r
+
 # I am using R markdown so want to be really sure save data to the correct location
 # so I will use an absolute path
 data_download(path = file.path(bl_dir, 'raw'))
@@ -105,6 +111,7 @@ close enough). Google Maps will work fine for this, just go a few miles
 outside of your extent to be sure.
 
 ``` r
+
 bound <- data.frame(
    y = c( 48,  48,  41,  41,  48),
    x = c(-91, -82, -82, -91, -91)
@@ -151,6 +158,7 @@ which means running data through the pipeline and printing labels a
 couple times.
 
 ``` r
+
 data_setup( # this one will take maybe 30 minutes or so 
   path = file.path(bl_dir, 'raw'), 
   pathOut = file.path(bl_dir, 'geo'),
@@ -164,6 +172,7 @@ You can check that all files are in place by running \`\` and you should
 be good to go forward
 
 ``` r
+
 # and you can check that everything has been set up using this. 
 check_data_setup_outputs(file.path(bl_dir, 'geo'))
 ```
@@ -173,6 +182,7 @@ raw data, you can do that by hand, or by initializing the instance using
 the `data_setup` function again. But that kind of seems like overkill!
 
 ``` r
+
 data_setup( # this one will take maybe 30 minutes or so 
   path = file.path(bl_dir, 'raw'), 
   pathOut = file.path(bl_dir, 'geo'),
