@@ -18,7 +18,10 @@ three are effectively equivalent.}
 \description{
 This function is run on the WCVP compressed archive downloaded by 'wcvp_update',
 and requires some input from the user which specifies a geographic area to establish a
-taxonomic look up table for.
+taxonomic look up table for. Writes four lookup tables: a species catalog, an
+infraspecific taxa catalog (varieties and subspecies), a family catalog, and a
+global (unfiltered by geography) taxon ID index used by \code{\link{wcvp_searcher}}
+to resolve synonyms to their currently accepted name.
 }
 \examples{
 \dontrun{

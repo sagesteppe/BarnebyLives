@@ -9,13 +9,11 @@
 #' or simply append the spell checked columns.
 #' @examples
 #' library(BarnebyLives)
-#' ce <- collection_examples
 #' ce <- collection_examples[
-#'  sample(1:nrow(collection_examples), 25), 
-#'  Sci_name = c('Collection_number', 'Name_authority')
+#'  sample(1:nrow(collection_examples), 25),
 #' ]
-#' 
-#' split_scientificName(ce, sciName_col = 'Sci_name')|> head()
+#'
+#' split_scientificName(ce, sciName_col = 'Full_name') |> head()
 #' @export
 split_scientificName <- function(x, sciName_col, overwrite) {
   if (missing(sciName_col)) {

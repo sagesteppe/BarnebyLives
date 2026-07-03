@@ -299,6 +299,16 @@ make_it_political <- function(path, pathOut, tile_cells) {
   counties <- sf::st_crop(counties, sf::st_union(tile_cells))
   counties <- sf::st_transform(counties, 4326)
 
+  # st_crop() can leave degenerate GEOMETRYCOLLECTION slivers (points/lines)
+  # when a feature just touches the crop boundary, and can leave a mix of
+  # POLYGON/MULTIPOLYGON depending on the GEOS version in use. Shapefiles
+  # require one uniform geometry type, so normalize before writing - this is
+  # a no-op on already-clean input.
+  if (any(sf::st_geometry_type(counties) == 'GEOMETRYCOLLECTION')) {
+    counties <- sf::st_collection_extract(counties, 'POLYGON')
+  }
+  counties <- sf::st_cast(counties, 'MULTIPOLYGON')
+
   dir.create(file.path(pathOut, 'political'), showWarnings = FALSE)
   p <- file.path(pathOut, 'political', 'political.shp')
   sf::st_write(counties, dsn = p, quiet = TRUE, append = FALSE)

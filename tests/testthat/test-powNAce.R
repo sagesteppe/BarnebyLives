@@ -241,12 +241,110 @@ test_that("powNAce handles parentheses in authorities correctly", {
     POW_Infraspecies = NA,
     POW_Authority = '(S.Watson) Rydb.'
   )
-  
+
   result <- powNAce(test_data)
-  
+
   # Should add space after S. but not have space before )
   expect_true(grepl('S\\. Watson', result$POW_Binomial_authority[1]))
   expect_false(grepl(' \\)', result$POW_Binomial_authority[1]))
+})
+
+test_that("powNAce spaces every author in a multi-author citation, not just the last", {
+  test_data <- data.frame(
+    UNIQUEID = 1,
+    Genus = 'Austrostipa',
+    POW_Genus = 'Austrostipa',
+    Epithet = 'dongicola',
+    POW_Epithet = 'dongicola',
+    Infrarank = NA,
+    POW_Infrarank = NA,
+    Infraspecies = NA,
+    POW_Infraspecies = NA,
+    POW_Authority = '(Vickery, S.W.L.Jacobs & J.Everett) S.W.L.Jacobs & J.Everett'
+  )
+
+  result <- powNAce(test_data)
+
+  expect_equal(
+    result$POW_Binomial_authority[1],
+    '(Vickery, S.W.L. Jacobs & J. Everett) S.W.L. Jacobs & J. Everett'
+  )
+})
+
+test_that("powNAce handles apostrophes in author surnames without corrupting them", {
+  test_data <- data.frame(
+    UNIQUEID = 1:4,
+    Genus = 'Pinus',
+    POW_Genus = 'Pinus',
+    Epithet = 'ponderosa',
+    POW_Epithet = 'ponderosa',
+    Infrarank = NA,
+    POW_Infrarank = NA,
+    Infraspecies = NA,
+    POW_Infraspecies = NA,
+    POW_Authority = c(
+      "A.B. C'levie", "A.B.C'levie", "(L'Hér.) DC.", "A.B.N'Diaye"
+    )
+  )
+
+  result <- powNAce(test_data)
+
+  # already-spaced apostrophe surname stays untouched
+  expect_equal(result$POW_Binomial_authority[1], "A.B. C'levie")
+  # glued initials + apostrophe surname get spaced, apostrophe preserved
+  expect_equal(result$POW_Binomial_authority[2], "A.B. C'levie")
+  # apostrophe-led surname abbreviation is left alone (not glued to anything)
+  expect_equal(result$POW_Binomial_authority[3], "(L'Hér.) DC.")
+  # a capital letter right after the apostrophe (N'Diaye) is still handled
+  expect_equal(result$POW_Binomial_authority[4], "A.B. N'Diaye")
+})
+
+test_that("powNAce spaces lowercase-particle surnames glued to initials", {
+  test_data <- data.frame(
+    UNIQUEID = 1:4,
+    Genus = 'Pinus',
+    POW_Genus = 'Pinus',
+    Epithet = 'ponderosa',
+    POW_Epithet = 'ponderosa',
+    Infrarank = NA,
+    POW_Infrarank = NA,
+    Infraspecies = NA,
+    POW_Infraspecies = NA,
+    POW_Authority = c(
+      'N.van Wyk', 'N. van Wyk', 'N.L.de Silva', 'N.L.  de Silva'
+    )
+  )
+
+  result <- powNAce(test_data)
+
+  expect_equal(result$POW_Binomial_authority[1], 'N. van Wyk')
+  expect_equal(result$POW_Binomial_authority[2], 'N. van Wyk')
+  expect_equal(result$POW_Binomial_authority[3], 'N.L. de Silva')
+  # a pre-existing double space collapses to one
+  expect_equal(result$POW_Binomial_authority[4], 'N.L. de Silva')
+})
+
+test_that("powNAce handles accented and hyphenated author names without corrupting them", {
+  test_data <- data.frame(
+    UNIQUEID = 1:2,
+    Genus = c('Pilosella', 'Abies'),
+    POW_Genus = c('Pilosella', 'Abies'),
+    Epithet = c('heterogaliciana', 'lasiocarpa'),
+    POW_Epithet = c('heterogaliciana', 'lasiocarpa'),
+    Infrarank = NA,
+    POW_Infrarank = NA,
+    Infraspecies = NA,
+    POW_Infraspecies = NA,
+    POW_Authority = c('(Mateo & Egido) Mateo, Egido & Gómiz', 'A.St.-Hil.')
+  )
+
+  result <- powNAce(test_data)
+
+  expect_equal(
+    result$POW_Binomial_authority[1],
+    '(Mateo & Egido) Mateo, Egido & Gómiz'
+  )
+  expect_equal(result$POW_Binomial_authority[2], 'A.St.-Hil.')
 })
 
 # Tests for compareNA function

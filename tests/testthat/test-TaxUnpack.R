@@ -57,6 +57,7 @@ test_that("TaxUnpack runs with mocks", {
     specificepithet = c("s1","s2","s3"),
     infraspecificepithet = c("i1","i2","i3"),
     scientfiicname = c("Name1","Name2","Name3"),
+    scientfiicnameauthorship = c("Auth1","Auth2","Auth3"),
     acceptednameusageid = 1:3,
     parentnameusageid = 1:3,
     taxonomicstatus = c("accepted","accepted","accepted")
@@ -95,7 +96,7 @@ test_that("TaxUnpack runs with mocks", {
   # 7. Expectations
   # -----------------------
   expect_called(mock_WCVP_dl, 1)        # WCVP_dl called once
-  expect_called(mock_write, 3)          # families + species + infra_species
+  expect_called(mock_write, 4)          # id_lookup + families + species + infra_species
   expect_called(mock_GET, 1)            # author abbreviations downloaded
   expect_called(mock_states, 1)         # tigris::states called
 })

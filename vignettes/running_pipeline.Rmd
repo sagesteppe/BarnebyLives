@@ -206,19 +206,11 @@ data <- associate_dropper(data, 'Full_name', col  = 'Associates')
 data <- associate_dropper(data, 'Full_name', col  = 'Vegetation')
 ```
 
-After BarnebyLives verifies spelling, it submits names to Plants of the World Online to check for synonymy. 
+After BarnebyLives verifies spelling, it checks the local WCVP checklist for synonymy.
 BL will not automatically overwrite your submitted species - interpretation of results is important, especially as *spell_check* may occasionally mis-match material.
 
 ```{r Search for synonyms to species, eval = F}
-names <- sf::st_drop_geometry(data) %>% 
-  pull(Full_name) # should be a vector fo searching
-
-pow_res <- lapply(names,
-      powo_searcher) %>% 
-  bind_rows()
-data <- bind_cols(data, pow_res)
-
-rm(names, pow_res)
+data <- wcvp_searcher(data = data, column = 'Full_name', path = p)
 ```
 
 ## Directions

@@ -13,7 +13,12 @@ notFound(x)
 messages to consoles indicating search terms, and there status if failed to be found. This desirable because 'powo_searcher' squashes these errors.
 }
 \description{
-simple function to run on 'powo_searcher' results to show species not found which
+\strong{\link{Deprecated}} simple function to run on 'powo_searcher' results to show species not found which.
+This only has a purpose alongside \code{\link{powo_searcher}}, which is itself deprecated
+because Kew's POWO search API now blocks this style of request. Use
+\code{\link{wcvp_searcher}} instead (after setting up a local taxonomy backbone with
+\code{\link{wcvp_update}} and \code{\link{TaxUnpack}}) and filter its output for
+\code{POW_Status == 'not-found'}.
 }
 \examples{
 library(dplyr)

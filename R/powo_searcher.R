@@ -1,10 +1,15 @@
 #' query plants of the world online for taxonomic information
 #'
-#' @description a wrapper for kewr::search_powo
+#' @description \strong{[Deprecated]} a wrapper for kewr::search_powo.
+#' Kew's POWO search API now blocks this style of programmatic request (returns
+#' HTTP 403 regardless of client or origin), so this function can no longer reach
+#' its data source. Use \code{\link{wcvp_searcher}} instead, after setting up a local
+#' taxonomy backbone with \code{\link{wcvp_update}} and \code{\link{TaxUnpack}}.
 #' @param x a vector of species names to submit, these should have clean spelling
 #' notes: results are observed to fail for valid infraspecies on Kew's end, and they seem not
 #' to mention valid infraspecies.
 #' @examples
+#' \dontrun{
 #' library(dplyr)
 #' pow_results <- lapply(
 #'       c('Linnaea borealis var. borealis', 'Linnaea borealis var. americana',
@@ -12,8 +17,14 @@
 #'       powo_searcher) |>
 #'    dplyr::bind_rows()
 #' head(pow_results)
+#' }
 #' @export
 powo_searcher <- function(x) {
+  .Deprecated(
+    new = "wcvp_searcher",
+    package = "BarnebyLives",
+    msg = "powo_searcher() is deprecated: Kew's POWO search API now blocks this style of request (HTTP 403 from any client/origin). Use wcvp_searcher() instead, after setting up a local taxonomy backbone with wcvp_update() and TaxUnpack()."
+  )
   x <- trimws(gsub("\\s+", " ", x))
   query_results <- kewr::search_powo(x)
 

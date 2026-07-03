@@ -4,13 +4,13 @@ Sitemap: https://sagesteppe.github.io/BarnebyLives/docs/sitemap.xml
 
 # AI Crawler specific directives
 User-agent: GPTBot
-Allow: /
+Disallow: /
 
 User-agent: ChatGPT-User
-Allow: /
+Disallow: /
 
 User-agent: CCBot
-Allow: /
+Disallow: /
 
 User-agent: anthropic-ai
 Allow: /
