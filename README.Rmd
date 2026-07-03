@@ -34,6 +34,7 @@ description: "R package providing automated tools for botanical collectors to ga
 
 ```{r badges, echo = FALSE, results='asis'}
 cat(
+  badger::badge_cran_checks("badger"), '\n',
   badger::badge_github_actions('sagesteppe/BarnebyLives'), '\n',
   badger::badge_codecov("sagesteppe/BarnebyLives", branch = "main"), "\n",
 	badger::badge_codefactor('sagesteppe/BarnebyLives'),  "\n",
