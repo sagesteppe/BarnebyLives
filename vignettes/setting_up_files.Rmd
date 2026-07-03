@@ -72,11 +72,13 @@ So don't worry if you start an install somewhere you don't want the data to end 
 BarnebyLives uses the *World Checklist of Vascular Plants* as its primary taxonomic backbone. 
 This continuously updated resource from Kew Gardens provides standardized nomenclature for global plant diversity and serves as the foundation for *Plants of the World Online (POWO)*.
 
-The `TaxUnpack` function downloads and processes WCVP data, creating three lookup tables:
+The `TaxUnpack` function downloads and processes WCVP data, creating four lookup tables:
 
 Complete species catalog
 Infraspecific taxa (varieties and subspecies)
-Genus-level taxonomy
+Family catalog
+A global taxon ID index, spanning all taxonomic statuses and geographies, used by
+`wcvp_searcher` to resolve synonyms to their currently accepted name
 
 ```{r read in WCVP data, eval = F}
 ## download and process the taxonomic data

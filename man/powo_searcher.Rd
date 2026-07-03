@@ -12,9 +12,14 @@ notes: results are observed to fail for valid infraspecies on Kew's end, and the
 to mention valid infraspecies.}
 }
 \description{
-a wrapper for kewr::search_powo
+\strong{\link{Deprecated}} a wrapper for kewr::search_powo.
+Kew's POWO search API now blocks this style of programmatic request (returns
+HTTP 403 regardless of client or origin), so this function can no longer reach
+its data source. Use \code{\link{wcvp_searcher}} instead, after setting up a local
+taxonomy backbone with \code{\link{wcvp_update}} and \code{\link{TaxUnpack}}.
 }
 \examples{
+\dontrun{
 library(dplyr)
 pow_results <- lapply(
       c('Linnaea borealis var. borealis', 'Linnaea borealis var. americana',
@@ -22,4 +27,5 @@ pow_results <- lapply(
       powo_searcher) |>
    dplyr::bind_rows()
 head(pow_results)
+}
 }

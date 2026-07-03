@@ -2,7 +2,10 @@
 #'
 #' This function is run on the WCVP compressed archive downloaded by 'wcvp_update',
 #' and requires some input from the user which specifies a geographic area to establish a
-#' taxonomic look up table for.
+#' taxonomic look up table for. Writes four lookup tables: a species catalog, an
+#' infraspecific taxa catalog (varieties and subspecies), a family catalog, and a
+#' global (unfiltered by geography) taxon ID index used by \code{\link{wcvp_searcher}}
+#' to resolve synonyms to their currently accepted name.
 #' @param path Character vector. Location to where taxonomic data should be saved,
 #' we recommend a subdirectory in the same folder, and at the same level, as the geographic data.
 #' @param bound Dataframe of x and y coordinates, same argument as to `data_setup`.
@@ -69,6 +72,30 @@ TaxUnpack <- function(path, bound) {
     fill = TRUE,
     encoding = "UTF-8"
   )
+
+  # a global (unfiltered by geography) id index, needed because a synonym's
+  # accepted name does not need to share its distribution records.
+  id_lookup <- wcvp_names[,
+    c(
+      'taxonid',
+      'family',
+      'genus',
+      'specificepithet',
+      'infraspecificepithet',
+      'taxonrank',
+      'scientfiicname',
+      'scientfiicnameauthorship',
+      'taxonomicstatus',
+      'acceptednameusageid',
+      'parentnameusageid'
+    )
+  ]
+  write.csv(
+    id_lookup,
+    file.path(path, 'id_lookup_table.csv'),
+    row.names = F
+  )
+  rm(id_lookup)
 
   wcvp_names <- wcvp_names[
     wcvp_names$taxonid %in% distributions,

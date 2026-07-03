@@ -52,21 +52,25 @@ powNAce <- function(x) {
   author_spacer <- function(x) {
     # Store which elements are NA
     na_indices <- is.na(x)
-    
-    trailed <- vector(mode = 'character', length = length(x))
-    trailed[grep('\\.$', x)] <- '.'
 
-    abbrevs_spaced <- sub('\\.$', '', x) # remove the trailing periods
-    abbrevs_notrail <- sub('\\.(?!.*\\.)', ". ", abbrevs_spaced, perl = T)
-    # identify the last period in the name, and add a space after it
-
-    abbrevs <- paste0(abbrevs_notrail, trailed)
+    # add a space after every initial's period, right before the word it
+    # precedes - applied per-author, not just the last author in a
+    # multi-author citation. a period only gets a space when the run of
+    # letters/apostrophes immediately following it (matched possessively, so
+    # this checks the *whole* run, not some backtracked substring) reaches a
+    # real word boundary (space, comma, paren, end of string) rather than
+    # running straight into another period. that keeps initials glued
+    # together ("S.W.L." before "Jacobs"), leaves fused compound
+    # abbreviations alone ("Müll.Arg.", "DC."), but still separates
+    # lowercase-particle and apostrophe surnames ("N. van Wyk", "N. O'Leary",
+    # "N.L. de Silva") that aren't of the shape [A-Z].[A-Z]. [a-z].
+    abbrevs <- gsub("\\.(?=[\\p{L}']++(?!\\.))", '. ', x, perl = T)
     abbrevs <- gsub("  ", " ", abbrevs)
     abbrevs <- gsub(" \\)", ")", abbrevs)
-    
+
     # Restore NAs
     abbrevs[na_indices] <- NA_character_
-    
+
     abbrevs
   }
 
