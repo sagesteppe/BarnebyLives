@@ -8,14 +8,14 @@ North America
 
 ## Overview
 
-BarnebyLives! is an R program which serves to help botanical collectors
-in Western North America. BarnebyLives! runs multiple types of queries
-to acquire political and administrative, geographic, and taxonomic data
-for recently collected herbarium specimens. It also has limited
-abilities to search for taxonomic synonyms, check spelling of family,
-genus, and species names, as well as author abbreviations.
+BarnebyLives is an R program which serves to help botanical collectors
+in Western North America. BarnebyLives runs multiple types of queries to
+acquire political and administrative, geographic, and taxonomic data for
+recently collected herbarium specimens. It also has limited abilities to
+search for taxonomic synonyms, check spelling of family, genus, and
+species names, as well as author abbreviations.
 
-BarnebyLives! is designed to cover the entirety of the flora of the
+BarnebyLives is designed to cover the entirety of the flora of the
 western conterminous US, which coincides with the Mississippi River. It
 also includes the entirety of the state of Illinois, and portions of
 Indiana. However, the area is bounded on it’s North by Canada and South
@@ -25,9 +25,9 @@ variables are focused on supporting botanists working West of the Rocky
 Mountain Front Range, especially those operating on Bureau of Land
 Management and Forest Service administered lands.
 
-BarnebyLives! Is meant to *supplement*, not supplant, collectors field
-note endeavors. Variables which BarnebyLives! may produce,
-automatically, for each collection includes:
+BarnebyLives Is meant to *supplement*, not supplant, collectors field
+note endeavors. Variables which BarnebyLives may produce, automatically,
+for each collection includes:
 
 **Political**  
 - State  
@@ -73,7 +73,7 @@ and Consortium of Pacific Northwest Herbaria.
 
 ## Installation
 
-BarnebyLives! Can be installed from github.
+BarnebyLives Can be installed from github.
 
 ``` r
 
@@ -431,6 +431,6 @@ Barneby](reference/figures/Portrait_of_Rupert_Barneby.png)
 
 ‘Portrait of Rupert Barneby’\* Dwight Ripley (1955)
 
-*BarnebyLives(!) Was named after Rupert Charles Barneby, botanist
+*BarnebyLives Was named after Rupert Charles Barneby, botanist
 extraordinaire, artist, socialite, and kind hearted human being. He is
-the hero the West needs not Hayduke. Hence, BarnebyLives!*
+the hero the West needs not Hayduke. Hence, BarnebyLives*
