@@ -1,0 +1,37 @@
+citHeader("To cite BarnebyLives in publications, please cite the manuscript below. To reference a specific package version, please also cite the software.")
+
+bibentry(
+  bibtype  = "Article",
+  title    = "BarnebyLives: An R package to create herbarium specimen labels and clean spreadsheets",
+  author   = c(
+    person("Reed C.", "Benkendorf"),
+    person("Jeremie B.", "Fant")
+  ),
+  journal  = "Applications in Plant Sciences",
+  year     = "2026",
+  volume   = "14",
+  number   = "5",
+  pages    = "e70077",
+  doi      = "10.1002/aps3.70077",
+  url      = "https://doi.org/10.1002/aps3.70077",
+  textVersion = paste(
+    "Benkendorf, R. C., and J. B. Fant. 2026.",
+    "BarnebyLives: An R package to create herbarium specimen labels and clean spreadsheets.",
+    "Applications in Plant Sciences 14(5): e70077.",
+    "https://doi.org/10.1002/aps3.70077"
+  )
+)
+
+bibentry(
+  bibtype  = "Manual",
+  title    = "{BarnebyLives}: Tools for Collecting Digital Data on Herbarium Specimens",
+  author   = person("Reed Clark", "Benkendorf"),
+  year     = "2026",
+  note     = sprintf("R package version %s", meta$Version),
+  doi      = "10.5281/zenodo.18140441",
+  url      = "https://doi.org/10.5281/zenodo.18140441",
+  textVersion = paste0(
+    "Benkendorf, R. C. 2026. BarnebyLives: Tools for Collecting Digital Data on Herbarium Specimens. ",
+    "R package version ", meta$Version, ". https://doi.org/10.5281/zenodo.18140441"
+  )
+)
